@@ -55,6 +55,10 @@ buildsteps: |
     mkdir -p $LFS/boot/grub
     mkdir -p $LFS/etc/{modprobe.d,ld.so.conf.d}
 
+    # removed at end of build
+    mkdir -p $LFS/home/tester
+    chown 101:101 $LFS/home/tester
+
     # Fix directory permissions
     chmod 755 etc
     chmod 755 etc/modprobe.d

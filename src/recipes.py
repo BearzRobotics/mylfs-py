@@ -19,22 +19,30 @@
 
 from dataclasses import dataclass, field
 from typing import List, Optional
+import shutil
+import requests
+from pathlib import Path
+
+
 
 # 3rd party
 import yaml
 
 # My local imports
 from config import GlobalConfig
+from util import ConsoleMSG 
 
 @dataclass
 class Recipe:
     name: str
     version: str
-    license: str
-    buildsystem: str
-
+    
+    license: Optional[str] = None
+    buildsystem: Optional[str] = None
+    tarball_name: Optional[str] = None
+    tarball_path: Optional[str] = None
     release: Optional[str] = None
-    url: Optional[str] = None
+    urls: Optional[str] = field(default_factory=list)
     sha256: Optional[str] = None
     summary: Optional[str] = None
     homepage: Optional[str] = None
@@ -47,7 +55,114 @@ class Recipe:
     buildsteps: Optional[str] = None
     cleanup: bool = True
 
-def load_recipe(path: str) -> Recipe:
-    with open(path) as f:
+
+
+# Sorts by the order map for the given phase [1-4]
+def sort_order(config: GlobalConfig, recipes: list[Recipe], phase: int)  -> list[Recipe]:
+    pass
+
+def load_recipe(template_path: Path, config: GlobalConfig) -> Recipe:
+    with template_path.open("r") as f:
         data = yaml.safe_load(f)
-    return Recipe(**data)
+
+    name = data["name"]
+    version = data["version"]
+    urls = data.get("urls")
+    if isinstance(urls, str):
+        urls = [urls]
+    elif urls is None:
+        urls = []
+
+    tarball_names = [Path(u).name for u in urls]
+    main_tarball_name = tarball_names[0] if tarball_names else None
+    main_tarball_path = (Path(config.build_path) / "recipes" / main_tarball_name) if main_tarball_name else None
+
+
+    return Recipe(
+        name=name,
+        version=version,
+        license=data.get("license"),
+        buildsystem=data.get("buildsystem"),
+        tarball_name=main_tarball_name,
+        tarball_path=str(main_tarball_path) if main_tarball_path else None,
+        release=data.get("release"),
+        urls=urls,
+        sha256=data.get("sha256"),
+        summary=data.get("summary"),
+        homepage=data.get("homepage"),
+        description=data.get("description"),
+        phase=data.get("phase"),
+        order=data.get("order"),
+        critical=data.get("critical", False),
+        builddeps=data.get("builddeps", []),
+        rundeps=data.get("rundeps", []),
+        buildsteps=data.get("buildsteps"),
+        cleanup=data.get("cleanup", True)
+    )
+
+def load_all_recipes(config: GlobalConfig) -> List[Recipe]:
+    recipes = []
+    root = Path(config.recipes_path)
+
+    for template_path in root.rglob("template.yml"):
+        try:
+            recipe = load_recipe(template_path, config)
+            recipes.append(recipe)
+        except Exception as e:
+            ConsoleMSG.failed(f"Failed to load recipe {template_path}: {e}")
+
+    return recipes
+
+# This function copies the recipe path given to inside the 
+# build_path given. by defualt recipes/ mnt/lfs/
+def recipes_to_builddir(config: GlobalConfig):
+    chroot_recipes = Path(config.build_path) / "recipes"
+    source_recipes = Path(config.recipes_path)
+
+    if chroot_recipes.exists():
+        shutil.rmtree(chroot_recipes)
+
+    shutil.copytree(source_recipes, chroot_recipes)
+    
+def initialize_recipes(config):
+    source_recipes = Path(config.recipes_path).resolve()
+    target_recipes = Path(config.build_path) / "recipes"
+
+    print(f"Initializing recipes from {source_recipes}")
+
+    for template in source_recipes.rglob("template.yaml"):
+        recipe_dir = template.parent
+        with open(template) as f:
+            data = yaml.safe_load(f)
+
+        urls = data.get("urls")
+        if isinstance(urls, str):
+            urls = [urls]
+        elif urls is None:
+            urls = []
+
+        for url in urls:
+            tarball_name = Path(url).name
+            tarball_path = recipe_dir / tarball_name
+
+            if not tarball_path.exists():
+                print(f"Downloading {tarball_name} to {recipe_dir}...")
+                try:
+                    response = requests.get(url)
+                    response.raise_for_status()
+                    with open(tarball_path, "wb") as f:
+                        f.write(response.content)
+                    print(f"Saved to {tarball_path}")
+                except Exception as e:
+                    ConsoleMSG.failed(f"Failed to download {url}: {e}")
+            else:
+                print(f"{tarball_name} already exists — skipping.")
+
+
+    # Copy the entire recipes tree to the build path
+    if target_recipes.exists():
+        shutil.rmtree(target_recipes)
+    shutil.copytree(source_recipes, target_recipes)
+
+    # Update config to point to the build copy
+    config.recipes_path = str(target_recipes)

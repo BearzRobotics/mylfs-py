@@ -29,6 +29,7 @@ from cli import get_config
 from util import ConsoleMSG  # assuming you made this a module
 from config import GlobalConfig
 from builder import *
+from recipes import *
 
 def requiredTools(config: GlobalConfig):
     ConsoleMSG.header("Required tool check")
@@ -77,9 +78,25 @@ def main():
     if not config.run_test:
         ConsoleMSG.warn("skipping tests")
     
-    
+    # see if system has required tools
     requiredTools(config)
     
+    # show warning if bootstrap is enabled
+    if (config.bootstrap_enabled or config.bootstrap_only):
+        lfs_path = Path(config.build_path)
+        if lfs_path.exists() and any(lfs_path.iterdir()):
+            ConsoleMSG.warn(f"{lfs_path} is not empty. This may delete existing data!")
+            confirm = input("Proceed? [y/N]: ").strip().lower()
+            if confirm not in ("y", "yes"):
+                print("Aborting.")
+                return
+    
+    # get recipes
+    initialize_recipes(config)
+    
+    # points to the build path copy of recipes
+    recipes = load_all_recipes(config)
+    ConsoleMSG.passed(f"Loaded {len(recipes)} recipes.")
     
     ConsoleMSG.header("Phase 1 - Cross tools")
     try:
