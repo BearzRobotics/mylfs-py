@@ -23,7 +23,7 @@ import shutil
 import requests
 from pathlib import Path
 import hashlib
-
+import re
 
 
 # 3rd party
@@ -57,6 +57,17 @@ class Recipe:
     cleanup: bool = True
 
 
+# I tried to automate this loop -- come back to later
+# from the import re
+# this can be expanded later - if needed
+def expandBuildStep(old_text: str, data: dict) -> str:
+    vpattern = r"{version}"
+    npattern = r"{name}"
+    temp_text = re.sub(vpattern, str(data["version"]) , old_text)
+    new_text = re.sub(npattern, str(data["name"]) , temp_text)
+    return new_text
+
+
 def load_recipe(template_path: Path, config: GlobalConfig) -> Recipe:
     with template_path.open("r") as f:
         data = yaml.safe_load(f)
@@ -73,6 +84,8 @@ def load_recipe(template_path: Path, config: GlobalConfig) -> Recipe:
     main_tarball_name = tarball_names[0] if tarball_names else None
     main_tarball_path = (Path(config.build_path) / "recipes" / main_tarball_name) if main_tarball_name else None
 
+    # ideally this should be pulled out into it's own function
+    expandBuildStep(data.get("buildsteps"), data)
 
     return Recipe(
         name=name,

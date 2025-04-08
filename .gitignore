@@ -10,8 +10,12 @@ logs/*
 
 
 # Ignore downloaded archives inside any recipe subfolder
-recipes/**/*.{tar.gz,tar.xz,tar.zst,tar.bz2,tgz,zip}
-
+recipes/**/*.tar.gz
+recipes/**/*.tar.xz
+recipes/**/*.tar.zst
+recipes/**/*.tar.bz2
+recipes/**/*.tgz
+recipes/**/*.zip
 
 
 # Byte-compiled / optimized / DLL files

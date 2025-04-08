@@ -13,7 +13,7 @@ phase: 4
 order: 3
 critical: true
 
-build: |
+buildsteps: |
     patch -Np1 -i ../patches/glibc-2.41-fhs-1.patch
 
     mkdir build

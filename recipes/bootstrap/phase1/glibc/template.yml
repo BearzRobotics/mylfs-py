@@ -13,7 +13,7 @@ phase: 1
 order: 5
 critical: true
 
-build: |
+buildsteps: |
     case $(uname -m) in
         i?86)   ln -sfv ld-linux.so.2 $LFS/lib/ld-lsb.so.3
         ;;
