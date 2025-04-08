@@ -18,7 +18,11 @@
 
 from dataclasses import dataclass, field
 from typing import Optional
+
+# 3rd party
 import yaml
+
+# My local imports
 
 @dataclass
 class YamlConfig:

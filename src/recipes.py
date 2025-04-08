@@ -19,7 +19,12 @@
 
 from dataclasses import dataclass, field
 from typing import List, Optional
+
+# 3rd party
 import yaml
+
+# My local imports
+from config import GlobalConfig
 
 @dataclass
 class Recipe:

@@ -1,6 +1,30 @@
+# SPDX-License-Identifier: GPL-2.0-only
+#
+# Copyright (C) 2025 Dakota James Owen Keeler
+#
+# This file is part of mylfs-py.
+#
+# mylfs-py is free software: you can redistribute it and/or modify
+# it under the terms of version 2 of the GNU General Public License
+# as published by the Free Software Foundation.
+#
+# mylfs-py is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+# GNU General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <https://www.gnu.org/licenses/>.
+
 import argparse
+
+# 3rd party
 import yaml
 from config import YamlConfig, CLIConfig, GlobalConfig
+
+# My local imports
+version = "0.0.1"
+
 
 def load_yaml_config(path: str = "config.yml") -> YamlConfig:
     with open(path, "r") as f:
@@ -14,6 +38,7 @@ def parse_cli_args() -> CLIConfig:
     parser.add_argument("--recipes-path", type=str)
     parser.add_argument("--install-drive", type=str)
     parser.add_argument("--install-filesystem", type=str)
+    parser.add_argument("--version", action="store_true")
     parser.add_argument("--phase", type=str, choices=["phase1", "phase2", "phase3", "phase4", "phase5"])
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--bootstrap", action="store_true")
@@ -21,6 +46,10 @@ def parse_cli_args() -> CLIConfig:
     parser.add_argument("--no-install", action="store_true")
 
     args = parser.parse_args()
+    
+    if args.version:
+        print(f"mylfs-py version {version}\n")
+        exit(0)
 
     return CLIConfig(
         build_path=args.build_path,
@@ -66,6 +95,8 @@ def combine_configs(yaml_cfg: YamlConfig, cli_cfg: CLIConfig) -> GlobalConfig:
         bootstrap_enabled=cli_cfg.bootstrap_enabled,
         bootstrap_only=cli_cfg.bootstrap_only,
     )
+
+
 
 def get_config() -> GlobalConfig:
     yaml_cfg = load_yaml_config()

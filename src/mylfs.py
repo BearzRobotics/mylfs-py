@@ -18,13 +18,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
 import subprocess
+from pathlib import Path
+
+# 3rd party
+import yaml
 
 # My local imports
 from cli import get_config
 from util import ConsoleMSG  # assuming you made this a module
 from config import GlobalConfig
+from builder import *
 
 def requiredTools(config: GlobalConfig):
     ConsoleMSG.header("Required tool check")
@@ -34,12 +38,23 @@ def requiredTools(config: GlobalConfig):
         return False
 
     try:
+        log_file = Path("logs/000_required_tools.log")
+        log_file.parent.mkdir(parents=True, exist_ok=True)
+        
         result = subprocess.run(
             ["bash"],
             input=config.version_check,
             text=True,
             check=False,
+            capture_output=True,
         )
+        
+        # lets write it to a file
+        with log_file.open("w") as f:
+            f.write("=== STDOUT ===\n")
+            f.write(result.stdout)
+            f.write("== STDERR ===\n")
+            f.write(result.stderr)
         
         if result.returncode == 0:
             ConsoleMSG.passed("Required tools found")
@@ -52,17 +67,55 @@ def requiredTools(config: GlobalConfig):
         ConsoleMSG.failed(f"Error running version check: {e}")
         return False
 
+
+
 def main():
     config = get_config()
+    phase = get_phase_state(config)
+    ConsoleMSG.header("mylfs-py edition")
+    
+    if not config.run_test:
+        ConsoleMSG.warn("skipping tests")
+    
     
     requiredTools(config)
     
     
-    ConsoleMSG.header("Building Package")
-    ConsoleMSG.print_building(1, "musl-1.2.5")
-    ConsoleMSG.passed("musl built successfully")
-    if not config.run_test:
-        ConsoleMSG.warn("skipping tests")
+    ConsoleMSG.header("Phase 1 - Cross tools")
+    try:
+        pass
+    except Exception as e:
+        ConsoleMSG.failed(f"Phase 1 has failed: {e}")
+        return False
+    
+    ConsoleMSG.header("Phase 2 - Temp tools")
+    try:
+        pass
+    except Exception as e:
+        ConsoleMSG.failed(f"Phase 2 has failed: {e}")
+        return False
+    
+    ConsoleMSG.header("Phase 3 - Temp System")
+    try:
+        pass
+    except Exception as e:
+        ConsoleMSG.failed(f"Phase 3 has failed: {e}")
+        return False
+    
+    ConsoleMSG.header("Phase 4 - LFS Base system")
+    try:
+        pass
+    except Exception as e:
+        ConsoleMSG.failed(f"Phase 4 has failed: {e}")
+        return False
+    
+    ConsoleMSG.header("Phase 5 - Building final system")
+    try:
+        pass
+    except Exception as e:
+        ConsoleMSG.failed(f"Phase 5 has failed: {e}")
+        return False
+    
 
 if __name__ == "__main__":
     main()
