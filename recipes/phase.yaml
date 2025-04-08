@@ -1,0 +1,5 @@
+# used to track current phase
+# once a phase is complete it will update the number here.
+# If you start a new build it will reset this number to 0
+# or if you reset this number to 0 it will restart the build
+phase: 0

@@ -1,0 +1,16 @@
+name: udev-lfs-20230818
+version: udev-lfs-20230818
+release: 1
+url: https://anduin.linuxfromscratch.org/LFS/udev-lfs-20230818.tar.xz
+homepage: https://www.linuxfromscratch.org/
+
+license: Public-Domain
+summary: LFS udev scripts
+description: |
+  Prebuilt LFS udev Scripts
+phase: 4
+order: 77
+critical: true
+
+buildsteps: |
+  make -f udev-lfs-20230818/Makefile.lfs install

@@ -1,0 +1,28 @@
+name: groff
+version: 1.23.0
+release: 1
+url: https://ftp.gnu.org/gnu/groff/groff-1.23.0.tar.gz
+homepage: https://www.gnu.org/software/groff/
+
+license: GPL-3.0-or-later
+summary: groff (Typesetting package to read formatted files)
+description: |
+  groff (GNU troff) is a typesetting package which reads plain text mixed with formatting commands and produces formatted output
+phase: 4
+order: 63
+critical: true
+builddeps: [ perl ]
+
+buildsteps: |
+  PAGE=letter ./configure --prefix=/usr
+
+  make
+
+  if $RUN_TESTS
+  then
+      set +e
+      make check
+      set -e
+  fi
+
+  make install
