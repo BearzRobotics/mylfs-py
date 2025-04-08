@@ -1,7 +1,7 @@
 name: makeca_certs
 version: 1.15
 release: 1
-url: https://github.com/lfs-book/make-ca/releases/download/v1.15/make-ca-1.15.tar.xz
+url: https://github.com/lfs-book/make-ca/archive/v1.15/make-ca-1.15.tar.gz
 homepage: https://github.com/lfs-book/make-ca
 
 license: MIT

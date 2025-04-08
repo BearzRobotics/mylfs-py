@@ -50,6 +50,10 @@ def set_phase_state(n: int):
 def builder_phase1(phase: int):
     pass
 
+def sort_order(config: GlobalConfig, recipes: list[Recipe], phase: int) -> list[Recipe]:
+    return sorted(
+        [r for r in recipes if r.phase == f"phase{phase}"],
+        key=lambda r: r.order or 999)
 
 
 import subprocess
@@ -82,16 +86,16 @@ def extract_tarball(recipe):
                     "--strip-components=1"
                 ], check=True)
             else:
-                raise ValueError("❌ Unsupported tar format")
+                raise ValueError("Unsupported tar format")
         else:
-            raise ValueError("❌ Unsupported archive format")
+            raise ValueError("Unsupported archive format")
 
         ConsoleMSG.passed(f"Extracted {file.name} to {name}")
         return True
 
     except subprocess.CalledProcessError as e:
-        ConsoleMSG.failed(f"❌ Failed to extract {file.name}: {e}")
+        ConsoleMSG.failed(f"Failed to extract {file.name}: {e}")
         return False
     except Exception as e:
-        ConsoleMSG.failed(f"❌ Error: {e}")
+        ConsoleMSG.failed(f"Error: {e}")
         return False

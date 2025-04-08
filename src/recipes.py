@@ -22,6 +22,7 @@ from typing import List, Optional
 import shutil
 import requests
 from pathlib import Path
+import hashlib
 
 
 
@@ -56,18 +57,13 @@ class Recipe:
     cleanup: bool = True
 
 
-
-# Sorts by the order map for the given phase [1-4]
-def sort_order(config: GlobalConfig, recipes: list[Recipe], phase: int)  -> list[Recipe]:
-    pass
-
 def load_recipe(template_path: Path, config: GlobalConfig) -> Recipe:
     with template_path.open("r") as f:
         data = yaml.safe_load(f)
 
     name = data["name"]
     version = data["version"]
-    urls = data.get("urls")
+    urls = data.get("url")
     if isinstance(urls, str):
         urls = [urls]
     elif urls is None:
@@ -130,12 +126,12 @@ def initialize_recipes(config):
 
     print(f"Initializing recipes from {source_recipes}")
 
-    for template in source_recipes.rglob("template.yaml"):
+    for template in source_recipes.rglob("template.yml"):
         recipe_dir = template.parent
         with open(template) as f:
             data = yaml.safe_load(f)
 
-        urls = data.get("urls")
+        urls = data.get("url")
         if isinstance(urls, str):
             urls = [urls]
         elif urls is None:

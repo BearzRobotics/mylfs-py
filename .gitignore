@@ -9,6 +9,11 @@ logs/*
 !logs/.gitkeep
 
 
+# Ignore downloaded archives inside any recipe subfolder
+recipes/**/*.{tar.gz,tar.xz,tar.zst,tar.bz2,tgz,zip}
+
+
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

@@ -18,57 +18,17 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-import subprocess
-from pathlib import Path
+
 
 # 3rd party
 import yaml
 
 # My local imports
 from cli import get_config
-from util import ConsoleMSG  # assuming you made this a module
+from util import *  # assuming you made this a module
 from config import GlobalConfig
 from builder import *
 from recipes import *
-
-def requiredTools(config: GlobalConfig):
-    ConsoleMSG.header("Required tool check")
-    
-    if not config.version_check:
-        print("No version_check script provided.")
-        return False
-
-    try:
-        log_file = Path("logs/000_required_tools.log")
-        log_file.parent.mkdir(parents=True, exist_ok=True)
-        
-        result = subprocess.run(
-            ["bash"],
-            input=config.version_check,
-            text=True,
-            check=False,
-            capture_output=True,
-        )
-        
-        # lets write it to a file
-        with log_file.open("w") as f:
-            f.write("=== STDOUT ===\n")
-            f.write(result.stdout)
-            f.write("== STDERR ===\n")
-            f.write(result.stderr)
-        
-        if result.returncode == 0:
-            ConsoleMSG.passed("Required tools found")
-            return True
-        else:
-            ConsoleMSG.failed("Required tools not found")
-            return False
-        
-    except Exception as e:
-        ConsoleMSG.failed(f"Error running version check: {e}")
-        return False
-
-
 
 def main():
     config = get_config()
