@@ -2,6 +2,9 @@
 # don't leave trailing spaces
 # tabs do not work. -- spaces only
 
+# all paths are realtive paths to the where the script is executed! logs/ not 
+# /code/data/py/mylfs-py/logs  <- Absolute paths not support
+
 # LFS values
 # lft_tgt should be $(uname -m)-lfs-linux-gnu
 lfs_tgt: x86_64-lfs-linux-gnu

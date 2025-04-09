@@ -97,7 +97,7 @@ rundeps:         # Optional - packages that need to be present at run time. (If 
 buildsystem:     # Required - make, ninja, meson & bash (shell scripts) are out of the box.
                               The rest are other recipes that must be built first before proceding.
                               e.g zig build, cmake, cargo, smake, etc
-buildsteps:      # Optional - preparation steps. Everything bellow is a sh script (bash) for building
+buildsteps:      # Required - preparation steps. Everything bellow is a sh script (bash) for building
 cleanup: false   # Optional - Tells the build system to not delete the extract source on a succeful build
 
 

@@ -25,12 +25,18 @@ import yaml
 
 # My local imports
 from cli import get_config
-from util import *  # assuming you made this a module
+from util import * 
 from config import GlobalConfig
 from builder import *
 from recipes import *
+from user import *
 
 def main():
+
+    if (amRoot() == False):
+        ConsoleMSG.failed("mylfs-py requires root privalges! Run at your own peril")
+        exit(1) 
+    
     config = get_config()
     phase = get_phase_state(config)
     ConsoleMSG.header("mylfs-py edition")
@@ -58,6 +64,14 @@ def main():
     recipes = load_all_recipes(config)
     ConsoleMSG.passed(f"Loaded {len(recipes)} recipes.")
     
+    # create lfs user and group
+    if(doesLfsExist() == False):
+        createLfs()
+    if(doesLfsExist() == True):
+        ConsoleMSG.passed("Created lfs user and group")
+        
+    chownBuildDir(config)
+        
     ConsoleMSG.header("Phase 1 - Cross tools")
     try:
         pass
@@ -93,6 +107,5 @@ def main():
         ConsoleMSG.failed(f"Phase 5 has failed: {e}")
         return False
     
-
 if __name__ == "__main__":
     main()

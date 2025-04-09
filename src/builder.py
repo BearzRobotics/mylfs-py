@@ -16,6 +16,7 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from pathlib import Path
+from typing import Optional
 import subprocess
 import shutil
 import os
@@ -47,19 +48,10 @@ def set_phase_state(n: int):
         with phaseyml.open() as f:
             yaml.safe_dump({"phase": n}, f)
 
-def builder_phase1(phase: int):
-    pass
-
 def sort_order(config: GlobalConfig, recipes: list[Recipe], phase: int) -> list[Recipe]:
     return sorted(
         [r for r in recipes if r.phase == f"phase{phase}"],
         key=lambda r: r.order or 999)
-
-
-import subprocess
-import shutil
-import os
-from pathlib import Path
 
 def extract_tarball(recipe):
     file = Path(recipe.tarball_path)
@@ -99,3 +91,32 @@ def extract_tarball(recipe):
     except Exception as e:
         ConsoleMSG.failed(f"Error: {e}")
         return False
+
+
+### Thoughts phase 1 & 2 are built outside of the chroot
+### Phase 2 & 4 (5 if you're going beyond base) are build inside chroot.
+### Phase 5 rebuild all phase 4 and 5 packages with deps. 
+
+# phase 1 and 2
+def buildPhase12(config: GlobalConfig):
+    # we need to setup some envs
+    env = {
+        "TERM": "xterm", 
+        "LFS": str(config.build_path),
+        "LC_ALL": "POSIX",
+        "LFS_TGT": str(config.lfs_tgt),
+        "PATH": f"{config.build_path}/tools/bin:/bin:/usr/bin:/usr/sbin",
+        "CONFIG_SITE": f"{config.build_path}/usr/share/config.site",
+        "MAKEFLAGS": str(config.make_flags),
+    }
+
+    prebuild_cmd = "set +h \n umask 022 \n"
+
+# phase 2 and 4
+def buildPhase34():
+    pass
+
+# rebuild all phase 4 and 5 packages with graph
+# dep support. -- May become it's own file.
+def buildPhase5():
+    pass

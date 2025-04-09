@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import subprocess
 from pathlib import Path
+import os
 
 # 3rd party
 # My local imports
@@ -79,6 +80,7 @@ def requiredTools(config: GlobalConfig):
             f.write(result.stdout)
             f.write("== STDERR ===\n")
             f.write(result.stderr)
+            f.close()
         
         if result.returncode == 0:
             ConsoleMSG.passed("Required tools found")
@@ -89,4 +91,10 @@ def requiredTools(config: GlobalConfig):
         
     except Exception as e:
         ConsoleMSG.failed(f"Error running version check: {e}")
+        return False
+    
+def amRoot() -> bool:
+    if(os.geteuid() == 0):
+        return True 
+    else:
         return False
