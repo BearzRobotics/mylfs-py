@@ -40,6 +40,7 @@ def main():
     config = get_config()
     phase = get_phase_state(config)
     ConsoleMSG.header("mylfs-py edition")
+    checkIfBuildDirisEmpty(config)
     
     if not config.run_test:
         ConsoleMSG.warn("skipping tests")
@@ -74,14 +75,16 @@ def main():
         
     ConsoleMSG.header("Phase 1 - Cross tools")
     try:
-        pass
+        buildPhase12(config, recipes)
+        ConsoleMSG.passed("phase 1 - Cross tools")
     except Exception as e:
         ConsoleMSG.failed(f"Phase 1 has failed: {e}")
         return False
     
     ConsoleMSG.header("Phase 2 - Temp tools")
     try:
-        pass
+        buildPhase12(config, recipes)
+        ConsoleMSG.passed("phase 2 - Temp tools")
     except Exception as e:
         ConsoleMSG.failed(f"Phase 2 has failed: {e}")
         return False

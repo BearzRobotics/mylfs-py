@@ -11,34 +11,35 @@ critical: true
 
 buildsteps: |
     echo -n "Creating basic directory layout... "
+    echo $LFS
 
     # LFS 12.3 Section 4.2
-    mkdir -p $LFS/{etc,var} $LFS/usr/{bin,lib,sbin}
+    mkdir -vp $LFS/{etc,var} $LFS/usr/{bin,lib,sbin}
     
     for i in bin lib sbin; do
         ln -s usr/$i $LFS/$i
     done
     case $(uname -m) in
-        x86_64) mkdir -p $LFS/lib64 ;;
+        x86_64) mkdir -vp $LFS/lib64 ;;
     esac
-    mkdir -p $LFS/tools
+    mkdir -vp $LFS/tools
 
     # LFS 12.3 Section 7.3
-    mkdir -p $LFS/{dev,proc,sys,run}
+    mkdir -vp $LFS/{dev,proc,sys,run}
 
     # LFS 12.3 Section 7.5
-    mkdir -p $LFS/etc/{opt,sysconfig,skel,profile.d}
-    mkdir -p $LFS/lib/firmware
-    mkdir -p $LFS/media/{usb,lfs,cdrom,dvd}
-    mkdir -p $LFS/usr/{include,src}
-    mkdir -p $LFS/usr/lib/locale
-    mkdir -p $LFS/usr/local/{bin,lib,sbin}
-    mkdir -p $LFS/usr/share/{color,dict,doc,info,locale,man}
-    mkdir -p $LFS/usr/share/{misc,terminfo,zoneinfo}
-    mkdir -p $LFS/usr/share/man/man{1..8}
-    mkdir -p $LFS/var/{cache,local,log,mail,opt,spool}
-    mkdir -p $LFS/var/lib/{color,misc,locate}
-    mkdir -p $LFS/root
+    mkdir -vp $LFS/etc/{opt,sysconfig,skel,profile.d}
+    mkdir -vp $LFS/lib/firmware
+    mkdir -vp $LFS/media/{usb,lfs,cdrom,dvd}
+    mkdir -vp $LFS/usr/{include,src}
+    mkdir -vp $LFS/usr/lib/locale
+    mkdir -vp $LFS/usr/local/{bin,lib,sbin}
+    mkdir -vp $LFS/usr/share/{color,dict,doc,info,locale,man}
+    mkdir -vp $LFS/usr/share/{misc,terminfo,zoneinfo}
+    mkdir -vp $LFS/usr/share/man/man{1..8}
+    mkdir -vp $LFS/var/{cache,local,log,mail,opt,spool}
+    mkdir -vp $LFS/var/lib/{color,misc,locate}
+    mkdir -vp $LFS/root
     ln -sf /run $LFS/var/run
     ln -sf /run/lock $LFS/var/lock
     ln -s /usr $LFS/usr/local
@@ -97,3 +98,4 @@ buildsteps: |
     # Rsync into $LFS
     rsync -av etc/ $LFS/etc/
     rsync -av root/ $LFS/root/
+

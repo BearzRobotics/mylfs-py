@@ -55,6 +55,7 @@ class Recipe:
     rundeps: List[str] = field(default_factory=list)
     buildsteps: Optional[str] = None
     cleanup: bool = True
+    recipe_source: Optional[str] = None
 
 
 # I tried to automate this loop -- come back to later
@@ -82,10 +83,27 @@ def load_recipe(template_path: Path, config: GlobalConfig) -> Recipe:
 
     tarball_names = [Path(u).name for u in urls]
     main_tarball_name = tarball_names[0] if tarball_names else None
-    main_tarball_path = (Path(config.build_path) / "recipes" / main_tarball_name) if main_tarball_name else None
+    main_tarball_path = (template_path.parent / main_tarball_name) if main_tarball_name else None
+
+    if (config.debug):
+        print(f"load_recipe: {tarball_names}")
+        print(f"load_recipe: {main_tarball_name}")
+        print(f"load_recipe: {main_tarball_path}")
 
     # ideally this should be pulled out into it's own function
     expandBuildStep(data.get("buildsteps"), data)
+    
+    # set recipe_root path. If there is a url it points to source if not it points to static.
+    # source is created with untaring the archive. -- static must be provided by the packager
+
+    
+
+    recipe_dir = Path(template_path.parent)
+    rSource = recipe_dir / ("source" if urls else "static")
+    
+    if (config.debug):
+        print(f"load_recipe: {recipe_dir}")
+        print(f"load_recipe: {rSource}")
 
     return Recipe(
         name=name,
@@ -106,7 +124,8 @@ def load_recipe(template_path: Path, config: GlobalConfig) -> Recipe:
         builddeps=data.get("builddeps", []),
         rundeps=data.get("rundeps", []),
         buildsteps=data.get("buildsteps"),
-        cleanup=data.get("cleanup", True)
+        cleanup=data.get("cleanup", True),
+        recipe_source=rSource, 
     )
 
 def load_all_recipes(config: GlobalConfig) -> List[Recipe]:

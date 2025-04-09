@@ -95,7 +95,7 @@ def deleteLfs():
         return False  
     
 def chownBuildDir(config: GlobalConfig):
-    input_command = "chown -Rv lfs:lfs " + str(config.build_path)
+    input_command = "chown -Rv lfs:lfs " + str(config.build_path) + "\n chmod -R u+rwX " + str(config.build_path)
     try:
         log_file = Path("logs/002_chown_build_dir.log")
         log_file.parent.mkdir(parents=True, exist_ok=True)

@@ -51,13 +51,17 @@ def parse_cli_args() -> CLIConfig:
         print(f"mylfs-py version {version}\n")
         exit(0)
 
+    debug = False
+    if args.debug:
+        debug = True
+
     return CLIConfig(
         build_path=args.build_path,
         recipes_path=args.recipes_path,
         install_drive=args.install_drive,
         install_filesystem=args.install_filesystem,
         phase=args.phase or "phase1",
-        debug=args.debug,
+        debug=debug,
         bootstrap_enabled=args.bootstrap,
         bootstrap_only=args.bootstrap_only,
         install=not args.no_install

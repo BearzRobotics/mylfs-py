@@ -19,6 +19,7 @@ import subprocess
 from pathlib import Path
 import os
 
+
 # 3rd party
 # My local imports
 from config import GlobalConfig
@@ -55,7 +56,7 @@ class ConsoleMSG:
 
     @staticmethod
     def print_building(count: int, msg: str) -> None:
-        print(f"[{count}]  {msg}")
+        print(f"    [{count}]  {msg}")
     
 def requiredTools(config: GlobalConfig):
     if not config.version_check:

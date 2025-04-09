@@ -12,6 +12,8 @@ I can not get the yaml files to parse with any of the native zig yamls. -- After
 landscape has seen good development I would like to return to this.
 
 
+NOT all config options are implement yet! Patches are welcome if anyone want to implement a feature not there yet!
+
 # Phases
 
 Phase 1:
