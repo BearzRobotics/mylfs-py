@@ -208,10 +208,10 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
     # We need to check what pahse were in.
     if (get_phase_state(config) == 2):
         # Once phase three is done it will set phase to 3
-        phase = 3
+        phase = 2
     elif (get_phase_state(config) == 3):
-        # Once phase four is done it will set phase to 2
-        phase = 4
+        # Once phase four is done it will set phase to 4
+        phase = 3
     else:
         ConsoleMSG.failed("buildPhase12 can only build phases 1 and 2")
         exit(1)
@@ -277,13 +277,15 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
             exit(1) # These early builds can't progress if a package won't build right.
     
     # If it made it this far without crashing or me exit() set phase
-    if (phase == 0):
-        set_phase_state(config, 1)
-    elif (phase == 1):
-        set_phase_state(config, 2)
+    if (phase == 2):
+        set_phase_state(config, 3)
+    elif (phase == 3):
+        set_phase_state(config, 4)
     else:
         ConsoleMSG.failed("What are you doing here! buildPhase12 is only for the first two\n phases. This should have been caught before it got this far!")
         exit(1) 
+
+
 
 # rebuild all phase 4 and 5 packages with graph
 # dep support. -- May become it's own file.

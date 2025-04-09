@@ -91,14 +91,15 @@ def main():
     
     ConsoleMSG.header("Phase 3 - Temp System")
     try:
-        pass
+        mountTmpFs(config)
+        buildPhase34(config, recipes)
     except Exception as e:
         ConsoleMSG.failed(f"Phase 3 has failed: {e}")
         return False
     
     ConsoleMSG.header("Phase 4 - LFS Base system")
     try:
-        pass
+        buildPhase34(config, recipes)
     except Exception as e:
         ConsoleMSG.failed(f"Phase 4 has failed: {e}")
         return False
@@ -109,6 +110,10 @@ def main():
     except Exception as e:
         ConsoleMSG.failed(f"Phase 5 has failed: {e}")
         return False
+    
+    # cleanup code
+    unmountTmpFs(config)
+    deleteLfs()
     
 if __name__ == "__main__":
     main()

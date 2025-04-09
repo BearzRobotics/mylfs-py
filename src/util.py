@@ -18,7 +18,7 @@
 import subprocess
 from pathlib import Path
 import os
-
+import subprocess
 
 # 3rd party
 # My local imports
@@ -99,3 +99,77 @@ def amRoot() -> bool:
         return True 
     else:
         return False
+    
+def mountTmpFs(config: GlobalConfig):
+    cmd = """ 
+        mount -v --bind /dev $LFS/dev
+        mount -vt devpts devpts -o gid=5,mode=0620 $LFS/dev/pts
+        mount -vt proc proc $LFS/proc
+        mount -vt sysfs sysfs $LFS/sys
+        mount -vt tmpfs tmpfs $LFS/run
+        if [ -h $LFS/dev/shm ]; then
+            install -v -d -m 1777 $LFS$(realpath /dev/shm)
+        else
+            mount -vt tmpfs -o nosuid,nodev tmpfs $LFS/dev/shm
+        fi
+        """
+        env = os.environ.copy()
+        env["LFS"] = str(Path(config.build_path).resolve())
+
+        process = subprocess.run(
+            #["sudo", "-u", "lfs", "bash"],
+            ["bash"],
+            env=env,
+            input=cmd,
+            text=True,
+            stdout=subprocess.PIPE,
+            stderr=subprocess.STDOUT  # merge both
+        )
+        log_file = Path("logs/004_mount_tmpfs.log")
+        log_file.parent.mkdir(parents=True, exist_ok=True)
+        
+        with log_file.open("w") as f:    
+            # lets write sone log files
+            for line in process.stdout:
+                f.write(line)
+        
+        if process.returncode == 0:
+            ConsoleMSG.passed("mounted tmp fs")
+        else:
+            ConsoleMSG.failed("could not mount tmpfs")
+            exit(1) # These early builds can't progress if a package won't build right.
+        
+def unmountTmpFs(config: GlobalConfig):
+    cmd = """
+        umount -v $LFS/dev/shm || umount -vl $LFS/dev/shm
+        umount -v $LFS/run     || umount -vl $LFS/run
+        umount -v $LFS/sys     || umount -vl $LFS/sys
+        umount -v $LFS/proc    || umount -vl $LFS/proc
+        umount -v $LFS/dev/pts || umount -vl $LFS/dev/pts
+        umount -v $LFS/dev     || umount -vl $LFS/dev
+    """
+    env = os.environ.copy()
+    env["LFS"] = str(Path(config.build_path).resolve())
+
+    process = subprocess.run(
+        #["sudo", "-u", "lfs", "bash"],
+        ["bash"],
+        env=env,
+        input=cmd,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT  # merge both
+    )
+    log_file = Path("logs/009_umount_tmlpfs.log")
+    log_file.parent.mkdir(parents=True, exist_ok=True)    
+        
+    with log_file.open("w") as f:    
+        # lets write sone log files
+        for line in process.stdout:
+            f.write(line)
+        
+    if process.returncode == 0:
+        ConsoleMSG.passed("unmounted tmp fs")
+    else:
+        ConsoleMSG.failed("could not unmount tmpfs")
+        exit(1) # These early builds can't progress if a package won't build right.
