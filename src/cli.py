@@ -44,6 +44,7 @@ def parse_cli_args() -> CLIConfig:
     parser.add_argument("--bootstrap", action="store_true")
     parser.add_argument("--bootstrap-only", action="store_true")
     parser.add_argument("--no-install", action="store_true")
+    parser.add_argument("--help", action="store_true")
 
     args = parser.parse_args()
     
@@ -51,6 +52,10 @@ def parse_cli_args() -> CLIConfig:
         print(f"mylfs-py version {version}\n")
         exit(0)
 
+    if args.help:
+        ConsoleMSG.warn("This is an expermental app. Many features are not yet implmented\n look at readme and config.yml. or pass --debug for more express output")
+        exit(0)
+        
     debug = False
     if args.debug:
         debug = True

@@ -76,7 +76,6 @@ def main():
     ConsoleMSG.header("Phase 1 - Cross tools")
     try:
         buildPhase12(config, recipes)
-        ConsoleMSG.passed("phase 1 - Cross tools")
     except Exception as e:
         ConsoleMSG.failed(f"Phase 1 has failed: {e}")
         return False
@@ -84,7 +83,6 @@ def main():
     ConsoleMSG.header("Phase 2 - Temp tools")
     try:
         buildPhase12(config, recipes)
-        ConsoleMSG.passed("phase 2 - Temp tools")
     except Exception as e:
         ConsoleMSG.failed(f"Phase 2 has failed: {e}")
         return False

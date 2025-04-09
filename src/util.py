@@ -113,31 +113,30 @@ def mountTmpFs(config: GlobalConfig):
             mount -vt tmpfs -o nosuid,nodev tmpfs $LFS/dev/shm
         fi
         """
-        env = os.environ.copy()
-        env["LFS"] = str(Path(config.build_path).resolve())
+    env = os.environ.copy()
+    env["LFS"] = str(Path(config.build_path).resolve())
 
-        process = subprocess.run(
-            #["sudo", "-u", "lfs", "bash"],
-            ["bash"],
-            env=env,
-            input=cmd,
-            text=True,
-            stdout=subprocess.PIPE,
-            stderr=subprocess.STDOUT  # merge both
-        )
-        log_file = Path("logs/004_mount_tmpfs.log")
-        log_file.parent.mkdir(parents=True, exist_ok=True)
+    process = subprocess.run(
+        ["bash"],
+        env=env,
+        input=cmd,
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT  # merge both
+    )
+    log_file = Path("logs/004_mount_tmpfs.log")
+    log_file.parent.mkdir(parents=True, exist_ok=True)
         
-        with log_file.open("w") as f:    
-            # lets write sone log files
-            for line in process.stdout:
-                f.write(line)
+    with log_file.open("w") as f:    
+        # lets write sone log files
+        for line in process.stdout:
+            f.write(line)
         
-        if process.returncode == 0:
-            ConsoleMSG.passed("mounted tmp fs")
-        else:
-            ConsoleMSG.failed("could not mount tmpfs")
-            exit(1) # These early builds can't progress if a package won't build right.
+    if process.returncode == 0:
+        ConsoleMSG.passed("mounted tmp fs")
+    else:
+        ConsoleMSG.failed("could not mount tmpfs")
+        exit(1) # These early builds can't progress if a package won't build right.
         
 def unmountTmpFs(config: GlobalConfig):
     cmd = """
@@ -152,7 +151,6 @@ def unmountTmpFs(config: GlobalConfig):
     env["LFS"] = str(Path(config.build_path).resolve())
 
     process = subprocess.run(
-        #["sudo", "-u", "lfs", "bash"],
         ["bash"],
         env=env,
         input=cmd,

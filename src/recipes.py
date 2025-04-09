@@ -184,7 +184,8 @@ def initialize_recipes(config):
                 except Exception as e:
                     ConsoleMSG.failed(f"Failed to download {url}: {e}")
             else:
-                print(f"{tarball_name} already exists — skipping.")
+                if (config.debug):
+                    print(f"{tarball_name} already exists — skipping.")
 
 
     # Copy the entire recipes tree to the build path

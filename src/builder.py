@@ -221,15 +221,8 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
     phase12R = sort_order(recipes, phase + 1)
     
     # we need to setup some envs
-    env = {
-        "TERM": "xterm", 
-        "LFS": str(Path(config.build_path).resolve()),
-        "LC_ALL": "POSIX",
-        "LFS_TGT": str(config.lfs_tgt),
-        "PATH": f"{Path(config.build_path).resolve()}/tools/bin:/bin:/usr/bin:/usr/sbin",
-        "CONFIG_SITE": f"{Path(config.build_path).resolve()}/usr/share/config.site",
-        "MAKEFLAGS": str(config.make_flags),
-    }
+    env = os.environ.copy()
+    env["LFS"] = str(Path(config.build_path).resolve())
 
     if (config.debug):
         print("=== Environment Variables ===")
@@ -253,10 +246,17 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
             extract_tarball(config, recipe)
     
         
-        print("buildPhase12() before subprocess") if config.debug else None
+        print("buildPhase34() before subprocess") if config.debug else None
         process = subprocess.run(
             #["sudo", "-u", "lfs", "bash"],
-            ["bash"],
+            ["chroot", env["LFS"],
+            "/usr/bin/env", "-i",
+            "HOME=/root",
+            "TERM=xterm",
+            "PS1=\\u:\\w\\$ ",
+            "PATH=/usr/bin:/usr/sbin",
+            "bash", "--login"
+            ],
             env=env,
             input=cmd,
             cwd=Path(recipe.recipe_source),
