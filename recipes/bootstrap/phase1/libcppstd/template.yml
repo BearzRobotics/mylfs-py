@@ -9,25 +9,30 @@ summary: stub of libcppstd
 phase: 1
 order: 6
 critical: true
-cleanup: false
+
 
 buildsteps: |
-    mkdir build
-    cd build
+    
+    ls ../../gcc 
+    cd ../../gcc/source
 
-    ../../gcc/source/libstdc++-v3/configure \
-        --host=$LFS_TGT                     \
-        --build=$(../config.guess)          \
-        --prefix=/usr                       \
-        --disable-multilib                  \
-        --disable-nls                       \
-        --disable-libstdcxx-pch             \
-        --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/{version}
+    mkdir -vp build-libstdc++
+    cd build-libstdc++
 
-    make
-    make DESTDIR=$LFS install
+        ../libstdc++-v3/configure \
+            --host=$LFS_TGT                     \
+            --build=$(../config.guess)          \
+            --prefix=/usr                       \
+            --disable-multilib                  \
+            --disable-nls                       \
+            --disable-libstdcxx-pch             \
+            --with-gxx-include-dir=/tools/$LFS_TGT/include/c++/{version}
 
-    rm -v $LFS/usr/lib/lib{stdc++{,exp,fs},supc++}.la
+        make
+        make DESTDIR=$LFS install
 
-    cd ..
-    rm -rf build
+        rm -v $LFS/usr/lib/lib{stdc++{,exp,fs},supc++}.la
+
+        cd ../..
+        rm -rf source
+

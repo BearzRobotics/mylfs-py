@@ -14,7 +14,7 @@ description: |
   An interpreted scripting language, known among some as "Unix's Swiss Army Chainsaw".
 
 phase: 3
-order: 3
+order: 4
 critical: true
 
 buildsteps: |

@@ -8,7 +8,7 @@ license: PSF License
 summary: General purpose cross platform scripting language
 
 phase: 3
-order: 4
+order: 5
 critical: true
 
 buildsteps: |

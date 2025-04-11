@@ -19,17 +19,15 @@ buildsteps: |
     # new kernel you don't need to bootstrap the whole distro. -- As phase 4 packages should
     # rebuild if you incriment the release from the last release.
     
-    CONFIGFILE=config-{version}
-
     make mrproper
     make headers
 
     make headers_install
 
 
-    if [ -f /boot/$CONFIGFILE ]
+    if [ -f ../config ]
     then
-        cp /boot/$CONFIGFILE ./.config
+        cp ../config ./.config
         make olddefconfig
     else
         make defconfig

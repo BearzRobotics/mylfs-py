@@ -41,8 +41,7 @@ buildsteps: |
               --docdir=/usr/share/doc/util-linux-{version}
   make
 
-  if $RUN_TESTS
-  then
+  if [ "$RUN_TESTS" = "1" ]; then
       set +e
       touch /etc/fstab
       chown -R tester .

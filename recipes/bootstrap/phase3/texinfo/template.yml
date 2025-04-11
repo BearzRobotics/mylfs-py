@@ -10,7 +10,7 @@ description: |
   textinfo is the documentation format used by the GNU project, invented by Richard Stallman and Bob Chassell. It is used to take a single source file and produce various outputs such as dvi, html, and pdf.
 
 phase: 3
-order: 5
+order: 6
 critical: true
 
 buildsteps: |

@@ -46,8 +46,7 @@ buildsteps: |
     sed -e 's/{ target nonpic } //' \
         -e '/GOTPCREL/d'              -i ../gcc/testsuite/gcc.target/i386/fentryname3.c
 
-    if $RUN_TESTS
-    then
+    if [ "$RUN_TESTS" = "1" ]; then
         set +e
         chown -R tester .
         su tester -c "PATH=$PATH make -k check"

@@ -11,4 +11,4 @@ order: 2
 critical: true
 
 buildsteps: |
-  cp services protocols /etc
+  cp -v services protocols /etc

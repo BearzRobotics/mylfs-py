@@ -22,7 +22,7 @@ buildsteps: |
         ;;
     esac
 
-    patch -Np1 -i ../$(basename $PATCH_GLIBC)
+    patch -Np1 -i ../patches/glibc-2.41-fhs-1.patch
 
     mkdir build
     cd build
@@ -42,3 +42,7 @@ buildsteps: |
     make DESTDIR=$LFS install
 
     sed '/RTLDLIST=/s@/usr@@g' -i $LFS/usr/bin/ldd
+
+    echo "=================================================="
+    echo 'int main(){}' | $LFS_TGT-gcc -xc -
+    readelf -l a.out | grep ld-linux

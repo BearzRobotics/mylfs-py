@@ -17,7 +17,8 @@
 #
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
-
+from dataclasses import asdict
+import pprint 
 
 
 # 3rd party
@@ -38,9 +39,10 @@ def main():
         exit(1) 
     
     config = get_config()
-    phase = get_phase_state(config)
+    if (config.debug):
+        pprint.pprint(asdict(config))
+        
     ConsoleMSG.header("mylfs-py edition")
-    checkIfBuildDirisEmpty(config)
     
     if not config.run_test:
         ConsoleMSG.warn("skipping tests")
@@ -48,15 +50,24 @@ def main():
     # see if system has required tools
     requiredTools(config)
     
-    # show warning if bootstrap is enabled
-    if (config.bootstrap_enabled or config.bootstrap_only):
-        lfs_path = Path(config.build_path)
-        if lfs_path.exists() and any(lfs_path.iterdir()):
-            ConsoleMSG.warn(f"{lfs_path} is not empty. This may delete existing data!")
-            confirm = input("Proceed? [y/N]: ").strip().lower()
-            if confirm not in ("y", "yes"):
-                print("Aborting.")
-                return
+    # chroot if enabled
+    if (config.chroot):
+        mountTmpFs(config)
+        chroot(config)
+        unmountTmpFs(config)
+        exit(0)
+    
+    # if this is true we want to do this and supress the bootstrap options
+    if (config.start_phase and config.start_package != None):
+        # this way the user can pass phase 1 for phase 1 and not zero, etc
+        if (int(config.start_phase) > 0):
+            phase = int(config.start_phase) - 1
+            set_phase_state(config, phase)
+    else:
+        # show warning if bootstrap is enabled
+        ConsoleMSG.warn("If this fails you may have your temp fs still mounted from a previous build attempt")
+        set_phase_state(config, 0) # reset for bootstrapping
+        checkIfBuildDirisEmpty(config)
     
     # get recipes
     initialize_recipes(config)
@@ -73,41 +84,52 @@ def main():
         
     chownBuildDir(config)
         
-    ConsoleMSG.header("Phase 1 - Cross tools")
-    try:
-        buildPhase12(config, recipes)
-    except Exception as e:
-        ConsoleMSG.failed(f"Phase 1 has failed: {e}")
-        return False
+    if (get_phase_state(config) == 0):
+        ConsoleMSG.header("Phase 1 - Cross tools")
+        try:
+            buildPhase12(config, recipes)
+        except Exception as e:
+            ConsoleMSG.failed(f"Phase 1 has failed: {e}")
+            deleteLfs() # we shouldn't keep temp accounts around
+            return False
+        
+    if (get_phase_state(config) == 1):
+        ConsoleMSG.header("Phase 2 - Temp tools")
+        try:
+            buildPhase12(config, recipes)
+        except Exception as e:
+            ConsoleMSG.failed(f"Phase 2 has failed: {e}")
+            deleteLfs()
+            return False
     
-    ConsoleMSG.header("Phase 2 - Temp tools")
-    try:
-        buildPhase12(config, recipes)
-    except Exception as e:
-        ConsoleMSG.failed(f"Phase 2 has failed: {e}")
-        return False
+    if (get_phase_state(config) == 2):
+        ConsoleMSG.header("Phase 3 - Temp System")
+        try:
+            deleteLfs() # not needed for phase 3 - 5
+            mountTmpFs(config)
+            buildPhase34(config, recipes)
+        except Exception as e:
+            ConsoleMSG.failed(f"Phase 3 has failed: {e}")
+            unmountTmpFs(config)
+            return False
     
-    ConsoleMSG.header("Phase 3 - Temp System")
-    try:
-        mountTmpFs(config)
-        buildPhase34(config, recipes)
-    except Exception as e:
-        ConsoleMSG.failed(f"Phase 3 has failed: {e}")
-        return False
+    if (get_phase_state(config) == 3):
+        ConsoleMSG.header("Phase 4 - LFS Base system")
+        try:
+            buildPhase34(config, recipes)
+        except Exception as e:
+            ConsoleMSG.failed(f"Phase 4 has failed: {e}")
+            unmountTmpFs(config)
+            return False
     
-    ConsoleMSG.header("Phase 4 - LFS Base system")
-    try:
-        buildPhase34(config, recipes)
-    except Exception as e:
-        ConsoleMSG.failed(f"Phase 4 has failed: {e}")
-        return False
-    
-    ConsoleMSG.header("Phase 5 - Building final system")
-    try:
-        pass
-    except Exception as e:
-        ConsoleMSG.failed(f"Phase 5 has failed: {e}")
-        return False
+    if (get_phase_state(config) == 4):
+        ConsoleMSG.header("Phase 5 - Building final system")
+        try:
+            pass
+        except Exception as e:
+            ConsoleMSG.failed(f"Phase 5 has failed: {e}")
+            unmountTmpFs(config)
+            return False
     
     # cleanup code
     unmountTmpFs(config)

@@ -1,10 +1,10 @@
 name: bzip2
 version: 1.0.8
-release: 
-url: 
-homepage: 
+release: 1
+url: https://www.sourceware.org/pub/bzip2/bzip2-1.0.8.tar.gz
+homepage: https://sourceware.org/bzip2/
 
-license: 
+license: Modified zlib license
 summary: Bzip2 a much better bzip
 description: | 
   contains programs for compressing and decompressing files. Compressing text files with bzip2 yields a much better compression percentage than with the traditional gzip.

@@ -39,37 +39,36 @@ def parse_cli_args() -> CLIConfig:
     parser.add_argument("--install-drive", type=str)
     parser.add_argument("--install-filesystem", type=str)
     parser.add_argument("--version", action="store_true")
-    parser.add_argument("--phase", type=str, choices=["phase1", "phase2", "phase3", "phase4", "phase5"])
     parser.add_argument("--debug", action="store_true")
-    parser.add_argument("--bootstrap", action="store_true")
-    parser.add_argument("--bootstrap-only", action="store_true")
     parser.add_argument("--no-install", action="store_true")
-    parser.add_argument("--help", action="store_true")
+    parser.add_argument("--start-phase", type=int, choices=[0,1, 2, 3, 4, 5])
+    parser.add_argument("--start-package", type=str)
+    parser.add_argument("--chroot", action="store_true")
 
     args = parser.parse_args()
     
     if args.version:
         print(f"mylfs-py version {version}\n")
         exit(0)
-
-    if args.help:
-        ConsoleMSG.warn("This is an expermental app. Many features are not yet implmented\n look at readme and config.yml. or pass --debug for more express output")
-        exit(0)
         
     debug = False
     if args.debug:
         debug = True
+        
+    chroot = False
+    if args.chroot:
+        chroot = True
 
     return CLIConfig(
         build_path=args.build_path,
         recipes_path=args.recipes_path,
         install_drive=args.install_drive,
         install_filesystem=args.install_filesystem,
-        phase=args.phase or "phase1",
         debug=debug,
-        bootstrap_enabled=args.bootstrap,
-        bootstrap_only=args.bootstrap_only,
-        install=not args.no_install
+        install=not args.no_install,
+        start_phase=args.start_phase or 0,
+        start_package=args.start_package or None,
+        chroot=chroot,
     )
 
 def combine_configs(yaml_cfg: YamlConfig, cli_cfg: CLIConfig) -> GlobalConfig:
@@ -88,6 +87,7 @@ def combine_configs(yaml_cfg: YamlConfig, cli_cfg: CLIConfig) -> GlobalConfig:
         keep_logs=yaml_cfg.keep_logs,
         uefi=yaml_cfg.uefi,
         bootstrap=yaml_cfg.bootstrap,
+        bootstrap_only=yaml_cfg.bootstrap_only,
         use_bootstrap_tar=yaml_cfg.use_bootstrap_tar,
         bootstrap_tar=yaml_cfg.bootstrap_tar,
         fdisk_uefi=yaml_cfg.fdisk_uefi,
@@ -100,9 +100,9 @@ def combine_configs(yaml_cfg: YamlConfig, cli_cfg: CLIConfig) -> GlobalConfig:
         install=cli_cfg.install,
         install_drive=cli_cfg.install_drive,
         install_filesystem=cli_cfg.install_filesystem,
-        phase=cli_cfg.phase,
-        bootstrap_enabled=cli_cfg.bootstrap_enabled,
-        bootstrap_only=cli_cfg.bootstrap_only,
+        start_phase=cli_cfg.start_phase,
+        start_package=cli_cfg.start_package,
+        chroot=cli_cfg.chroot,
     )
 
 

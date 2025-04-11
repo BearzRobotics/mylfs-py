@@ -48,11 +48,16 @@ recipes_path: "recipes/"
 
 # bootstrap
 # Can be overridded with a command line option
-bootstrap: false
+bootstrap: true
+
+# only build the base system phase 1-4
+bootstrap_only: false
 
 # Tarball to a bootstrap tallbal
 use_bootstrap_tar: false
 bootstrap_tar: "mylfs-bootstap.tar.gz"
+
+
 
 # These options are passed into fdisk to create a basic BIOS layout
 # blank lines will cause fdisk to use the default option

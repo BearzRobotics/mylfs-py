@@ -6,6 +6,7 @@ mnt/lfs/*
 !mnt/lfs/.gitkeep
 
 logs/*
+slogs/*
 !logs/.gitkeep
 
 

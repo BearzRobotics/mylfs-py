@@ -20,8 +20,7 @@ buildsteps: |
 
   make
 
-  if $RUN_TESTS
-  then
+  if [ "$RUN_TESTS" = "1" ]; then
       set +e
       chown -R tester .
       su tester -c "TERM=xterm-256color LANG=en_US.UTF-8 make -j1 test" \

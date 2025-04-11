@@ -39,8 +39,7 @@ buildsteps: |
 
   make
 
-  if $RUN_TESTS
-  then
+  if [ "$RUN_TESTS" = "1" ]; then
       set +e
       TEST_JOBS=$(nproc) make test_harness
       set -e

@@ -22,9 +22,8 @@ buildsteps: |
               --enable-optimizations
 
   make
-
-  if $RUN_TESTS
-  then
+  
+  if [ "$RUN_TESTS" = "1" ]; then
       set +e
       make test TESTOPTS="--timeout 120"
       set -e

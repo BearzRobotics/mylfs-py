@@ -17,8 +17,7 @@ buildsteps: |
   ./configure --prefix=/usr --disable-static
   make
 
-  if $RUN_TESTS
-  then
+  if [ "$RUN_TESTS" = "1" ]; then
       make check
   fi
 

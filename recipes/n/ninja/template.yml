@@ -24,8 +24,7 @@ buildsteps: |
 
   python3 configure.py --bootstrap
 
-  if $RUN_TESTS
-  then
+  if [ "$RUN_TESTS" = "1" ]; then
       set +e
       ./ninja ninja_test
       ./ninja_test --gtest_filter=-SubprocessTest.SetWithLots

@@ -24,8 +24,7 @@ buildsteps: |
 
   make
 
-  if $RUN_TESTS
-  then
+  if [ "$RUN_TESTS" = "1" ]; then
       set +e
       make NON_ROOT_USERNAME=tester check-root
       groupadd -g 102 dummy -U tester

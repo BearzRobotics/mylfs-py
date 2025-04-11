@@ -10,92 +10,31 @@ order: 1
 critical: true
 
 buildsteps: |
-    echo -n "Creating basic directory layout... "
+    echo "Creating basic directory layout..."
+
+    #env
+
     echo $LFS
+    echo $PATH
+
+    echo "double check what user I'm running on"
+    whoami
 
     # LFS 12.3 Section 4.2
     mkdir -vp $LFS/{etc,var} $LFS/usr/{bin,lib,sbin}
     
     for i in bin lib sbin; do
-        ln -s usr/$i $LFS/$i
+        ln -sv usr/$i $LFS/$i
     done
     case $(uname -m) in
         x86_64) mkdir -vp $LFS/lib64 ;;
     esac
     mkdir -vp $LFS/tools
 
-    # LFS 12.3 Section 7.3
-    mkdir -vp $LFS/{dev,proc,sys,run}
+    mkdir -pv $LFS/{dev,proc,sys,run}
 
-    # LFS 12.3 Section 7.5
-    mkdir -vp $LFS/etc/{opt,sysconfig,skel,profile.d}
-    mkdir -vp $LFS/lib/firmware
-    mkdir -vp $LFS/media/{usb,lfs,cdrom,dvd}
-    mkdir -vp $LFS/usr/{include,src}
-    mkdir -vp $LFS/usr/lib/locale
-    mkdir -vp $LFS/usr/local/{bin,lib,sbin}
-    mkdir -vp $LFS/usr/share/{color,dict,doc,info,locale,man}
-    mkdir -vp $LFS/usr/share/{misc,terminfo,zoneinfo}
-    mkdir -vp $LFS/usr/share/man/man{1..8}
-    mkdir -vp $LFS/var/{cache,local,log,mail,opt,spool}
-    mkdir -vp $LFS/var/lib/{color,misc,locate}
-    mkdir -vp $LFS/root
-    ln -sf /run $LFS/var/run
-    ln -sf /run/lock $LFS/var/lock
-    ln -s /usr $LFS/usr/local
-    install -d -m 0750 $LFS/root
-    install -d -m 1777 $LFS/tmp $LFS/var/tmp
 
-    # LFS 12.3 Section 7.6
-    ln -s /proc/self/mounts $LFS/etc/mtab
-    touch $LFS/var/log/{btmp,lastlog,faillog,wtmp}
-    chgrp 13 $LFS/var/log/lastlog # 13 == utmpsudo rsync -av --exclude='*.img' MyLFS/ /mnt/usb/MyLFS
-    chmod 664 $LFS/var/log/lastlog
-    chmod 600 $LFS/var/log/btmp
 
-    # in no particular part of the book, but still needed
-    mkdir -p $LFS/boot/grub
-    mkdir -p $LFS/etc/{modprobe.d,ld.so.conf.d}
 
-    # removed at end of build
-    mkdir -p $LFS/home/tester
-    chown 101:101 $LFS/home/tester
-
-    # Fix directory permissions
-    chmod 755 etc
-    chmod 755 etc/modprobe.d
-    chmod 755 etc/profile.d
-    chmod 755 etc/skel
-    chmod 755 etc/sysconfig
-    chmod 750 root
-    chmod 644 root/nix
-
-    # Fix file permissions
-    chmod 644 etc/*
-    chmod 644 etc/modprobe.d/*
-    chmod 644 etc/sysconfig/*
-    chmod 644 etc/skel/*
-    chmod 644 etc/profile
-    chmod 644 etc/bashrc
-    chmod 644 etc/dircolors
-    chmod 644 etc/group
-    chmod 644 etc/inittab
-    chmod 644 etc/inputrc
-    chmod 644 etc/ld.so.conf
-    chmod 644 etc/nsswitch.conf
-    chmod 644 etc/passwd
-    chmod 644 etc/resolv.conf
-    chmod 644 etc/shells
-    chmod 644 etc/syslog.conf
-    chmod 644 etc/vimrc
-
-    # Make shell scripts executable
-    chmod 755 etc/profile.d/*.sh
-
-    # Optional: make sure everything under root/nix is read-only if it's static data
-    chmod -R 755 root/nix
-
-    # Rsync into $LFS
-    rsync -av etc/ $LFS/etc/
-    rsync -av root/ $LFS/root/
+    
 

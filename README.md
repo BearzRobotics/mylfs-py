@@ -15,7 +15,6 @@ landscape has seen good development I would like to return to this.
 NOT all config options are implement yet! Patches are welcome if anyone want to implement a feature not there yet!
 
 # Phases
-
 Phase 1:
     Cross toolchain
 
@@ -44,6 +43,8 @@ Phase 5
 
     Unless those packages are tag as critical. 
 
+# CLI
+
 
 # Recipes 
 
@@ -54,6 +55,8 @@ logs mnt recipes mylfs
 ```
 
 In the recipes folder are bootstrap, [0-9] & [A-z]
+
+If you want a custom kernel config place a .config as config [do dot] for the version of the kernel you are building  and place it next to the template.yml for linux. 
 
 recipes/
 └── bootstrap/
@@ -100,7 +103,8 @@ buildsystem:     # Required - make, ninja, meson & bash (shell scripts) are out 
                               The rest are other recipes that must be built first before proceding.
                               e.g zig build, cmake, cargo, smake, etc
 buildsteps:      # Required - preparation steps. Everything bellow is a sh script (bash) for building
-cleanup: false   # Optional - Tells the build system to not delete the extract source on a succeful build
+cleanup: false   # Optional - Tells the build system to not delete the extract source on a succeful build.
+                              If you don't have a clean up tag. The default is to cleanup extracted source
 
 
 {name}           # Optional - Allows the name to be used as a variable

@@ -62,11 +62,13 @@ class Recipe:
 # from the import re
 # this can be expanded later - if needed
 def expandBuildStep(old_text: str, data: dict) -> str:
-    vpattern = r"{version}"
-    npattern = r"{name}"
-    temp_text = re.sub(vpattern, str(data["version"]) , old_text)
-    new_text = re.sub(npattern, str(data["name"]) , temp_text)
-    return new_text
+    # Replace known placeholders
+    result = old_text
+    for key in ["version", "name"]:
+        placeholder = r"\{" + key + r"\}"
+        if key in data:
+            result = re.sub(placeholder, str(data[key]), result)
+    return result
 
 
 def load_recipe(template_path: Path, config: GlobalConfig) -> Recipe:
@@ -90,8 +92,8 @@ def load_recipe(template_path: Path, config: GlobalConfig) -> Recipe:
         print(f"load_recipe: {main_tarball_name}")
         print(f"load_recipe: {main_tarball_path}")
 
-    # ideally this should be pulled out into it's own function
-    expandBuildStep(data.get("buildsteps"), data)
+
+    
     
     # set recipe_root path. If there is a url it points to source if not it points to static.
     # source is created with untaring the archive. -- static must be provided by the packager
@@ -123,7 +125,7 @@ def load_recipe(template_path: Path, config: GlobalConfig) -> Recipe:
         critical=data.get("critical", False),
         builddeps=data.get("builddeps", []),
         rundeps=data.get("rundeps", []),
-        buildsteps=data.get("buildsteps"),
+        buildsteps=expandBuildStep(data.get("buildsteps"), data),
         cleanup=data.get("cleanup", True),
         recipe_source=rSource, 
     )

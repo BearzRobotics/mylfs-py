@@ -10,7 +10,7 @@ description: |
     The Binutils package contains a linker, an assembler, and other tools for handling object files.
 
 phase: 2
-order: 16
+order: 17
 critical: true
 
 buildsteps: |

@@ -171,3 +171,20 @@ def unmountTmpFs(config: GlobalConfig):
     else:
         ConsoleMSG.failed("could not unmount tmpfs")
         exit(1) # These early builds can't progress if a package won't build right.
+        
+
+def chroot(config: GlobalConfig):
+    env = os.environ.copy()
+    env["LFS"] = str(Path(config.build_path).resolve())
+    
+    process = subprocess.run(
+        ["chroot", env["LFS"],
+        "/usr/bin/env", "-i",
+        "HOME=/root",
+        "TERM=xterm",
+        "PS1=\\[\\e[1;34m\\]\\u@\\[\\e[1;32m\\](chroot lfs)\\[\\e[0m\\]:\\[\\e[1;36m\\]\\w\\[\\e[0m\\] $ ",
+        "PATH=/usr/bin:/usr/sbin",
+        "bash", "--login"
+        ],
+        env=env,
+    )

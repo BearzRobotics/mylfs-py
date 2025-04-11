@@ -1,7 +1,10 @@
 name: glibc
 version: 2.41.0
 release: 1
-url: https://ftp.gnu.org/gnu/glibc/glibc-2.41.tar.xz
+url: 
+    - https://ftp.gnu.org/gnu/glibc/glibc-2.41.tar.xz
+    - https://www.iana.org/time-zones/repository/releases/tzdata2025a.tar.gz
+
 homepage: https://www.gnu.org/software/libc/
 
 license: LGPL-2.1-or-later
@@ -30,8 +33,7 @@ buildsteps: |
 
     make
 
-    if $RUN_TESTS
-    then
+    if [ "$RUN_TESTS" = "1" ]; then
         set +e
         make check
         set -e
@@ -77,8 +79,12 @@ buildsteps: |
     localedef -i zh_CN -f GB18030 zh_CN.GB18030
     localedef -i zh_HK -f BIG5-HKSCS zh_HK.BIG5-HKSCS
     localedef -i zh_TW -f UTF-8 zh_TW.UTF-8
+    
 
-    tar -xf ../../$(basename $PKG_TZDATA)
+    mkdir tzdata
+
+    tar -xf ../tzdata2025a.tar.gz -C tzdata
+    cd tzdata
 
     ZONEINFO=/usr/share/zoneinfo
     mkdir -p $ZONEINFO/{posix,right}

@@ -21,8 +21,7 @@ buildsteps: |
               --docdir=/usr/share/doc/expat-{version}
   make
 
-  if $RUN_TESTS
-  then
+  if [ "$RUN_TESTS" = "1" ]; then
       set +e
       make check
       set -e

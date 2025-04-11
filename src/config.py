@@ -48,6 +48,7 @@ class YamlConfig:
 
     # Bootstrapping
     bootstrap: bool = False
+    bootstrap_only: bool = False
     use_bootstrap_tar: bool = False
     bootstrap_tar: str = "mylfs-bootstrap.tar.gz"
 
@@ -65,12 +66,12 @@ class CLIConfig:
     debug: bool = False
     build_path: Optional[str] = None
     recipes_path: Optional[str] = None
-    bootstrap_enabled: bool = False
-    bootstrap_only: bool = False
-    phase: str = "phase1"
     install: bool = True
     install_drive: Optional[str] = None
     install_filesystem: Optional[str] = None
+    start_phase: Optional[int] = 0
+    start_package: Optional[str] = None
+    chroot: bool = False
 
 @dataclass
 class GlobalConfig:
@@ -88,6 +89,7 @@ class GlobalConfig:
     keep_logs: bool
     uefi: bool
     bootstrap: bool
+    bootstrap_only: bool
     use_bootstrap_tar: bool
     bootstrap_tar: str
     fdisk_uefi: Optional[str]
@@ -95,12 +97,14 @@ class GlobalConfig:
 
     # From CLIConfig
     debug: bool
+    chroot: bool
     build_path: str
     recipes_path: str
     install: bool
     install_drive: Optional[str]
     install_filesystem: Optional[str]
-    phase: str
-    bootstrap_enabled: bool
-    bootstrap_only: bool
+    start_phase: Optional[int] = 0
+    start_package: Optional[str] = None
+    
+    
 

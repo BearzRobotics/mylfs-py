@@ -16,8 +16,7 @@ critical: true
 buildsteps: |
   make BUILD_STATIC=no PREFIX=/usr
 
-  if $RUN_TESTS
-  then
+  if [ "$RUN_TESTS" = "1" ]; then
       set +e
       make -j1 check
       set -e

@@ -22,4 +22,4 @@ buildsteps: |
 
   make
   make DESTDIR=$LFS install
-  ln -sv bash $LFS/bin/sh
+  ln -sfv bash $LFS/bin/sh
