@@ -16,7 +16,6 @@ description: |
 phase: 2
 order: 18
 critical: true
-cleanup: false
 
 buildsteps: |
     tar -xf ../mpfr-4.2.1.tar.xz

@@ -12,6 +12,7 @@ description: |
 phase: 4
 order: 445
 critical: true
+cleanup: false
 
 buildsteps: |
     # In case you update the kernel you must install new headers before you build.

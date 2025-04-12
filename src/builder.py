@@ -29,6 +29,7 @@ import yaml
 from config import GlobalConfig
 from recipes import Recipe
 from util import ConsoleMSG 
+from buildphase import *
 
 # if phase is 0-3 ask if encourge user to delete build dir
 def checkIfBuildDirisEmpty(config: GlobalConfig):
@@ -94,8 +95,6 @@ def clean_up(config: GlobalConfig, recipe: Recipe):
     else:
         if (config.debug):
             print("nothing to delelte - Either static or cleanup = False")
-        
-    
 
 # if the first file of a list of urls 
 def extract_tarball(config: GlobalConfig, recipe: Recipe, phase: int):
@@ -314,7 +313,7 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
      
     for recipe in phase34R:
         pkg_count += 1
-        log_file = Path(f"{config.build_path}logs/p{phase + 1}_{pkg_count}_{recipe.name}_{recipe.version}.log")
+        log_file = Path(f"{config.build_path}logs/p5_{recipe.name}_{recipe.version}.log")
         log_file.parent.mkdir(parents=True, exist_ok=True)
         
         # if these works - It's really hacky
@@ -350,7 +349,7 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
                 
         if process.returncode == 0:
             # clean up extract source dir
-            #clean_up(config, recipe)
+            clean_up(config, recipe)
             ConsoleMSG.print_building(pkg_count, recipe.name)
         else:
             ConsoleMSG.failed(f"could not build package {recipe.name}")
@@ -368,7 +367,77 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
         ConsoleMSG.failed("What are you doing here! buildPhase32 is only for the second two\n phases. This should have been caught before it got this far!")
         exit(1) 
 
+# builder for phase 5
+# This will build one package
+def chroot_builder(config: GlobalConfig, recipe: Recipe, pkg_count: int): 
+    log_file = Path(f"{config.build_path}logs/p5_{recipe.name}_{recipe.version}.log")
+    log_file.parent.mkdir(parents=True, exist_ok=True)
+    
+    # if these works - It's really hacky
+    cmd = "set +h \n umask 022 \n set -e \n" + "cd " + str(get_chroot_cwd(config, recipe)) + "\n" + recipe.buildsteps
+    
+    # we need to setup some envs
+    env = os.environ.copy()
+    env["LFS"] = str(Path(config.build_path).resolve())
+    if (config.run_test):
+        env["RUN_TESTS"] = "1"
+
+    if (config.debug):
+        print("=== Environment Variables ===")
+        for key, value in env.items():
+            print(f"{key}={value}")
+    
+    
+    if recipe.tarball_path is None:
+        if (config.debug):
+            print("don't extract")
+    else:
+        extract_tarball(config, recipe, phase=4)
+        
+    process = subprocess.run(
+        ["chroot", env["LFS"],
+        "/usr/bin/env", "-i",
+        "HOME=/root",
+        "TERM=xterm",
+        "PS1=\\u:\\w\\$ ",
+        "PATH=/usr/bin:/usr/sbin",
+        "bash", "--login"
+        ],
+        env=env,
+        input=cmd,
+        #cwd=Path(get_chroot_cwd(config, recipe)),
+        text=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.STDOUT  # merge both
+    )
+        
+    with log_file.open("w") as f:    
+        # lets write sone log files
+        for line in process.stdout:
+            f.write(line)
+                
+    if process.returncode == 0:
+        clean_up(config, recipe)
+        ConsoleMSG.print_building(pkg_count, recipe.name)
+        return True
+    else:
+        ConsoleMSG.failed(f"could not build package {recipe.name}")
+        # by not having anything after this it allowed the build to continute after a
+        # failed package. This could be part of implementing not critical
+        if (recipe.critical):
+            return False
+        
 # rebuild all phase 4 and 5 packages with graph
 # dep support. -- May become it's own file.
-def buildPhase5():
+def buildAllPhase5():
+    pass
+
+
+# This takes a list of recipe names on builds them and their deps
+def buildSelectPhase5():
+    pass
+
+
+# This function should update the running system
+def updateSystem():
     pass

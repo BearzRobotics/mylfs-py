@@ -84,6 +84,7 @@ def main():
         
     chownBuildDir(config)
         
+    
     if (get_phase_state(config) == 0):
         ConsoleMSG.header("Phase 1 - Cross tools")
         try:
@@ -117,9 +118,12 @@ def main():
         ConsoleMSG.header("Phase 4 - LFS Base system")
         try:
             buildPhase34(config, recipes)
+            if (config.bootstrap_only):
+                cleanup(config)
+                exit(0)
         except Exception as e:
             ConsoleMSG.failed(f"Phase 4 has failed: {e}")
-            unmountTmpFs(config)
+            cleanup(config)
             return False
     
     if (get_phase_state(config) == 4):
@@ -128,12 +132,17 @@ def main():
             pass
         except Exception as e:
             ConsoleMSG.failed(f"Phase 5 has failed: {e}")
-            unmountTmpFs(config)
+            cleanup(config)
             return False
     
     # cleanup code
-    unmountTmpFs(config)
-    deleteLfs(config)
+    cleanup(config)
     
 if __name__ == "__main__":
     main()
+    
+    
+def cleanup(config: GlobalConfig):
+    unmountTmpFs(config)
+    deleteLfs(config)
+    

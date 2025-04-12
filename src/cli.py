@@ -86,10 +86,7 @@ def combine_configs(yaml_cfg: YamlConfig, cli_cfg: CLIConfig) -> GlobalConfig:
         disable_colors=yaml_cfg.disable_colors,
         keep_logs=yaml_cfg.keep_logs,
         uefi=yaml_cfg.uefi,
-        bootstrap=yaml_cfg.bootstrap,
         bootstrap_only=yaml_cfg.bootstrap_only,
-        use_bootstrap_tar=yaml_cfg.use_bootstrap_tar,
-        bootstrap_tar=yaml_cfg.bootstrap_tar,
         fdisk_uefi=yaml_cfg.fdisk_uefi,
         version_check=yaml_cfg.version_check,
 

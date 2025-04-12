@@ -46,16 +46,9 @@ build_path: "mnt/lfs/"
 # path to recipes dir
 recipes_path: "recipes/"
 
-# bootstrap
-# Can be overridded with a command line option
-bootstrap: true
-
 # only build the base system phase 1-4
 bootstrap_only: false
 
-# Tarball to a bootstrap tallbal
-use_bootstrap_tar: false
-bootstrap_tar: "mylfs-bootstap.tar.gz"
 
 
 

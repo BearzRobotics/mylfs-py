@@ -47,10 +47,7 @@ class YamlConfig:
     recipes_path: str = "recipes/"
 
     # Bootstrapping
-    bootstrap: bool = False
     bootstrap_only: bool = False
-    use_bootstrap_tar: bool = False
-    bootstrap_tar: str = "mylfs-bootstrap.tar.gz"
 
     # Fdisk options
     fdisk: Optional[str] = None
@@ -88,10 +85,7 @@ class GlobalConfig:
     disable_colors: bool
     keep_logs: bool
     uefi: bool
-    bootstrap: bool
     bootstrap_only: bool
-    use_bootstrap_tar: bool
-    bootstrap_tar: str
     fdisk_uefi: Optional[str]
     version_check: Optional[str]
 

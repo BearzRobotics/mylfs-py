@@ -12,7 +12,6 @@ description: |
 phase: 4
 order: 135
 critical: true
-cleanup: false
 
 buildsteps: |
     case $(uname -m) in

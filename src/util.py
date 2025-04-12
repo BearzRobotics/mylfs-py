@@ -24,6 +24,7 @@ import subprocess
 # My local imports
 from config import GlobalConfig
 
+
 class ConsoleMSG:
     green = "\x1b[32m"
     red = "\x1b[31m"
