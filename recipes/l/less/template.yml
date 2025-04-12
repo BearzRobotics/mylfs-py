@@ -12,7 +12,7 @@ description: |
   less is a free open-source file pager. It is used to read files, but not modify them.
   
 phase: 4
-order: 41
+order: 200
 critical: true
 
 builddeps: [ ncurses ]

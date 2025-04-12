@@ -12,7 +12,7 @@ description: |
   The GMP package contains math libraries. These have useful functions for arbitrary precision arithmetic.
 
 phase: 4
-order: 20
+order: 95
 critical: true
 
 buildsteps: |

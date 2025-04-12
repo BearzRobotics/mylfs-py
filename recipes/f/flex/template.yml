@@ -8,7 +8,7 @@ license: BSD-2-Clause
 summary: utility for generating programs that recognize patterns in text.
 
 phase: 4
-order: 13
+order: 60
 critical: true
 builddeps: [ m4 ]
 

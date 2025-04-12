@@ -10,7 +10,7 @@ description: |
   Make is a tool which controls the generation of executables and other non-source files of a program from the program's source files.
 
 phase: 4
-order: 69
+order: 340
 critical: true
 
 buildsteps: |

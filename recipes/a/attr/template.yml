@@ -12,7 +12,7 @@ description: |
   Contains the runtime environment required by programs that make use of extended attributes.
   
 phase: 4
-order: 23
+order: 110
 critical: true
 
 builddeps: [ acl ]

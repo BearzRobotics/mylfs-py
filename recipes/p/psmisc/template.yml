@@ -10,7 +10,7 @@ description: |
   Small utilities that use the /proc filesystem
   
 phase: 4
-order: 31
+order: 150
 critical: true
 
 buildsteps: |

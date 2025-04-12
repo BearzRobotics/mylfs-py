@@ -10,7 +10,7 @@ description: |
   The Libtool package contains the GNU generic library support script. It wraps the complexity of using shared libraries in a consistent, portable interface.
 
 phase: 4
-order: 36
+order: 175
 critical: true
 builddeps: [ automake, autoconf, m4 ]
 

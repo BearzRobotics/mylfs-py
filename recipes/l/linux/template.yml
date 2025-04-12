@@ -10,7 +10,7 @@ description: |
     The Linux kernel and modules, the core of the operating system
 
 phase: 4
-order: 89
+order: 445
 critical: true
 
 buildsteps: |
@@ -19,12 +19,16 @@ buildsteps: |
     # new kernel you don't need to bootstrap the whole distro. -- As phase 4 packages should
     # rebuild if you incriment the release from the last release.
     
+    LFS_VERSION=12.3
     make mrproper
+    
+    # offical LFS doesn't have us do this
+    # command requires rsync
     make headers
+    make headers_install 
 
-    make headers_install
-
-
+    
+    
     if [ -f ../config ]
     then
         cp ../config ./.config

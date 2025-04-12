@@ -10,7 +10,7 @@ description: |
   The ncurses library routines are a terminal-independent method of updating character screens with reasonable optimization. This package contains the shared libraries necessary to run programs compiled with ncurses.
 
 phase: 4
-order: 29
+order: 140
 critical: true
 
 buildsteps: |

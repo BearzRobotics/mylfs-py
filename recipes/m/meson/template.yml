@@ -9,7 +9,7 @@ summary: A high performance build system
 description: |
   Meson® is a project to create the best possible next-generation build system.
 phase: 4
-order: 57
+order: 280
 critical: true
 
 builddeps: [ python, ninja ]

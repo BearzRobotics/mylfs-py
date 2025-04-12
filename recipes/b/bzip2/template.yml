@@ -10,11 +10,10 @@ description: |
   contains programs for compressing and decompressing files. Compressing text files with bzip2 yields a much better compression percentage than with the traditional gzip.
 
 phase: 4
-order: 5
+order: 20
 critical: true
 
 buildsteps: |
-
   patch -Np1 -i ../patches/bzip2-1.0.8-install_docs-1.patch
 
   sed -i 's@\(ln -s -f \)$(PREFIX)/bin/@\1@' Makefile

@@ -10,7 +10,7 @@ description: |
   bash (sh-compatible shell) The GNU Bourne-Again SHell.  Bash is a sh-compatible command interpreter that executes commands read from the standard input or from a file.  Bash also incorporates useful features from the Korn and C shells (ksh and csh).  Bash is ultimately intended to be a conformant implementation of the IEEE Posix Shell and Tools specification (IEEE Working Group 1003.2). Bash must be present for the system to boot properly.
 
 phase: 4
-order: 35
+order: 170
 critical: true
 builddeps: [ readline, ncurses ]
 
@@ -23,16 +23,15 @@ buildsteps: |
 
   make
 
-
   if [ "$RUN_TESTS" = "1" ]; then
       set +e
-      su -s /usr/bin/expect tester << "EOF"
-      set timeout -1
-      spawn make tests
-      expect eof
-      lassign [wait] _ _ _ value
-      exit $value
-      EOF
+      su -s /usr/bin/expect tester -c '
+        set timeout -1
+        spawn make tests
+        expect eof
+        lassign [wait] _ _ _ value
+        exit $value
+      '
       set -e
   fi
 

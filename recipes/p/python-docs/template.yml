@@ -8,7 +8,7 @@ license: PSF License
 summary: General purpose cross platform scripting language
 
 phase: 4
-order: 52
+order: 255
 critical: false
 builddeps: [ python ]
 

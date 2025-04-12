@@ -10,7 +10,7 @@ description: |
     The Binutils package contains a linker, an assembler, and other tools for handling object files.
 
 phase: 4
-order: 19
+order: 90
 critical: true
 
 builddeps: [ zlib ]

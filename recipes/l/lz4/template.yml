@@ -1,4 +1,4 @@
-name: Lz4
+name: lz4
 version: 1.10.0
 release: 1
 url: https://github.com/lz4/lz4/releases/download/v1.10.0/lz4-1.10.0.tar.gz
@@ -10,7 +10,7 @@ license:
 description: |
   Lz4 is a lossless compression algorithm, providing compression speed greater than 500 MB/s per core. It features an extremely fast decoder, with speed in multiple GB/s per core. Lz4 can work with Zstandard to allow both algorithms to compress data faster.
 phase: 4
-order: 7
+order: 30
 critical: true
 
 buildsteps: |

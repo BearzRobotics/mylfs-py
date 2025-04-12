@@ -7,7 +7,7 @@ homepage: https://www.iana.org/protocols
 summary: Provides data for network services and protocols.
 
 phase: 4
-order: 2
+order: 5
 critical: true
 
 buildsteps: |

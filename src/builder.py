@@ -17,6 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from pathlib import Path
 from typing import List, Optional
+from graphlib import TopologicalSorter
 import subprocess
 import shutil
 import os
@@ -32,14 +33,25 @@ from util import ConsoleMSG
 # if phase is 0-3 ask if encourge user to delete build dir
 def checkIfBuildDirisEmpty(config: GlobalConfig):
     build_dir = Path(config.build_path)
+    EXCLUDE_DIRS = {'dev', 'sys', 'run', 'proc'}
+    
     if (build_dir.exists() and any(build_dir.iterdir())):
         ConsoleMSG.warn(f"Your build dir: {build_dir} is not empty! You should start fresh when building from scratch")
         response = input("Delete contents? [y/n] ")
         if response.lower() == 'y':
-            shutil.rmtree(build_dir)
-            build_dir.mkdir(parents=True, exist_ok=True)
+            for item in build_dir.iterdir():
+                if item.name in EXCLUDE_DIRS:
+                    ConsoleMSG.warn(f"Skipping bind-mounted dir: {item}")
+                    continue
+                try:
+                    if item.is_dir():
+                        shutil.rmtree(item)
+                    else:
+                        item.unlink()
+                except Exception as e:
+                    ConsoleMSG.error(f"Failed to delete {item}: {e}")
         else:
-             ConsoleMSG.warn("Continuing at your own risk!")
+            ConsoleMSG.warn("Continuing at your own risk!")
 
 # recipes/phase.yaml
 def get_phase_state(config: GlobalConfig) -> int:
@@ -244,8 +256,9 @@ def buildPhase12(config: GlobalConfig, recipes: List[Recipe]):
             ConsoleMSG.print_building(pkg_count, recipe.name)
         else:
             ConsoleMSG.failed(f"could not build package {recipe.name}")
-            exit(1) # These early builds can't progress if a package won't build right.
-    
+            # by not having anything after this it allowed the build to continute after a
+            # failed package. This could be part of implementing not critical
+            return False 
 
     
     # If it made it this far without crashing or me exit() set phase
@@ -301,7 +314,7 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
      
     for recipe in phase34R:
         pkg_count += 1
-        log_file = Path(f"{config.build_path}logs/p{phase + 1}_{recipe.name}_{recipe.version}.log")
+        log_file = Path(f"{config.build_path}logs/p{phase + 1}_{pkg_count}_{recipe.name}_{recipe.version}.log")
         log_file.parent.mkdir(parents=True, exist_ok=True)
         
         # if these works - It's really hacky
@@ -341,7 +354,10 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
             ConsoleMSG.print_building(pkg_count, recipe.name)
         else:
             ConsoleMSG.failed(f"could not build package {recipe.name}")
-            exit(1) # These early builds can't progress if a package won't build right.
+            # by not having anything after this it allowed the build to continute after a
+            # failed package. This could be part of implementing not critical
+            # return False 
+            
     
     # If it made it this far without crashing or me exit() set phase
     if (phase == 2):

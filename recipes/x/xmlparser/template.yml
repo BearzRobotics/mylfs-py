@@ -12,7 +12,7 @@ description: |
   XML parser
 
 phase: 4
-order: 43
+order: 210
 critical: true
 builddeps: [ perl ]
 

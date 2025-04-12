@@ -10,7 +10,7 @@ description: |
   Core library of flit a simple python packaging tool
 
 phase: 4
-order: 53
+order: 260
 critical: true
 
 buildsteps: |

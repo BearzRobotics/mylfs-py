@@ -10,7 +10,7 @@ description: |
   gzip (GNU zip) is a compression utility designed to replace compress. gzip was written by Jean-loup Gailly (jloup@gzip.org) and Mark Adler.
 
 phase: 4
-order: 64
+order: 315
 critical: true
 
 buildsteps: |

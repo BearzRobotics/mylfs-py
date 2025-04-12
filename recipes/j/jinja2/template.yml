@@ -9,7 +9,7 @@ summary: A powerful templating engine for Python
 description: |
   A powerful templating engine for Python
 phase: 4
-order: 75
+order: 370
 critical: true
 
 buildsteps: |

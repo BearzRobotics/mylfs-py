@@ -10,7 +10,7 @@ description: |
   The MPFR package contains functions for multiple precision math.
   
 phase: 4
-order: 21
+order: 100
 critical: true
 builddeps: [ gmp ]
 

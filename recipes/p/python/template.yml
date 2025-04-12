@@ -8,7 +8,7 @@ license: PSF License
 summary: General purpose cross platform scripting language
 
 phase: 4
-order: 51
+order: 250
 critical: true
 builddeps: [ libffi, openssl, zlib ]
 

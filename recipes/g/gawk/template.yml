@@ -10,7 +10,7 @@ description: |
   gawk (GNU awk) is a tool used for data extraction and reporting from files, often used in file manipulation.
 
 phase: 4
-order: 61
+order: 300
 critical: true
 
 builddeps: [ readline ]

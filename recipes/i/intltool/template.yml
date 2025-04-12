@@ -10,7 +10,7 @@ description: |
   The Intltool is an internationalization tool used for extracting translatable strings from source files.
 
 phase: 4
-order: 44
+order: 215
 critical: true
 
 builddeps: [ perl, xmlparser ]

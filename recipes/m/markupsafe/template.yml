@@ -9,7 +9,7 @@ summary: A small Python library used to escape strings in HTML/XML.
 description: |
   A small Python library used to escape strings in HTML/XML.
 phase: 4
-order: 74
+order: 365
 critical: true
 
 buildsteps: |

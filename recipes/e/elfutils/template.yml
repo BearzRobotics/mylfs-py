@@ -11,7 +11,7 @@ summary:  Utilities and library for manipulating ELF files
 description: |
   The elfutils package contains set of utilities and libraries for handling ELF (Executable and Linkable Format) files.
 phase: 4
-order: 49
+order: 240
 critical: true
 
 buildsteps: |

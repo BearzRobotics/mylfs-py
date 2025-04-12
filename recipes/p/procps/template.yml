@@ -9,7 +9,7 @@ summary: The Procps-ng package contains programs for monitoring processes.
 description: |
   The Procps-ng package contains programs for monitoring processes.
 phase: 4
-order: 80
+order: 395
 critical: true
 builddeps: [ ncurses ]
 

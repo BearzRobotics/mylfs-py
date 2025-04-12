@@ -12,7 +12,7 @@ description: |
   XZ Utils is a free data compression software with high compression ratio. XZ Utils is the successor to LZMA.
 
 phase: 4
-order: 6
+order: 25
 critical: true
 
 buildsteps: |

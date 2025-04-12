@@ -11,7 +11,7 @@ summary:  GRUB Boot Loader
 description: |
   GRUB Boot Loader
 phase: 4
-order: 65
+order: 320
 critical: true
 builddeps: [ freetype, libunistring ]
 
@@ -27,5 +27,3 @@ buildsteps: |
 
   make install
   mv /etc/bash_completion.d/grub /usr/share/bash-completion/completions
-
-  grub-install $LOOP --target i386-pc

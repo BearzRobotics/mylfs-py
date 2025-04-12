@@ -9,7 +9,7 @@ summary: The Kbd package contains key-table files, console fonts, and keyboard u
 description: |
   The Kbd package contains key-table files, console fonts, and keyboard utilities
 phase: 4
-order: 67
+order: 330
 critical: true
 
 buildsteps: |

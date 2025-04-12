@@ -12,24 +12,17 @@ description: |
   Linux kernel module management utilities
   
 phase: 4
-order: 48
+order: 281
 critical: true
 builddeps: [ zlib, xz, zstd ]
 
 buildsteps: |
-  ./configure --prefix=/usr     \
-              --sysconfdir=/etc \
-              --with-openssl    \
-              --with-xz         \
-              --with-zstd       \
-              --with-zlib       \
-              --disable-manpages
+  mkdir -p build
+  cd       build
 
-  make
-
-  make install
-
-  for target in depmod insmod modinfo modprobe rmmod; do
-    ln -sf ../bin/kmod /usr/sbin/$target
-    rm -f /usr/bin/$target
-  done
+  meson setup --prefix=/usr ..    \
+              --sbindir=/usr/sbin \
+              --buildtype=release \
+              -D manpages=false
+  ninja
+  ninja install

@@ -10,7 +10,7 @@ description: |
   Bison is a general-purpose parser generator that converts an annotated context-free grammar into a deterministic LR or generalized LR (GLR) parser employing LALR(1) parser tables. As an experimental feature, Bison can also generate IELR(1) or canonical LR(1) parser tables. It is upward compatible with Yacc
 
 phase: 4
-order: 33
+order: 160
 critical: true
 
 builddeps: [ m4 ]

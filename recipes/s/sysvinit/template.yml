@@ -9,7 +9,7 @@ summary: Script based inti system for Linux.
 description: |
   A legcy script based init system for Linux. 
 phase: 4
-order: 84
+order: 415
 critical: true
 
 buildsteps: |

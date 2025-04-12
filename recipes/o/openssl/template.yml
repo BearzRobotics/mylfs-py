@@ -9,7 +9,7 @@ summary:
 description: |
 
 phase: 4
-order: 47
+order: 230
 critical: true
 builddeps: [ perl ]
 

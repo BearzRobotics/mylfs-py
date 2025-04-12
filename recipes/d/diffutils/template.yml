@@ -10,7 +10,7 @@ description: |
   The Diffutils package contains programs that show the differences between files or directories.
 
 phase: 4
-order: 60
+order: 295
 critical: true
 
 buildsteps: |

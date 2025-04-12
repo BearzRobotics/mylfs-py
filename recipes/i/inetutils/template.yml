@@ -10,7 +10,7 @@ description: |
   A collection of common network programs
 
 phase: 4
-order: 40
+order: 195
 critical: true
 builddeps: [ readline ]
 

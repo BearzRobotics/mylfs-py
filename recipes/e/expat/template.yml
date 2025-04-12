@@ -12,7 +12,7 @@ description: |
   The Expat package contains a stream oriented C library for parsing XML.
   
 phase: 4
-order: 39
+order: 190
 critical: true
 
 buildsteps: |

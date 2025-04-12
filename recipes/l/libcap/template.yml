@@ -9,7 +9,7 @@ summary: User-space interfaces to the POSIX 1003.1e capabilities available in Li
 description: |
   User-space interfaces to the POSIX 1003.1e capabilities available in Linux kernels
 phase: 4
-order: 25
+order: 120
 critical: true
 
 buildsteps: |

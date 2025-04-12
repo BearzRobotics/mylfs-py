@@ -90,7 +90,7 @@ def main():
             buildPhase12(config, recipes)
         except Exception as e:
             ConsoleMSG.failed(f"Phase 1 has failed: {e}")
-            deleteLfs() # we shouldn't keep temp accounts around
+            deleteLfs(config) # we shouldn't keep temp accounts around
             return False
         
     if (get_phase_state(config) == 1):
@@ -99,13 +99,13 @@ def main():
             buildPhase12(config, recipes)
         except Exception as e:
             ConsoleMSG.failed(f"Phase 2 has failed: {e}")
-            deleteLfs()
+            deleteLfs(config)
             return False
     
     if (get_phase_state(config) == 2):
         ConsoleMSG.header("Phase 3 - Temp System")
         try:
-            deleteLfs() # not needed for phase 3 - 5
+            deleteLfs(config) # not needed for phase 3 - 5
             mountTmpFs(config)
             buildPhase34(config, recipes)
         except Exception as e:
@@ -133,7 +133,7 @@ def main():
     
     # cleanup code
     unmountTmpFs(config)
-    deleteLfs()
+    deleteLfs(config)
     
 if __name__ == "__main__":
     main()

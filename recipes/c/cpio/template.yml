@@ -9,7 +9,7 @@ summary: The cpio package contains tools for archiving.
 description: |
   The cpio package contains tools for archiving.
 phase: 4
-order: 87
+order: 430
 critical: true
 
 buildsteps: |

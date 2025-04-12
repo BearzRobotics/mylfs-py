@@ -9,7 +9,7 @@ summary: login and password tools
 description: |
   Utilities for managing shadow password files and user/group accounts
 phase: 4
-order: 27
+order: 130
 critical: true
 builddeps: [ libcap, attr, acl ]
 

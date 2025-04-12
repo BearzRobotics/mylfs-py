@@ -47,9 +47,8 @@ buildsteps: |
 
   ln -svf /proc/self/mounts /etc/mtab
   
+  # tester is already in my static shadow file
   echo "creating test user for later in the book. Will be cleaned up at end of phase 4"
-  echo "tester:x:101:101::/home/tester:/bin/bash" >> /etc/passwd
-  echo "tester:x:101:" >> /etc/group
   install -o tester -d /home/tester
 
   touch /var/log/{btmp,lastlog,faillog,wtmp}

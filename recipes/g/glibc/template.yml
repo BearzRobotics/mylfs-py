@@ -1,9 +1,8 @@
 name: glibc
 version: 2.41.0
 release: 1
-url: 
-    - https://ftp.gnu.org/gnu/glibc/glibc-2.41.tar.xz
-    - https://www.iana.org/time-zones/repository/releases/tzdata2025a.tar.gz
+url: https://ftp.gnu.org/gnu/glibc/glibc-2.41.tar.xz
+
 
 homepage: https://www.gnu.org/software/libc/
 
@@ -13,7 +12,7 @@ description: |
      This package contains the GNU C libraries and header files.  The GNU C library was written originally by Roland McGrath, and is currently maintained by Ulrich Drepper.  Some parts of the library were contributed or worked on by other people. You'll need this package to compile programs.
 
 phase: 4
-order: 3
+order: 10
 critical: true
 
 buildsteps: |
@@ -79,25 +78,5 @@ buildsteps: |
     localedef -i zh_CN -f GB18030 zh_CN.GB18030
     localedef -i zh_HK -f BIG5-HKSCS zh_HK.BIG5-HKSCS
     localedef -i zh_TW -f UTF-8 zh_TW.UTF-8
-    
 
-    mkdir tzdata
 
-    tar -xf ../tzdata2025a.tar.gz -C tzdata
-    cd tzdata
-
-    ZONEINFO=/usr/share/zoneinfo
-    mkdir -p $ZONEINFO/{posix,right}
-
-    for tz in etcetera southamerica northamerica europe africa antarctica  \
-            asia australasia backward; do
-        zic -L /dev/null   -d $ZONEINFO       ${tz}
-        zic -L /dev/null   -d $ZONEINFO/posix ${tz}
-        zic -L leapseconds -d $ZONEINFO/right ${tz}
-    done
-
-    cp zone.tab zone1970.tab iso3166.tab $ZONEINFO
-    zic -d $ZONEINFO -p America/New_York
-    unset ZONEINFO
-
-    ln -sf /usr/share/zoneinfo/America/New_York /etc/localtime

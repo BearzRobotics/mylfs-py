@@ -9,7 +9,7 @@ summary: Automake is a tool for automatically generating `Makefile.in' files com
 description: |
   Automake is a tool for automatically generating `Makefile.in' files compliant with the GNU Coding Standards
 phase: 4
-order: 46
+order: 225
 critical: true
 builddeps: [ autoconf, perl ]
 

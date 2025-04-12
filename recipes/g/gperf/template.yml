@@ -10,7 +10,7 @@ description: |
   Gperf generates a perfect hash function from a key set
   
 phase: 4
-order: 38
+order: 185
 critical: true
 
 buildsteps: |

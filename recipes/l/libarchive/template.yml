@@ -9,7 +9,7 @@ summary: bsd compression and uncompression tools (unzip)
 description: |
   The libarchive library provides a single interface for reading/writing various compression formats. (bsdcat, bsdcpio, bsdtar, and bsdunzip)
 phase: 4
-order: 85
+order: 420
 critical: true
 builddeps: [ libxml2, lzo, nettle, pcre2 ]
 buildsystem: make

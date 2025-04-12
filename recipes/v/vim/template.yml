@@ -9,7 +9,7 @@ summary: Vim is a prowerful CLI text editor
 description: |
   Vim is a prowerful CLI text editor 
 phase: 4
-order: 73
+order: 360
 critical: true
 builddeps: [ ncurses ]
 

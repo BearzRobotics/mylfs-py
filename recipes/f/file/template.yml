@@ -10,7 +10,7 @@ description: |
   file is a command used to guess the "file type" of a file.  It reads the content to determine the data.
 
 phase: 4
-order: 9
+order: 40
 critical: true
 
 builddeps: [ zlib ]

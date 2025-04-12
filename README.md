@@ -159,11 +159,34 @@ builddeps:          # if need
 
 buildsteps: |
 
+# grub2
+While grub2 is built and installed as a package. You must chroot and create a grubconfig and intstall
+grub2 to your drive.
+
+example grubb config in /boot/grub/grub.cfg
+---
+set default=0
+set timeout=5
+
+insmod ext2
+
+menuentry "GNU/Linux, Linux $KERNELVERS-lfs-$LFS_VERSION" {
+  search --no-floppy --label $LFSROOTLABEL --set=root
+  linux   /boot/vmlinuz-$KERNELVERS-lfs-$LFS_VERSION rootwait root=PARTUUID=$LFSPARTUUID ro net.ifnames=0 biosdevname=0
+}
+
+---
+
+
+# /etc fstab & hosts
+These files need to be properly setup. 
+There are fiels placed there. However, they have {need to be replaced}
 
 
 # build deps
 pip3 install pyyaml
 pip3 install requests
+pip3 install sqlalchemy
 
 # runtime deps
 [] - Rsync

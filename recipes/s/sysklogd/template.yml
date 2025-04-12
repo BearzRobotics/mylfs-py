@@ -9,7 +9,7 @@ summary: Tools for logging
 description: |
   The Sysklogd package contains programs for logging system messages, such as those emitted by the kernel when unusual things happen.
 phase: 4
-order: 83
+order: 410
 critical: true
 
 buildsteps: |

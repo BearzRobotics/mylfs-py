@@ -91,9 +91,6 @@ def load_recipe(template_path: Path, config: GlobalConfig) -> Recipe:
         print(f"load_recipe: {tarball_names}")
         print(f"load_recipe: {main_tarball_name}")
         print(f"load_recipe: {main_tarball_path}")
-
-
-    
     
     # set recipe_root path. If there is a url it points to source if not it points to static.
     # source is created with untaring the archive. -- static must be provided by the packager

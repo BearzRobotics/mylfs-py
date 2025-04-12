@@ -9,7 +9,7 @@ summary: Setuptools is a tool used to download, build, install, upgrade, and uni
 description: |
   Setuptools is a tool used to download, build, install, upgrade, and uninstall Python packages.
 phase: 4
-order: 55
+order: 270
 critical: true
 builddeps: [python-wheel]
 

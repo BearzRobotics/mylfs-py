@@ -56,7 +56,7 @@ def createLfs():
             
 
 # delete lfs account
-def deleteLfs():
+def deleteLfs(config: GlobalConfig):
     input_command = """
     groupdel lfs 
     userdel -r lfs
@@ -82,7 +82,8 @@ def deleteLfs():
                 f.close()
             
             if result.returncode == 0:
-                ConsoleMSG.passed("Removed lfs user and group")
+                if (config.debug):
+                    ConsoleMSG.passed("Removed lfs user and group")
                 return True
             else:
                 ConsoleMSG.failed("Could not remove lfs user and group")

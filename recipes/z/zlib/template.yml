@@ -8,7 +8,7 @@ license: zlib
 summary: compression and decompression routines used by some programs.
 
 phase: 4
-order: 4
+order: 15
 critical: true
 
 buildsteps: |

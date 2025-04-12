@@ -9,7 +9,7 @@ summary: Scripts from LFS 12.3 to allow the system to boot
 description: |
   Scripts from LFS 12.3 for SysVInit to allow the system to boot
 phase: 4
-order: 88
+order: 440
 critical: true
 
 buildsteps: |

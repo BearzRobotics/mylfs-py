@@ -22,47 +22,50 @@ from dataclasses import dataclass, field
 from typing import Optional, Dict, List
 
 # 3rd party
-import yaml
+from sqlalchemy import Column, String, Boolean, Integer, create_engine
+from sqlalchemy.orm import declarative_base, sessionmaker
 
 # My local imports
 from config import GlobalConfig
 from recipes import Recipe
 from util import ConsoleMSG 
 
-@dataclass
-class BuildEntry:
-    name: str
-    version: str
-    revision: int
-    built: bool
-    builddeps: Optional[str] = None # list of builddeps
-    rundeps:  Optional[str] = None
-    package: Optional[str] = None  # Only used for phase5
+Base = declarative_base()
+
+class BuildEntry(Base):
+    __tablename__ = 'build_entries'
+
+    id = Column(Integer, primary_key=True)
+    name = Column(String, index=True)
+    version = Column(String)
+    revision = Column(Integer)
+    built = Column(Boolean)
+    phase = Column(Integer)
+    builddeps = Column(String, nullable=True)
+    rundeps = Column(String, nullable=True)
+    package = Column(String, nullable=True)
+
+def load_datebase(config: GlobalConfig):
+    BuildSP = Path(config.recipes_path) / "build_state.db"
+    engine = create_engine(f'sqlite:///{BuildSP}')
+    Base.metadata.create_all(engine)
+    Session = sessionmaker(bind=engine)
+    return Session()
 
 
-@dataclass
-class BuildState:
-    phase1: Dict[str, BuildEntry] = field(default_factory=dict)
-    phase2: Dict[str, BuildEntry] = field(default_factory=dict)
-    phase3: Dict[str, BuildEntry] = field(default_factory=dict)
-    phase4: Dict[str, BuildEntry] = field(default_factory=dict)
-    phase5: Dict[str, BuildEntry] = field(default_factory=dict)
+def add_entry(session, entry: BuildEntry):
+    session.add(entry)
+    session.commit()
 
-# checks if file exist
-# recipes/build_state.yaml
-# on a fresh build it will be empty
-def buildstateExist(config: GlobalConfig):
-    pass
+def get_unbuilt_phase(session, phase_num: int):
+    return session.query(BuildEntry).filter_by(phase=phase_num, built=False).all()
 
-# loads the files into a list<BuildState>
-def loadBuildState():
-    pass
+def was_built(session, name: str, phase: int):
+    return session.query(BuildEntry).filter_by(name=name, phase=phase, built=True).first() is not None
 
-# takes a list[BuildState] and writes it to the file.
-def writeBuildState():
-    pass
 
-# takes a phase # and a package name
-# returns true if in there
-def searchBuildState():
-    pass
+def mark_built(session, name: str, phase: int):
+    entry = session.query(BuildEntry).filter_by(name=name, phase=phase).first()
+    if entry:
+        entry.built = True
+        session.commit()

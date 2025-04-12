@@ -9,7 +9,7 @@ summary: Tools for displaying and managing man pages
 description: |
   Tools for displaying and managing man pages
 phase: 4
-order: 79
+order: 390
 critical: true
 
 builddeps: [ gdbm, libpipeline, less ]

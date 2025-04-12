@@ -10,7 +10,7 @@ description: |
   This package contains the libacl.so dynamic library containing the POSIX 1003.1e draft standard 17 functions for manipulating access control lists.
 
 phase: 4
-order: 24
+order: 115
 critical: true
 
 buildsteps: |

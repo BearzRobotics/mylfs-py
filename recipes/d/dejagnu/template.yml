@@ -10,7 +10,7 @@ description: |
   DejaGnu is a framework for testing other programs. Its purpose is to provide a single front end for all tests. Think of it as a custom library of Tcl procedures crafted to support writing a test harness. A test harness is the testing infrastructure that is created to support a specific program or tool. Each program can have multiple testsuites, all supported by a single test harness.
 
 phase: 4
-order: 17
+order: 80
 critical: true
 
 buildsteps: |
@@ -22,7 +22,7 @@ buildsteps: |
   makeinfo --plaintext       -o doc/dejagnu.txt  ../doc/dejagnu.texi
 
   make install
-  install -dm755  /usr/share/doc/dejagnu-{version:}
+  install -dm755  /usr/share/doc/dejagnu-{version}
   install -m644   doc/dejagnu.{html,txt} /usr/share/doc/dejagnu-{version}
 
   if [ "$RUN_TESTS" = "1" ]; then

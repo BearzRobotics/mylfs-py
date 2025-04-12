@@ -9,7 +9,7 @@ summary: Ext[2-4] filesystem utils
 description: |
   The E2fsprogs package contains the utilities for handling the ext2 file system. It also supports the ext3 and ext4 journaling file systems.
 phase: 4
-order: 82
+order: 405
 critical: true
 
 builddeps: [ util-linux ]

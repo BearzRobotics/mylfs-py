@@ -10,7 +10,7 @@ description: |
   findutils are basic directory searching tools and are often used with other programs for directory search and file locating.
 
 phase: 4
-order: 62
+order: 305
 critical: true
 
 buildsteps: |

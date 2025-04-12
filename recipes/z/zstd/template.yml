@@ -10,7 +10,7 @@ description: |
   Zstandard is a real-time compression algorithm, providing high compression ratios. It offers a very wide range of compression / speed trade-offs, while being backed by a very fast decoder.
 
 phase: 4
-order: 8
+order: 35
 critical: true
 
 buildsteps: |

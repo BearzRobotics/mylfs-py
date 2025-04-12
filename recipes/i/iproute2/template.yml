@@ -9,7 +9,7 @@ summary: Utilities for controlling TCP / IP networking
 description: |
   Utilities for controlling TCP / IP networking
 phase: 4
-order: 66
+order: 325
 critical: true
 
 builddeps: [ libelf ]

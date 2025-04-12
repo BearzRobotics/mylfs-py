@@ -9,7 +9,7 @@ summary: Standard GNU database libraries
 description: |
   GNU dbm is a set of database routines that use extensible hashing. It works similar to the standard UNIX dbm routines.
 phase: 4
-order: 37
+order: 180
 critical: true
 
 buildsteps: |
