@@ -3,8 +3,7 @@ version: 1.10.0
 release: 1
 url: https://github.com/lz4/lz4/releases/download/v1.10.0/lz4-1.10.0.tar.gz
 homepage: https://lz4.org/
-
-license: 
+license:
   - lib BSD 2-Clause license
   - all other GPL-2.0-or-later
 description: |
@@ -12,7 +11,6 @@ description: |
 phase: 4
 order: 30
 critical: true
-
 buildsteps: |
   make BUILD_STATIC=no PREFIX=/usr
 
@@ -23,3 +21,4 @@ buildsteps: |
   fi
 
   make BUILD_STATIC=no PREFIX=/usr install
+builddeps: []

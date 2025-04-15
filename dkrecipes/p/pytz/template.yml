@@ -1,0 +1,14 @@
+name: pytz
+version: 2025.1
+release: 1
+url: https://files.pythonhosted.org/packages/source/p/pytz/pytz-2025.1.tar.gz
+homepage: https://pythonhosted.org/pytz/
+license: MIT
+summary: World timezone definitions for Python
+description: |
+  pytz brings the Olson tz database into Python. It allows accurate and cross-platform timezone calculations and is often used with datetime for timezone-aware arithmetic.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+buildsteps: |-
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user pytz

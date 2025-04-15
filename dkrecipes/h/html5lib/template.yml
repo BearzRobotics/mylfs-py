@@ -1,0 +1,14 @@
+name: html5lib
+version: 1.1
+release: 1
+url: https://files.pythonhosted.org/packages/source/h/html5lib/html5lib-1.1.tar.gz
+homepage: https://github.com/html5lib/html5lib-python
+license: MIT
+summary: Pure Python HTML5 parser and tokenizer
+description: |
+  html5lib is a pure Python implementation of the HTML5 parsing algorithm. It parses HTML the same way as modern web browsers do, and is designed to produce the same DOM across platforms.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel, webencodings, python-six]
+buildsteps: |-
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user html5lib

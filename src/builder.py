@@ -482,18 +482,18 @@ def buildAllPhase5(config: GlobalConfig, recipes: List[Recipe]):
             else:
                 # Otherwise, if it was already built and no new release skip it.
                 # .ljust(20) built in str method to left justify optons
-                print(f"    [SKIP] {recipe.name.ljust(20)}: already built")
+                print(f"    [SKIP] {recipe.name.ljust(33)}: already built")
                 #  I need to preserved the order that It would have built
-                pkg_count += 1 
-                log_file = Path(f"{config.build_path}logs/p5_{pkg_count}_{recipe.name}_SKIPPED.log")
-                log_file.parent.mkdir(parents=True, exist_ok=True)
-                with log_file.open("w") as f:    
-                    f.write("skip")
+                #pkg_count += 1 
+                #log_file = Path(f"{config.build_path}logs/p5_{pkg_count}_{recipe.name}_SKIPPED.log")
+                #log_file.parent.mkdir(parents=True, exist_ok=True)
+                #with log_file.open("w") as f:    
+                #    f.write("skip")
                 continue
         
         failed_deps = all_deps_built(recipe, session)
         if failed_deps:
-            print(f"    [SKIP] {recipe.name.ljust(20)}: missing/failed deps -> \x1b[33m {', '.join(failed_deps)}\x1b[0m ")
+            print(f"    [SKIP] {recipe.name.ljust(33)}: missing/failed deps -> \x1b[33m {', '.join(failed_deps)}\x1b[0m ")
             continue
         
         entry = BuildEntry(

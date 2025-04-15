@@ -3,20 +3,17 @@ version: 4.9
 release: 1
 url: https://ftp.gnu.org/gnu/sed/sed-4.9.tar.xz
 homepage: https://www.gnu.org/software/sed/
-
-license: 
-summary: 
-description: |
-
-
+license:
+summary:
+description: ""
 phase: 2
 order: 13
 critical: true
-
-buildsteps: |
+buildsteps: |-
   ./configure --prefix=/usr   \
               --host=$LFS_TGT \
               --build=$(./build-aux/config.guess)
 
   make
   make DESTDIR=$LFS install
+builddeps: []

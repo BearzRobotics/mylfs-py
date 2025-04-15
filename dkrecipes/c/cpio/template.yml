@@ -3,7 +3,6 @@ version: 2.15
 release: 1
 url: https://ftp.gnu.org/gnu/cpio/cpio-2.15.tar.bz2
 homepage: https://www.gnu.org/software/cpio/
-
 license: GPL-3.0-or-later
 summary: The cpio package contains tools for archiving.
 description: |
@@ -11,9 +10,7 @@ description: |
 phase: 4
 order: 430
 critical: true
-
 #builddeps: [make, glibc]
-
 buildsteps: |
   ./configure --prefix=/usr \
               --enable-mt   \
@@ -29,3 +26,4 @@ buildsteps: |
                       /usr/share/doc/cpio-{version}/html &&
   install -v -m644    doc/cpio.{html,txt} \
                       /usr/share/doc/cpio-{version}
+builddeps: []

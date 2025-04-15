@@ -1,0 +1,14 @@
+name: ply
+version: 3.11
+release: 1
+url: https://files.pythonhosted.org/packages/source/p/ply/ply-3.11.tar.gz
+homepage: https://www.dabeaz.com/ply/
+license: BSD-3-Clause
+summary: Python Lex-Yacc parsing tool
+description: |
+  PLY is a Python implementation of the commonly used Lex and Yacc parsing tools. It provides a straightforward way to build parsers and lexers in Python using a familiar interface.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user ply

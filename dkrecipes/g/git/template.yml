@@ -1,23 +1,18 @@
 name: git
 version: 2.49.0
 release: 1
-url: 
-    - https://www.kernel.org/pub/software/scm/git/git-2.49.0.tar.xz
-    - https://www.kernel.org/pub/software/scm/git/git-manpages-2.49.0.tar.xz
+url:
+  - https://www.kernel.org/pub/software/scm/git/git-2.49.0.tar.xz
+  - https://www.kernel.org/pub/software/scm/git/git-manpages-2.49.0.tar.xz
 homepage: https://git-scm.com/
-
-
 license: GPL-2.0-only, LGPL-2.1-or-later
-summary:  fast, scalable, distributed revision control system
+summary: fast, scalable, distributed revision control system
 description: |
   Git is a fast, scalable, distributed revision control system with an
   unusually rich command set that provides both high-level operations
 phase: 5
-
-
 builddeps: [make, glibc, curl, python]
-
-buildsteps: |
+buildsteps: |-
   ./configure --prefix=/usr \
               --with-gitconfig=/etc/gitconfig \
               --with-python=python3 &&

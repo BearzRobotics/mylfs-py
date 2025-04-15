@@ -3,7 +3,6 @@ version: 1.23.0
 release: 1
 url: https://ftp.gnu.org/gnu/groff/groff-1.23.0.tar.gz
 homepage: https://www.gnu.org/software/groff/
-
 license: GPL-3.0-or-later
 summary: groff (Typesetting package to read formatted files)
 description: |
@@ -11,8 +10,7 @@ description: |
 phase: 4
 order: 310
 critical: true
-builddeps: [ make, glibc ]
-
+builddeps: [make, glibc]
 buildsteps: |
   PAGE=letter ./configure --prefix=/usr
 

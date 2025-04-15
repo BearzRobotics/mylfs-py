@@ -3,15 +3,12 @@ version: 3.13.2
 release: 1
 url: https://www.python.org/ftp/python/3.13.2/Python-3.13.2.tar.xz
 homepage: https://www.python.org/
-
 license: PSF License
 summary: General purpose cross platform scripting language
-
 phase: 4
 order: 250
 critical: true
-builddeps: [ libffi, openssl, zlib ]
-
+builddeps: [libffi, openssl, zlib, sqlite]
 buildsteps: |
   # added --with-ensurepip=yes \
 
@@ -22,7 +19,7 @@ buildsteps: |
               --enable-optimizations
 
   make
-  
+
   if [ "$RUN_TESTS" = "1" ]; then
       set +e
       make test TESTOPTS="--timeout 120"

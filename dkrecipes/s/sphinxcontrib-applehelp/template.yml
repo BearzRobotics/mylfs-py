@@ -1,0 +1,14 @@
+name: sphinxcontrib-applehelp
+version: 2.0.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/s/sphinxcontrib-applehelp/sphinxcontrib_applehelp-2.0.0.tar.gz
+homepage: https://www.sphinx-doc.org/
+license: BSD-2-Clause
+summary: QtHelp builder for Sphinx
+description: |
+  sphinxcontrib-qthelp is a Sphinx extension that adds support for generating Qt Help Collection Project (QCH) files, used in Qt Creator and other Qt tools for documentation.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user sphinxcontrib-applehelp

@@ -195,6 +195,8 @@ builddeps:          # if need
 buildsteps: |
 
 # grub2
+https://www.linuxfromscratch.org/lfs/view/12.3-rc2/chapter10/grub.html
+
 While grub2 is built and installed as a package. You must chroot and create a grubconfig and intstall
 grub2 to your drive.
 

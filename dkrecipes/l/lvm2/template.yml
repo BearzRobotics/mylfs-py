@@ -3,7 +3,6 @@ version: 2.03.31
 release: 1
 url: https://sourceware.org/ftp/lvm2/LVM2.2.03.31.tgz
 homepage: https://sourceware.org/lvm2/
-
 license: GPL-3.0-or-later
 summary: The LVM2 package is a package that manages logical partitions.
 description: |
@@ -11,20 +10,4 @@ description: |
   multiple physical disks and disk partitions and provides for dynamic growing or shrinking of logical partitions.
 phase: 5
 builddeps: [glibc, make, libaio, libnvme, which]
-
-buildsteps: |
-  export PATH=/usr/sbin:$PATH
-  ./configure --prefix=/usr       \
-              --enable-cmdlib     \
-              --enable-pkgconfig  \
-              --enable-udev_sync 
-  make
-
-  make -C tools install_tools_dynamic 
-  make -C udev  install               
-  make -C libdm install
-
-  make install
-  rm -fv /usr/lib/udev/rules.d/69-dm-lvm.rules
-
-
+buildsteps: "export PATH=/usr/sbin:$PATH\n./configure --prefix=/usr       \\\n            --enable-cmdlib     \\\n            --enable-pkgconfig  \\\n            --enable-udev_sync \nmake\n\nmake -C tools install_tools_dynamic \nmake -C udev  install               \nmake -C libdm install\n\nmake install\nrm -fv /usr/lib/udev/rules.d/69-dm-lvm.rules\n"

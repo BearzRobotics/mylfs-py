@@ -1,0 +1,12 @@
+name: libtirpc
+version: 1.3.6
+release: 1
+url: https://downloads.sourceforge.net/libtirpc/libtirpc-1.3.6.tar.bz2
+homepage: https://sourceforge.net/projects/libtirpc/
+license: BSD-3-Clause
+summary: Transport Independent RPC library
+description: |
+  libtirpc is a library that provides transport-independent remote procedure call (RPC) functionality. It replaces the RPC code removed from glibc and is required for NIS, NFS, and related networking services.
+phase: 5
+builddeps: [make, autoconf, automake, pkgconfig, glibc]
+buildsteps: "./configure --prefix=/usr       \\\n            --sysconfdir=/etc   \\\n            --disable-static    \\\n            --disable-gssapi                                \nmake\nmake install\n"

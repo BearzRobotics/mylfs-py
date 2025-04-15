@@ -1,0 +1,14 @@
+name: python-psutils
+version: 7.0.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/p/psutil/psutil-7.0.0.tar.gz
+homepage: https://github.com/giampaolo/psutil
+license: BSD-3-Clause
+summary: Cross-platform process and system monitoring library for Python
+description: |
+  psutil is a Python library for retrieving information on running processes and system utilization (CPU, memory, disks, network, sensors) in a portable way. It is useful for system monitoring, profiling, and managing system resources.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+buildsteps: |-
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user psutil

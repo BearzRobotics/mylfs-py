@@ -1,0 +1,18 @@
+name: fish
+version: 4.0.1
+release: 1
+url: https://github.com/fish-shell/fish-shell/releases/download/4.0.1/fish-4.0.1.tar.xz
+homepage: https://fishshell.com/
+
+license: GPL-2.0-only
+summary: Friendly interactive shell
+description: |
+  Fish is a smart and user-friendly command line shell for Unix-like operating systems. It features syntax highlighting, autosuggestions, and extensive tab completions, with a focus on usability and discoverability.
+
+phase: 5
+builddeps: [cmake, make, gcc, glibc, ncurses, gettext, python, rust]
+
+buildsteps: |
+  export PATH=/opt/rustc/bin:$PATH
+  
+  make PREFIX=/usr install

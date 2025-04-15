@@ -1,0 +1,44 @@
+name: sudo
+version: 1.9.16p2
+release: 1
+url: https://www.sudo.ws/dist/sudo-1.9.16p2.tar.gz
+homepage: https://www.sudo.ws/
+license: ISC
+summary: Execute a command as another user
+description: |
+  Sudo allows a system administrator to delegate authority to give certain users or groups the ability to run commands as root or another user, with fine-grained access control.
+phase: 5
+builddeps: [make, glibc, linux-pam]
+buildsteps: |-
+  ./configure --prefix=/usr              \
+              --libexecdir=/usr/lib      \
+              --with-secure-path         \
+              --with-env-editor          \
+              --docdir=/usr/share/doc/sudo-1.9.16p2 \
+              --with-passprompt="[sudo] password for %p: " &&
+  make
+  make install
+
+  cat > /etc/sudoers.d/00-sudo << "EOF"
+  Defaults secure_path="/usr/sbin:/usr/bin"
+  %python-wheel ALL=(ALL) ALL
+  EOF
+
+  cat > /etc/pam.d/sudo << "EOF"
+  # Begin /etc/pam.d/sudo
+
+  # include the default auth settings
+  auth      include     system-auth
+
+  # include the default account settings
+  account   include     system-account
+
+  # Set default environment variables for the service user
+  session   required    pam_env.so
+
+  # include system session defaults
+  session   include     system-session
+
+  # End /etc/pam.d/sudo
+  EOF
+  chmod 644 /etc/pam.d/sudo

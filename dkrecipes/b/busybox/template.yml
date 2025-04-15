@@ -1,0 +1,21 @@
+# This is primarly placed here so the source will be on the distro. So If i need to 
+# create an initrd I can.
+
+name: busybox
+version: 1.37.0
+release: 1
+url: https://busybox.net/downloads/busybox-1.37.0.tar.bz2
+homepage: https://busybox.net/
+license: GPL-2.0-only
+summary: Small executable with many Unix utilities in a single binary
+description: |
+  BusyBox combines tiny versions of many common UNIX utilities into a single small executable, providing a minimalist replacement for most of the utilities you usually find in GNU coreutils.
+phase: 5
+builddeps: [make, glibc]
+buildsteps: |
+  # IF building by hand this sed command fixes the issue where it won't let you use make menuconfig
+  # sed -i 's/^\(always\s*:=[^#]*\)$/#\1/' scripts/kconfig/lxdialog/Makefile
+  # cp -vf ../static/.config .
+  # make oldconfig
+  # make
+  # make CONFIG_PREFIX=/usr install

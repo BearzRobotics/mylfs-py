@@ -1,0 +1,15 @@
+name: trove-classifiers
+version: 2025.1.15.22
+release: 1
+url: https://files.pythonhosted.org/packages/source/t/trove_classifiers/trove_classifiers-2025.1.15.22.tar.gz
+homepage: https://github.com/pypa/trove-classifiers
+license: CC0-1.0
+summary: Canonical source for PyPI trove classifiers
+description: |
+  trove-classifiers provides the canonical list of PyPI classifiers for use in setup.py or pyproject.toml metadata. It is maintained by the Python Packaging Authority (PyPA) and used by packaging tools to validate classifiers.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+buildsteps: |-
+  sed -i '/calver/s/^/#/;$iversion="2025.1.15.22"' setup.py
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user trove-classifiers

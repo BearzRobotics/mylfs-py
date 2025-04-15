@@ -1,0 +1,14 @@
+name: webencodings
+version: 0.5.1
+release: 1
+url: https://files.pythonhosted.org/packages/source/w/webencodings/webencodings-0.5.1.tar.gz
+homepage: https://github.com/gsnedders/python-webencodings
+license: BSD-3-Clause
+summary: Character encoding support for HTML5
+description: |
+  Webencodings is a Python library that provides character encoding support following the WHATWG Encoding standard used in HTML5. It is required by libraries like html5lib and other web parsers.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user webencodings

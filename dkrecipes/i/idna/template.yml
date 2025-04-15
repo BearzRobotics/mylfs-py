@@ -1,0 +1,14 @@
+name: idna
+version: 3.10
+release: 1
+url: https://files.pythonhosted.org/packages/source/i/idna/idna-3.10.tar.gz
+homepage: https://github.com/kjd/idna
+license: BSD-3-Clause
+summary: Internationalized Domain Names in Applications (IDNA) support for Python
+description: |
+  IDNA provides support for the Internationalized Domain Names in Applications (IDNA) specification, allowing Unicode domain names to be processed and encoded per RFC 5891. It is widely used in Python networking libraries.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user idna

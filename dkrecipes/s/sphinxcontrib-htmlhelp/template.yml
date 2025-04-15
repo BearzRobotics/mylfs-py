@@ -1,0 +1,14 @@
+name: sphinxcontrib-htmlhelp
+version: 2.1.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/s/sphinxcontrib-htmlhelp/sphinxcontrib_htmlhelp-2.1.0.tar.gz
+homepage: https://www.sphinx-doc.org/
+license: BSD-2-Clause
+summary: QtHelp builder for Sphinx
+description: |
+  sphinxcontrib-qthelp is a Sphinx extension that adds support for generating Qt Help Collection Project (QCH) files, used in Qt Creator and other Qt tools for documentation.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel, html5lib]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user sphinxcontrib-htmlhelp

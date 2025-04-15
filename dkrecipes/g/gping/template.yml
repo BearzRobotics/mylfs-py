@@ -1,0 +1,18 @@
+name: gping
+version: 1.19.0
+release: 1
+url: https://github.com/orf/gping/archive/refs/tags/gping-v1.19.0.tar.gz
+homepage: https://github.com/orf/gping
+license: MIT
+summary: Ping, but with a graph
+description: |
+  gping is a command-line utility like ping, but with a graphical interface. It uses Unicode and terminal graphics to visually display ping results over time.
+phase: 5
+# cargo isn't it's own package
+builddeps: [rust, gcc, ncurses]
+buildsteps: |
+  
+  export PATH=/opt/rustc/bin:$PATH
+  
+  cargo build --release
+  install -Dm755 target/release/gping /usr/bin/gping

@@ -3,7 +3,6 @@ version: 3.4.7
 release: 1
 url: https://github.com/libffi/libffi/releases/download/v3.4.7/libffi-3.4.7.tar.gz
 homepage: https://sourceware.org/libffi/
-
 license: MIT
 summary: Foreign Function Interface library
 description: |
@@ -11,7 +10,6 @@ description: |
 phase: 4
 order: 245
 critical: true
-
 buildsteps: |
   ./configure --prefix=/usr          \
               --disable-static       \
@@ -26,3 +24,4 @@ buildsteps: |
   fi
 
   make install
+builddeps: []

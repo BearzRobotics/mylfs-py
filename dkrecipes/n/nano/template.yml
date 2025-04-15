@@ -1,16 +1,14 @@
-name: nano 
+name: nano
 version: 8.4
 release: 1
 url: https://www.nano-editor.org/dist/v8/nano-8.4.tar.xz
-homepage:  https://www.nano-editor.org
-
+homepage: https://www.nano-editor.org
 license: GPL-3.0-or-later
 summary: A simple CLI text editor
 description: |
   A simple CLI text editor
 phase: 5
-builddeps: [ ncurses ]
-
+builddeps: [ncurses]
 buildsteps: |
   ./configure --prefix=/usr     \
               --sysconfdir=/etc \
@@ -20,4 +18,3 @@ buildsteps: |
 
   make install &&
   install -v -m644 doc/{nano.html,sample.nanorc} /usr/share/doc/nano-8.4
-

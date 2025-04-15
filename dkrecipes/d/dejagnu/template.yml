@@ -3,18 +3,14 @@ version: 1.6.3
 release: 1
 url: https://ftp.gnu.org/gnu/dejagnu/dejagnu-1.6.3.tar.gz
 homepage: https://www.gnu.org/software/dejagnu/
-
 license: GPL-3.0-or-later
 summary: DejaGnu is a framework for testing other programs
 description: |
   DejaGnu is a framework for testing other programs. Its purpose is to provide a single front end for all tests. Think of it as a custom library of Tcl procedures crafted to support writing a test harness. A test harness is the testing infrastructure that is created to support a specific program or tool. Each program can have multiple testsuites, all supported by a single test harness.
-
 phase: 4
 order: 80
 critical: true
-
 builddeps: [expect]
-
 buildsteps: |
   mkdir build
   cd    build

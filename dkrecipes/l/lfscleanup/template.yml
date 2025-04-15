@@ -1,15 +1,12 @@
 name: lfscleanup
 version: 0.0.0
 release: 1
-
 license: GPL-2.0-only
 summary: used to create basic LFS file system layout
-
 phase: 4
 order: 450
 critical: true
-
-buildsteps: |
+buildsteps: |-
   # If you want to clean up testing users uncomment the bellow
   # Check if the user 'tester' exists
   if id tester &>/dev/null; then
@@ -26,3 +23,4 @@ buildsteps: |
   else
       echo "Directory /home/tester does not exist."
   fi
+builddeps: []

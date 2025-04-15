@@ -1,0 +1,51 @@
+name: linux-pam
+version: 1.7.0
+release: 1
+url:
+  - https://github.com/linux-pam/linux-pam/releases/download/v1.7.0/Linux-PAM-1.7.0.tar.xz
+  - https://anduin.linuxfromscratch.org/BLFS/Linux-PAM/Linux-PAM-1.7.0-docs.tar.xz
+homepage: https://linux-pam.org/
+license: BSD-3-Clause
+summary: Pluggable Authentication Modules library
+description: |
+  Linux-PAM is a system of libraries that handle the authentication tasks of applications and services on the system. It provides a flexible mechanism for authenticating users, allowing the system administrator to configure authentication policies without modifying applications.
+phase: 5
+builddeps: [make, glibc, flex, bison, texinfo, libeconf, libnsl, docbook-xml, docbook-xsl, rpcsvc-proto, lynx]
+buildsteps: |-
+  mkdir build
+  cd    build
+
+  meson setup ..        \
+    --prefix=/usr       \
+    --buildtype=release \
+    -D docdir=/usr/share/doc/Linux-PAM-{version}
+
+  ninja
+
+  install -v -m755 -d /etc/pam.d
+
+  if [ -e /etc/pam.d/other ]; then
+      rm -rf /etc/pam.d/other
+  fi
+
+
+  ninja install
+  chmod -v 4755 /usr/sbin/unix_chkpwd
+
+  rm -rf /usr/lib/systemd
+  install -vdm755 /etc/pam.d 
+
+  cd ..
+  cp -rv ../static/other           /etc/pam.d/other
+  cp -rv ../static/system-account  /etc/pam.d/system-account
+  cp -rv ../static/system-auth     /etc/pam.d/system-auth
+
+
+  # Ensure all PAM configs are owned by root and have correct permissions
+  chown -v root:root /etc/pam.d/*
+  chmod -v 644 /etc/pam.d/*
+
+  chown -R root:root  /etc/pam.d/
+  chmod 644 /etc/pam.d/*
+
+  tar -C / -xvf ../Linux-PAM-1.7.0-docs.tar.xz

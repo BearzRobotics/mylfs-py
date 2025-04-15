@@ -7,17 +7,10 @@ version: 1.3.1
 release: 1
 url: https://zlib.net/fossils/zlib-1.3.1.tar.gz
 homepage: https://zlib.net/
-
 license: zlib
 summary: compression and decompression routines used by some programs.
-
 phase: 2
 order: 16
 critical: true
-
-buildsteps: |
-  CHOST=$LFS_TGT
-  CC="$CHOST-gcc"  ./configure --prefix=/usr                 
-  
-  make
-  make DESTDIR=$LFS install
+buildsteps: "CHOST=$LFS_TGT\nCC=\"$CHOST-gcc\"  ./configure --prefix=/usr                 \n\nmake\nmake DESTDIR=$LFS install"
+builddeps: []

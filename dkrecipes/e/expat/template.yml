@@ -5,18 +5,14 @@ release: 1
 # system working I can upgrade
 url: https://sourceforge.net/projects/expat/files/expat/2.7.1/expat-2.7.1.tar.xz
 homepage: https://libexpat.github.io/
-
 license: MIT
 summary: XML Parsing Library
 description: |
   The Expat package contains a stream oriented C library for parsing XML.
-  
 phase: 4
 order: 190
 critical: true
-
 #builddeps: [make, glibc]
-
 buildsteps: |
   ./configure --prefix=/usr    \
               --disable-static \
@@ -32,3 +28,4 @@ buildsteps: |
   make install
 
   install -m644 doc/*.{html,css} /usr/share/doc/expat-{version}
+builddeps: []

@@ -3,16 +3,12 @@ version: 4.9
 release: 1
 url: https://ftp.gnu.org/gnu/sed/sed-4.9.tar.xz
 homepage: https://www.gnu.org/software/sed/
-
-license: 
-summary: 
-description: |
-
-
+license:
+summary:
+description: ""
 phase: 4
 order: 145
 critical: true
-
 buildsteps: |
   ./configure --prefix=/usr
 
@@ -29,3 +25,4 @@ buildsteps: |
   make install
   install -d -m755           /usr/share/doc/sed-{version}
   install -m644 doc/sed.html /usr/share/doc/sed-{version}
+builddeps: []

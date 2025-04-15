@@ -3,16 +3,13 @@ version: 8.6.16
 release: 1
 url: https://downloads.sourceforge.net/tcl/tcl8.6.16-src.tar.gz
 homepage: https://tcl.sourceforge.net/
-
 license: TCL
 summary: tcl (Tool Command Language)
 description: |
   Tcl is a powerful but easy to use dynamic programming language suitable for a wide range of uses including web and desktop applications, along with networking, administration, and more.
-
 phase: 4
 order: 65
 critical: true
-
 buildsteps: |
   SRCDIR=$(pwd)
   cd unix
@@ -54,3 +51,4 @@ buildsteps: |
   ln -sf tclsh8.6 /usr/bin/tclsh
 
   mv /usr/share/man/man3/{Thread,Tcl_Thread}.3
+builddeps: []

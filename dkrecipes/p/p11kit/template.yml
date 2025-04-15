@@ -3,16 +3,13 @@ version: 0.24.1
 release: 1
 url: https://github.com/p11-glue/p11-kit/releases/download/0.24.1/p11-kit-0.24.1.tar.xz
 homepage: https://p11-glue.github.io/p11-glue/p11-kit.html
-
 license: BSD-3-Clause
 summary: Library for loading and enumerating PKCS#11 modules
 description: |
   p11-kit provides a way to load and enumerate PKCS#11 modules, and a standard configuration setup for installing PKCS#11 modules.
-
 phase: 5
 buildsystem: make
 builddeps: [libtasn1]
-
 buildsteps: |
   sed '20,$ d' -i trust/trust-extract-compat
 

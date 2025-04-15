@@ -1,104 +1,13 @@
 name: docbook-xsl
 version: 1.79.2
 release: 1
-url: 
-    - https://github.com/docbook/xslt10-stylesheets/releases/download/release/1.79.2/docbook-xsl-nons-1.79.2.tar.bz2
-    - https://github.com/docbook/xslt10-stylesheets/releases/download/release/1.79.2/docbook-xsl-doc-1.79.2.tar.bz2
+url:
+  - https://github.com/docbook/xslt10-stylesheets/releases/download/release/1.79.2/docbook-xsl-nons-1.79.2.tar.bz2
+  - https://github.com/docbook/xslt10-stylesheets/releases/download/release/1.79.2/docbook-xsl-doc-1.79.2.tar.bz2
 homepage: https://github.com/docbook/xslt10-stylesheets
-
-license: 
-summary:  
-description: |
-
+license:
+summary:
+description: ""
 phase: 5
-
-
 builddeps: [make, glibc, libxml2]
-
-buildsteps: |
-    patch -Np1 -i ../patches/docbook-xsl-nons-1.79.2-stack_fix-1.patch
-    
-    tar -xf ../docbook-xsl-doc-1.79.2.tar.bz2 --strip-components=1
-    
-    install -v -m755 -d /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2 &&
-
-    cp -v -R -f VERSION assembly common eclipse epub epub3 extensions fo        \
-             highlighting html htmlhelp images javahelp lib manpages params  \
-             profiling roundtrip slides template tests tools webhelp website \
-             xhtml xhtml-1_1 xhtml5                                          \
-        /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2 &&
-
-    ln -fvs VERSION /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2/VERSION.xsl &&
-
-    install -v -m644 -D README \
-                        /usr/share/doc/docbook-xsl-nons-1.79.2/README.txt &&
-    install -v -m644    RELEASE-NOTES* NEWS* \
-                        /usr/share/doc/docbook-xsl-nons-1.79.2
-                        
-    cp -v -R -f doc/* /usr/share/doc/docbook-xsl-nons-1.79.2
-    
-    
-    if [ ! -d /etc/xml ]; then install -v -m755 -d /etc/xml; fi &&
-    if [ ! -f /etc/xml/catalog ]; then
-        xmlcatalog --noout --create /etc/xml/catalog
-    fi &&
-
-    xmlcatalog --noout --add "rewriteSystem" \
-               "http://cdn.docbook.org/release/xsl-nons/1.79.2" \
-               "/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
-        /etc/xml/catalog &&
-
-    xmlcatalog --noout --add "rewriteSystem" \
-               "https://cdn.docbook.org/release/xsl-nons/1.79.2" \
-               "/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
-        /etc/xml/catalog &&
-
-    xmlcatalog --noout --add "rewriteURI" \
-               "http://cdn.docbook.org/release/xsl-nons/1.79.2" \
-               "/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
-        /etc/xml/catalog &&
-
-    xmlcatalog --noout --add "rewriteURI" \
-               "https://cdn.docbook.org/release/xsl-nons/1.79.2" \
-               "/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
-        /etc/xml/catalog &&
-
-    xmlcatalog --noout --add "rewriteSystem" \
-               "http://cdn.docbook.org/release/xsl-nons/current" \
-               "/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
-        /etc/xml/catalog &&
-
-    xmlcatalog --noout --add "rewriteSystem" \
-               "https://cdn.docbook.org/release/xsl-nons/current" \
-               "/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
-        /etc/xml/catalog &&
-
-    xmlcatalog --noout --add "rewriteURI" \
-               "http://cdn.docbook.org/release/xsl-nons/current" \
-               "/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
-        /etc/xml/catalog &&
-
-    xmlcatalog --noout --add "rewriteURI" \
-               "https://cdn.docbook.org/release/xsl-nons/current" \
-               "/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
-        /etc/xml/catalog &&
-
-    xmlcatalog --noout --add "rewriteSystem" \
-               "http://docbook.sourceforge.net/release/xsl/current" \
-               "/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
-        /etc/xml/catalog &&
-
-    xmlcatalog --noout --add "rewriteURI" \
-               "http://docbook.sourceforge.net/release/xsl/current" \
-               "/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2" \
-        /etc/xml/catalog
-        
-    xmlcatalog --noout --add "rewriteSystem" \
-               "http://docbook.sourceforge.net/release/xsl/<version>" \
-               "/usr/share/xml/docbook/xsl-stylesheets-<version>" \
-        /etc/xml/catalog &&
-
-    xmlcatalog --noout --add "rewriteURI" \
-               "http://docbook.sourceforge.net/release/xsl/<version>" \
-               "/usr/share/xml/docbook/xsl-stylesheets-<version>" \
-        /etc/xml/catalog
+buildsteps: "patch -Np1 -i ../patches/docbook-xsl-nons-1.79.2-stack_fix-1.patch\n\ntar -xf ../docbook-xsl-doc-1.79.2.tar.bz2 --strip-components=1\n\ninstall -v -m755 -d /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2 &&\n\ncp -v -R -f VERSION assembly common eclipse epub epub3 extensions fo        \\\n         highlighting html htmlhelp images javahelp lib manpages params  \\\n         profiling roundtrip slides template tests tools webhelp website \\\n         xhtml xhtml-1_1 xhtml5                                          \\\n    /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2 &&\n\nln -fvs VERSION /usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2/VERSION.xsl &&\n\ninstall -v -m644 -D README \\\n                    /usr/share/doc/docbook-xsl-nons-1.79.2/README.txt &&\ninstall -v -m644    RELEASE-NOTES* NEWS* \\\n                    /usr/share/doc/docbook-xsl-nons-1.79.2\n                    \ncp -v -R -f doc/* /usr/share/doc/docbook-xsl-nons-1.79.2\n\n\nif [ ! -d /etc/xml ]; then install -v -m755 -d /etc/xml; fi &&\nif [ ! -f /etc/xml/catalog ]; then\n    xmlcatalog --noout --create /etc/xml/catalog\nfi &&\n\nxmlcatalog --noout --add \"rewriteSystem\" \\\n           \"http://cdn.docbook.org/release/xsl-nons/1.79.2\" \\\n           \"/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2\" \\\n    /etc/xml/catalog &&\n\nxmlcatalog --noout --add \"rewriteSystem\" \\\n           \"https://cdn.docbook.org/release/xsl-nons/1.79.2\" \\\n           \"/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2\" \\\n    /etc/xml/catalog &&\n\nxmlcatalog --noout --add \"rewriteURI\" \\\n           \"http://cdn.docbook.org/release/xsl-nons/1.79.2\" \\\n           \"/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2\" \\\n    /etc/xml/catalog &&\n\nxmlcatalog --noout --add \"rewriteURI\" \\\n           \"https://cdn.docbook.org/release/xsl-nons/1.79.2\" \\\n           \"/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2\" \\\n    /etc/xml/catalog &&\n\nxmlcatalog --noout --add \"rewriteSystem\" \\\n           \"http://cdn.docbook.org/release/xsl-nons/current\" \\\n           \"/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2\" \\\n    /etc/xml/catalog &&\n\nxmlcatalog --noout --add \"rewriteSystem\" \\\n           \"https://cdn.docbook.org/release/xsl-nons/current\" \\\n           \"/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2\" \\\n    /etc/xml/catalog &&\n\nxmlcatalog --noout --add \"rewriteURI\" \\\n           \"http://cdn.docbook.org/release/xsl-nons/current\" \\\n           \"/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2\" \\\n    /etc/xml/catalog &&\n\nxmlcatalog --noout --add \"rewriteURI\" \\\n           \"https://cdn.docbook.org/release/xsl-nons/current\" \\\n           \"/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2\" \\\n    /etc/xml/catalog &&\n\nxmlcatalog --noout --add \"rewriteSystem\" \\\n           \"http://docbook.sourceforge.net/release/xsl/current\" \\\n           \"/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2\" \\\n    /etc/xml/catalog &&\n\nxmlcatalog --noout --add \"rewriteURI\" \\\n           \"http://docbook.sourceforge.net/release/xsl/current\" \\\n           \"/usr/share/xml/docbook/xsl-stylesheets-nons-1.79.2\" \\\n    /etc/xml/catalog\n    \nxmlcatalog --noout --add \"rewriteSystem\" \\\n           \"http://docbook.sourceforge.net/release/xsl/<version>\" \\\n           \"/usr/share/xml/docbook/xsl-stylesheets-<version>\" \\\n    /etc/xml/catalog &&\n\nxmlcatalog --noout --add \"rewriteURI\" \\\n           \"http://docbook.sourceforge.net/release/xsl/<version>\" \\\n           \"/usr/share/xml/docbook/xsl-stylesheets-<version>\" \\\n    /etc/xml/catalog\n"

@@ -1,0 +1,14 @@
+name: snowballstemmer
+version: 2.2.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/s/snowballstemmer/snowballstemmer-2.2.0.tar.gz
+homepage: https://github.com/snowballstem/snowball
+license: BSD-2-Clause
+summary: Snowball stemming algorithms for Python
+description: |
+  snowballstemmer provides Python bindings for the Snowball stemming algorithms, which are used to reduce words to their root forms in natural language processing. It is used by tools like Sphinx for keyword indexing.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user snowballstemmer

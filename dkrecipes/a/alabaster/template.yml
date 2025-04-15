@@ -1,0 +1,14 @@
+name: alabaster
+version: 1.0.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/a/alabaster/alabaster-1.0.0.tar.gz
+homepage: https://alabaster.readthedocs.io/
+license: BSD-3-Clause
+summary: Sphinx theme used by default in many Python projects
+description: |
+  Alabaster is a clean, responsive theme for Sphinx, used by default for new Sphinx projects. It is designed for readability and customization and is used in many official Python documentation sites.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user alabaster

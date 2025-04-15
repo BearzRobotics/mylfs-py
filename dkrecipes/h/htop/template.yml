@@ -1,0 +1,15 @@
+name: htop
+version: 3.4.1
+release: 1
+url: https://github.com/htop-dev/htop/releases/download/3.4.1/htop-3.4.1.tar.xz
+homepage: https://htop.dev/
+license: GPL-2.0-or-later
+summary: Interactive process viewer for Unix systems
+description: |
+  htop is an interactive text-mode process viewer for Unix systems. It aims to be a better alternative to the 'top' command.
+phase: 5
+builddeps: [ncurses, make, glibc, autoconf, automake]
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install

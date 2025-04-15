@@ -1,0 +1,15 @@
+name: rpcsvc-proto
+version: 1.4.4
+release: 1
+url: https://github.com/thkukuk/rpcsvc-proto/releases/download/v1.4.4/rpcsvc-proto-1.4.4.tar.xz
+homepage: https://github.com/thkukuk/rpcsvc-proto
+license: BSD-3-Clause
+summary: rpcgen and RPC service protocol definitions
+description: |
+  rpcsvc-proto provides the rpcgen utility and header files for RPC service definitions. These files were previously part of glibc and are required for building and using RPC-based services.
+phase: 5
+builddeps: [make, autoconf, automake, glibc]
+buildsteps: |
+  ./configure --sysconfdir=/etc &&
+  make
+  make install

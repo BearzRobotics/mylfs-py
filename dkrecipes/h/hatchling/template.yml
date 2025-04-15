@@ -1,0 +1,14 @@
+name: hatchling
+version: 1.27.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/h/hatchling/hatchling-1.27.0.tar.gz
+homepage: https://github.com/pypa/hatch
+license: MIT
+summary: Modern, extensible Python build backend
+description: |
+  Hatchling is the extensible, standards-compliant build backend used by Hatch. It supports PEP 517 and PEP 621, and is suitable for modern Python packaging workflows using pyproject.toml.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel, trove-classifiers, pluggy, pathspec, packaging, python-editables]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user hatchling

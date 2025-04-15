@@ -1,0 +1,81 @@
+name: tmux
+version: 3.5a
+release: 1
+url: https://github.com/tmux/tmux/archive/refs/tags/3.5a.tar.gz
+homepage: https://github.com/tmux/tmux
+license: ISC
+summary: Terminal multiplexer
+description: |
+  tmux is a terminal multiplexer that allows multiple terminal sessions to be accessed simultaneously in a single window. It supports session persistence, window splitting, and easy navigation between panes.
+phase: 5
+builddeps: [make, gcc, glibc, ncurses, libevent, pkgconfig]
+buildsteps: |
+  sh autogen.sh
+  ./configure --prefix=/usr && make
+
+  make install
+
+
+
+  mkdir -pv /etc/skel/
+  cat > /etc/skel/.tmux.conf << "EOF"
+  # Increase history limit
+  set-option -g history-limit 100000
+
+  # Use mouse support for resizing and selecting panes
+  set-option -g mouse on
+
+  # Vi-style keybindings for copy mode
+  setw -g mode-keys vi
+
+  # Enable True Color support
+  set-option -sa terminal-overrides ",xterm-256color:Tc"
+
+  # Set default shell (change to your preferred shell if needed)
+  set-option -g default-shell /bin/bash
+
+  # Remap prefix to Ctrl+a (similar to GNU Screen)
+  unbind C-b
+  set-option -g prefix C-a
+  bind C-a send-prefix
+
+  # Use easier split pane shortcuts
+  bind | split-window -h
+  bind - split-window -v
+
+  # Synchronize panes (toggle with Prefix + y)
+  bind y setw synchronize-panes
+
+  # Switch panes with Alt + arrow keys
+  bind -n M-Left select-pane -L
+  bind -n M-Right select-pane -R
+  bind -n M-Up select-pane -U
+  bind -n M-Down select-pane -D
+
+  # Reload tmux config with Prefix + r
+  bind r source-file ~/.tmux.conf \; display "Config reloaded!"
+
+  # Status bar customization
+  set-option -g status-interval 2
+  set-option -g status-bg black
+  set-option -g status-fg white
+  set-option -g status-left "[#S] "
+  set-option -g status-right "#(whoami)@#H | %Y-%m-%d %H:%M"
+
+  # Window and pane index starts at 1
+  set-option -g base-index 1
+  setw -g pane-base-index 1
+
+  # Vim-style pane navigation
+  bind h select-pane -L
+  bind j select-pane -D
+  bind k select-pane -U
+  bind l select-pane -R
+
+  # Enable clipboard integration (requires `xclip` or `wl-copy` on Linux)
+  bind C-c run-shell "tmux show-buffer | xclip -selection clipboard"
+
+  # Automatically rename windows
+  set-option -g automatic-rename on
+  set-option -g renumber-windows on
+  EOF

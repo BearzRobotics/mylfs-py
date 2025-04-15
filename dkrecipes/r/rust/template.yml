@@ -1,0 +1,47 @@
+name: rust
+version: 1.85.1
+release: 1
+url: https://static.rust-lang.org/dist/rustc-1.85.1-src.tar.xz
+homepage: https://www.rust-lang.org/
+
+license: Apache-2.0 OR MIT
+summary: Rust programming language compiler and tools
+description: |
+  Rust is a systems programming language focused on safety, speed, and concurrency. This package builds the Rust compiler (rustc), Cargo package manager, and supporting tools from source.
+
+phase: 5
+builddeps: [python, cmake, make, gcc, glibc, curl, pkgconfig, libssh2, sqlite, llvm]
+
+buildsteps: |
+  #set +e
+  mkdir -pv /opt/rustc-1.85.1      
+  ln -svfn rustc-1.85.1 /opt/rustc
+  
+  cp -vf ../static/config.toml .
+
+  sed '/MirOpt/d' -i src/bootstrap/src/core/builder/mod.rs
+
+  patch -Np1 -i ../patches/rustc-1.85.1-llvm_20-1.patch
+
+
+  [ ! -e /usr/include/libssh2.h ] || export LIBSSH2_SYS_USE_PKG_CONFIG=1
+  [ ! -e /usr/include/sqlite3.h ] || export LIBSQLITE3_SYS_USE_PKG_CONFIG=1
+  ./x.py build
+
+  ./x.py install rustc std &&
+  ./x.py install --stage=1 cargo clippy rustfmt
+
+  rm -fv /opt/rustc-1.85.1/share/doc/rustc-1.85.1/*.old  
+  install -vm644 README.md                                \
+                /opt/rustc-1.85.1/share/doc/rustc-1.85.1 
+
+  install -vdm755 /usr/share/zsh/site-functions      
+  ln -sfv /opt/rustc/share/zsh/site-functions/_cargo \
+          /usr/share/zsh/site-functions
+
+  mv -v /etc/bash_completion.d/cargo /usr/share/bash-completion/completions
+
+  unset LIB{SSH2,SQLITE3}_SYS_USE_PKG_CONFIG
+
+  mkdir -pv /etc/profile.d/
+  cp -vf ../static/rustc.sh /etc/profile.d/rustc.sh

@@ -1,18 +1,15 @@
 name: ncurses
 version: 6.5
-release: 1 
+release: 1
 url: https://invisible-mirror.net/archives/ncurses/ncurses-6.5.tar.gz
 homepage: https://www.gnu.org/software/ncurses/
-
 license: X11 License
 summary: The ncurses library routines are a terminal-independent method of updating character screens with reasonable optimization.
 description: |
   The ncurses library routines are a terminal-independent method of updating character screens with reasonable optimization. This package contains the shared libraries necessary to run programs compiled with ncurses.
-
 phase: 2
 order: 2
 critical: true
-
 buildsteps: |
   mkdir build
   pushd build
@@ -39,4 +36,4 @@ buildsteps: |
   ln -sv libncursesw.so $LFS/usr/lib/libncurses.so
   sed -e 's/^#if.*XOPEN.*$/#if 1/' \
   -i $LFS/usr/include/curses.h
-
+builddeps: []

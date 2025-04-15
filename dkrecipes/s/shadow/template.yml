@@ -3,7 +3,6 @@ version: 4.17.3
 release: 1
 url: https://github.com/shadow-maint/shadow/releases/download/4.17.3/shadow-4.17.3.tar.xz
 homepage: https://github.com/shadow-maint/shadow/
-
 license: BSD-3-Clause
 summary: login and password tools
 description: |
@@ -11,7 +10,8 @@ description: |
 phase: 4
 order: 130
 critical: true
-builddeps: [ libcap, attr, acl ]
+# If building linux-pam (Which I am) don't add deps here. Package will be rebuilt using shadow-pam as it's stage 2
+#builddeps: [ libcap, attr, acl ]
 
 buildsteps: |
   sed -i 's/groups$(EXEEXT) //' src/Makefile.in
@@ -42,4 +42,4 @@ buildsteps: |
   useradd -D --gid 999
 
   echo "root:$ROOT_PASSWD" | chpasswd
-
+builddeps: []

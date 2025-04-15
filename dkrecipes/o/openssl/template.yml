@@ -3,16 +3,13 @@ version: 3.4.1
 release: 1
 url: https://github.com/openssl/openssl/releases/download/openssl-3.4.1/openssl-3.4.1.tar.gz
 homepage: https://www.openssl-library.org/
-
-license: 
-summary: 
-description: |
-
+license:
+summary:
+description: ""
 phase: 4
 order: 230
 critical: true
-builddeps: [ perl ]
-
+builddeps: [perl]
 buildsteps: |
   ./config --prefix=/usr         \
           --openssldir=/etc/ssl \

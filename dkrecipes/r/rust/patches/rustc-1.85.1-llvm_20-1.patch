@@ -1,0 +1,576 @@
+Submitted By:            Xi Ruoyao <xry111 at xry111 dot site>
+Date:                    2025-03-19
+Initial Package Version: 1.85.1
+Upstream Status:         Applied for master but not 1.85.x
+Origin:                  Upstream PR #135177, #135763 (only commit
+                         97f6e4d34b7e), #136895, #135084, #135088, #135764
+Description:             Allow building rustc-1.85.x with llvm-20.
+
+From fc32dd49cb70c4b113353c7a060a875f30b9af04 Mon Sep 17 00:00:00 2001
+From: Matthew Maurer <mmaurer@google.com>
+Date: Tue, 7 Jan 2025 00:53:42 +0000
+Subject: [PATCH] llvm: Ignore error value that is always false
+
+See llvm/llvm-project#121851
+
+For LLVM 20+, this function (`renameModuleForThinLTO`) has no return
+value. For prior versions of LLVM, this never failed, but had a
+signature which allowed an error value people were handling.
+---
+ compiler/rustc_codegen_gcc/src/back/lto.rs       |  4 +---
+ compiler/rustc_codegen_llvm/src/back/lto.rs      |  6 +-----
+ compiler/rustc_codegen_llvm/src/llvm/ffi.rs      |  2 +-
+ compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp | 10 ++--------
+ 4 files changed, 5 insertions(+), 17 deletions(-)
+
+diff --git a/compiler/rustc_codegen_gcc/src/back/lto.rs b/compiler/rustc_codegen_gcc/src/back/lto.rs
+index ed92f9c52412c..f7173d4d2ffce 100644
+--- a/compiler/rustc_codegen_gcc/src/back/lto.rs
++++ b/compiler/rustc_codegen_gcc/src/back/lto.rs
+@@ -660,9 +660,7 @@ pub unsafe fn optimize_thin_module(
+         {
+             let _timer =
+                 cgcx.prof.generic_activity_with_arg("LLVM_thin_lto_rename", thin_module.name());
+-            if !llvm::LLVMRustPrepareThinLTORename(thin_module.shared.data.0, llmod, target) {
+-                return Err(write::llvm_err(&dcx, LlvmError::PrepareThinLtoModule));
+-            }
++            unsafe { llvm::LLVMRustPrepareThinLTORename(thin_module.shared.data.0, llmod, target) };
+             save_temp_bitcode(cgcx, &module, "thin-lto-after-rename");
+         }
+ 
+diff --git a/compiler/rustc_codegen_llvm/src/back/lto.rs b/compiler/rustc_codegen_llvm/src/back/lto.rs
+index 4adf99e91d08d..08b774f8d6ec0 100644
+--- a/compiler/rustc_codegen_llvm/src/back/lto.rs
++++ b/compiler/rustc_codegen_llvm/src/back/lto.rs
+@@ -737,11 +737,7 @@ pub(crate) unsafe fn optimize_thin_module(
+         {
+             let _timer =
+                 cgcx.prof.generic_activity_with_arg("LLVM_thin_lto_rename", thin_module.name());
+-            if unsafe {
+-                !llvm::LLVMRustPrepareThinLTORename(thin_module.shared.data.0, llmod, target)
+-            } {
+-                return Err(write::llvm_err(dcx, LlvmError::PrepareThinLtoModule));
+-            }
++            unsafe { llvm::LLVMRustPrepareThinLTORename(thin_module.shared.data.0, llmod, target) };
+             save_temp_bitcode(cgcx, &module, "thin-lto-after-rename");
+         }
+ 
+diff --git a/compiler/rustc_codegen_llvm/src/llvm/ffi.rs b/compiler/rustc_codegen_llvm/src/llvm/ffi.rs
+index bb324ee682cdb..cb4a8c9a5f21c 100644
+--- a/compiler/rustc_codegen_llvm/src/llvm/ffi.rs
++++ b/compiler/rustc_codegen_llvm/src/llvm/ffi.rs
+@@ -2374,7 +2374,7 @@ unsafe extern "C" {
+         Data: &ThinLTOData,
+         Module: &Module,
+         Target: &TargetMachine,
+-    ) -> bool;
++    );
+     pub fn LLVMRustPrepareThinLTOResolveWeak(Data: &ThinLTOData, Module: &Module) -> bool;
+     pub fn LLVMRustPrepareThinLTOInternalize(Data: &ThinLTOData, Module: &Module) -> bool;
+     pub fn LLVMRustPrepareThinLTOImport(
+diff --git a/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp b/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp
+index de14c6d188365..6447a9362b3ab 100644
+--- a/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp
++++ b/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp
+@@ -1389,20 +1389,14 @@ static bool clearDSOLocalOnDeclarations(Module &Mod, TargetMachine &TM) {
+   return ClearDSOLocalOnDeclarations;
+ }
+ 
+-extern "C" bool LLVMRustPrepareThinLTORename(const LLVMRustThinLTOData *Data,
++extern "C" void LLVMRustPrepareThinLTORename(const LLVMRustThinLTOData *Data,
+                                              LLVMModuleRef M,
+                                              LLVMTargetMachineRef TM) {
+   Module &Mod = *unwrap(M);
+   TargetMachine &Target = *unwrap(TM);
+ 
+   bool ClearDSOLocal = clearDSOLocalOnDeclarations(Mod, Target);
+-  bool error = renameModuleForThinLTO(Mod, Data->Index, ClearDSOLocal);
+-
+-  if (error) {
+-    LLVMRustSetLastError("renameModuleForThinLTO failed");
+-    return false;
+-  }
+-  return true;
++  renameModuleForThinLTO(Mod, Data->Index, ClearDSOLocal);
+ }
+ 
+ extern "C" bool
+From 97f6e4d34b7e103150c35d390e33d17041363af3 Mon Sep 17 00:00:00 2001
+From: Nikita Popov <npopov@redhat.com>
+Date: Mon, 3 Feb 2025 14:50:40 +0100
+Subject: [PATCH] Quote embedded codeview command line arguments
+
+The formatting of the command line arguments has been moved to the
+frontend in:
+https://github.com/llvm/llvm-project/commit/e190d074a0a77c9f8a7d7938a8187a7e2076e290
+
+However, the Rust logic introduced in
+https://github.com/rust-lang/rust/commit/ad0ecebf432fcb80cb666034ea44f75b81e55f95
+did not replicate the previous argument quoting behavior.
+---
+ .../rustc_llvm/llvm-wrapper/PassWrapper.cpp   | 20 +++++++++++--------
+ 1 file changed, 12 insertions(+), 8 deletions(-)
+
+diff --git a/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp b/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp
+index a6b2384f2d7b2..7eb11f9e6087c 100644
+--- a/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp
++++ b/compiler/rustc_llvm/llvm-wrapper/PassWrapper.cpp
+@@ -22,6 +22,7 @@
+ #include "llvm/Passes/StandardInstrumentations.h"
+ #include "llvm/Support/CBindingWrapping.h"
+ #include "llvm/Support/FileSystem.h"
++#include "llvm/Support/Program.h"
+ #include "llvm/Support/TimeProfiler.h"
+ #include "llvm/Support/VirtualFileSystem.h"
+ #include "llvm/Target/TargetMachine.h"
+@@ -472,16 +473,19 @@ extern "C" LLVMTargetMachineRef LLVMRustCreateTargetMachine(
+     assert(ArgsCstrBuff[ArgsCstrBuffLen - 1] == '\0');
+     auto Arg0 = std::string(ArgsCstrBuff);
+     buffer_offset = Arg0.size() + 1;
+-    auto ArgsCppStr = std::string(ArgsCstrBuff + buffer_offset,
+-                                  ArgsCstrBuffLen - buffer_offset);
+-    auto i = 0;
+-    while (i != std::string::npos) {
+-      i = ArgsCppStr.find('\0', i + 1);
+-      if (i != std::string::npos)
+-        ArgsCppStr.replace(i, 1, " ");
++
++    std::string CommandlineArgs;
++    raw_string_ostream OS(CommandlineArgs);
++    ListSeparator LS(" ");
++    for (StringRef Arg : split(StringRef(ArgsCstrBuff + buffer_offset,
++                                         ArgsCstrBuffLen - buffer_offset),
++                               '\0')) {
++      OS << LS;
++      sys::printArg(OS, Arg, /*Quote=*/true);
+     }
++    OS.flush();
+     Options.MCOptions.Argv0 = Arg0;
+-    Options.MCOptions.CommandlineArgs = ArgsCppStr;
++    Options.MCOptions.CommandlineArgs = CommandlineArgs;
+ #else
+     int buffer_offset = 0;
+     assert(ArgsCstrBuff[ArgsCstrBuffLen - 1] == '\0');
+From d82219a4fa06bfa47fc5aac64844c461905ae77d Mon Sep 17 00:00:00 2001
+From: Matthew Maurer <mmaurer@google.com>
+Date: Wed, 12 Feb 2025 00:37:33 +0000
+Subject: [PATCH] debuginfo: Set bitwidth appropriately in enum variant tags
+
+Previously, we unconditionally set the bitwidth to 128-bits, the largest
+an discrimnator would possibly be. Then, LLVM would cut down the constant by
+chopping off leading zeroes before emitting the DWARF. LLVM only
+supported 64-bit descriminators, so this would also have occasionally
+resulted in truncated data (or an assert) if more than 64-bits were
+used.
+
+LLVM added support for 128-bit enumerators in llvm/llvm-project#125578
+
+That patchset also trusts the constant to describe how wide the variant tag is.
+As a result, we went from emitting tags that looked like:
+DW_AT_discr_value     (0xfe)
+
+(`form1`)
+
+to emitting tags that looked like:
+DW_AT_discr_value	(<0x10> fe ff ff ff 00 00 00 00 00 00 00 00 00 00 00 00 )
+
+This makes the `DW_AT_discr_value` encode at the bitwidth of the tag,
+which:
+1. Is probably closer to our intentions in terms of describing the data.
+2. Doesn't invoke the 128-bit support which may not be supported by all
+   debuggers / downstream tools.
+3. Will result in smaller debug information.
+---
+ .../src/debuginfo/metadata/enums/native.rs                | 8 +++++++-
+ tests/codegen/enum/enum-debug-niche-2.rs                  | 4 ++--
+ 2 files changed, 9 insertions(+), 3 deletions(-)
+
+diff --git a/compiler/rustc_codegen_llvm/src/debuginfo/metadata/enums/native.rs b/compiler/rustc_codegen_llvm/src/debuginfo/metadata/enums/native.rs
+index 11824398f243e..187d97c54c873 100644
+--- a/compiler/rustc_codegen_llvm/src/debuginfo/metadata/enums/native.rs
++++ b/compiler/rustc_codegen_llvm/src/debuginfo/metadata/enums/native.rs
+@@ -437,6 +437,12 @@ fn build_enum_variant_member_di_node<'ll, 'tcx>(
+         .source_info
+         .unwrap_or_else(|| (unknown_file_metadata(cx), UNKNOWN_LINE_NUMBER));
+ 
++    let discr = discr_value.opt_single_val().map(|value| {
++        let tag_base_type = tag_base_type(cx.tcx, enum_type_and_layout);
++        let size = cx.size_of(tag_base_type);
++        cx.const_uint_big(cx.type_ix(size.bits()), value)
++    });
++
+     unsafe {
+         llvm::LLVMRustDIBuilderCreateVariantMemberType(
+             DIB(cx),
+@@ -448,7 +454,7 @@ fn build_enum_variant_member_di_node<'ll, 'tcx>(
+             enum_type_and_layout.size.bits(),
+             enum_type_and_layout.align.abi.bits() as u32,
+             Size::ZERO.bits(),
+-            discr_value.opt_single_val().map(|value| cx.const_u128(value)),
++            discr,
+             DIFlags::FlagZero,
+             variant_member_info.variant_struct_type_di_node,
+         )
+diff --git a/tests/codegen/enum/enum-debug-niche-2.rs b/tests/codegen/enum/enum-debug-niche-2.rs
+index 58f43fe3ec6bf..80a4081f15b10 100644
+--- a/tests/codegen/enum/enum-debug-niche-2.rs
++++ b/tests/codegen/enum/enum-debug-niche-2.rs
+@@ -5,8 +5,8 @@
+ //@ ignore-msvc
+ //
+ // CHECK: {{.*}}DICompositeType{{.*}}tag: DW_TAG_variant_part,{{.*}}size: 32,{{.*}}
+-// CHECK: {{.*}}DIDerivedType{{.*}}tag: DW_TAG_member,{{.*}}name: "Placeholder",{{.*}}extraData: i128 4294967295{{[,)].*}}
+-// CHECK: {{.*}}DIDerivedType{{.*}}tag: DW_TAG_member,{{.*}}name: "Error",{{.*}}extraData: i128 0{{[,)].*}}
++// CHECK: {{.*}}DIDerivedType{{.*}}tag: DW_TAG_member,{{.*}}name: "Placeholder",{{.*}}extraData: i32 -1{{[,)].*}}
++// CHECK: {{.*}}DIDerivedType{{.*}}tag: DW_TAG_member,{{.*}}name: "Error",{{.*}}extraData: i32 0{{[,)].*}}
+ #![feature(never_type)]
+ 
+ #[derive(Copy, Clone)]
+From ed005245c64447db5bcf28c29045a3bb99dd15e0 Mon Sep 17 00:00:00 2001
+From: Matthew Maurer <mmaurer@google.com>
+Date: Fri, 3 Jan 2025 19:39:52 +0000
+Subject: [PATCH] Update carrying_mul_add test to tolerate `nuw`
+
+LLVM 20 adds nuw to GEP operations in this code, tolerate them.
+---
+ tests/codegen/intrinsics/carrying_mul_add.rs | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/tests/codegen/intrinsics/carrying_mul_add.rs b/tests/codegen/intrinsics/carrying_mul_add.rs
+index 174c4077f09e9..b53585a8a6ee6 100644
+--- a/tests/codegen/intrinsics/carrying_mul_add.rs
++++ b/tests/codegen/intrinsics/carrying_mul_add.rs
+@@ -84,7 +84,7 @@ pub unsafe fn cma_u128(a: u128, b: u128, c: u128, d: u128) -> (u128, u128) {
+     // RAW: [[PAIR0:%.+]] = insertvalue { i128, i128 } poison, i128 [[LOW]], 0
+     // RAW: [[PAIR1:%.+]] = insertvalue { i128, i128 } [[PAIR0]], i128 [[HIGH]], 1
+     // OPT: store i128 [[LOW]], ptr %_0
+-    // OPT: [[P1:%.+]] = getelementptr inbounds i8, ptr %_0, {{i32|i64}} 16
++    // OPT: [[P1:%.+]] = getelementptr inbounds{{( nuw)?}} i8, ptr %_0, {{i32|i64}} 16
+     // OPT: store i128 [[HIGH]], ptr [[P1]]
+     // CHECK: ret void
+     carrying_mul_add(a, b, c, d)
+@@ -111,7 +111,7 @@ pub unsafe fn cma_i128(a: i128, b: i128, c: i128, d: i128) -> (u128, i128) {
+     // RAW: [[PAIR0:%.+]] = insertvalue { i128, i128 } poison, i128 [[LOW]], 0
+     // RAW: [[PAIR1:%.+]] = insertvalue { i128, i128 } [[PAIR0]], i128 [[HIGH]], 1
+     // OPT: store i128 [[LOW]], ptr %_0
+-    // OPT: [[P1:%.+]] = getelementptr inbounds i8, ptr %_0, {{i32|i64}} 16
++    // OPT: [[P1:%.+]] = getelementptr inbounds{{( nuw)?}} i8, ptr %_0, {{i32|i64}} 16
+     // OPT: store i128 [[HIGH]], ptr [[P1]]
+     // CHECK: ret void
+     carrying_mul_add(a, b, c, d)
+From cf679e428136f7992e8c110b32365a0e0057154e Mon Sep 17 00:00:00 2001
+From: Matthew Maurer <mmaurer@google.com>
+Date: Fri, 3 Jan 2025 22:21:39 +0000
+Subject: [PATCH] Force code generation in assembly generation smoke-tests
+
+In llvm/llvm-project@7b23f413d1f76532825e470b523e971818d453ca , `.text`
+started being suppressed from LLVM assembly in cases where it wasn't
+strictly necessary. Currently, the sample functions in these two tests
+are frequently decided to be IR-only functions, resulting in no code
+generation, so LLVM drops the `.text` directive.
+
+Adding `#[no_mangle]` forces these tests back to their original intent -
+assembly code is generated, and so a `.text` directive is generated as
+well.
+---
+ tests/assembly/targets/targets-elf.rs   | 2 ++
+ tests/assembly/targets/targets-macho.rs | 2 ++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/tests/assembly/targets/targets-elf.rs b/tests/assembly/targets/targets-elf.rs
+index 7d50647bed18e..59d27ed649c0f 100644
+--- a/tests/assembly/targets/targets-elf.rs
++++ b/tests/assembly/targets/targets-elf.rs
+@@ -676,6 +676,8 @@
+ #[lang = "sized"]
+ trait Sized {}
+ 
++// Force linkage to ensure code is actually generated
++#[no_mangle]
+ pub fn test() -> u8 {
+     42
+ }
+diff --git a/tests/assembly/targets/targets-macho.rs b/tests/assembly/targets/targets-macho.rs
+index 8095ae9029b75..25e9059afeb18 100644
+--- a/tests/assembly/targets/targets-macho.rs
++++ b/tests/assembly/targets/targets-macho.rs
+@@ -83,6 +83,8 @@
+ #[lang = "sized"]
+ trait Sized {}
+ 
++// Force linkage to ensure code is actually generated
++#[no_mangle]
+ pub fn test() -> u8 {
+     42
+ }
+From aaccb71da9f0954ee5433f61ae8274b29f6da1c5 Mon Sep 17 00:00:00 2001
+From: Nikita Popov <npopov@redhat.com>
+Date: Mon, 20 Jan 2025 11:38:48 +0100
+Subject: [PATCH 1/2] Fix sparcv8plus test on LLVM 20
+
+Split this into two tests, one for LLVM 19 and one for LLVM 20.
+---
+ tests/ui/abi/sparcv8plus-llvm19.rs            | 43 +++++++++++++++++++
+ tests/ui/abi/sparcv8plus-llvm19.sparc.stderr  |  8 ++++
+ .../sparcv8plus-llvm19.sparc_cpu_v9.stderr    |  8 ++++
+ ...-llvm19.sparc_cpu_v9_feature_v8plus.stderr |  8 ++++
+ ...cv8plus-llvm19.sparc_feature_v8plus.stderr |  8 ++++
+ .../abi/sparcv8plus-llvm19.sparcv8plus.stderr |  8 ++++
+ tests/ui/abi/sparcv8plus.rs                   |  6 +--
+ tests/ui/abi/sparcv8plus.sparc_cpu_v9.stderr  |  6 +--
+ ...cv8plus.sparc_cpu_v9_feature_v8plus.stderr |  2 +-
+ .../sparcv8plus.sparc_feature_v8plus.stderr   |  2 +-
+ tests/ui/abi/sparcv8plus.sparcv8plus.stderr   |  2 +-
+ 11 files changed, 92 insertions(+), 9 deletions(-)
+ create mode 100644 tests/ui/abi/sparcv8plus-llvm19.rs
+ create mode 100644 tests/ui/abi/sparcv8plus-llvm19.sparc.stderr
+ create mode 100644 tests/ui/abi/sparcv8plus-llvm19.sparc_cpu_v9.stderr
+ create mode 100644 tests/ui/abi/sparcv8plus-llvm19.sparc_cpu_v9_feature_v8plus.stderr
+ create mode 100644 tests/ui/abi/sparcv8plus-llvm19.sparc_feature_v8plus.stderr
+ create mode 100644 tests/ui/abi/sparcv8plus-llvm19.sparcv8plus.stderr
+
+diff --git a/tests/ui/abi/sparcv8plus-llvm19.rs b/tests/ui/abi/sparcv8plus-llvm19.rs
+new file mode 100644
+index 0000000000000..a884e5ca06f10
+--- /dev/null
++++ b/tests/ui/abi/sparcv8plus-llvm19.rs
+@@ -0,0 +1,43 @@
++//@ revisions: sparc sparcv8plus sparc_cpu_v9 sparc_feature_v8plus sparc_cpu_v9_feature_v8plus
++//@[sparc] compile-flags: --target sparc-unknown-none-elf
++//@[sparc] needs-llvm-components: sparc
++//@[sparcv8plus] compile-flags: --target sparc-unknown-linux-gnu
++//@[sparcv8plus] needs-llvm-components: sparc
++//@[sparc_cpu_v9] compile-flags: --target sparc-unknown-none-elf -C target-cpu=v9
++//@[sparc_cpu_v9] needs-llvm-components: sparc
++//@[sparc_feature_v8plus] compile-flags: --target sparc-unknown-none-elf -C target-feature=+v8plus
++//@[sparc_feature_v8plus] needs-llvm-components: sparc
++//@[sparc_cpu_v9_feature_v8plus] compile-flags: --target sparc-unknown-none-elf -C target-cpu=v9 -C target-feature=+v8plus
++//@[sparc_cpu_v9_feature_v8plus] needs-llvm-components: sparc
++//@ exact-llvm-major-version: 19
++
++#![crate_type = "rlib"]
++#![feature(no_core, rustc_attrs, lang_items)]
++#![no_core]
++
++#[lang = "sized"]
++trait Sized {}
++#[lang = "copy"]
++trait Copy {}
++
++#[rustc_builtin_macro]
++macro_rules! compile_error {
++    () => {};
++}
++
++#[cfg(all(not(target_feature = "v8plus"), not(target_feature = "v9")))]
++compile_error!("-v8plus,-v9");
++//[sparc]~^ ERROR -v8plus,-v9
++
++// FIXME: sparc_cpu_v9 should be in "-v8plus,+v9" group (fixed in LLVM 20)
++#[cfg(all(target_feature = "v8plus", target_feature = "v9"))]
++compile_error!("+v8plus,+v9");
++//[sparcv8plus,sparc_cpu_v9_feature_v8plus,sparc_cpu_v9]~^ ERROR +v8plus,+v9
++
++// FIXME: should be rejected
++#[cfg(all(target_feature = "v8plus", not(target_feature = "v9")))]
++compile_error!("+v8plus,-v9 (FIXME)");
++//[sparc_feature_v8plus]~^ ERROR +v8plus,-v9 (FIXME)
++
++#[cfg(all(not(target_feature = "v8plus"), target_feature = "v9"))]
++compile_error!("-v8plus,+v9");
+diff --git a/tests/ui/abi/sparcv8plus-llvm19.sparc.stderr b/tests/ui/abi/sparcv8plus-llvm19.sparc.stderr
+new file mode 100644
+index 0000000000000..7eedf26135f54
+--- /dev/null
++++ b/tests/ui/abi/sparcv8plus-llvm19.sparc.stderr
+@@ -0,0 +1,8 @@
++error: -v8plus,-v9
++  --> $DIR/sparcv8plus-llvm19.rs:29:1
++   |
++LL | compile_error!("-v8plus,-v9");
++   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++error: aborting due to 1 previous error
++
+diff --git a/tests/ui/abi/sparcv8plus-llvm19.sparc_cpu_v9.stderr b/tests/ui/abi/sparcv8plus-llvm19.sparc_cpu_v9.stderr
+new file mode 100644
+index 0000000000000..ac61df3567808
+--- /dev/null
++++ b/tests/ui/abi/sparcv8plus-llvm19.sparc_cpu_v9.stderr
+@@ -0,0 +1,8 @@
++error: +v8plus,+v9
++  --> $DIR/sparcv8plus-llvm19.rs:34:1
++   |
++LL | compile_error!("+v8plus,+v9");
++   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++error: aborting due to 1 previous error
++
+diff --git a/tests/ui/abi/sparcv8plus-llvm19.sparc_cpu_v9_feature_v8plus.stderr b/tests/ui/abi/sparcv8plus-llvm19.sparc_cpu_v9_feature_v8plus.stderr
+new file mode 100644
+index 0000000000000..ac61df3567808
+--- /dev/null
++++ b/tests/ui/abi/sparcv8plus-llvm19.sparc_cpu_v9_feature_v8plus.stderr
+@@ -0,0 +1,8 @@
++error: +v8plus,+v9
++  --> $DIR/sparcv8plus-llvm19.rs:34:1
++   |
++LL | compile_error!("+v8plus,+v9");
++   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++error: aborting due to 1 previous error
++
+diff --git a/tests/ui/abi/sparcv8plus-llvm19.sparc_feature_v8plus.stderr b/tests/ui/abi/sparcv8plus-llvm19.sparc_feature_v8plus.stderr
+new file mode 100644
+index 0000000000000..1bf7a3ad76a83
+--- /dev/null
++++ b/tests/ui/abi/sparcv8plus-llvm19.sparc_feature_v8plus.stderr
+@@ -0,0 +1,8 @@
++error: +v8plus,-v9 (FIXME)
++  --> $DIR/sparcv8plus-llvm19.rs:39:1
++   |
++LL | compile_error!("+v8plus,-v9 (FIXME)");
++   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++error: aborting due to 1 previous error
++
+diff --git a/tests/ui/abi/sparcv8plus-llvm19.sparcv8plus.stderr b/tests/ui/abi/sparcv8plus-llvm19.sparcv8plus.stderr
+new file mode 100644
+index 0000000000000..ac61df3567808
+--- /dev/null
++++ b/tests/ui/abi/sparcv8plus-llvm19.sparcv8plus.stderr
+@@ -0,0 +1,8 @@
++error: +v8plus,+v9
++  --> $DIR/sparcv8plus-llvm19.rs:34:1
++   |
++LL | compile_error!("+v8plus,+v9");
++   | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
++
++error: aborting due to 1 previous error
++
+diff --git a/tests/ui/abi/sparcv8plus.rs b/tests/ui/abi/sparcv8plus.rs
+index 108279b34949b..a78ae0cd32889 100644
+--- a/tests/ui/abi/sparcv8plus.rs
++++ b/tests/ui/abi/sparcv8plus.rs
+@@ -9,7 +9,7 @@
+ //@[sparc_feature_v8plus] needs-llvm-components: sparc
+ //@[sparc_cpu_v9_feature_v8plus] compile-flags: --target sparc-unknown-none-elf -C target-cpu=v9 -C target-feature=+v8plus
+ //@[sparc_cpu_v9_feature_v8plus] needs-llvm-components: sparc
+-//@ min-llvm-version: 19
++//@ min-llvm-version: 20
+ 
+ #![crate_type = "rlib"]
+ #![feature(no_core, rustc_attrs, lang_items)]
+@@ -29,10 +29,9 @@ macro_rules! compile_error {
+ compile_error!("-v8plus,-v9");
+ //[sparc]~^ ERROR -v8plus,-v9
+ 
+-// FIXME: sparc_cpu_v9 should be in "-v8plus,+v9" group (fixed in LLVM 20)
+ #[cfg(all(target_feature = "v8plus", target_feature = "v9"))]
+ compile_error!("+v8plus,+v9");
+-//[sparcv8plus,sparc_cpu_v9_feature_v8plus,sparc_cpu_v9]~^ ERROR +v8plus,+v9
++//[sparcv8plus,sparc_cpu_v9_feature_v8plus]~^ ERROR +v8plus,+v9
+ 
+ // FIXME: should be rejected
+ #[cfg(all(target_feature = "v8plus", not(target_feature = "v9")))]
+@@ -41,3 +40,4 @@ compile_error!("+v8plus,-v9 (FIXME)");
+ 
+ #[cfg(all(not(target_feature = "v8plus"), target_feature = "v9"))]
+ compile_error!("-v8plus,+v9");
++//[sparc_cpu_v9]~^ ERROR -v8plus,+v9
+diff --git a/tests/ui/abi/sparcv8plus.sparc_cpu_v9.stderr b/tests/ui/abi/sparcv8plus.sparc_cpu_v9.stderr
+index 5e1e1fa5c798f..00fd7ef4ea8fb 100644
+--- a/tests/ui/abi/sparcv8plus.sparc_cpu_v9.stderr
++++ b/tests/ui/abi/sparcv8plus.sparc_cpu_v9.stderr
+@@ -1,7 +1,7 @@
+-error: +v8plus,+v9
+-  --> $DIR/sparcv8plus.rs:34:1
++error: -v8plus,+v9
++  --> $DIR/sparcv8plus.rs:42:1
+    |
+-LL | compile_error!("+v8plus,+v9");
++LL | compile_error!("-v8plus,+v9");
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+ 
+ error: aborting due to 1 previous error
+diff --git a/tests/ui/abi/sparcv8plus.sparc_cpu_v9_feature_v8plus.stderr b/tests/ui/abi/sparcv8plus.sparc_cpu_v9_feature_v8plus.stderr
+index 5e1e1fa5c798f..a3c74e67f8f11 100644
+--- a/tests/ui/abi/sparcv8plus.sparc_cpu_v9_feature_v8plus.stderr
++++ b/tests/ui/abi/sparcv8plus.sparc_cpu_v9_feature_v8plus.stderr
+@@ -1,5 +1,5 @@
+ error: +v8plus,+v9
+-  --> $DIR/sparcv8plus.rs:34:1
++  --> $DIR/sparcv8plus.rs:33:1
+    |
+ LL | compile_error!("+v8plus,+v9");
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+diff --git a/tests/ui/abi/sparcv8plus.sparc_feature_v8plus.stderr b/tests/ui/abi/sparcv8plus.sparc_feature_v8plus.stderr
+index 8a5375a46bc05..84f560d158ca9 100644
+--- a/tests/ui/abi/sparcv8plus.sparc_feature_v8plus.stderr
++++ b/tests/ui/abi/sparcv8plus.sparc_feature_v8plus.stderr
+@@ -1,5 +1,5 @@
+ error: +v8plus,-v9 (FIXME)
+-  --> $DIR/sparcv8plus.rs:39:1
++  --> $DIR/sparcv8plus.rs:38:1
+    |
+ LL | compile_error!("+v8plus,-v9 (FIXME)");
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+diff --git a/tests/ui/abi/sparcv8plus.sparcv8plus.stderr b/tests/ui/abi/sparcv8plus.sparcv8plus.stderr
+index 5e1e1fa5c798f..a3c74e67f8f11 100644
+--- a/tests/ui/abi/sparcv8plus.sparcv8plus.stderr
++++ b/tests/ui/abi/sparcv8plus.sparcv8plus.stderr
+@@ -1,5 +1,5 @@
+ error: +v8plus,+v9
+-  --> $DIR/sparcv8plus.rs:34:1
++  --> $DIR/sparcv8plus.rs:33:1
+    |
+ LL | compile_error!("+v8plus,+v9");
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+From 2718710d4a505019c46ccc7db42d890f230de25e Mon Sep 17 00:00:00 2001
+From: Nikita Popov <npopov@redhat.com>
+Date: Mon, 20 Jan 2025 12:08:27 +0100
+Subject: [PATCH 2/2] Fix x86_64-bigint-helpers test on LLVM 20
+
+LLVM 20 choses a different unroll factor for the loop.
+---
+ tests/assembly/x86_64-bigint-helpers.rs | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
+
+diff --git a/tests/assembly/x86_64-bigint-helpers.rs b/tests/assembly/x86_64-bigint-helpers.rs
+index 198e554353909..3ad253a2bd0fe 100644
+--- a/tests/assembly/x86_64-bigint-helpers.rs
++++ b/tests/assembly/x86_64-bigint-helpers.rs
+@@ -2,6 +2,9 @@
+ //@ assembly-output: emit-asm
+ //@ compile-flags: --crate-type=lib -O -C target-cpu=x86-64-v4
+ //@ compile-flags: -C llvm-args=-x86-asm-syntax=intel
++//@ revisions: llvm-pre-20 llvm-20
++//@ [llvm-20] min-llvm-version: 20
++//@ [llvm-pre-20] max-llvm-major-version: 19
+ 
+ #![no_std]
+ #![feature(bigint_helper_methods)]
+@@ -20,12 +23,16 @@ pub unsafe extern "sysv64" fn bigint_chain_carrying_add(
+     n: usize,
+     mut carry: bool,
+ ) -> bool {
+-    // CHECK: mov [[TEMP:r..]], qword ptr [rsi + 8*[[IND:r..]] + 8]
+-    // CHECK: adc [[TEMP]], qword ptr [rdx + 8*[[IND]] + 8]
+-    // CHECK: mov qword ptr [rdi + 8*[[IND]] + 8], [[TEMP]]
+-    // CHECK: mov [[TEMP]], qword ptr [rsi + 8*[[IND]] + 16]
+-    // CHECK: adc [[TEMP]], qword ptr [rdx + 8*[[IND]] + 16]
+-    // CHECK: mov qword ptr [rdi + 8*[[IND]] + 16], [[TEMP]]
++    // llvm-pre-20: mov [[TEMP:r..]], qword ptr [rsi + 8*[[IND:r..]] + 8]
++    // llvm-pre-20: adc [[TEMP]], qword ptr [rdx + 8*[[IND]] + 8]
++    // llvm-pre-20: mov qword ptr [rdi + 8*[[IND]] + 8], [[TEMP]]
++    // llvm-pre-20: mov [[TEMP]], qword ptr [rsi + 8*[[IND]] + 16]
++    // llvm-pre-20: adc [[TEMP]], qword ptr [rdx + 8*[[IND]] + 16]
++    // llvm-pre-20: mov qword ptr [rdi + 8*[[IND]] + 16], [[TEMP]]
++    // llvm-20: adc [[TEMP:r..]], qword ptr [rdx + 8*[[IND:r..]]]
++    // llvm-20: mov qword ptr [rdi + 8*[[IND]]], [[TEMP]]
++    // llvm-20: mov [[TEMP]], qword ptr [rsi + 8*[[IND]] + 8]
++    // llvm-20: adc [[TEMP]], qword ptr [rdx + 8*[[IND]] + 8]
+     for i in 0..n {
+         (*dest.add(i), carry) = u64::carrying_add(*src1.add(i), *src2.add(i), carry);
+     }

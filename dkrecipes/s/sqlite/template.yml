@@ -1,0 +1,14 @@
+name: sqlite
+version: 3.49.1
+release: 1
+url:
+  - https://sqlite.org/2025/sqlite-autoconf-3490100.tar.gz
+  - https://sqlite.org/2025/sqlite-doc-3490100.zip
+homepage: https://sqlite.org/
+license: Public-Domain
+summary: Self-contained, serverless SQL database engine
+description: |
+  SQLite is a fast, compact, self-contained SQL database engine. It is a popular choice for embedded systems, desktop software, and applications that require a lightweight, zero-configuration database.
+phase: 5
+builddeps: [make, gcc, glibc, libarchive]
+buildsteps: "unzip -q ../sqlite-doc-3490100.zip\n\n./configure --prefix=/usr     \\\n            --disable-static  \\\n            --enable-fts{4,5} \\\n            CPPFLAGS=\"-D SQLITE_ENABLE_COLUMN_METADATA=1 \\\n                      -D SQLITE_ENABLE_UNLOCK_NOTIFY=1   \\\n                      -D SQLITE_ENABLE_DBSTAT_VTAB=1     \\\n                      -D SQLITE_SECURE_DELETE=1\"         \nmake\nmake install\n\ninstall -v -m755 -d /usr/share/doc/sqlite-3.49.1 \ncp -v -R sqlite-doc-3490100/* /usr/share/doc/sqlite-3.49.1"

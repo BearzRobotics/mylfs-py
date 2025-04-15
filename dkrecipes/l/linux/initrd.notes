@@ -1,0 +1,35 @@
+https://medium.com/@kiky.tokamuro/creating-initramfs-5cca9b524b5a
+
+
+to build an initrd you need busybox and cpio
+
+
+# DJOK addons: Busybox
+# This section can be done in the Chroot or on the booted system
+
+# you can configure this as big as you want
+# If building for an initrd you need to build it static and 
+# build these "sh", "mount", "umount", "ls", "cat", "mkdir", "rm", 
+# "chmod", "chown", "dmesg", and "logread",
+
+# if you're worried about size I left the defualt config  and only 
+# disable the programs that wouldn't build. (listed bellow)
+du -h busybox             1.2M    busybox
+du -h busybox_unstripped  1.4M    busybox_unstripped
+
+
+# patch busybox so make menuconfig can work.
+sed -i 's/^\(always\s*:=[^#]*\)$/#\1/' scripts/kconfig/lxdialog/Makefile
+
+# had to disable to to get it to build
+Nextworking Utilities -> tc
+Findutils -> grep, egrep, fgrep, 
+
+# configure
+make menuconfig
+
+# install busybox
+cp -v busybox /usr/bin/busybox
+
+
+

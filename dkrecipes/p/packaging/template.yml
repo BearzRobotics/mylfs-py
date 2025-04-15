@@ -1,0 +1,14 @@
+name: packaging
+version: 24.2
+release: 1
+url: https://files.pythonhosted.org/packages/source/p/packaging/packaging-24.2.tar.gz
+homepage: https://github.com/pypa/packaging
+license: Apache-2.0 OR BSD-2-Clause
+summary: Core utilities for Python package versioning and dependency handling
+description: |
+  Packaging is a Python library that provides core utilities for dealing with versions, specifiers, markers, and requirements as defined in PEP 440 and related standards. It is widely used by pip, build, and other Python packaging tools.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user packaging

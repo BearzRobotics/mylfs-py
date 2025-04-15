@@ -1,0 +1,14 @@
+name: cython
+version: 3.0.12
+release: 1
+url: https://github.com/cython/cython/releases/download/3.0.12/cython-3.0.12.tar.gz
+homepage: https://cython.org/
+license: Apache-2.0
+summary: Optimizing static compiler for Python and Cython code
+description: |
+  Cython is a compiler that allows writing Python code that gets compiled to highly efficient C or C++ code. It enables the creation of fast Python extension modules and is widely used to speed up Python programs and wrap C/C++ libraries.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user Cython

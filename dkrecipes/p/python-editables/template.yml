@@ -1,0 +1,14 @@
+name: python-editables
+version: 0.5
+release: 1
+url: https://files.pythonhosted.org/packages/source/e/editables/editables-0.5.tar.gz
+homepage: https://github.com/pfmoore/editables
+license: MIT
+summary: Editable installs support for Python projects
+description: |
+  Editables is a Python library that provides support for editable installs as defined in PEP 660. It allows Python projects to be installed in a way that reflects source code changes without requiring reinstallation.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+buildsteps: |-
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user editables

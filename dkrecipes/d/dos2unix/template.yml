@@ -1,0 +1,14 @@
+name: dos2unix
+version: 7.5.2
+release: 1
+url: https://downloads.sourceforge.net/dos2unix/dos2unix-7.5.2.tar.gz
+homepage: https://waterlan.home.xs4all.nl/dos2unix.html
+license: BSD-2-Clause
+summary: Convert text files between DOS and Unix formats
+description: |
+  dos2unix and unix2dos are tools to convert plain text files between DOS and Unix line endings. They are useful when sharing files across different platforms or correcting inconsistent line endings.
+phase: 5
+builddeps: [make, gcc, glibc]
+buildsteps: |
+  make
+  make prefix=/usr install

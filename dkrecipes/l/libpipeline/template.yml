@@ -3,15 +3,12 @@ version: 1.5.8
 release: 1
 url: https://download.savannah.gnu.org/releases/libpipeline/libpipeline-1.5.8.tar.gz
 homepage: https://libpipeline.nongnu.org/
-
-license: 
-summary: 
-description: |
-
+license:
+summary:
+description: ""
 phase: 4
 order: 335
 critical: true
-
 buildsteps: |
   ./configure --prefix=/usr
 
@@ -24,3 +21,4 @@ buildsteps: |
   fi
 
   make install
+builddeps: []

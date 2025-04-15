@@ -1,0 +1,43 @@
+name: dhcpcd
+version: 10.2.2
+release: 1
+url:
+  - https://github.com/NetworkConfiguration/dhcpcd/releases/download/v10.2.2/dhcpcd-10.2.2.tar.xz
+  - https://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-20250225.tar.xz
+homepage: https://roy.marples.name/projects/dhcpcd/
+license: BSD-2-Clause
+summary: Lightweight and fully featured DHCP client
+description: |
+  dhcpcd is a lightweight and full-featured DHCP client for connecting to wired and wireless networks. It supports IPv4, IPv6, DHCP, DHCPv6, and static configurations.
+phase: 5
+builddeps: [make, glibc]
+buildsteps: | 
+  install  -v -m700 -d /var/lib/dhcpcd 
+
+  # Create group if it doesn't exist
+  if ! getent group dhcpcd >/dev/null; then
+      groupadd -g 52 dhcpcd
+  fi
+
+  # Create user if it doesn't exist
+  if ! id dhcpcd >/dev/null 2>&1; then
+      useradd -c 'dhcpcd PrivSep' \
+              -d /var/lib/dhcpcd  \
+              -g dhcpcd           \
+              -s /bin/false       \
+              -u 52 dhcpcd
+  fi
+
+  # Ensure the directory is owned by dhcpcd:dhcpcd
+  chown -v dhcpcd:dhcpcd /var/lib/dhcpcd
+
+
+  ./configure --prefix=/usr                \
+              --sysconfdir=/etc            \
+              --libexecdir=/usr/lib/dhcpcd \
+              --dbdir=/var/lib/dhcpcd      \
+              --runstatedir=/run           \
+              --disable-privsep         
+  make
+
+  make install

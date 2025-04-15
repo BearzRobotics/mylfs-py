@@ -3,7 +3,6 @@ version: 3.7.7
 release: 1
 url: https://github.com/libarchive/libarchive/releases/download/v3.7.7/libarchive-3.7.7.tar.xz
 homepage: https://github.com/libarchive/libarchive
-
 license: BSD-2-Clause
 summary: bsd compression and uncompression tools (unzip)
 description: |
@@ -11,9 +10,8 @@ description: |
 phase: 4
 order: 420
 critical: true
-builddeps: [ libxml2, lzo, nettle, pcre2 ]
+builddeps: [libxml2, lzo, nettle, pcre2]
 buildsystem: make
-
 buildsteps: |
   ./configure --prefix=/usr --disable-static
   make

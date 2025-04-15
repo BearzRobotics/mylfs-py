@@ -3,7 +3,6 @@ version: 1.47.2
 release: 1
 url: https://downloads.sourceforge.net/project/e2fsprogs/e2fsprogs/v1.47.2/e2fsprogs-1.47.2.tar.gz
 homepage: https://e2fsprogs.sourceforge.net/
-
 license: GPL-2.0-or-later
 summary: Ext[2-4] filesystem utils
 description: |
@@ -11,9 +10,7 @@ description: |
 phase: 4
 order: 405
 critical: true
-
-builddeps: [ util-linux, make, glibc ]
-
+builddeps: [util-linux, make, glibc]
 buildsteps: |
   mkdir build
   cd build

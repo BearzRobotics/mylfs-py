@@ -3,21 +3,18 @@ version: 5.40.1
 release: 1
 url: https://www.cpan.org/src/5.0/perl-5.40.1.tar.xz
 homepage: https://www.perl.org/
-
-license: 
-    - Artistic-1.0-Perl
-    - GPL-2.0-or-later
-    - GPL-1.0-or-later
-    - MIT
+license:
+  - Artistic-1.0-Perl
+  - GPL-2.0-or-later
+  - GPL-1.0-or-later
+  - MIT
 summary: Perl
 description: |
   An interpreted scripting language, known among some as "Unix's Swiss Army Chainsaw".
-
 phase: 4
 order: 205
 critical: true
-builddeps: [ gdbm ]
-
+builddeps: [gdbm]
 buildsteps: |
   export BUILD_ZLIB=False
   export BUILD_BZIP2=0

@@ -1,0 +1,42 @@
+name: zig
+version: 0.14.0
+release: 1
+homepage: https://github.com/tristanisham/zvm
+
+license: MIT
+summary: Zig Version Manager (zvm)
+description: |
+  zvm is a version manager for the Zig programming language, similar to rustup or nvm. It allows easy installation and switching between Zig versions. This installs zvm and uses it to fetch Zig 0.14.0.
+
+phase: 5
+builddeps: [curl, bash, git]
+
+buildsteps: |
+  set +e
+  touch ~/.bashrc 
+  curl -fsSL https://raw.githubusercontent.com/tristanisham/zvm/master/install.sh | bash
+  source ~/.bashrc
+  zvm install master
+  zvm install 0.13.0
+  zvm install 0.14.0
+
+  cat >> /root/dknotes < "EOF"
+
+  Zig
+  ==========================
+  # install a specific version
+  zvm install <version> 
+
+  # install latest development
+  zvm install master
+
+  located 
+  ~/.zvm/bin 
+
+  or 
+
+  ~/.zvm/<version>
+  eg. 
+  ~`/.zvm/0.14.0/
+
+  EOF

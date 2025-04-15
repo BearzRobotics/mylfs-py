@@ -3,17 +3,14 @@ version: 2.44.0
 release: 1
 url: https://sourceware.org/pub/binutils/releases/binutils-2.44.tar.xz
 homepage: https://www.gnu.org/software/binutils/
-
 license: GPL-3.0-or-later
 summary: contains a linker, an assembler, and other tools for handling object files
 description: |
-    The Binutils package contains a linker, an assembler, and other tools for handling object files.
-
+  The Binutils package contains a linker, an assembler, and other tools for handling object files.
 phase: 2
 order: 17
 critical: true
-
-buildsteps: |
+buildsteps: |-
   sed '6009s/$add_dir//' -i ltmain.sh
 
   mkdir build
@@ -35,3 +32,4 @@ buildsteps: |
   make DESTDIR=$LFS install
 
   rm $LFS/usr/lib/lib{bfd,ctf,ctf-nobfd,opcodes,sframe}.{a,la}
+builddeps: []

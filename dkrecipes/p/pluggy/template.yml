@@ -1,0 +1,14 @@
+name: pluggy
+version: 1.5.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/p/pluggy/pluggy-1.5.0.tar.gz
+homepage: https://github.com/pytest-dev/pluggy
+license: MIT
+summary: Plugin management framework for Python
+description: |
+  Pluggy is a plugin system and management framework used by tools like pytest and tox. It allows applications to define and use extensible hooks in a simple, flexible way.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel, setuptools-scm]
+buildsteps: |-
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user pluggy

@@ -1,0 +1,22 @@
+name: musl
+version: 1.2.5
+release: 1
+url: https://musl.libc.org/releases/musl-1.2.5.tar.gz
+homepage: https://musl.libc.org/
+
+license: MIT
+summary: Lightweight and fast C standard library
+description: |
+  musl is a lightweight, fast, and simple implementation of the standard C library, intended for static linking and use in minimal, secure, and efficient Linux-based systems.
+
+phase: 5
+builddeps: [make, gcc]
+
+buildsteps: |
+  # This isolates musl built libs from the system
+  mkdir -pv /musl
+  ./configure --prefix=/musl
+
+  make 
+
+  make install

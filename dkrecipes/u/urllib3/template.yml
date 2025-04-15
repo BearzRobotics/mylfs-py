@@ -1,0 +1,14 @@
+name: urllib3
+version: 2.3.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/u/urllib3/urllib3-2.3.0.tar.gz
+homepage: https://github.com/urllib3/urllib3
+license: MIT
+summary: Powerful HTTP client for Python
+description: |
+  urllib3 is a powerful, user-friendly HTTP client for Python. It features connection pooling, client-side SSL/TLS verification, retries, and support for many HTTP features. It is widely used as a dependency by requests and other libraries.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel, hatch-vcs]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user urllib3

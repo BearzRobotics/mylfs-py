@@ -1,0 +1,14 @@
+name: charset-normalizer
+version: 3.4.1
+release: 1
+url: https://files.pythonhosted.org/packages/source/c/charset-normalizer/charset_normalizer-3.4.1.tar.gz
+homepage: https://github.com/Ousret/charset_normalizer
+license: MIT
+summary: Encoding detection library for Python
+description: |
+  Charset-Normalizer is a Python library for character encoding detection, used as a drop-in replacement for chardet. It supports multi-byte and Unicode-aware text analysis and is commonly used in HTTP and file handling libraries.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel, setuptools-scm]
+buildsteps: |-
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user charset-normalizer

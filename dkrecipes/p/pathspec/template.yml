@@ -1,0 +1,14 @@
+name: pathspec
+version: 0.12.1
+release: 1
+url: https://files.pythonhosted.org/packages/source/p/pathspec/pathspec-0.12.1.tar.gz
+homepage: https://github.com/cpburnz/python-path-specification
+license: MPL-2.0
+summary: Utility for gitignore-style file pattern matching
+description: |
+  Pathspec is a Python library for gitignore-style pattern matching of file paths. It supports the git wildmatch pattern syntax and is useful for tools that need to include or exclude files using ignore rules.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user pathspec

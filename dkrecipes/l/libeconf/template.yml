@@ -1,0 +1,15 @@
+name: libeconf
+version: 0.7.7
+release: 1
+url: https://github.com/openSUSE/libeconf/archive/refs/tags/v0.7.7.tar.gz
+homepage: https://github.com/openSUSE/libeconf
+license: LGPL-2.1-or-later
+summary: Enhanced config file parser for key=value files
+description: |
+  libeconf is a highly flexible and standard-compliant C library for parsing configuration files. It supports reading both traditional key=value pairs and layered configuration directories like /etc and /usr/lib.
+phase: 5
+builddeps: [make, meson, ninja, glibc, pkgconfig]
+buildsteps: |
+  meson setup build --prefix=/usr
+  ninja -C build
+  ninja -C build install

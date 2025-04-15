@@ -1,0 +1,17 @@
+name: patchelf
+version: 0.18.0
+release: 1
+url: https://github.com/NixOS/patchelf/releases/download/0.18.0/patchelf-0.18.0.tar.gz
+homepage: https://github.com/NixOS/patchelf
+license: GPL-3.0-or-later
+summary: Modify dynamic ELF executables
+description: |
+  patchelf is a simple utility for modifying existing ELF executables and libraries. It can change the dynamic loader ("interpreter"), RPATH, SONAME, and more, making it useful for relocatable and portable builds.
+phase: 5
+builddeps: [make, gcc, glibc, autoconf, automake]
+buildsteps: |-
+  ./configure --prefix=/usr \
+              --docdir=/usr/share/doc/patchelf-{version}
+  make
+
+  make install

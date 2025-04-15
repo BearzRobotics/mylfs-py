@@ -1,0 +1,15 @@
+name: libyaml
+version: 0.2.5
+release: 1
+url: https://github.com/yaml/libyaml/releases/download/0.2.5/yaml-0.2.5.tar.gz
+homepage: https://github.com/yaml/libyaml
+license: MIT
+summary: YAML 1.1 parser and emitter written in C
+description: |
+  libyaml is a C library for parsing and emitting YAML, a human-friendly data serialization standard. It is lightweight, fast, and commonly used by bindings in other languages.
+phase: 5
+builddeps: [make, gcc, glibc]
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

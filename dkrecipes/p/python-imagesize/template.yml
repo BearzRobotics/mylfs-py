@@ -1,0 +1,14 @@
+name: python-imagesize
+version: 1.4.1
+release: 1
+url: https://files.pythonhosted.org/packages/source/i/imagesize/imagesize-1.4.1.tar.gz
+homepage: https://github.com/shibukawa/imagesize_py
+license: MIT
+summary: Get image size from PNG, JPEG, GIF, BMP files in pure Python
+description: |
+  imagesize is a small Python library that extracts the dimensions of PNG, JPEG, GIF, and BMP images without using external libraries. It is commonly used in documentation tools like Sphinx to precompute image dimensions.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel, requests]
+buildsteps: |-
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user imagesize

@@ -1,0 +1,18 @@
+name: nushell
+version: 0.103.0
+release: 1
+url: https://github.com/nushell/nushell/archive/refs/tags/0.103.0.tar.gz
+homepage: https://www.nushell.sh/
+
+license: MIT OR Apache-2.0
+summary: A new type of shell for the modern age
+description: |
+  Nushell is a modern shell that focuses on structured data, making it easier to work with files, pipelines, and APIs. It combines a traditional shell with concepts from functional programming and data formats like JSON and YAML.
+
+phase: 5
+builddeps: [rust]
+
+buildsteps: |
+  export PATH=/opt/rustc/bin:$PATH
+  cargo build --release
+  install -Dm755 target/release/nu /usr/bin/nu

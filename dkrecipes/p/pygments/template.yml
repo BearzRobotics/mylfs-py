@@ -1,0 +1,14 @@
+name: pygments
+version: 2.19.1
+release: 1
+url: https://files.pythonhosted.org/packages/source/P/Pygments/pygments-2.19.1.tar.gz
+homepage: https://pygments.org/
+license: BSD-2-Clause
+summary: Syntax highlighting engine written in Python
+description: |
+  Pygments is a generic syntax highlighter for code and text, written in Python. It supports a wide range of programming languages and formats and is used by Sphinx, IPython, and many documentation tools.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel, hatchling]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user Pygments

@@ -1,0 +1,14 @@
+name: tree
+version: 2.2.1
+release: 1
+url: https://gitlab.com/OldManProgrammer/unix-tree/-/archive/2.2.1/unix-tree-2.2.1.tar.bz2
+homepage: https://gitlab.com/OldManProgrammer/unix-tree
+license: GPL-2.0-only
+summary: Recursive directory listing command that produces a depth-indented tree
+description: |
+  Tree is a recursive directory listing program that produces a depth-indented listing of files. It is useful for visualizing directory structures in the terminal.
+phase: 5
+builddeps: [make, gcc, glibc]
+buildsteps: |
+  make
+  make PREFIX=/usr MANDIR=/usr/share/man install

@@ -1,0 +1,12 @@
+name: sphinx
+version: 8.2.3
+release: 1
+url: https://files.pythonhosted.org/packages/source/s/sphinx/sphinx-8.2.3.tar.gz
+homepage: https://www.sphinx-doc.org/
+license: BSD-2-Clause
+summary: Python documentation generator
+description: |
+  Sphinx is a Python documentation generator that converts reStructuredText and Markdown sources into HTML, LaTeX, PDF, man pages, and more. It is widely used in the Python ecosystem for generating project documentation.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel, cython, alabaster, babel, docutils, python-imagesize, packaging, pygments, requests, snowballstemmer, sphinxcontrib-applehelp, sphinxcontrib-devhelp, sphinxcontrib-htmlhelp, sphinxcontrib-jsmath, sphinxcontrib-qthelp]
+buildsteps: "pip3 install roman-numerals-py \npip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD\npip3 install --no-index --find-links dist --no-user sphinx"

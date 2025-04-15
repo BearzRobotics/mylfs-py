@@ -1,0 +1,21 @@
+name: dash
+version: 0.5.12
+release: 1
+url: http://gondor.apana.org.au/~herbert/dash/files/dash-0.5.12.tar.gz
+homepage: https://git.kernel.org/pub/scm/utils/dash/dash.git/
+license: BSD-3-Clause
+summary: A POSIX-compliant Unix shell optimized for speed
+description: |
+  Dash is a POSIX-compliant shell that is much smaller than bash. It is useful for systems where performance and small size are important. It is often used as /bin/sh in minimal Linux environments.
+phase: 5
+builddeps: [make, gcc, glibc]
+buildsteps: |
+  ./configure --bindir=/bin --mandir=/usr/share/man &&
+  make
+  make install
+
+  cat >> /etc/shells << "EOF"
+  /bin/dash
+  EOF
+# This is optional. Most linux packages assume /bin/sh -> bash
+# ln -svf dash /bin/sh

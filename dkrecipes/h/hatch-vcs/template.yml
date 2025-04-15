@@ -1,0 +1,14 @@
+name: hatch-vcs
+version: 0.4.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/h/hatch-vcs/hatch_vcs-0.4.0.tar.gz
+homepage: https://github.com/ofek/hatch-vcs
+license: MIT
+summary: Hatch plugin for managing versions with your VCS
+description: |
+  hatch-vcs is a Hatch plugin that integrates version control metadata (such as Git tags) into Python project versioning. It supports PEP 440-compliant version generation based on Git and is commonly used alongside hatchling.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel, hatchling, setuptools-scm, git]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user hatch_vcs

@@ -3,7 +3,6 @@ version: 1.24
 release: 1
 url: https://ftp.gnu.org/gnu/gdbm/gdbm-1.24.tar.gz
 homepage: https://www.gnu.org/software/gdbm/
-
 license: GPL-3.0-or-later
 summary: Standard GNU database libraries
 description: |
@@ -11,9 +10,7 @@ description: |
 phase: 4
 order: 180
 critical: true
-
 #builddeps: [make, gblic, readline]
-
 buildsteps: |
   ./configure --prefix=/usr    \
               --disable-static \
@@ -28,3 +25,4 @@ buildsteps: |
   fi
 
   make install
+builddeps: []

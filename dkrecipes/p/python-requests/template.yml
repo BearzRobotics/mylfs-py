@@ -1,0 +1,16 @@
+name: requests
+version: 2.32.3
+release: 1
+url: https://files.pythonhosted.org/packages/source/r/requests/requests-2.32.3.tar.gz
+homepage: https://requests.readthedocs.io/
+license: Apache-2.0
+summary: Python HTTP library for human beings
+description: |
+  Requests is a simple and elegant HTTP library for Python, built for human beings. It abstracts many complexities of HTTP and makes interacting with web services easy and intuitive.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel, charset-normalizer, idna, urllib3, p11kit, makeca_certs]
+buildsteps: |-
+  patch -Np1 -i ../patches/requests-2.32.3-use_system_certs-1.patch
+
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user requests

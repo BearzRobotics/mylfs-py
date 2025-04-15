@@ -1,0 +1,14 @@
+name: pyyaml
+version: 6.0.2
+release: 1
+url: https://files.pythonhosted.org/packages/source/P/PyYAML/pyyaml-6.0.2.tar.gz
+homepage: https://pyyaml.org/
+license: MIT
+summary: YAML parser and emitter for Python
+description: |
+  PyYAML is a YAML parser and emitter for Python. It supports standard YAML 1.1 and can use the C-based libyaml backend for fast parsing and emitting.
+phase: 5
+builddeps: [python, python-wheel, python-setuptools, libyaml, cython]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user PyYAML

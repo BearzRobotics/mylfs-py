@@ -1,0 +1,17 @@
+name: libssh2
+version: 1.11.1
+release: 1
+url: https://www.libssh2.org/download/libssh2-1.11.1.tar.gz
+homepage: https://www.libssh2.org/
+license: BSD-3-Clause
+summary: Client-side SSH2 protocol library
+description: |
+  libssh2 is a client-side C library implementing the SSH2 protocol. It provides functionality for interacting with SSH servers, including authentication, tunneling, file transfers via SFTP, and remote command execution.
+phase: 5
+builddeps: [make, gcc, glibc, openssl, zlib]
+buildsteps: |
+  ./configure --prefix=/usr          \
+            --disable-docker-tests \
+            --disable-static       &&
+  make
+  make install
