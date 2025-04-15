@@ -32,8 +32,12 @@ from builder import *
 from recipes import *
 from user import *
 
-def main():
+# pythyon did not like this function in util.py because it became a circular deps
+def cleanup(config: GlobalConfig):
+    unmountTmpFs(config)
+    deleteLfs(config)
 
+def main():
     if (amRoot() == False):
         ConsoleMSG.failed("mylfs-py requires root privalges! Run at your own peril")
         exit(1) 
@@ -47,9 +51,6 @@ def main():
     if not config.run_test:
         ConsoleMSG.warn("skipping tests")
     
-    # see if system has required tools
-    requiredTools(config)
-    
     # chroot if enabled
     if (config.chroot):
         mountTmpFs(config)
@@ -57,12 +58,21 @@ def main():
         unmountTmpFs(config)
         exit(0)
     
+    # see if system has required tools
+    requiredTools(config)
+    
+
+    
     # if this is true we want to do this and supress the bootstrap options
-    if (config.start_phase and config.start_package != None):
-        # this way the user can pass phase 1 for phase 1 and not zero, etc
-        if (int(config.start_phase) > 0):
+    if (config.start_phase  == 0):
+        set_phase_state(config, 0)
+        checkIfBuildDirisEmpty(config)
+    elif (config.start_phase <= 5):
             phase = int(config.start_phase) - 1
             set_phase_state(config, phase)
+            
+            if (config.start_phase >= 2):
+                mountTmpFs(config)
     else:
         # show warning if bootstrap is enabled
         ConsoleMSG.warn("If this fails you may have your temp fs still mounted from a previous build attempt")
@@ -83,7 +93,6 @@ def main():
         ConsoleMSG.passed("Created lfs user and group")
         
     chownBuildDir(config)
-        
     
     if (get_phase_state(config) == 0):
         ConsoleMSG.header("Phase 1 - Cross tools")
@@ -129,7 +138,7 @@ def main():
     if (get_phase_state(config) == 4):
         ConsoleMSG.header("Phase 5 - Building final system")
         try:
-            pass
+            buildAllPhase5(config, recipes)
         except Exception as e:
             ConsoleMSG.failed(f"Phase 5 has failed: {e}")
             cleanup(config)
@@ -142,7 +151,5 @@ if __name__ == "__main__":
     main()
     
     
-def cleanup(config: GlobalConfig):
-    unmountTmpFs(config)
-    deleteLfs(config)
+
     

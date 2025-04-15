@@ -1,0 +1,52 @@
+# https://www.linuxfromscratch.org/blfs/view/svn/postlfs/grub-setup.html#uefi-kernel
+# ===============================
+# cf page above for flashdrive instructions
+
+# the following command will erease the disk it ponts to
+# this needs to be a partion at lease 
+mount --mkdir -v -t vfat /dev/sdx1 -o codepage=437,iocharset=iso8859-1 \
+      /boot/efi
+
+cat >> /etc/fstab << EOF
+/dev/sda1 /boot/efi vfat codepage=437,iocharset=iso8859-1 0 1
+efivarfs /sys/firmware/efi/efivars efivarfs defaults 0 0
+EOF
+
+# need efivars
+mountpoint /sys/firmware/efi/efivars || mount -v -t efivarfs efivarfs /sys/firmware/efi/efivars
+
+# install grub
+grub-install --target=x86_64-efi --removable /dev/sdX
+
+cat > /boot/grub/grub.cfg << EOF
+# Begin /boot/grub/grub.cfg
+set default=0
+set timeout=5
+
+insmod part_gpt
+insmod ext2
+set root=(hd0,2)
+
+insmod efi_gop
+insmod efi_uga
+if loadfont /boot/grub/fonts/unicode.pf2; then
+  terminal_output gfxterm
+fi
+
+menuentry "GNU/Linux, Linux 6.13.4-FenrirOS" {
+  linux   /boot/vmlinuz-6.13.4-FenrirOS root=/dev/sda4 ro net.ifnames=0
+}
+
+# for UEFI
+menuentry "Firmware Setup" {
+  fwsetup
+}
+EOF
+
+# If you made the bios-boot space 2mb unformated at beganing of drive
+#--------------------------
+# Asuming that your in chroot with dev, proc, sys, and run bind mounted.
+# otherwise change /boot to $LFS/boot 
+grub-install --target=i386-pc --boot-directory=/boot /dev/sdX
+
+This will let your drive boot under both legecay and UEFI

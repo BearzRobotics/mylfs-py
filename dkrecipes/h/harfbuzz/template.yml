@@ -1,0 +1,26 @@
+name: harfbuzz
+version: 11.0.1
+release: 1
+url: https://github.com/harfbuzz/harfbuzz/releases/download/11.0.1/harfbuzz-11.0.1.tar.xz
+homepage: https://github.com/harfbuzz/harfbuzz/
+
+license: MIT, HPND
+summary: The HarfBuzz package contains an OpenType text shaping engine.
+description: |
+    The HarfBuzz package contains an OpenType text shaping engine.
+phase: 5
+
+
+builddeps: [make, glibc, meson, ninja, glib, icu, freetype2, graphite2]
+
+buildsteps: |
+    mkdir build &&
+    cd    build &&
+
+    meson setup ..             \
+          --prefix=/usr        \
+          --buildtype=release  \
+          -D graphite2=enabled &&
+    ninja
+
+    ninja install

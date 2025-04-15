@@ -1,4 +1,5 @@
 dknotes
+lfs12.3_base.tar.gz
 mnt/install/*
 !mnt/install/.gitkeep
 
@@ -18,6 +19,13 @@ recipes/**/*.tar.bz2
 recipes/**/*.tgz
 recipes/**/*.zip
 
+
+dkrecipes/**/*.tar.gz
+dkrecipes/**/*.tar.xz
+dkrecipes/**/*.tar.zst
+dkrecipes/**/*.tar.bz2
+dkrecipes/**/*.tgz
+dkrecipes/**/*.zip
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

@@ -23,7 +23,7 @@ import yaml
 from config import YamlConfig, CLIConfig, GlobalConfig
 
 # My local imports
-version = "0.0.1"
+version = "0.0.5"
 
 
 def load_yaml_config(path: str = "config.yml") -> YamlConfig:
@@ -55,6 +55,7 @@ def parse_cli_args() -> CLIConfig:
     if args.debug:
         debug = True
         
+
     chroot = False
     if args.chroot:
         chroot = True

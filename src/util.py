@@ -24,7 +24,6 @@ import subprocess
 # My local imports
 from config import GlobalConfig
 
-
 class ConsoleMSG:
     green = "\x1b[32m"
     red = "\x1b[31m"
@@ -45,6 +44,10 @@ class ConsoleMSG:
     def warn(msg: str) -> None:
         print(f"{ConsoleMSG.yellow}Warn: {msg}{ConsoleMSG.reset}")
 
+    @staticmethod
+    def info(msg: str) -> None:
+        print(f"{ConsoleMSG.gray}Info: {msg}{ConsoleMSG.reset}")
+        
     @staticmethod
     def boldtext(msg: str) -> None:
         print(f"{ConsoleMSG.bold}{msg}{ConsoleMSG.reset}")
@@ -191,3 +194,4 @@ def chroot(config: GlobalConfig):
         ],
         env=env,
     )
+    

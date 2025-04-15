@@ -14,6 +14,42 @@ landscape has seen good development I would like to return to this.
 
 NOT all config options are implement yet! Patches are welcome if anyone want to implement a feature not there yet!
 
+
+# build 
+This will build the base system with a handful of extra packages in phase 5 (including efi support).
+
+```console
+sudo ./mylfs
+```
+
+or edit config.yml and change recipes_path: "recipes/" to recipes_path: "dkrecipes/"
+
+If you changed to dkrecipes this will build batteries included distro. With anything I might use
+or may want to explore. ~ This is a huge build.
+
+```console
+sudo ./mylfs
+```
+
+while it's building you may want to see what is going on inside. 
+
+In the example below I was running mylfs on virtial terminal 3. The below command will print out
+all processes running on that terminal. -- You will need to change 3 with the virtual terminal you're running 
+on or TTY.
+
+vitrtual terminals
+ls /dev/pts*
+
+on solus /dev/pts/* 
+
+you can grep each one from ps aux until your find the one you want
+
+```console
+ps aux | grep pts/3
+```
+
+
+
 # Phases
 Phase 1:
     Cross toolchain
@@ -94,14 +130,13 @@ phase:           # Optional - phase1, phase2, phase3, phase4, phase5
 order:           # Optional - integer ordering (bootstrap only)
 critical:        # Optional - boolean
 builddeps:       # Optional - list of build dependencies
+                              In phase 5 any phase 4 package with builddeps will be rebuilt taking into account build tools 
+                              capiblity to detect dependecies and use them. -- Phase 4 packages that omit it will not be rebuilt
 rundeps:         # Optional - packages that need to be present at run time. (If package is marked
                               as critical if it's rundeps are not built it will fail.)
 
                               This are ignored in phase 4. In phase 5 all packages will be rebuilt with 
                               dependency awareness from the builddeps.
-buildsystem:     # Required - make, ninja, meson & bash (shell scripts) are out of the box.
-                              The rest are other recipes that must be built first before proceding.
-                              e.g zig build, cmake, cargo, smake, etc
 buildsteps:      # Required - preparation steps. Everything bellow is a sh script (bash) for building
 cleanup: false   # Optional - Tells the build system to not delete the extract source on a succeful build.
                               If you don't have a clean up tag. The default is to cleanup extracted source

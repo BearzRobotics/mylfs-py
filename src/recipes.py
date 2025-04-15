@@ -18,6 +18,7 @@
 
 
 from dataclasses import dataclass, field
+import tempfile
 from typing import List, Optional
 import shutil
 import requests
@@ -185,12 +186,30 @@ def initialize_recipes(config):
             else:
                 if (config.debug):
                     print(f"{tarball_name} already exists — skipping.")
-
-
+    
+    temp_dir = tempfile.TemporaryDirectory()
+    is_builddb = False
+    if (config.debug):
+        print(f"initialize_recipes tmp dir name: {temp_dir.name}")
+    # If we are resuming a phase 4 or 5 build we need to preserve the build_state.db
+    if (target_recipes.exists()):
+        buildDB = target_recipes / "build_state.db"
+        if (buildDB.exists()):
+            is_builddb = True
+            # copy our build_state.db to the temp dir for now
+            shutil.copy2(buildDB, temp_dir.name)
+            
     # Copy the entire recipes tree to the build path
     if target_recipes.exists():
         shutil.rmtree(target_recipes)
     shutil.copytree(source_recipes, target_recipes)
+    
+    # if builddp = True copy are presvered build_state.db over
+    if (is_builddb):
+        shutil.copy2(Path(temp_dir.name) / "build_state.db", target_recipes / "build_state.db")
 
+    # delete tmp dir
+    temp_dir.cleanup()
+    
     # Update config to point to the build copy
     config.recipes_path = str(target_recipes)

@@ -17,7 +17,6 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 from pathlib import Path
 from typing import List, Optional
-from graphlib import TopologicalSorter
 import subprocess
 import shutil
 import os
@@ -30,6 +29,7 @@ from config import GlobalConfig
 from recipes import Recipe
 from util import ConsoleMSG 
 from buildphase import *
+from graph import *
 
 # if phase is 0-3 ask if encourge user to delete build dir
 def checkIfBuildDirisEmpty(config: GlobalConfig):
@@ -50,7 +50,7 @@ def checkIfBuildDirisEmpty(config: GlobalConfig):
                     else:
                         item.unlink()
                 except Exception as e:
-                    ConsoleMSG.error(f"Failed to delete {item}: {e}")
+                    ConsoleMSG.failed(f"Failed to delete {item}: {e}")
         else:
             ConsoleMSG.warn("Continuing at your own risk!")
 
@@ -77,6 +77,10 @@ def sort_order(recipes: list[Recipe], phase: int) -> list[Recipe]:
     return sorted(
         [r for r in recipes if r.phase == phase],
         key=lambda r: r.order or 999)
+    
+# get all phase 4 and 5 recipes
+def get_phase5_recipes(all_recipes: List[Recipe]) -> List[Recipe]:
+    return [r for r in all_recipes if r.phase in (4, 5)]
 
 def clean_up(config: GlobalConfig, recipe: Recipe):
     if not recipe.cleanup:
@@ -163,8 +167,6 @@ def filter_start_package(recipes: List[Recipe], start_pkg: str | None) -> List[R
     # fallback if not found
     ConsoleMSG.warn(f"Start package '{start_pkg}' not found, building all.")
     return recipes
-
-
 
 def get_chroot_cwd(config, recipe):
     path = Path(recipe.recipe_source)
@@ -273,6 +275,7 @@ def buildPhase12(config: GlobalConfig, recipes: List[Recipe]):
 # phase 2 and 4
 # package allows the user to pick up from a package 
 def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
+    session = load_database(config)
     phase = 0
     
     # We need to check what pahse were in.
@@ -313,7 +316,7 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
      
     for recipe in phase34R:
         pkg_count += 1
-        log_file = Path(f"{config.build_path}logs/p5_{recipe.name}_{recipe.version}.log")
+        log_file = Path(f"{config.build_path}logs/p{phase + 1}_{pkg_count}_{recipe.name}_{recipe.version}.log")
         log_file.parent.mkdir(parents=True, exist_ok=True)
         
         # if these works - It's really hacky
@@ -351,12 +354,30 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
             # clean up extract source dir
             clean_up(config, recipe)
             ConsoleMSG.print_building(pkg_count, recipe.name)
+            
+            # If it's phase 4 (3) and there are no builddeps: add it to the database so it's not rebuilt 
+            if (phase == 3):
+                if (not recipe.builddeps):
+                    
+                    entry = BuildEntry(
+                    name=recipe.name,
+                    version=recipe.version,
+                    release=recipe.release,
+                    built=True,
+                    phase=recipe.phase,
+                    builddeps=",".join(recipe.builddeps) if recipe.builddeps else None,
+                    rundeps=",".join(recipe.rundeps) if recipe.rundeps else None,
+                    package="Not Implemented"
+                    )
+                    save_or_update_entry(session, entry)
+                    
         else:
             ConsoleMSG.failed(f"could not build package {recipe.name}")
             # by not having anything after this it allowed the build to continute after a
             # failed package. This could be part of implementing not critical
             # return False 
             
+    session.close()
     
     # If it made it this far without crashing or me exit() set phase
     if (phase == 2):
@@ -370,7 +391,7 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
 # builder for phase 5
 # This will build one package
 def chroot_builder(config: GlobalConfig, recipe: Recipe, pkg_count: int): 
-    log_file = Path(f"{config.build_path}logs/p5_{recipe.name}_{recipe.version}.log")
+    log_file = Path(f"{config.build_path}logs/p5_{pkg_count}_{recipe.name}_{recipe.version}.log")
     log_file.parent.mkdir(parents=True, exist_ok=True)
     
     # if these works - It's really hacky
@@ -429,15 +450,79 @@ def chroot_builder(config: GlobalConfig, recipe: Recipe, pkg_count: int):
         
 # rebuild all phase 4 and 5 packages with graph
 # dep support. -- May become it's own file.
-def buildAllPhase5():
-    pass
+def buildAllPhase5(config: GlobalConfig, recipes: List[Recipe]):
+    session = load_database(config)
+    
+    # get all phase 5
+    phase5 = get_phase5_recipes(recipes)
+    
+    # get the build order taking into account deps
+    phase5 = resolveBO(config, phase5)
+    # get a list of recipes in their build order.
+    
+    if config.start_package is not None:
+        if (config.start_phase - 1 == 4 or config.start_phase - 1 == 5):
+            phase5 = filter_start_package(phase5, config.start_package)
+        else:
+            if config.debug:
+                print(f"Ignoring start_package '{config.start_package}' in phase {phase + 1}, only applies to phase {config.start_phase}")
 
+    pkg_count = 0
+    
+    for recipe in phase5:
+        
+        if (was_built(session, recipe.name)):
+            # if you bump the revision of a package. This should build a reverse dep
+            # map that sets all packages that rely on this to built=false (o in the db)
+            # that way they will get rebuilt agianst the update.
+            if (new_release(session, recipe.name, recipe.release)):
+                rev_map = build_reverse_dep_map(phase5)
+                to_rebuild = get_all_dependents(recipe.name, rev_map)
+                mark_dependents_dirty(session, to_rebuild)
+            else:
+                # Otherwise, if it was already built and no new release skip it.
+                # .ljust(20) built in str method to left justify optons
+                print(f"    [SKIP] {recipe.name.ljust(20)}: already built")
+                #  I need to preserved the order that It would have built
+                pkg_count += 1 
+                log_file = Path(f"{config.build_path}logs/p5_{pkg_count}_{recipe.name}_SKIPPED.log")
+                log_file.parent.mkdir(parents=True, exist_ok=True)
+                with log_file.open("w") as f:    
+                    f.write("skip")
+                continue
+        
+        failed_deps = all_deps_built(recipe, session)
+        if failed_deps:
+            print(f"    [SKIP] {recipe.name.ljust(20)}: missing/failed deps -> \x1b[33m {', '.join(failed_deps)}\x1b[0m ")
+            continue
+        
+        entry = BuildEntry(
+            name=recipe.name,
+            version=recipe.version,
+            release=recipe.release,
+            built=False,
+            phase=recipe.phase,
+            builddeps=",".join(recipe.builddeps) if recipe.builddeps else None,
+            rundeps=",".join(recipe.rundeps) if recipe.rundeps else None,
+            package="Not Implemented"
+        )
+        
+        if(chroot_builder(config, recipe, pkg_count)):
+            entry.built = True
+            save_or_update_entry(session, entry)
+            pkg_count += 1 
+        else:
+            save_or_update_entry(session, entry)
+            pkg_count += 1 
 
+            
+    session.close()
+        
 # This takes a list of recipe names on builds them and their deps
-def buildSelectPhase5():
+def buildSelectPhase5(config: GlobalConfig):
     pass
 
 
 # This function should update the running system
-def updateSystem():
+def updateSystem(config: GlobalConfig):
     pass

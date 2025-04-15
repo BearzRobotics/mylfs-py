@@ -1,0 +1,72 @@
+name: glib
+version: 2.84.1
+release: 1
+url: 
+    - https://download.gnome.org/sources/glib/2.84/glib-2.84.1.tar.xz
+    - https://download.gnome.org/sources/gobject-introspection/1.84/gobject-introspection-1.84.0.tar.xz
+homepage: https://docs.gtk.org/glib/
+
+license: 
+summary:  
+description: |
+
+phase: 5
+
+builddeps: [make, glibc, docutils, libxslt, pcre2, meson, ninja, git, libffi, cmake]
+
+buildsteps: |
+    patch -Np1 -i ../patches/glib-skip_warnings-1.patch
+
+    if [ -e /usr/include/glib-2.0 ]; then
+        rm -rf /usr/include/glib-2.0.old
+        mv -v /usr/include/glib-2.0{,.old}
+    fi
+
+    mkdir build
+    cd    build
+
+    meson setup ..                  \
+          --prefix=/usr             \
+          --buildtype=release       \
+          -D introspection=disabled \
+          -D glib_debug=disabled    \
+          -D man-pages=enabled      \
+          -D sysprof=disabled       
+    ninja
+
+    ninja install
+
+    # We need to rebuild the sharedlibrary cache
+    echo "=================Updateing Linker Cache====================="
+    
+    export PKG_CONFIG_PATH=/usr/lib64/pkgconfig:/usr/lib/pkgconfig:$PKG_CONFIG_PATH
+    pkg-config --modversion gobject-introspection-1.0
+    ldconfig -v
+
+    echo "=======================GO OBJECT============================"
+    tar -xf ../../gobject-introspection-1.84.0.tar.xz
+    meson setup gobject-introspection-1.84.0 gi-build --prefix=/usr --buildtype=release    
+    ninja -C gi-build
+
+    ninja -C gi-build install
+    
+    echo "=================Updateing Linker Cache====================="
+    ldconfig -v
+
+    cd ..
+    mkdir djok
+    cd djok
+
+    meson setup ..                \
+        --prefix=/usr             \
+        --buildtype=release       \
+        -D introspection=enabled  \
+        -D glib_debug=disabled    \
+        -D man-pages=enabled      \
+        -D sysprof=disabled       
+    ninja
+
+    ninja install
+
+
+        
