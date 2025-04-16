@@ -1,0 +1,4 @@
+Device Drivers --->
+  Input device support --->
+    -*-   Generic input layer (needed for keyboard, mouse, ...)          [INPUT]
+    <*/M>   Mouse interface                                     [INPUT_MOUSEDEV]

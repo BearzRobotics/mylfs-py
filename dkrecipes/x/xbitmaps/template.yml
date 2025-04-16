@@ -1,0 +1,21 @@
+name: xbitmaps
+version: 1.1.3
+release: 1
+url: https://www.x.org/pub/individual/data/xbitmaps-1.1.3.tar.xz
+homepage: https://www.x.org/
+
+license: MIT
+summary: Bitmap image files used by X11 applications
+description: |
+  xbitmaps provides bitmap (.xbm) image files that are used by classic X11 applications and widgets, including those built with the Xt and Xaw toolkits. These files define standard UI icons like arrows, folders, and scrollbars.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make, xorgsetup, util-macros]
+
+buildsteps: |
+  source /etc/profile
+  
+  ./configure $XORG_CONFIG
+  make
+  make install

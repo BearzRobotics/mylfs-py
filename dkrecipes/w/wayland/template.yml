@@ -1,0 +1,26 @@
+name: wayland
+version: 1.23.0
+release: 1
+url: https://gitlab.freedesktop.org/wayland/wayland/-/releases/1.23.0/downloads/wayland-1.23.0.tar.xz
+homepage: https://wayland.freedesktop.org/
+
+license: MIT
+summary: Wayland display protocol libraries
+description: |
+  Wayland is a protocol for a compositor to talk to its clients, as well as a C library implementation of that protocol. It is intended as a simpler replacement for X11 and is used by modern desktop environments like GNOME and KDE.
+
+phase: 5
+buildsystem: meson
+builddeps: [glibc, meson, ninja, libffi, expat, libxml2, xmlto, libxslt, graphviz]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..            \
+        --prefix=/usr       \
+        --buildtype=release \
+        -D documentation=false &&
+  ninja
+
+  ninja install

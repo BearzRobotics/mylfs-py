@@ -1,0 +1,20 @@
+name: mpg123
+version: 1.32.10
+release: 1
+url: https://downloads.sourceforge.net/mpg123/mpg123-1.32.10.tar.bz2
+homepage: https://www.mpg123.de/
+
+license: LGPL-2.1-or-later
+summary: Fast MP3 decoder and library
+description: |
+  mpg123 is a fast, free and high-quality MPEG Audio Layer 1/2/3 decoder. It includes a command-line player as well as the libmpg123 decoding library used by other applications.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make, alsa-lib]
+
+buildsteps: |
+  ./configure --prefix=/usr &&
+  make
+
+  make install

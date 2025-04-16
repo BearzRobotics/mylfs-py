@@ -1,0 +1,21 @@
+name: libsamplerate
+version: 0.2.2
+release: 1
+url: https://github.com/libsndfile/libsamplerate/releases/download/0.2.2/libsamplerate-0.2.2.tar.xz
+homepage: https://github.com/libsndfile/libsamplerate
+
+license: BSD-2-Clause
+summary: Audio sample rate conversion library
+description: |
+  libsamplerate is a C library for performing high-quality sample rate conversion on audio data. It is suitable for professional audio processing and used by many multimedia applications.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make, alsa-lib]
+
+buildsteps: |
+  ./configure --prefix=/usr    \
+              --disable-static \
+              --docdir=/usr/share/doc/libsamplerate-0.2.2 &&
+  make
+  make install

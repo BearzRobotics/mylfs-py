@@ -1,0 +1,19 @@
+name: libass
+version: 0.17.3
+release: 1
+url: https://github.com/libass/libass/releases/download/0.17.3/libass-0.17.3.tar.xz
+homepage: https://github.com/libass/libass
+
+license: ISC
+summary: Subtitle renderer for the ASS/SSA subtitle format
+description: |
+  libass is a portable library for rendering ASS/SSA subtitles. It is used by video players such as mpv and VLC, and supports advanced subtitle styling and animation.
+
+phase: 5
+# harfbuzz was marked optional -- Not building for me right now.
+builddeps: [glibc, fontconfig, freetype2, fribidi, make, nasm]
+
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

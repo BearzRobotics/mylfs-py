@@ -1,0 +1,20 @@
+name: xcursor-themes
+version: 1.0.7
+release: 1
+url: https://www.x.org/pub/individual/data/xcursor-themes-1.0.7.tar.xz
+homepage: https://www.x.org/
+
+license: MIT
+summary: Default X cursor themes
+description: |
+  xcursor-themes provides a set of default themes for use with libXcursor and X11 environments. These themes include common pointer shapes and are used by desktop environments and display managers.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make, xorgsetup, xorg-apps]
+
+buildsteps: |
+  source /etc/profile
+  ./configure --prefix=/usr
+  make
+  make install

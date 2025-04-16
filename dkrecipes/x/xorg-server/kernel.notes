@@ -1,0 +1,21 @@
+Device Drivers --->
+  Graphics support --->
+    <*/M> Direct Rendering Manager (XFree86 4.1.0 and higher DRI support) --->
+                                                                      ...  [DRM]
+      < /*/M> DRM driver for VMware Virtual GPU                     [DRM_VMWGFX]
+      < /*/M> DRM Support for bochs dispi vga interface (qemu stdvga)
+                                                                ...  [DRM_BOCHS]
+      < /*/M> Virtual Box Graphics Card                          [DRM_VBOXVIDEO]
+
+simple framebuffer works too
+
+Device Drivers --->
+  Firmware Drivers --->
+    [*] Mark VGA/VBE/EFI FB as generic system framebuffer       [SYSFB_SIMPLEFB]
+  Graphics support --->
+    <*> Direct Rendering Manager (XFree86 4.1.0 and higher DRI support) --->
+                                                                      ...  [DRM]
+      <*> Simple framebuffer driver                              [DRM_SIMPLEDRM]
+
+# use simple framebuffer via bios instead of UEFI
+set gfxpayload=1024x768x32

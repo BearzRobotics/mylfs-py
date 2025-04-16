@@ -1,0 +1,23 @@
+name: xinit
+version: 1.4.4
+release: 1
+url: https://www.x.org/pub/individual/app/xinit-1.4.4.tar.xz
+homepage: https://www.x.org/
+
+license: MIT
+summary: X.Org initialisation program for starting X sessions
+description: |
+  xinit provides the `xinit` and `startx` programs, used to launch the X server and a client program such as a window manager or desktop environment. It is commonly used in simple or minimal X setups.
+
+phase: 5
+buildsystem: autotools
+builddeps: [
+  glibc, make, pkgconf, xorg-libs, twm, xclock, xterm
+]
+
+buildsteps: |
+  source /etc/profile
+  ./configure $XORG_CONFIG --with-xinitdir=/etc/X11/app-defaults
+  make
+  make install
+  ldconfig

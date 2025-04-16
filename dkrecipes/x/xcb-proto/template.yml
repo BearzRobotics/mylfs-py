@@ -1,0 +1,20 @@
+name: xcb-proto
+version: 1.17.0
+release: 1
+url: https://xorg.freedesktop.org/archive/individual/proto/xcb-proto-1.17.0.tar.xz
+homepage: https://xcb.freedesktop.org/
+
+license: MIT
+summary: XCB protocol descriptions
+description: |
+  xcb-proto contains the XML protocol descriptions used by libxcb and other XCB-based libraries and tools to generate code that interacts with the X11 protocol via the X C Binding.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make, python, xorgsetup, libxml2]
+
+buildsteps: |
+  source /etc/profile
+  PYTHON=python3 ./configure $XORG_CONFIG
+  make
+  make install

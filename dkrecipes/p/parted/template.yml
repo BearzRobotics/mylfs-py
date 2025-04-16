@@ -1,0 +1,26 @@
+name: parted
+version: 3.6
+release: 1
+url: https://ftp.gnu.org/gnu/parted/parted-3.6.tar.xz
+homepage: https://www.gnu.org/software/parted/
+
+license: GPL-3.0-or-later
+summary: A partition manipulation tool
+description: |
+  GNU Parted is a program for creating, destroying, resizing, checking, and copying partitions and the file systems on them. This is useful for creating space for new operating systems, reorganizing disk usage, and copying data to new hard disks.
+
+phase: 5
+builddeps: [glibc, readline, lvm2, e2fsprogs, xz, make, dosfstools]
+
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make
+
+  make -C doc html                                       
+  makeinfo --html      -o doc/html       doc/parted.texi 
+  makeinfo --plaintext -o doc/parted.txt doc/parted.texi
+
+  make install 
+  install -v -m755 -d /usr/share/doc/parted-3.6/html 
+  install -v -m644    doc/html/* /usr/share/doc/parted-3.6/html 
+  install -v -m644    doc/{FAT,API,parted.{txt,html}} /usr/share/doc/parted-3.6

@@ -1,0 +1,27 @@
+name: graphviz
+version: 12.2.1
+release: 1
+url: https://gitlab.com/graphviz/graphviz/-/archive/12.2.1/graphviz-12.2.1.tar.bz2
+homepage: https://graphviz.org/
+
+license: EPL-1.0
+summary: Graph visualization software
+description: |
+  Graphviz is open-source graph visualization software. It provides a collection of tools to render structural information as diagrams using the DOT language. It supports output in formats like PNG, PDF, SVG, and PostScript.
+
+phase: 5
+buildsystem: cmake
+builddeps: [glibc, cmake, ninja, libpng, freetype2, expat, zlib, sed]
+
+buildsteps: |
+  sed -i '/LIBPOSTFIX="64"/s/64//' configure.ac &&
+
+  ./autogen.sh              &&
+  ./configure --prefix=/usr \
+              --docdir=/usr/share/doc/graphviz-12.2.1
+
+  sed -i "s/0/$(date +%Y%m%d)/" builddate.h           
+
+  make 
+
+  make install

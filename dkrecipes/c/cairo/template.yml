@@ -1,0 +1,23 @@
+name: cairo
+version: 1.18.4
+release: 1
+url: https://www.cairographics.org/releases/cairo-1.18.4.tar.xz
+homepage: https://www.cairographics.org/
+
+license: LGPL-2.1-or-later AND MPL-1.1
+summary: 2D graphics library with support for multiple output devices
+description: |
+  Cairo is a vector graphics library that supports multiple output targets including X, Wayland, PDF, and image buffers. It provides high-quality drawing primitives for graphical applications and toolkits like GTK.
+
+phase: 5
+buildsystem: meson
+builddeps: [glibc, make, meson, ninja, xorg-libs, fontconfig, freetype2, libpng, pixman, lzo, libxml2]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+  ninja
+
+  ninja install

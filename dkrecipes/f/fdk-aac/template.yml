@@ -1,0 +1,19 @@
+name: fdk-aac
+version: 2.0.3
+release: 1
+url: https://downloads.sourceforge.net/opencore-amr/fdk-aac-2.0.3.tar.gz
+homepage: https://github.com/mstorsjo/fdk-aac
+
+license: FDK-AAC
+summary: Fraunhofer FDK AAC codec library
+description: |
+  fdk-aac is a high-quality AAC audio encoder library developed by Fraunhofer IIS. It supports several AAC profiles including HE-AAC and HE-AACv2. Due to licensing restrictions, this library is considered non-free in some distributions.
+
+phase: 5
+
+builddeps: [glibc, make]
+
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

@@ -1,0 +1,21 @@
+name: flac
+version: 1.5.0
+release: 1
+url: https://github.com/xiph/flac/releases/download/1.5.0/flac-1.5.0.tar.xz
+homepage: https://xiph.org/flac/
+
+license: BSD-3-Clause
+summary: Free Lossless Audio Codec (FLAC) encoder/decoder
+description: |
+  FLAC is an open-source codec for lossless audio compression. This package contains the reference encoder and decoder, as well as the libFLAC and libFLAC++ libraries and supporting tools.
+
+phase: 5
+builddeps: [glibc, libogg, make]
+
+buildsteps: |
+  ./configure --prefix=/usr                                \
+              --disable-thorough-tests                     \
+              --docdir=/usr/share/doc/flac-{version}
+  make
+
+  make install

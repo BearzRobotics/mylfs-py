@@ -1,0 +1,21 @@
+name: xclock
+version: 1.1.1
+release: 1
+url: https://www.x.org/pub/individual/app/xclock-1.1.1.tar.xz
+homepage: https://www.x.org/
+
+license: MIT
+summary: Analog and digital clock for X
+description: |
+  xclock is a basic X11 application that displays the time in analog or digital format. It's commonly used as a test or demonstration utility in X environments.
+
+phase: 5
+buildsystem: autotools
+builddeps: [
+  glibc, make, pkgconf, xorg-libs ]
+
+buildsteps: |
+  source /etc/profile
+  ./configure $XORG_CONFIG
+  make
+  make install

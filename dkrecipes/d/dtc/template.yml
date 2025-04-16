@@ -1,0 +1,33 @@
+name: dtc
+version: 1.7.2
+release: 1
+url: https://kernel.org/pub/software/utils/dtc/dtc-1.7.2.tar.xz
+homepage: https://devicetree.org/
+
+license: GPL-2.0-or-later
+summary: Device Tree Compiler for Flat Device Trees
+description: |
+  The Device Tree Compiler (dtc) converts between human-readable device tree source (DTS) and the binary device tree blob (DTB) format used by the Linux kernel to describe hardware.
+
+phase: 5
+buildsystem: make
+builddeps: [glibc, flex, bison, libyaml, swig, meson, ninja]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr         \
+              --buildtype=release   \
+              -D python=disabled .. &&
+  ninja
+
+  ninja install
+
+  rm /usr/lib/libfdt.a
+
+  cp -R ../Documentation -T /usr/share/doc/dtc-1.7.2
+
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir ..
+
+  pip3 install --no-index --find-links dist --no-user libfdt

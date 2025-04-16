@@ -1,0 +1,23 @@
+name: rust-bindgen
+version: 0.71.1
+release: 1
+url: https://github.com/rust-lang/rust-bindgen/archive/v0.71.1/rust-bindgen-0.71.1.tar.gz
+homepage: https://rust-lang.github.io/rust-bindgen/
+
+license: BSD-3-Clause
+summary: Rust bindings generator for C and C++ headers
+description: |
+  Bindgen automatically generates Rust FFI bindings to C (and some C++) libraries by parsing headers and generating Rust declarations.
+
+phase: 5
+builddeps: [rust, llvm, pkgconf]
+
+buildsteps: |
+  export PATH=/opt/rustc/bin:$PATH
+  cargo build --release
+  install -v -m755 target/release/bindgen /usr/bin
+
+  bindgen --generate-shell-completions bash \
+      > /usr/share/bash-completion/completions/bindgen
+  bindgen --generate-shell-completions zsh  \
+      > /usr/share/zsh/site-functions/_bindgen

@@ -1,0 +1,9 @@
+Device Drivers --->
+  [*] HID bus support --->                                         [HID_SUPPORT]
+    {*/M} HID bus core support                                             [HID]
+      Special HID drivers --->
+      <*/M>   Wacom Intuos/Graphire tablet support (USB)             [HID_WACOM]
+    USB HID support --->
+      <*/M> USB HID transport layer                                    [USB_HID]
+  [*] USB support --->                                             [USB_SUPPORT]
+    <*/M> Support for Host-side USB                                        [USB]

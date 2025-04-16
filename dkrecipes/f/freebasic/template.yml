@@ -1,0 +1,28 @@
+name: freebasic
+version: 1.10.1
+release: 1
+url: 
+  - https://sourceforge.net/projects/fbc/files/FreeBASIC-1.10.1/Binaries-Linux/FreeBASIC-1.10.1-linux-x86_64.tar.gz
+  - https://sourceforge.net/projects/fbc/files/FreeBASIC-1.10.1/Documentation/FB-manual-1.10.1-txt.zip
+homepage: https://www.freebasic.net/
+
+license: GPL-2.0-or-later
+summary: FreeBASIC compiler for 32/64-bit systems
+description: |
+  FreeBASIC is a self-hosting BASIC compiler for 32-bit and 64-bit platforms, with syntax similar to MS QuickBASIC and support for C-style features.
+
+phase: 5
+buildsystem: manual
+builddeps: [glibc, ncurses5, libarchive]
+
+buildsteps: |
+  ./install.sh -i /usr
+
+  cp -frv examples /root/fbe/
+  # cd ..
+  # docs
+  unzip FB-manual-{version}-txt.zip
+
+  mkdir -pv /usr/doc/freebasic-{version}/
+  cp -pv FB-manual-{version}.txt /usr/doc/freebasic-{version}/FB-manual-{version}.txt
+

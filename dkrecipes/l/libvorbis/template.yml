@@ -1,0 +1,21 @@
+name: libvorbis
+version: 1.3.7
+release: 1
+url: https://downloads.xiph.org/releases/vorbis/libvorbis-1.3.7.tar.xz
+homepage: https://xiph.org/vorbis/
+
+license: BSD-3-Clause
+summary: Ogg Vorbis audio codec library
+description: |
+  libvorbis is the reference implementation of the Vorbis audio compression format, a fully open and royalty-free alternative to proprietary codecs like MP3 and AAC. It includes encoding and decoding libraries and tools for working with Vorbis streams.
+
+phase: 5
+
+builddeps: [glibc, libogg, make]
+
+buildsteps: |
+  ./configure --prefix=/usr --disable-static 
+  make
+
+  make install 
+  install -v -m644 doc/Vorbis* /usr/share/doc/libvorbis-{version}

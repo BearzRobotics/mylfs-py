@@ -1,0 +1,31 @@
+name: smartmontools
+version: 7.4
+release: 1
+url: 
+  - https://downloads.sourceforge.net/smartmontools/smartmontools-7.4.tar.gz
+  - https://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-20250225.tar.xz
+homepage: https://www.smartmontools.org/
+
+license: GPL-2.0-or-later
+summary: Tools to monitor and control SMART-enabled storage devices
+description: |
+  Smartmontools contains utilities to read and monitor the S.M.A.R.T. attributes of storage devices such as hard disks and SSDs. It includes smartctl for command-line interaction and smartd for background monitoring and alerts.
+
+phase: 5
+builddeps: [glibc, make, curl, wget]
+
+buildsteps: |
+  ./configure --prefix=/usr           \
+              --sysconfdir=/etc       \
+              --with-initscriptdir=no \
+              --with-libsystemd=no    \
+              --docdir=/usr/share/doc/smartmontools-7.4 &&
+  make
+
+  make install
+
+  # If you want this service on start enable it here
+  mkdir bootscripts
+  cd bootscripts
+  tar ../../blfs-bootscripts-20250225.tar.xz
+  #make install-smartd

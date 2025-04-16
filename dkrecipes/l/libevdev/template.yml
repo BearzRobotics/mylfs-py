@@ -1,0 +1,28 @@
+name: libevdev
+version: 1.13.4
+release: 1
+url: https://www.freedesktop.org/software/libevdev/libevdev-1.13.4.tar.xz
+homepage: https://www.freedesktop.org/wiki/Software/libevdev/
+
+license: MIT
+summary: Wrapper library for evdev devices
+description: |
+  libevdev provides a generic wrapper library for the Linux evdev interface, making it easier to handle input events from devices like keyboards, mice, and touchscreens. It is used by input stacks in compositors and device daemons.
+
+phase: 5
+buildsystem: meson
+builddeps: [glibc, meson, ninja, xorgsetup, xorg-server]
+
+buildsteps: |
+  source /etc/profile
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..                  \
+        --prefix=$XORG_PREFIX     \
+        --buildtype=release       \
+        -D documentation=disabled \
+        -D tests=disabled         &&
+  ninja
+
+  ninja install

@@ -1,0 +1,20 @@
+name: luv
+version: 1.50.0-1
+release: 1
+url: https://github.com/luvit/luv/releases/download/1.50.0-1/luv-1.50.0-1.tar.gz
+homepage: https://github.com/luvit/luv
+
+license: Apache-2.0
+summary: Lua binding for libuv
+description: |
+  Luv is a Lua binding for libuv, the asynchronous I/O library behind Node.js and Neovim. It enables non-blocking file system, network, and process operations in Lua.
+
+phase: 5
+builddeps: [glibc, luajit, libuv, cmake, make]
+
+buildsteps: |
+  mkdir build && cd build
+  cmake .. -DCMAKE_BUILD_TYPE=Release -DBUILD_SHARED_LIBS=ON -DLUA_BUILD_TYPE=System -DCMAKE_INSTALL_PREFIX=/usr
+  make
+
+  make install

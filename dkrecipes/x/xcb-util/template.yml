@@ -1,0 +1,21 @@
+name: xcb-util
+version: 0.4.1
+release: 1
+url: https://xcb.freedesktop.org/dist/xcb-util-0.4.1.tar.xz
+homepage: https://xcb.freedesktop.org/
+
+license: MIT
+summary: Utility libraries for libxcb
+description: |
+  xcb-util provides additional extensions and convenience functions built on top of libxcb. It contains helper libraries for window management and ICCCM-compliant behavior.
+
+phase: 5
+builddeps: [glibc, make, libxcb, xorgsetup]
+
+buildsteps: |
+  source /etc/profile
+
+  ./configure $XORG_CONFIG &&
+  make
+
+  make install

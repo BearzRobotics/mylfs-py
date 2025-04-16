@@ -22,11 +22,11 @@
 
 from typing import List, Dict
 from collections import defaultdict
+from graphlib import CycleError, TopologicalSorter
 
 # 3rd party
 
 # My local imports
-from graphlib import TopologicalSorter
 from config import GlobalConfig
 from recipes import Recipe
 from util import ConsoleMSG 
@@ -46,7 +46,10 @@ def resolveBO(config: GlobalConfig, recipes: List[Recipe]) -> List[Recipe]:
     try:
         sorted_names = list(ts.static_order())
     except CycleError as e:
+        cycle = e.args[1] if len(e.args) > 1 else e.args[0]
         print("Cycle detected in build dependencies:", e)
+        for item in cycle:
+            print(f" - {item}")
         raise
 
     # Map back to full Recipe objects

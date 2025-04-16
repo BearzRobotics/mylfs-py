@@ -1,0 +1,24 @@
+name: fontconfig
+version: 2.16.0
+release: 1
+url: https://www.freedesktop.org/software/fontconfig/release/fontconfig-2.16.0.tar.xz
+homepage: https://www.freedesktop.org/wiki/Software/fontconfig/
+
+license: MIT
+summary: Font configuration and customization library
+description: |
+  Fontconfig is a library designed to provide system-wide font configuration, customization, and font discovery. It is used by many graphical applications and toolkits to access and manage fonts.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, freetype2, expat, gperf, make, curl, libarchive, json-c, libxml2]
+
+buildsteps: |
+  ./configure --prefix=/usr        \
+              --sysconfdir=/etc    \
+              --localstatedir=/var \
+              --disable-docs       \
+              --docdir=/usr/share/doc/fontconfig-2.16.0 
+  make
+
+  make install

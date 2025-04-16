@@ -1,0 +1,21 @@
+name: luit
+version: 20240910
+release: 1
+url: https://invisible-mirror.net/archives/luit/luit-20240910.tgz
+homepage: https://invisible-island.net/luit/
+
+license: MIT
+summary: Locale and encoding converter for X11 terminal I/O
+description: |
+  luit is a filter that can be run between an X11 terminal emulator and a program, allowing the program to use a different character encoding than the terminal emulator. It is commonly used with legacy applications in UTF-8 terminals.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make, xorg-apps, libX11, xorgsetup]
+
+buildsteps: |
+  source /etc/profile
+  
+  ./configure $XORG_CONFIG
+  make
+  make install

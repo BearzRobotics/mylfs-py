@@ -1,0 +1,40 @@
+name: mesa
+version: 25.0.3
+release: 1
+url: https://mesa.freedesktop.org/archive/mesa-25.0.3.tar.xz
+homepage: https://www.mesa3d.org/
+
+license: MIT
+summary: Open-source OpenGL/Vulkan implementation for Linux
+description: |
+  Mesa is an open-source implementation of the OpenGL, Vulkan, and other graphics API specifications. It provides hardware-accelerated drivers for many GPUs and is a core component of modern Linux desktop and gaming environments.
+
+phase: 5
+buildsystem: meson
+builddeps: [
+  glibc, meson, ninja, llvm, libdrm, wayland, wayland-protocols,
+  libva-bootstrap, mako, python, xorgproto, expat, xorg-libs, pyyaml, ply, cbindgen, rust-bindgen
+]
+
+buildsteps: |
+  source /etc/profile
+  
+  patch -Np1 -i ../patches/mesa-add_xdemos-4.patch
+  
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..                 \
+        --prefix=$XORG_PREFIX    \
+        --buildtype=release      \
+        -D platforms=x11,wayland \
+        -D gallium-drivers=auto  \
+        -D vulkan-drivers=auto   \
+        -D valgrind=disabled     \
+        -D video-codecs=all      \
+        -D libunwind=disabled    &&
+
+  ninja
+  ninja install
+
+  cp -rv ../docs -T /usr/share/doc/mesa-25.0.3

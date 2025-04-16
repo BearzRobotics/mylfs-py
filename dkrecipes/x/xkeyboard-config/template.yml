@@ -1,0 +1,25 @@
+name: xkeyboard-config
+version: 2.44
+release: 1
+url: https://www.x.org/pub/individual/data/xkeyboard-config/xkeyboard-config-2.44.tar.xz
+homepage: https://www.x.org/
+
+license: MIT
+summary: X keyboard extension configuration data
+description: |
+  xkeyboard-config provides the keyboard layout configuration files used by the X Keyboard Extension (XKB). It supplies layout definitions, rules, and mappings for use by X servers and input systems like libxkbcommon.
+
+phase: 5
+buildsystem: meson
+builddeps: [glibc, meson, ninja, xorgproto, xorgsetup, xorg-libs, xorg-apps]
+
+buildsteps: |
+  source /etc/profile
+
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=$XORG_PREFIX --buildtype=release .. 
+  ninja
+
+  ninja install

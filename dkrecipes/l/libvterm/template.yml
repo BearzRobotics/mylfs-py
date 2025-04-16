@@ -1,0 +1,20 @@
+name: libvterm
+version: 0.3.3
+release: 1
+url: https://www.leonerd.org.uk/code/libvterm/libvterm-0.3.3.tar.gz
+homepage: https://www.leonerd.org.uk/code/libvterm/
+
+license: MIT
+summary: Terminal emulator library
+description: |
+  libvterm is a library implementation of a terminal emulator, used for embedding terminal-like behavior in other programs, such as Neovim's built-in terminal.
+
+phase: 5
+
+builddeps: [glibc, make, pkgconfig]
+
+buildsteps: |
+  make PREFIX=/usr
+  make PREFIX=/usr install
+
+  install -Dm644 ../static/libvterm.pc /usr/lib/pkgconfig/libvterm.pc

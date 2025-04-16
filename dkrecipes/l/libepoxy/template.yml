@@ -1,0 +1,23 @@
+name: libepoxy
+version: 1.5.10
+release: 1
+url: https://download.gnome.org/sources/libepoxy/1.5/libepoxy-1.5.10.tar.xz
+homepage: https://github.com/anholt/libepoxy
+
+license: MIT
+summary: GL dispatch library for OpenGL and OpenGL ES
+description: |
+  libepoxy is a library for handling OpenGL function pointer management. It provides automatic dispatch for both core and extension functions across multiple GL contexts. It is commonly used by toolkits such as GTK and compositors like Weston.
+
+phase: 5
+buildsystem: meson
+builddeps: [glibc, meson, ninja, mesa]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  meson setup --prefix=/usr --buildtype=release .. 
+  ninja
+
+  ninja install

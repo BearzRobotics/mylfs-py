@@ -172,8 +172,7 @@ def unmountTmpFs(config: GlobalConfig):
             f.write(line)
         
     if process.returncode == 0:
-        if (config.debug):
-            ConsoleMSG.passed("unmounted tmp fs")
+        ConsoleMSG.passed("unmounted tmp fs")
     else:
         ConsoleMSG.failed("could not unmount tmpfs")
         exit(1) # These early builds can't progress if a package won't build right.

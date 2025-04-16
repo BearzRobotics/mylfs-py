@@ -1,0 +1,29 @@
+name: pm-utils
+version: 1.4.1
+release: 1
+url: https://pm-utils.freedesktop.org/releases/pm-utils-1.4.1.tar.gz
+homepage: https://pm-utils.freedesktop.org/
+
+license: GPL-2.0-or-later
+summary: Legacy power management utilities for suspend and hibernate
+description: |
+  pm-utils is a set of shell scripts that handle suspend and resume of devices on Linux systems. It was commonly used in conjunction with HAL and udev before systemd took over power management tasks.
+
+phase: 5
+builddeps: [glibc, make, xmlto, ethtool]
+
+buildsteps: |
+  patch -Np1 -i ../patches/pm-utils-1.4.1-bugfixes-1.patch
+
+  ./configure --prefix=/usr     \
+              --sysconfdir=/etc \
+              --docdir=/usr/share/doc/pm-utils-1.4.1 &&
+  make
+
+  make install
+
+  install -v -m644 man/*.1 /usr/share/man/man1 &&
+  install -v -m644 man/*.8 /usr/share/man/man8 &&
+  ln -svf pm-action.8 /usr/share/man/man8/pm-suspend.8 &&
+  ln -svf pm-action.8 /usr/share/man/man8/pm-hibernate.8 &&
+  ln -svf pm-action.8 /usr/share/man/man8/pm-suspend-hybrid.8

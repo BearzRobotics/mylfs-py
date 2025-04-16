@@ -1,0 +1,22 @@
+name: gptfdisk
+version: 1.0.10
+release: 1
+url: https://downloads.sourceforge.net/gptfdisk/gptfdisk-1.0.10.tar.gz
+homepage: https://www.rodsbooks.com/gdisk/
+
+license: GPL-2.0-or-later
+summary: Tools for managing GPT partition tables
+description: |
+  GPTfdisk is a collection of tools for manipulating GPT partition tables, including gdisk (interactive), cgdisk (curses UI), sgdisk (scriptable), and fixparts (for MBR repair).
+
+phase: 5
+builddeps: [glibc, ncurses, util-linux, make, popt, icu]
+
+buildsteps: |
+  patch -Np1 -i ../patches/gptfdisk-1.0.10-convenience-1.patch &&
+  sed -i 's|ncursesw/||' gptcurses.cc &&
+  sed -i 's|sbin|usr/sbin|' Makefile  &&
+  sed -i 's|^CGDISK_LDLIBS=-lncursesw$|CGDISK_LDLIBS=-lncurses|' Makefile
+
+  make
+  make install

@@ -1,0 +1,27 @@
+name: libdrm
+version: 2.4.124
+release: 1
+url: https://dri.freedesktop.org/libdrm/libdrm-2.4.124.tar.xz
+homepage: https://dri.freedesktop.org/
+
+license: MIT
+summary: Userspace interface to kernel DRM services
+description: |
+  libdrm provides a userspace library for accessing the Linux kernel's Direct Rendering Manager (DRM) services. It is used by graphics drivers like Mesa and enables hardware-accelerated rendering.
+
+phase: 5
+buildsystem: meson
+builddeps: [glibc, make, meson, ninja, pkgconf, xorg-libs, cairo, libxslt]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  meson setup --prefix=$XORG_PREFIX \
+              --buildtype=release   \
+              -D udev=true          \
+              -D valgrind=disabled  \
+              ..                    
+  ninja
+
+  ninja install

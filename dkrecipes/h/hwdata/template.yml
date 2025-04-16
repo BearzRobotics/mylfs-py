@@ -1,0 +1,17 @@
+name: hwdata
+version: 0.394
+release: 1
+url: https://github.com/vcrhonek/hwdata/archive/v0.394/hwdata-0.394.tar.gz
+homepage: https://github.com/vcrhonek/hwdata
+
+license: GPL-2.0-or-later
+summary: Hardware identification and PCI/USB ID database
+description: |
+  hwdata provides hardware-related data files, including PCI and USB vendor and device IDs, used by various hardware-related tools and libraries like pciutils and usbutils.
+
+phase: 5
+builddeps: [glibc, make]
+
+buildsteps: |
+  ./configure --prefix=/usr --disable-blacklist
+  make install

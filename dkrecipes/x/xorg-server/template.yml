@@ -1,0 +1,40 @@
+name: xorg-server
+version: 21.1.16
+release: 1
+url: https://www.x.org/pub/individual/xserver/xorg-server-21.1.16.tar.xz
+homepage: https://www.x.org/
+
+license: MIT
+summary: The X.Org X11 display server
+description: |
+  xorg-server is the main X11 server implementation used on most Unix-like systems. It handles graphical rendering, input management, and remote desktop support. It supports both modern and legacy hardware through a modular driver system.
+
+phase: 5
+buildsystem: meson
+builddeps: [
+  glibc, meson, ninja, xorgproto, xorgsetup, xorg-fonts, xkeyboard-config, pixman, libxcvt, libtirpc, dbus
+]
+
+buildsteps: |
+  source /etc/profile 
+
+  patch -Np1 -i ../patches/xorg-server-21.1.16-tearfree_backport-1.patch
+
+  mkdir build 
+  cd    build 
+
+  meson setup ..               \
+        --prefix=$XORG_PREFIX  \
+        --localstatedir=/var   \
+        -D glamor=true         \
+        -D systemd_logind=true \
+        -D xkb_output_dir=/var/lib/xkb 
+  ninja
+
+  ninja install &&
+  mkdir -pv /etc/X11/xorg.conf.d &&
+  install -v -d -m1777 /tmp/.{ICE,X11}-unix &&
+  cat >> /etc/sysconfig/createfiles << "EOF"
+  /tmp/.ICE-unix dir 1777 root root
+  /tmp/.X11-unix dir 1777 root root
+  EOF

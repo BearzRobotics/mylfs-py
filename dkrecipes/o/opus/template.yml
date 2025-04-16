@@ -1,0 +1,24 @@
+name: opus
+version: 1.5.2
+release: 1
+url: https://downloads.xiph.org/releases/opus/opus-1.5.2.tar.gz
+homepage: https://opus-codec.org/
+
+license: BSD-3-Clause
+summary: Opus audio codec library
+description: |
+  Opus is a totally open, royalty-free, highly versatile audio codec designed for interactive speech and music transmission over the Internet. It is standardized by the IETF and widely adopted in real-time communication and streaming.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make, ninja, meson]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr        \
+              --buildtype=release  \
+              -D docdir=/usr/share/doc/opus-{version}
+  ninja
+  ninja install

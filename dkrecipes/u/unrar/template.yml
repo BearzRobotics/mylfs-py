@@ -1,0 +1,17 @@
+name: unrar
+version: 7.1.6
+release: 1
+url: https://www.rarlab.com/rar/unrarsrc-7.1.6.tar.gz
+homepage: https://www.rarlab.com/
+
+license: RAR EULA
+summary: Extractor for RAR archives
+description: |
+  UnRAR is a command-line tool to extract .rar archive files. It is maintained by RARLAB and is distributed under a restrictive license that does not allow redistribution for commercial use.
+
+phase: 5
+builddeps: [glibc, make]
+
+buildsteps: |
+  make -f makefile
+  install -v -m755 unrar /usr/bin/unrar

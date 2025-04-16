@@ -1,0 +1,12 @@
+[*] Networking support --->                                                [NET]
+  Networking options --->
+    [*] Network packet filtering framework (Netfilter) --->          [NETFILTER]
+      [*] Advanced netfilter configuration                  [NETFILTER_ADVANCED]
+      Core Netfilter Configuration --->
+        <*/M> Netfilter connection tracking support               [NF_CONNTRACK]
+        <*/M> Netfilter Xtables support (required for ip_tables)
+                                                        ...  [NETFILTER_XTABLES]
+        <*/M>   LOG target support                     [NETFILTER_XT_TARGET_LOG]
+      IP: Netfilter Configuration --->
+        <*/M> IP tables support (required for filtering/masq/NAT)
+                                                           ...  [IP_NF_IPTABLES]

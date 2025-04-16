@@ -1,0 +1,24 @@
+name: xorgproto
+version: 2024.1
+release: 1
+url: https://xorg.freedesktop.org/archive/individual/proto/xorgproto-2024.1.tar.xz
+homepage: https://www.x.org/
+
+license: MIT
+summary: X.Org combined protocol headers
+description: |
+  xorgproto consolidates all legacy and modern X11 protocol headers into a single package, replacing numerous older packages such as xf86vidmodeproto, inputproto, and others. It is a core dependency for building X.Org libraries and servers.
+
+phase: 5
+
+builddeps: [glibc, meson, ninja, libxslt, xmlto, xorgsetup, util-macros]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=$XORG_PREFIX .. &&
+  ninja
+
+  ninja install &&
+  mv -v $XORG_PREFIX/share/doc/xorgproto{,-2024.1}

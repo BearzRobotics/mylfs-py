@@ -1,0 +1,17 @@
+name: unibilium
+version: 2.0.0
+release: 1
+url: https://github.com/mauke/unibilium/archive/refs/tags/v2.0.0.tar.gz
+homepage: https://github.com/mauke/unibilium
+
+license: LGPL-3.0-or-later
+summary: A terminfo parsing library
+description: |
+  Unibilium is a very basic terminfo library. It's designed to be easy to link into static binaries and suitable for use in embedded or minimal environments.
+
+phase: 5
+builddeps: [glibc, make]
+
+buildsteps: |
+  make
+  make install PREFIX=/usr

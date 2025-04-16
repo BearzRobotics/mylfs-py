@@ -21,4 +21,4 @@ buildsteps: |
   fi
 
   make prefix=/usr lib=lib install
-builddeps: []
+

@@ -1,0 +1,23 @@
+name: xf86-input-evdev
+version: 2.11.0
+release: 1
+url: https://www.x.org/pub/individual/driver/xf86-input-evdev-2.11.0.tar.xz
+homepage: https://www.x.org/
+
+license: MIT
+summary: X.Org input driver for Linux evdev devices
+description: |
+  xf86-input-evdev is an X.Org input driver that handles keyboards, mice, and other input devices using the Linux evdev interface. It is commonly used on non-systemd systems or older X11 setups, though now largely superseded by libinput.
+
+phase: 5
+buildsystem: autotools
+builddeps: [
+  glibc, make, pkgconf,
+  xorg-server, xorgsetup, libevdev, mtdev
+]
+
+buildsteps: |
+  source /etc/profile
+  ./configure $XORG_CONFIG
+  make
+  make install

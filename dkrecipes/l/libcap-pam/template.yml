@@ -1,0 +1,26 @@
+name: libcap-pam
+version: 2.73
+release: 1
+url: https://www.kernel.org/pub/linux/libs/security/linux-privs/libcap2/libcap-2.73.tar.xz
+homepage: https://sites.google.com/site/fullycapable/
+license: GPL-2.0-or-later
+summary: User-space interfaces to the POSIX 1003.1e capabilities available in Linux kernels
+description: |
+  User-space interfaces to the POSIX 1003.1e capabilities available in Linux kernels
+phase: 5
+
+builddeps: [make, glibc, linux-pam, sed]
+
+buildsteps: |
+  make -C pam_cap
+
+  install -v -m755 pam_cap/pam_cap.so      /usr/lib/security &&
+  install -v -m644 pam_cap/capability.conf /etc/security
+
+  mv -v /etc/pam.d/system-auth{,.bak} &&
+  cat > /etc/pam.d/system-auth << "EOF" &&
+  # Begin /etc/pam.d/system-auth
+
+  auth      optional    pam_cap.so
+  EOF
+  tail -n +3 /etc/pam.d/system-auth.bak >> /etc/pam.d/system-auth

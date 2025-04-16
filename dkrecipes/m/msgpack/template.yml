@@ -1,0 +1,20 @@
+name: msgpack
+version: 6.0.2
+release: 1
+url: https://github.com/msgpack/msgpack-c/releases/download/c-6.0.2/msgpack-c-6.0.2.tar.gz
+homepage: https://msgpack.org/
+
+license: BSL-1.0
+summary: MessagePack implementation for C and C++
+description: |
+  msgpack-c is the C and C++ implementation of MessagePack, an efficient binary serialization format. It is used in RPC and data exchange systems, including Neovim.
+
+phase: 5
+builddeps: [glibc, cmake, make]
+
+buildsteps: |
+  cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build
+
+
+  cmake --install build

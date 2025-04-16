@@ -1,0 +1,22 @@
+name: xf86-input-wacom
+version: 1.2.3
+release: 1
+url: https://github.com/linuxwacom/xf86-input-wacom/releases/download/xf86-input-wacom-1.2.3/xf86-input-wacom-1.2.3.tar.bz2
+homepage: https://linuxwacom.github.io/
+
+license: MIT
+summary: X.Org input driver for Wacom tablets
+description: |
+  xf86-input-wacom is the official input driver for Wacom devices under the X.Org X Server. It supports pen, touch, and button input on Wacom tablets and touchscreen devices.
+
+phase: 5
+buildsystem: autotools
+builddeps: [
+  glibc, make, pkgconf, xorg-server, xorgsetup
+]
+
+buildsteps: |
+  source /etc/profile
+  ./configure $XORG_CONFIG --with-systemd-unit-dir=no
+  make
+  make install

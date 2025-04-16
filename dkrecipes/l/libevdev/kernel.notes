@@ -1,0 +1,11 @@
+Device Drivers --->
+  Input device support --->
+    -*-   Generic input layer (needed for keyboard, mouse, ...)          [INPUT]
+    <*/M>   Event interface                                        [INPUT_EVDEV]
+
+
+Device Drivers --->
+  Input device support --->
+    -*- Generic input layer (needed for keyboard, mouse, ...)            [INPUT]
+    [*]   Miscellaneous devices --->                                [INPUT_MISC]
+      <*/M>   User level driver support                           [INPUT_UINPUT]

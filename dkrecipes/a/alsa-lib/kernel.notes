@@ -1,0 +1,5 @@
+Device Drivers --->
+  <*/M> Sound card support --->                                          [SOUND]
+    # Select settings and drivers appropriate for your hardware
+    # in the submenu:
+    <*/M> Advanced Linux Sound Architecture --->                           [SND]

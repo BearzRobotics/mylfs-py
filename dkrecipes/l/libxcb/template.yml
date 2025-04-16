@@ -1,0 +1,24 @@
+name: libxcb
+version: 1.17.0
+release: 1
+url: https://xorg.freedesktop.org/archive/individual/lib/libxcb-1.17.0.tar.xz
+homepage: https://xcb.freedesktop.org/
+
+license: MIT
+summary: X protocol C-language Binding library
+description: |
+  libxcb is the C binding to the X11 protocol, providing an efficient and asynchronous interface to the X server. It is intended to replace Xlib for many use cases and is required by most modern Xorg applications.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make, libxslt, xcb-proto, libXau, libXdmcp, xorgsetup]
+
+buildsteps: |
+  source /etc/profile
+  
+  ./configure $XORG_CONFIG      \
+              --without-doxygen \
+              --docdir='${datadir}'/doc/libxcb-1.17.0 &&
+  LC_ALL=en_US.UTF-8 make
+
+  make install

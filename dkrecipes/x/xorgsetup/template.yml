@@ -1,0 +1,26 @@
+
+# This package will be called by all xorg packages after it.
+name: xorgsetup
+version: 7
+release: 1
+homepage: https://www.nico.schottelius.org/software/gpm/
+
+license: GPL-2.0-or-later
+summary: General Purpose Mouse server for the console
+description: |
+  GPM (General Purpose Mouse) provides mouse support to text-based Linux applications and the Linux console. It enables features such as copy-paste with the mouse in virtual terminals.
+
+phase: 5
+builddeps: [glibc, make]
+
+buildsteps: |
+  mkdir -pv /etc/profile.d/
+
+  cat > /etc/profile.d/xorg.sh << "EOF"
+  # Only set XORG_CONFIG for consistent configure flags
+  export XORG_PREFIX=/usr
+  export XORG_CONFIG="--prefix=/usr --sysconfdir=/etc --localstatedir=/var --disable-static"
+  EOF
+
+  chmod 644 /etc/profile.d/xorg.sh
+

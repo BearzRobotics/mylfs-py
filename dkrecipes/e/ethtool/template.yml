@@ -1,0 +1,19 @@
+name: ethtool
+version: 6.14
+release: 1
+url: https://www.kernel.org/pub/software/network/ethtool/ethtool-6.14.tar.xz
+homepage: https://mirrors.edge.kernel.org/pub/software/network/ethtool/
+
+license: GPL-2.0-or-later
+summary: Utility for controlling network device driver and hardware settings
+description: |
+  ethtool is a utility for displaying and modifying settings of Ethernet devices, including speed, duplex, auto-negotiation, and wake-on-LAN features. It is essential for diagnosing and tuning network hardware on Linux systems.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make]
+
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

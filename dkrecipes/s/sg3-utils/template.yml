@@ -1,0 +1,18 @@
+name: sg3_utils
+version: 1.48
+release: 1
+url: https://sg.danny.cz/sg/p/sg3_utils-1.48.tar.xz
+homepage: https://sg.danny.cz/sg/sg3_utils.html
+
+license: BSD-3-Clause
+summary: Utilities for sending SCSI commands to devices
+description: |
+  sg3_utils is a package of utilities that send SCSI commands to devices using the SCSI pass-through interface. These tools can be used with SCSI, SATA, ATAPI, and USB storage devices for diagnostic and configuration purposes.
+
+phase: 5
+builddeps: [glibc, make]
+
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

@@ -1,0 +1,24 @@
+name: libva
+version: 2.22.0
+release: 1
+url: https://github.com/intel/libva/archive/2.22.0/libva-2.22.0.tar.gz
+homepage: https://01.org/linuxmedia/vaapi
+
+license: MIT
+summary: Video Acceleration API for Linux
+description: |
+  libva is the Video Acceleration API library, providing a standardized interface for hardware-accelerated video processing. It is used by drivers and applications such as Mesa, FFmpeg, VLC, and GStreamer to access VA-API hardware features.
+
+phase: 5
+buildsystem: meson
+builddeps: [glibc, meson, ninja, xorg-libs, libdrm, mesa, wayland]
+
+buildsteps: |
+  source /etc/profile
+  
+  cd build 
+  meson setup --prefix=$XORG_PREFIX --buildtype=release
+  ninja
+
+
+  ninja install

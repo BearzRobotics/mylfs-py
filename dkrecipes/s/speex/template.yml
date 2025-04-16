@@ -1,0 +1,33 @@
+name: speex
+version: 1.2.1
+release: 1
+url: 
+  - https://downloads.xiph.org/releases/speex/speex-1.2.1.tar.gz
+  - https://downloads.xiph.org/releases/speex/speexdsp-1.2.1.tar.gz
+homepage: https://www.speex.org/
+
+license: BSD-3-Clause
+summary: Audio compression codec optimized for speech
+description: |
+  Speex is an open-source, patent-free audio compression codec designed especially for compressing speech. It is suitable for VoIP and audio conferencing, and provides features like voice activity detection and noise suppression.
+
+phase: 5
+builddeps: [glibc, libogg, make]
+
+buildsteps: |
+  ./configure --prefix=/usr    \
+              --disable-static \
+              --docdir=/usr/share/doc/speex-{version}
+  make
+
+  make install
+
+  tar -xf ../speexdsp-1.2.1.tar.gz 
+  cd speexdsp-1.2.1             
+
+  ./configure --prefix=/usr    \
+              --disable-static \
+              --docdir=/usr/share/doc/speexdsp-{version} &&
+  make
+
+  make install

@@ -1,0 +1,22 @@
+name: xf86-input-synaptics
+version: 1.10.0
+release: 1
+url: https://www.x.org/pub/individual/driver/xf86-input-synaptics-1.10.0.tar.xz
+homepage: https://www.x.org/
+
+license: MIT
+summary: X.Org input driver for Synaptics touchpads
+description: |
+  xf86-input-synaptics is a legacy input driver for Synaptics touchpads on X.Org systems. It allows advanced configuration of tap-to-click, scrolling, palm detection, and other touchpad features. It has mostly been superseded by libinput.
+
+phase: 5
+
+builddeps: [
+  glibc, make, pkgconf, xorg-server, xorgsetup, libevdev
+]
+
+buildsteps: |
+  source /etc/profile
+  ./configure $XORG_CONFIG
+  make
+  make install

@@ -1,0 +1,21 @@
+name: iptables
+version: 1.8.11
+release: 1
+url: https://www.netfilter.org/projects/iptables/files/iptables-1.8.11.tar.xz
+homepage: https://www.netfilter.org/projects/iptables/
+
+license: GPL-2.0-or-later
+summary: User-space tools for configuring Netfilter firewall rules
+description: |
+  iptables provides a user-space utility to configure the packet filtering and NAT features of the Linux kernel through the Netfilter framework. It supports IPv4, IPv6, ARP filtering, and raw table control.
+
+phase: 5
+builddeps: [glibc, libnftnl, libmnl, pkgconf, make, libpcap]
+
+buildsteps: |
+  ./configure --prefix=/usr      \
+              --disable-nftables \
+              --enable-libipq    
+  make
+
+  make install

@@ -1,0 +1,68 @@
+name: xorg-apps
+version: 7.0
+release: 1
+url:
+  - https://www.x.org/pub/individual/app/iceauth-1.0.10.tar.xz
+  - https://www.x.org/pub/individual/app/mkfontscale-1.2.3.tar.xz
+  - https://www.x.org/pub/individual/app/sessreg-1.1.3.tar.xz
+  - https://www.x.org/pub/individual/app/setxkbmap-1.3.4.tar.xz
+  - https://www.x.org/pub/individual/app/smproxy-1.0.7.tar.xz
+  - https://www.x.org/pub/individual/app/xauth-1.1.4.tar.xz
+  - https://www.x.org/pub/individual/app/xcmsdb-1.0.7.tar.xz
+  - https://www.x.org/pub/individual/app/xcursorgen-1.0.8.tar.xz
+  - https://www.x.org/pub/individual/app/xdpyinfo-1.3.4.tar.xz
+  - https://www.x.org/pub/individual/app/xdriinfo-1.0.7.tar.xz
+  - https://www.x.org/pub/individual/app/xev-1.2.6.tar.xz
+  - https://www.x.org/pub/individual/app/xgamma-1.0.7.tar.xz
+  - https://www.x.org/pub/individual/app/xhost-1.0.10.tar.xz
+  - https://www.x.org/pub/individual/app/xinput-1.6.4.tar.xz
+  - https://www.x.org/pub/individual/app/xkbcomp-1.4.7.tar.xz
+  - https://www.x.org/pub/individual/app/xkbevd-1.1.6.tar.xz
+  - https://www.x.org/pub/individual/app/xkbutils-1.0.6.tar.xz
+  - https://www.x.org/pub/individual/app/xkill-1.0.6.tar.xz
+  - https://www.x.org/pub/individual/app/xlsatoms-1.1.4.tar.xz
+  - https://www.x.org/pub/individual/app/xlsclients-1.1.5.tar.xz
+  - https://www.x.org/pub/individual/app/xmessage-1.0.7.tar.xz
+  - https://www.x.org/pub/individual/app/xmodmap-1.0.11.tar.xz
+  - https://www.x.org/pub/individual/app/xpr-1.2.0.tar.xz
+  - https://www.x.org/pub/individual/app/xprop-1.2.8.tar.xz
+  - https://www.x.org/pub/individual/app/xrandr-1.5.3.tar.xz
+  - https://www.x.org/pub/individual/app/xrdb-1.2.2.tar.xz
+  - https://www.x.org/pub/individual/app/xrefresh-1.1.0.tar.xz
+  - https://www.x.org/pub/individual/app/xset-1.2.5.tar.xz
+  - https://www.x.org/pub/individual/app/xsetroot-1.1.3.tar.xz
+  - https://www.x.org/pub/individual/app/xvinfo-1.1.5.tar.xz
+  - https://www.x.org/pub/individual/app/xwd-1.0.9.tar.xz
+  - https://www.x.org/pub/individual/app/xwininfo-1.1.6.tar.xz
+  - https://www.x.org/pub/individual/app/xwud-1.0.7.tar.xz
+homepage: https://www.x.org/
+
+license: MIT
+summary: Xorg Applications (meta-package)
+description: |
+  This package builds the standard X11 applications and command-line utilities that interact with the X server. These tools are used for diagnostics, configuration, and session management.
+
+phase: 5
+buildsystem: manual
+builddeps: [glibc, make, xorgproto, libxcb, xorgsetup]
+
+buildsteps: |
+  source /etc/profile
+
+  # by default we are in the first package tarball listed.
+  # we want to clean it up so that the for loop can do it's things.
+  rm -rfv * 
+
+  for package in $(grep -v '^#' ../static/app-7.md5 | awk '{print $2}'); do
+    packagedir=${package%.tar.?z*}
+    echo "Building $packagedir"
+    tar -xf ../$package
+    pushd $packagedir
+      ./configure $XORG_CONFIG
+      make
+      make install
+    popd
+    rm -rf $packagedir
+  done
+
+  as_root rm -f $XORG_PREFIX/bin/xkeystone

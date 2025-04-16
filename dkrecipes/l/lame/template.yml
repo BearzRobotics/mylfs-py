@@ -1,0 +1,22 @@
+name: lame
+version: 3.100
+release: 1
+url: https://downloads.sourceforge.net/lame/lame-3.100.tar.gz
+homepage: https://lame.sourceforge.net/
+
+license: LGPL-2.0-or-later
+summary: High quality MP3 encoder
+description: |
+  LAME is a high-quality MPEG Audio Layer III (MP3) encoder licensed under the LGPL. It is commonly used to convert audio into MP3 format, supporting many encoding options for quality and compression.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make, nasm, libsndfile]
+
+buildsteps: |
+  sed -i -e 's/^\(\s*hardcode_libdir_flag_spec\s*=\).*/\1/' configure
+
+  ./configure --prefix=/usr --enable-mp3rtp --disable-static &&
+  make
+
+  make pkghtmldir=/usr/share/doc/lame-3.100 install

@@ -1,0 +1,20 @@
+name: xmlto
+version: 0.0.29
+release: 1
+url: https://pagure.io/xmlto/archive/0.0.29/xmlto-0.0.29.tar.gz
+homepage: https://pagure.io/xmlto
+
+license: GPL-2.0-or-later
+summary: Convert XML files to various formats using XSLT
+description: |
+  xmlto is a command-line frontend that converts XML files using XSL stylesheets into formats like HTML, PDF, or man pages. It is commonly used in documentation build systems and integrates with tools like docbook-xsl and xsltproc.
+
+phase: 5
+builddeps: [glibc, libxslt, docbook-xsl, make, docbook-xml]
+
+buildsteps: |
+  autoreconf -fiv                                  
+  ./configure --prefix=/usr 
+
+  make
+  make install

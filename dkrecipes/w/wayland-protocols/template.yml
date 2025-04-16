@@ -1,0 +1,23 @@
+name: wayland-protocols
+version: 1.43
+release: 1
+url: https://gitlab.freedesktop.org/wayland/wayland-protocols/-/releases/1.43/downloads/wayland-protocols-1.43.tar.xz
+homepage: https://wayland.freedesktop.org/
+
+license: MIT
+summary: Extended protocols for Wayland compositors and clients
+description: |
+  wayland-protocols contains protocol specifications that extend the core Wayland protocol. These XML files define standardized and experimental interfaces for Wayland compositors and clients, enabling features like clipboard management, window decoration, and input methods.
+
+phase: 5
+
+builddeps: [glibc, meson, ninja, wayland]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release &&
+  ninja
+
+  ninja install

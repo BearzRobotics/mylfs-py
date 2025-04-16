@@ -1,0 +1,19 @@
+name: libpcap
+version: 1.10.5
+release: 1
+url: https://www.tcpdump.org/release/libpcap-1.10.5.tar.gz
+homepage: https://www.tcpdump.org/
+
+license: BSD-3-Clause
+summary: Packet capture library
+description: |
+  libpcap provides a portable framework for low-level network monitoring. It allows applications to capture and filter network packets and is used by tools such as tcpdump and Wireshark.
+
+phase: 5
+builddeps: [glibc, make, libnl, libusb]
+
+buildsteps: |
+  ./configure --prefix=/usr 
+  make
+
+  make install

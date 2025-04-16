@@ -1,0 +1,28 @@
+name: libnl
+version: 3.11.0
+release: 1
+url: 
+  - https://github.com/thom311/libnl/releases/download/libnl3_11_0/libnl-3.11.0.tar.gz
+  - https://github.com/thom311/libnl/releases/download/libnl3_11_0/libnl-doc-3.11.0.tar.gz
+homepage: https://github.com/thom311/libnl
+
+license: LGPL-2.1-or-later
+summary: Netlink protocol library
+description: |
+  libnl (Netlink library) provides APIs to interact with the Linux kernel's netlink sockets, used for networking configuration, routing, interfaces, and traffic control. It is widely used by network tools like iproute2 and wpa_supplicant.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make, pkgconf]
+
+buildsteps: |
+  ./configure --prefix=/usr     \
+              --sysconfdir=/etc \
+              --disable-static  &&
+  make
+
+  make install
+
+  mkdir -vp /usr/share/doc/libnl-3.11.0 &&
+  tar -xf ../libnl-doc-3.11.0.tar.gz --strip-components=1 --no-same-owner \
+      -C  /usr/share/doc/libnl-3.11.0

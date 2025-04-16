@@ -1,0 +1,19 @@
+name: mtdev
+version: 1.1.7
+release: 1
+url: https://bitmath.org/code/mtdev/mtdev-1.1.7.tar.bz2
+homepage: https://bitmath.org/code/mtdev/
+
+license: MIT
+summary: Multitouch Protocol Translation Library
+description: |
+  mtdev is a standalone library that transforms kernel multitouch events (as found in `/dev/input/event*`) into a format usable by applications and higher-level input stacks. It is used by input drivers like xf86-input-mtrack and libinput.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make]
+
+buildsteps: |
+  ./configure --prefix=/usr --disable-static &&
+  make
+  make install

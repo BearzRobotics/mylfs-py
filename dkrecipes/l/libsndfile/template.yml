@@ -1,0 +1,21 @@
+name: libsndfile
+version: 1.2.2
+release: 1
+url: https://github.com/libsndfile/libsndfile/releases/download/1.2.2/libsndfile-1.2.2.tar.xz
+homepage: https://libsndfile.github.io/libsndfile/
+
+license: LGPL-2.1-or-later
+summary: C library for reading and writing audio files
+description: |
+  libsndfile is a C library for reading and writing files containing sampled sound such as AIFF, AU, WAV, FLAC, and Ogg/Vorbis. It is widely used in audio applications and supports a variety of audio encodings and formats.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, flac, libogg, libvorbis, make, flack, opus, alsa-lib, sqlite, speex, mpg123]
+
+buildsteps: |
+  ./configure --prefix=/usr    \
+              --docdir=/usr/share/doc/libsndfile-{version}
+  make
+
+  make install

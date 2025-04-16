@@ -1,0 +1,29 @@
+name: libvpx
+version: 1.15.1
+release: 1
+url: https://github.com/webmproject/libvpx/archive/v1.15.1/libvpx-1.15.1.tar.gz
+homepage: https://www.webmproject.org/
+
+license: BSD-3-Clause
+summary: VP8 and VP9 video codec library
+description: |
+  libvpx is the reference implementation of the VP8 and VP9 video codecs, developed by the WebM Project. It is used in browsers, media players, and streaming services for efficient video compression.
+
+phase: 5
+buildsystem: configure
+builddeps: [glibc, make, nasm, which, curl]
+
+buildsteps: |
+  find -type f | xargs touch
+
+  sed -i 's/cp -p/cp/' build/make/Makefile 
+
+  mkdir libvpx-build            
+  cd    libvpx-build            
+
+  ../configure --prefix=/usr    \
+              --enable-shared  \
+              --disable-static 
+  make
+
+  make install

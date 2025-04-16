@@ -1,0 +1,19 @@
+name: util-macros
+version: 1.20.2
+release: 1
+url: https://www.x.org/pub/individual/util/util-macros-1.20.2.tar.xz
+homepage: https://www.x.org/wiki/
+
+license: MIT
+summary: X.Org utility macros used in other Xorg packages
+description: |
+  X.Org util-macros is a set of autoconf macros shared across many X.Org packages. It is required to bootstrap and configure most X11-related libraries and applications.
+
+phase: 5
+builddeps: [glibc, make, xorgsetup]
+
+buildsteps: |
+  source /etc/profile
+  ./configure $XORG_CONFIG
+  make
+  make install

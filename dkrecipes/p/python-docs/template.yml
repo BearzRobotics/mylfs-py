@@ -1,8 +1,9 @@
-name: python3
+name: python-docs
 version: 3.13.2
 release: 1
 url: https://www.python.org/ftp/python/doc/3.13.2/python-3.13.2-docs-html.tar.bz2
 homepage: https://www.python.org/
+
 license: PSF License
 summary: General purpose cross platform scripting language
 phase: 4

@@ -1,0 +1,28 @@
+name: pciutils
+version: 3.13.0
+release: 1
+url: https://mj.ucw.cz/download/linux/pci/pciutils-3.13.0.tar.gz
+homepage: https://mj.ucw.cz/sw/pciutils/
+
+license: GPL-2.0-or-later
+summary: Utilities for listing and manipulating PCI devices
+description: |
+  pciutils is a collection of programs for inspecting and manipulating devices connected to the PCI bus. It includes lspci, setpci, and update-pciids. It relies on the PCI ID database from hwdata or the online PCI ID repository.
+
+phase: 5
+builddeps: [glibc, hwdata, make, sed]
+
+buildsteps: |
+  sed -r '/INSTALL/{/PCI_IDS|update-pciids /d; s/update-pciids.8//}' \
+      -i Makefile
+
+  make PREFIX=/usr                \
+      SHAREDIR=/usr/share/hwdata \
+      SHARED=yes
+
+  make PREFIX=/usr                \
+      SHAREDIR=/usr/share/hwdata \
+      SHARED=yes                 \
+      install install-lib        &&
+
+  chmod -v 755 /usr/lib/libpci.so

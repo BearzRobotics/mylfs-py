@@ -15,8 +15,6 @@ buildsteps: |
 
   make install
 
-
-
   mkdir -pv /etc/skel/
   cat > /etc/skel/.tmux.conf << "EOF"
   # Increase history limit

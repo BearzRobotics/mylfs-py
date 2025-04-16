@@ -1,0 +1,26 @@
+name: usbutils
+version: 018
+release: 1
+url: https://kernel.org/pub/linux/utils/usb/usbutils/usbutils-018.tar.xz
+homepage: https://linux-usb.org/
+
+license: GPL-2.0-or-later
+summary: USB device utilities (lsusb, usb-devices)
+description: |
+  usbutils is a collection of utilities for listing and querying information about USB devices on Linux systems. It includes the widely used `lsusb` command and relies on the USB ID database for device names.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, libusb, hwdata, make, pkgconf, meson, ninja]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..            \
+        --prefix=/usr       \
+        --buildtype=release &&
+
+  ninja
+
+  ninja install

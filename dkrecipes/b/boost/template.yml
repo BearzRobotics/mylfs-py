@@ -8,7 +8,7 @@ summary: Boost provides a set of free peer-reviewed portable C++ source librarie
 description: |
   Boost provides a set of free peer-reviewed portable C++ source libraries. It includes libraries for linear algebra, pseudorandom number generation, multithreading, image processing, regular expressions and unit testing.
 phase: 5
-builddeps: [make, glibc, which, xz, icu, zlib]
+builddeps: [make, glibc, which, xz, icu, zlib, python]
 buildsteps: |
   case $(uname -m) in
      i?86)

@@ -1,0 +1,35 @@
+name: xwayland
+version: 24.1.6
+release: 1
+url: https://www.x.org/pub/individual/xserver/xwayland-24.1.6.tar.xz
+homepage: https://x.org/
+
+license: MIT
+summary: X server implementation for running X11 apps on Wayland
+description: |
+  Xwayland is an X server that runs under a Wayland session, enabling traditional X11 applications to run seamlessly within Wayland compositors. It provides compatibility for legacy apps while the system transitions to Wayland.
+
+phase: 5
+buildsystem: meson
+builddeps: [
+  glibc, meson, ninja, wayland-protocols, xorgsetup, libxcvt, pixman, xorg-apps, xorg-fonts, libepoxy, mesa, libtirpc
+]
+
+buildsteps: |
+  source /etc/profile
+  sed -i '/install_man/,$d' meson.build 
+
+  mkdir build 
+  cd    build 
+
+  meson setup ..                       \
+        --prefix=$XORG_PREFIX          \
+        --buildtype=release            \
+        -D xkb_output_dir=/var/lib/xkb &&
+  ninja
+
+  ninja install 
+  
+  cat >> /etc/sysconfig/createfiles << "EOF"
+  /tmp/.X11-unix dir 1777 root root
+  EOF

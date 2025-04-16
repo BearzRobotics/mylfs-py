@@ -1,0 +1,17 @@
+name: lpeg
+version: 1.1.0
+release: 1
+url: http://www.inf.puc-rio.br/~roberto/lpeg/lpeg-1.1.0.tar.gz
+homepage: http://www.inf.puc-rio.br/~roberto/lpeg/
+
+license: MIT
+summary: Parsing expression grammar library for Lua
+description: |
+  LPeg is a pattern-matching library for Lua based on Parsing Expression Grammars (PEGs). It is used for grammar-based text parsing and is compatible with Lua 5.1+ and LuaJIT.
+
+phase: 5
+builddeps: [lua51, make]
+
+buildsteps: |
+  make LUA_VERSION=5.1
+  install -Dm755 lpeg.so /usr/lib/lua/5.1/lpeg.so

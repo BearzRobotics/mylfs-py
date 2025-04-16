@@ -1,0 +1,23 @@
+name: pixman
+version: 0.44.2
+release: 1
+url: https://www.cairographics.org/releases/pixman-0.44.2.tar.gz
+homepage: https://www.cairographics.org/
+
+license: MIT
+summary: Pixel manipulation library for X and Cairo
+description: |
+  pixman is a low-level software library that provides pixel manipulation features such as image compositing and trapezoid rasterization. It is used by the X server and libraries like Cairo and Mesa.
+
+phase: 5
+buildsystem: meson
+builddeps: [glibc, make, meson, ninja, libpng]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+  ninja
+
+  ninja install

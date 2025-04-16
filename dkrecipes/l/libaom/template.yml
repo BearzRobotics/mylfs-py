@@ -1,0 +1,27 @@
+name: libaom
+version: 3.12.0
+release: 1
+url: https://storage.googleapis.com/aom-releases/libaom-3.12.0.tar.gz
+homepage: https://aomedia.org/
+
+license: BSD-2-Clause
+summary: AOMedia Video 1 (AV1) reference encoder/decoder
+description: |
+  libaom is the reference implementation of the AV1 video codec developed by the Alliance for Open Media. It provides encoding and decoding capabilities for high-efficiency video streaming and storage.
+
+phase: 5
+builddeps: [glibc, cmake, ninja, make, nasm]
+
+buildsteps: |
+  mkdir aom-build &&
+  cd    aom-build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        -D BUILD_SHARED_LIBS=1       \
+        -D ENABLE_DOCS=no            \
+        -G Ninja .. &&
+  ninja
+
+  ninja install &&
+  rm -v /usr/lib/libaom.a

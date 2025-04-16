@@ -1,0 +1,27 @@
+name: libusb
+version: 1.0.28
+release: 1
+url: https://github.com/libusb/libusb/releases/download/v1.0.28/libusb-1.0.28.tar.bz2
+homepage: https://libusb.info/
+
+license: LGPL-2.1-or-later
+summary: Library for user-space access to USB devices
+description: |
+  libusb is a cross-platform library that provides generic access to USB devices. It is intended to be used by developers to facilitate communication with USB hardware without writing kernel drivers.
+
+phase: 5
+builddeps: [glibc, make, doxygen]
+
+buildsteps: |
+  ./configure --prefix=/usr --disable-static 
+  make
+
+  pushd doc                
+    doxygen -u doxygen.cfg 
+    make docs              
+  popd
+
+  make install
+
+  install -v -d -m755 /usr/share/doc/libusb-1.0.28/apidocs 
+  install -v -m644    doc/api-1.0/* /usr/share/doc/libusb-1.0.28/apidocs

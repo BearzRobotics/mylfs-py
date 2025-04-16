@@ -10,7 +10,7 @@ description: |
   libraries providing Unicode and Globalization support for software applications. ICU is widely
   portable and gives applications the same results on all platforms.
 phase: 5
-builddeps: [make, glibc, icu]
+builddeps: [make, glibc, icu, python]
 buildsteps: |
   ./configure --prefix=/usr           \
               --sysconfdir=/etc       \

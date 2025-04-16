@@ -1,0 +1,51 @@
+name: gpm
+version: 1.20.7
+release: 1
+url: 
+  - https://anduin.linuxfromscratch.org/BLFS/gpm/gpm-1.20.7.tar.bz2
+  - https://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-20250225.tar.xz
+homepage: https://www.nico.schottelius.org/software/gpm/
+
+license: GPL-2.0-or-later
+summary: General Purpose Mouse server for the console
+description: |
+  GPM (General Purpose Mouse) provides mouse support to text-based Linux applications and the Linux console. It enables features such as copy-paste with the mouse in virtual terminals.
+
+phase: 5
+builddeps: [glibc, make]
+
+buildsteps: |
+  patch -Np1 -i ../patches/gpm-1.20.7-consolidated-1.patch           
+  ./autogen.sh                                                    
+  ./configure --prefix=/usr --sysconfdir=/etc ac_cv_path_emacs=no 
+  make
+
+  make install                                          
+
+  install-info --dir-file=/usr/share/info/dir /usr/share/info/gpm.info                 
+
+  rm -fv /usr/lib/libgpm.a                              
+  ln -sfv libgpm.so.2.1.0 /usr/lib/libgpm.so            
+  install -v -m644 conf/gpm-root.conf /etc              
+
+  install -v -m755 -d /usr/share/doc/gpm-1.20.7/support 
+  install -v -m644    doc/support/* /usr/share/doc/gpm-1.20.7/support &&
+  install -v -m644    doc/{FAQ,HACK_GPM,README*}  /usr/share/doc/gpm-1.20.7
+
+  # boot scripts
+  # mkdir bootscripts
+  # cd bootscripts
+  # tar ../../blfs-bootscripts-20250225.tar.xz
+  # make install-gpm
+  
+  cat > /etc/sysconfig/mouse << "EOF"
+  # These values can be filled in by running gpm -m [device] -t -help
+  # Begin /etc/sysconfig/mouse
+
+  MDEVICE="<yourdevice>"
+  PROTOCOL="<yourprotocol>"
+  GPMOPTS="<additional options>"
+
+  # End /etc/sysconfig/mouse
+  EOF
+

@@ -1,0 +1,24 @@
+name: twm
+version: 1.0.12
+release: 1
+url: https://www.x.org/pub/individual/app/twm-1.0.12.tar.xz
+homepage: https://www.x.org/
+
+license: MIT
+summary: Tab Window Manager for the X Window System
+description: |
+  twm is a lightweight, classic window manager for the X Window System. It provides titlebars, shaped windows, icon management, and customizable menus. twm is often used for testing or as a minimal fallback environment.
+
+phase: 5
+
+builddeps: [
+  glibc, make, pkgconf, xorg-server]
+
+buildsteps: |
+  source /etc/profile
+
+  sed -i -e '/^rcdir =/s,^\(rcdir = \).*,\1/etc/X11/app-defaults,' src/Makefile.in &&
+  ./configure $XORG_CONFIG &&
+  make
+
+  make install

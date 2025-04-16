@@ -1,0 +1,20 @@
+name: luajit
+version: 20250212
+release: 1
+url: https://anduin.linuxfromscratch.org/BLFS/luajit/luajit-20250212.tar.xz
+homepage: https://luajit.org/
+
+license: MIT
+summary: Just-In-Time Compiler for Lua 5.1
+description: |
+  LuaJIT is a Just-In-Time Compiler for Lua 5.1, combining high performance with full compatibility. It is used in performance-sensitive environments such as games, embedded systems, and dynamic language interpreters.
+
+phase: 5
+buildsystem: make
+builddeps: [glibc, make]
+
+buildsteps: |
+  make PREFIX=/usr amalg
+
+  make PREFIX=/usr install 
+  #rm -v /usr/lib/libluajit-5.1.a

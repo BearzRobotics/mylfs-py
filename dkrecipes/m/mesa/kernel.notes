@@ -1,0 +1,28 @@
+Device Drivers --->
+  Graphics support --->
+    <*/M> Direct Rendering Manager (XFree86 4.1.0 and higher DRI support) --->
+                                                                      ...  [DRM]
+      
+      # For r300 or r600:
+      < /*/M> ATI Radeon                                            [DRM_RADEON]
+      
+      # For radeonsi:
+      < /*/M> AMD GPU                                               [DRM_AMDGPU]
+      [*]       Enable amdgpu support for SI parts               [DRM_AMDGPU_SI]
+      [*]       Enable amdgpu support for CIK parts             [DRM_AMDGPU_CIK]
+        Display Engine Configuration --->
+        [*]   AMD DC - Enable new display engine                    [DRM_AMD_DC]
+      
+      # For nouveau:
+      < /*/M> Nouveau (NVIDIA) cards                               [DRM_NOUVEAU]
+      [*]       Use GSP firmware for Turing/Ampere (needs firmware installed)
+                                                  ...  [DRM_NOUVEAU_GSP_DEFAULT]
+      
+      # For i915, crocus, or iris:
+      < /*/M> Intel 8xx/9xx/G3x/G4x/HD Graphics                       [DRM_I915]
+      
+      # For llvmpipe or softpipe:
+      < /*>   Virtual GEM provider                                    [DRM_VGEM]
+      
+      # For svga:
+      < /*/M> DRM driver for VMware Virtual GPU                     [DRM_VMWGFX]

@@ -1,0 +1,22 @@
+name: x264
+version: 20250212
+release: 1
+url: https://anduin.linuxfromscratch.org/BLFS/x264/x264-20250212.tar.xz
+homepage: https://www.videolan.org/developers/x264.html
+
+license: GPL-2.0-or-later
+summary: H.264/MPEG-4 AVC video encoder
+description: |
+  x264 is a free software library and application for encoding video streams into the H.264/MPEG-4 AVC format. It is known for its high performance, compression efficiency, and wide adoption in video encoding tools.
+
+phase: 5
+
+builddeps: [glibc, nasm, make]
+
+buildsteps: |
+  ./configure --prefix=/usr   \
+              --enable-shared \
+              --disable-cli   
+  make
+
+  make install

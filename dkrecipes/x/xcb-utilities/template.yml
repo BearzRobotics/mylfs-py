@@ -1,0 +1,38 @@
+name: xcb-utilities
+version: 0.4.1
+release: 1
+url:
+  - https://xcb.freedesktop.org/dist/xcb-util-image-0.4.1.tar.xz
+  - https://xcb.freedesktop.org/dist/xcb-util-keysyms-0.4.1.tar.xz
+  - https://xcb.freedesktop.org/dist/xcb-util-renderutil-0.3.10.tar.xz
+  - https://xcb.freedesktop.org/dist/xcb-util-wm-0.4.2.tar.xz
+  - https://xcb.freedesktop.org/dist/xcb-util-cursor-0.1.5.tar.xz
+homepage: https://xcb.freedesktop.org/
+
+license: MIT
+summary: Additional utility libraries for libxcb
+description: |
+  xcb-utilities bundles multiple XCB helper libraries that extend libxcb with support for images, cursors, keysyms, rendering utilities, and ICCCM/EWMH window manager features.
+
+phase: 5
+buildsystem: manual
+builddeps: [glibc, make, libxcb, xcb-util, xorgsetup]
+
+buildsteps: |
+  source /etc/profile
+
+  # by default we are in the first package tarball listed.
+  # we want to clean it up so that the for loop can do it's things.
+  rm -rfv * 
+
+  for package in $(grep -v '^#' ../static/xcb-utils.md5 | awk '{print $2}'); do
+    packagedir=${package%.tar.?z*}
+    echo "Building $packagedir"
+    tar -xf ../$package
+    pushd $packagedir
+      ./configure $XORG_CONFIG
+      make
+      make install
+    popd
+    rm -rf $packagedir
+  done

@@ -1,0 +1,55 @@
+name: dbus
+version: 1.16.2
+release: 1
+url:
+  - https://dbus.freedesktop.org/releases/dbus/dbus-1.16.2.tar.xz
+  - https://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-20250225.tar.xz
+homepage: https://dbus.freedesktop.org/
+
+license: AFL-2.1 OR GPL-2.0-or-later
+summary: Message bus system for inter-process communication
+description: |
+  D-Bus is a message bus system that provides a simple way for applications to talk to one another. It is used extensively in modern Linux systems by desktop environments and system services.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, meson, ninja, pkgconf, expat, xorg-libs]
+
+buildsteps: |
+  source /etc/profile
+
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr          \
+              --buildtype=release    \
+              --wrap-mode=nofallback \
+              -D systemd=disabled    \
+              .. &&
+  ninja
+  ninja install
+
+  hown -v root:messagebus /usr/libexec/dbus-daemon-launch-helper &&
+  chmod -v      4750       /usr/libexec/dbus-daemon-launch-helper
+
+  dbus-uuidgen --ensure
+
+  ln -sfv /var/lib/dbus/machine-id /etc
+
+  # bootup
+  mkdir bootscripts
+  cd bootscripts
+  tar ../../blfs-bootscripts-20250225.tar.xz
+  make install-dbus
+
+  cat > /etc/dbus-1/session-local.conf << "EOF"
+  <!DOCTYPE busconfig PUBLIC
+  "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
+  "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
+  <busconfig>
+
+    <!-- Search for .service files in /usr/local -->
+    <servicedir>/usr/local/share/dbus-1/services</servicedir>
+
+  </busconfig>
+  EOF

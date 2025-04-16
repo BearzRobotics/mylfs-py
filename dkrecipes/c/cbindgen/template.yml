@@ -1,0 +1,18 @@
+name: cbindgen
+version: 0.28.0
+release: 1
+url: https://github.com/mozilla/cbindgen/archive/v0.28.0/cbindgen-0.28.0.tar.gz
+homepage: https://github.com/mozilla/cbindgen
+
+license: MPL-2.0
+summary: Generate C/C++ headers for Rust libraries
+description: |
+  cbindgen is a tool for generating C and C++ header files from Rust libraries. It is used to create FFI-compatible interfaces for use in C/C++ applications.
+
+phase: 5
+builddeps: [rust, llvm, pkgconf]
+
+buildsteps: |
+  export PATH=/opt/rustc/bin:$PATH
+  cargo build --release
+  install -Dm755 target/release/cbindgen /usr/bin/

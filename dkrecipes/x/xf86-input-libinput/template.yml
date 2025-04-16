@@ -1,0 +1,22 @@
+name: xf86-input-libinput
+version: 1.5.0
+release: 1
+url: https://www.x.org/pub/individual/driver/xf86-input-libinput-1.5.0.tar.xz
+homepage: https://www.x.org/
+
+license: MIT
+summary: X.Org input driver using libinput
+description: |
+  xf86-input-libinput is the default input driver for X.Org, leveraging libinput to handle keyboards, mice, touchpads, and touchscreens with consistent behavior and hardware support.
+
+phase: 5
+buildsystem: autotools
+builddeps: [
+  glibc, make, pkgconf, xorg-server, libinput, xorgsetup
+]
+
+buildsteps: |
+  source /etc/profile
+  ./configure $XORG_CONFIG
+  make
+  make install
