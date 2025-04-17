@@ -24,7 +24,9 @@ buildsteps: |
 
   ninja install
 
-  rm /usr/lib/libfdt.a
+  if [-f /usr/lib/libfdt.a]; then
+    rm /usr/lib/libfdt.a
+  fi
 
   cp -R ../Documentation -T /usr/share/doc/dtc-1.7.2
 

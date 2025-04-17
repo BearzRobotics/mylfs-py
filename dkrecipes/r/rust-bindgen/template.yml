@@ -10,7 +10,7 @@ description: |
   Bindgen automatically generates Rust FFI bindings to C (and some C++) libraries by parsing headers and generating Rust declarations.
 
 phase: 5
-builddeps: [rust, llvm, pkgconf]
+builddeps: [rust, llvm, pkgconfig]
 
 buildsteps: |
   export PATH=/opt/rustc/bin:$PATH

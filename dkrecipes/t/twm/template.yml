@@ -12,7 +12,7 @@ description: |
 phase: 5
 
 builddeps: [
-  glibc, make, pkgconf, xorg-server]
+  glibc, make, pkgconfig, xorg-server]
 
 buildsteps: |
   source /etc/profile

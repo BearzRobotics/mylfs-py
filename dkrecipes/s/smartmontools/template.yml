@@ -19,7 +19,7 @@ buildsteps: |
               --sysconfdir=/etc       \
               --with-initscriptdir=no \
               --with-libsystemd=no    \
-              --docdir=/usr/share/doc/smartmontools-7.4 &&
+              --docdir=/usr/share/doc/smartmontools-{version}
   make
 
   make install
@@ -27,5 +27,5 @@ buildsteps: |
   # If you want this service on start enable it here
   mkdir bootscripts
   cd bootscripts
-  tar ../../blfs-bootscripts-20250225.tar.xz
+  tar -xf ../../blfs-bootscripts-20250225.tar.xz
   #make install-smartd

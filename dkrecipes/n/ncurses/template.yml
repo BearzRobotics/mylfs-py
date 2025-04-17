@@ -37,4 +37,3 @@ buildsteps: |
    ln -sf libncursesw.so /usr/lib/libcurses.so
 
    cp -R doc -T /usr/share/doc/ncurses-6.5
-builddeps: []

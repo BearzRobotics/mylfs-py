@@ -21,7 +21,7 @@ buildsteps: |
   cp -frv examples /root/fbe/
   # cd ..
   # docs
-  unzip FB-manual-{version}-txt.zip
+  unzip ../FB-manual-{version}-txt.zip
 
   mkdir -pv /usr/doc/freebasic-{version}/
   cp -pv FB-manual-{version}.txt /usr/doc/freebasic-{version}/FB-manual-{version}.txt

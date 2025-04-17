@@ -1,0 +1,20 @@
+name: libunwind-generic
+version: 1.8.1
+release: 1
+url: https://github.com/libunwind/libunwind/releases/download/v1.8.1/libunwind-1.8.1.tar.gz
+homepage: https://github.com/libunwind/libunwind
+license: MIT
+summary: Portable and generic implementation of stack unwinding
+description: |
+  libunwind-generic provides a portable implementation of stack unwinding
+  for programs written in C and C++, supporting multiple architectures.
+  This version is the generic fallback, used where architecture-specific
+  backends are not preferred or available.
+
+phase: 5
+builddeps: [make, gcc]
+
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

@@ -1,0 +1,19 @@
+name: libmnl
+version: 1.0.5
+release: 1
+url: https://netfilter.org/projects/libmnl/files/libmnl-1.0.5.tar.bz2
+homepage: https://netfilter.org/projects/libmnl/
+
+license: LGPL-2.1-or-later
+summary: Minimalistic Netlink communication library
+description: |
+  libmnl is a minimalistic user-space library that helps applications communicate with the Linux kernel using Netlink sockets. It provides simple and efficient APIs to handle Netlink messages.
+
+phase: 5
+builddeps: [glibc, make]
+
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install
+  ldconfig

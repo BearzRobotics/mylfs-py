@@ -1,0 +1,24 @@
+name: gobject-introspection
+version: 1.84.0
+release: 1
+url: https://download.gnome.org/sources/gobject-introspection/1.84/gobject-introspection-1.84.0.tar.xz
+homepage: https://wiki.gnome.org/Projects/GObjectIntrospection
+
+license: LGPL-2.1-or-later
+summary: Middleware layer between C libraries and language bindings
+description: |
+  GObject Introspection is a middleware layer that allows the creation of dynamic bindings to GObject-based libraries. It provides tools and libraries to extract type information and APIs from C libraries for use in higher-level languages.
+
+phase: 5
+buildsystem: meson
+builddeps: [make, glibc, docutils, libxslt, pcre2, meson, ninja, git, libffi, cmake, glib-bootstrap, libunwind-generic]
+
+buildsteps: |
+  mkdir build && cd build
+
+  meson setup .. --prefix=/usr --buildtype=release
+  ninja 
+  ninja install
+  ldconfig
+
+  

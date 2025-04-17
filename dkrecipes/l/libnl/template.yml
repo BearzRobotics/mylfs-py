@@ -13,16 +13,15 @@ description: |
 
 phase: 5
 buildsystem: autotools
-builddeps: [glibc, make, pkgconf]
+builddeps: [glibc, make, pkgconfig]
 
 buildsteps: |
   ./configure --prefix=/usr     \
               --sysconfdir=/etc \
-              --disable-static  &&
+              --disable-static 
   make
 
   make install
 
-  mkdir -vp /usr/share/doc/libnl-3.11.0 &&
-  tar -xf ../libnl-doc-3.11.0.tar.gz --strip-components=1 --no-same-owner \
-      -C  /usr/share/doc/libnl-3.11.0
+  mkdir -vp /usr/share/doc/libnl-3.11.0
+  tar -xf ../libnl-doc-3.11.0.tar.gz --strip-components=1 --no-same-owner -C  /usr/share/doc/libnl-3.11.0

@@ -12,7 +12,7 @@ description: |
 phase: 5
 buildsystem: autotools
 builddeps: [
-  glibc, make, pkgconf, xorg-libs ]
+  glibc, make, pkgconfig, xorg-libs ]
 
 buildsteps: |
   source /etc/profile

@@ -1,0 +1,27 @@
+name: unifont
+version: 15.1.04
+release: 1
+url:
+  - https://unifoundry.com/pub/unifont/unifont-15.1.04/unifont-15.1.04.tar.gz
+  - https://unifoundry.com/pub/unifont/unifont-15.1.04/font-builds/unifont-15.1.04.otf
+  - https://unifoundry.com/pub/unifont/unifont-15.1.04/font-builds/Unifont-APL8x16-15.1.04.psf.gz
+  - https://unifoundry.com/pub/unifont/unifont-15.1.04/unifont-15.1.04.bmp
+  - https://unifoundry.com/pub/unifont/unifont-15.1.04/unifont-thumbnail-15.1.04.jpg
+homepage: https://unifoundry.com/unifont/index.html
+license: GPL-2.0-or-later
+summary: GNU Unicode font with full BMP coverage
+description: |
+  GNU Unifont is a font with full coverage of the Unicode Basic Multilingual Plane.
+  It's useful as a fallback or for displaying obscure Unicode characters.
+
+phase: 5
+builddeps: [fontconfig, libarchive]
+
+buildsteps: |
+  mkdir -pv /usr/share/fonts/opentype/unifont
+  cp -rfv ../unifont-15.1.04.otf /usr/share/fonts/opentype/unifont-15.1.04.otf
+
+  mkdir -pv /usr/share/consolefonts/
+  gzip -df ../Unifont-APL8x16-15.1.04.psf.gz
+  mv  Unifont-APL8x16-15.1.04.psf /usr/share/consolefonts/Unifont-APL8x16-15.1.04.psf
+  fc-cache -f

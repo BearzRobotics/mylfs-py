@@ -23,4 +23,3 @@ buildsteps: |
   fi
 
   make install
-builddeps: []

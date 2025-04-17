@@ -12,7 +12,7 @@ description: |
 phase: 5
 buildsystem: autotools
 builddeps: [
-  glibc, make, pkgconf,
+  glibc, make, pkgconfig,
   xorg-server, xorgsetup, libevdev, mtdev
 ]
 

@@ -8,8 +8,9 @@ summary: This package contains the GNU C libraries and header files
 description: |
   This package contains the GNU C libraries and header files.  The GNU C library was written originally by Roland McGrath, and is currently maintained by Ulrich Drepper.  Some parts of the library were contributed or worked on by other people. You'll need this package to compile programs.
 phase: 4
-order: 10
+order: 12
 critical: true
+
 #builddeps: [make]
 buildsteps: |
   patch -Np1 -i ../patches/glibc-2.41-fhs-1.patch
@@ -74,4 +75,3 @@ buildsteps: |
   localedef -i zh_CN -f GB18030 zh_CN.GB18030
   localedef -i zh_HK -f BIG5-HKSCS zh_HK.BIG5-HKSCS
   localedef -i zh_TW -f UTF-8 zh_TW.UTF-8
-builddeps: []

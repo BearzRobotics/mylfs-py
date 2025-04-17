@@ -1,4 +1,4 @@
-name: lua
+name: lua51
 version: 5.1.5
 release: 1
 url: http://www.lua.org/ftp/lua-5.1.5.tar.gz
@@ -14,13 +14,12 @@ phase: 5
 builddeps: [glibc, make, patch, sed, pkgconfig]
 
 buildsteps: |
-  patch -Np1 -i ../patches/lua-5.1.5-shared_library-2.patch &&
-  sed -i '/#define LUA_ROOT/s:/usr/local/:/usr/:' src/luaconf.h &&
+  patch -Np1 -i ../patches/lua-5.1.5-shared_library-2.patch 
+  sed -i '/#define LUA_ROOT/s:/usr/local/:/usr/:' src/luaconf.h 
   make linux
 
-  make INSTALL_TOP=/usr TO_LIB="liblua.so liblua.so.5.1 liblua.so.5.1.5" \
-      INSTALL_DATA="cp -d" INSTALL_MAN=/usr/share/man/man1 install &&
-  mkdir -pv /usr/share/doc/lua-5.1.5 &&
+  make INSTALL_TOP=/usr TO_LIB="liblua.so liblua.so.5.1 liblua.so.5.1.5" INSTALL_DATA="cp -d" INSTALL_MAN=/usr/share/man/man1 install
+  mkdir -pv /usr/share/doc/lua-5.1.5
   cp -v doc/*.{html,css,gif,png} /usr/share/doc/lua-5.1.5
 
   install -Dm644 ../static/lua.pc /usr/lib/pkgconfig/lua.pc

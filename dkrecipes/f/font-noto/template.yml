@@ -1,0 +1,19 @@
+name: fonts-noto
+version: 20240401
+release: 1
+url: https://noto-website-2.storage.googleapis.com/pkgs/Noto-unhinted.zip
+homepage: https://www.google.com/get/noto/
+license: SIL Open Font License
+summary: Google’s high-coverage Unicode font family
+description: |
+  Noto is a font family from Google that aims to support all languages and scripts
+  encoded in Unicode. This package installs the core unhinted OTF fonts.
+
+phase: 5
+builddeps: [fontconfig, libarchive]
+buildsystem: none
+
+buildsteps: |
+  mkdir -pv /usr/share/fonts/opentype/noto
+  unzip -j -o ../Noto-unhinted.zip '*.otf' -d /usr/share/fonts/opentype/noto
+  fc-cache -f

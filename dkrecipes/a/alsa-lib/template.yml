@@ -13,7 +13,7 @@ description: |
 
 phase: 5
 
-builddeps: [glibc]
+builddeps: [glibc, doxygen]
 
 buildsteps: |
   ./configure 
@@ -22,8 +22,3 @@ buildsteps: |
   make install 
   tar -C /usr/share/alsa --strip-components=1 -xf ../alsa-ucm-conf-1.2.14.tar.bz2
 
-  install -v -d -m755 /usr/share/doc/alsa-lib-1.2.14/html/search &&
-  install -v -m644 doc/doxygen/html/*.* \
-                  /usr/share/doc/alsa-lib-1.2.14/html &&
-  install -v -m644 doc/doxygen/html/search/* \
-                  /usr/share/doc/alsa-lib-1.2.14/html/search

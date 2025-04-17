@@ -10,7 +10,10 @@ description: |
   libraries providing Unicode and Globalization support for software applications. ICU is widely
   portable and gives applications the same results on all platforms.
 phase: 5
-builddeps: [make, glibc, icu, python]
+# technically python is a dep of this. -- It is built in phase 4 
+# so this command will work. However, here it's creating a cyclical chain 
+# breaking my DAG graph
+builddeps: [make, glibc, icu]
 buildsteps: |
   ./configure --prefix=/usr           \
               --sysconfdir=/etc       \

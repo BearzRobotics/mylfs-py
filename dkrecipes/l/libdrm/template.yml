@@ -11,7 +11,7 @@ description: |
 
 phase: 5
 buildsystem: meson
-builddeps: [glibc, make, meson, ninja, pkgconf, xorg-libs, cairo, libxslt]
+builddeps: [glibc, make, meson, ninja, pkgconfig, xorg-libs, cairo, libxslt]
 
 buildsteps: |
   mkdir build 

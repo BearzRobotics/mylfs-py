@@ -12,8 +12,7 @@ description: |
   D-Bus is a message bus system that provides a simple way for applications to talk to one another. It is used extensively in modern Linux systems by desktop environments and system services.
 
 phase: 5
-buildsystem: autotools
-builddeps: [glibc, meson, ninja, pkgconf, expat, xorg-libs]
+builddeps: [glibc, meson, ninja, pkgconfig, expat, xorg-libs]
 
 buildsteps: |
   source /etc/profile
@@ -39,7 +38,7 @@ buildsteps: |
   # bootup
   mkdir bootscripts
   cd bootscripts
-  tar ../../blfs-bootscripts-20250225.tar.xz
+  tar -xf ../../blfs-bootscripts-20250225.tar.xz
   make install-dbus
 
   cat > /etc/dbus-1/session-local.conf << "EOF"

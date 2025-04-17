@@ -1,0 +1,10 @@
+	prefix=/opt/ncurses5
+	exec_prefix=${prefix}
+	libdir=${exec_prefix}/lib
+	includedir=${prefix}/include
+    
+	Name: ncurses5
+	Description: System V Release 4.0 curses emulation (ABI 5)
+	Version: 6.5
+	Libs: -L${libdir} -lncurses
+	Cflags: -I${includedir}

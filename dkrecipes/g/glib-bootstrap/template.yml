@@ -1,0 +1,38 @@
+# This package and glib should be the same version of glib. 
+# The next package rebuilds this package with gobject-inrospection support.
+name: glib-bootstrap
+version: 2.84.1
+release: 1
+url: https://download.gnome.org/sources/glib/2.84/glib-2.84.1.tar.xz
+
+homepage: https://docs.gtk.org/glib/
+license:
+summary:
+
+phase: 5
+builddeps: [make, glibc, docutils, libxslt, pcre2, meson, ninja, git, libffi, cmake]
+buildsteps: |
+  patch -Np1 -i ../patches/glib-skip_warnings-1.patch
+
+  if [ -e /usr/include/glib-2.0 ]; then
+      rm -rf /usr/include/glib-2.0.old &&
+      mv -vf /usr/include/glib-2.0{,.old}
+  fi
+
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..                  \
+        --prefix=/usr             \
+        --buildtype=release       \
+        -D introspection=disabled \
+        -D glib_debug=disabled    \
+        -D man-pages=enabled      \
+        -D sysprof=disabled      
+  ninja
+
+  ninja install
+  ldconfig
+
+
+  cp -rvf /usr/lib64/pkgconfig/glib-2.0.pc /usr/lib/pkgconfig/glib-2.0.pc

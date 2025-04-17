@@ -11,9 +11,9 @@ description: |
 
 phase: 5
 buildsystem: autotools
-builddeps: [glibc, make]
+builddeps: [glibc, make, libmnl, ncurses]
 
 buildsteps: |
-  ./configure --prefix=/usr --disable-static
+  ./configure --prefix=/usr --disable-static --with-ncursesw
   make
   make install

@@ -11,7 +11,8 @@ description: |
 
 phase: 5
 
-builddeps: [glibc, cmake, gettext, luv, libvterm, msgpack, tree-sitter, lua51, luajit, icu, unibilium, lua, lpeg, pkgconfig]
+builddeps: [glibc, cmake, gettext, luv, libvterm, msgpack, tree-sitter, 
+  lua51, luajit, icu, unibilium, lua, lpeg, pkgconfig]
 
 buildsteps: |
   cmake -S . -B build \

@@ -1,0 +1,19 @@
+name: edid-decode
+version: 
+release: 1
+url: https://anduin.linuxfromscratch.org/BLFS/edid-decode.tar.gz
+homepage: https://git.linuxtv.org/edid-decode.git/
+license: MIT
+summary: Parses and decodes EDID monitor data
+description: |
+  edid-decode decodes EDID data in human-readable form to help with display diagnostics.
+  It is commonly used to validate monitor descriptors and investigate display-related issues.
+
+phase: 5
+builddeps: [meson, ninja, fontconfig]
+buildsystem: meson
+
+buildsteps: |
+  meson setup build --prefix=/usr
+  ninja -C build
+  ninja -C build install

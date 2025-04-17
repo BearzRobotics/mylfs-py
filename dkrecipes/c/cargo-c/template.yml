@@ -10,7 +10,7 @@ description: |
   cargo-c is a Cargo subcommand that helps build and install C-compatible dynamic and static libraries from Rust crates, including headers and `.pc` files for pkg-config.
 
 phase: 5
-builddeps: [rust, llvm, pkgconf, libssh2, sqlite, curl]
+builddeps: [rust, llvm, pkgconfig, libssh2, sqlite, curl]
 
 buildsteps: |
   export PATH=/opt/rustc/bin:$PATH

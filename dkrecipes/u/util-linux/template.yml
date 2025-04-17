@@ -16,7 +16,7 @@ description: |
 phase: 4
 order: 400
 critical: true
-builddeps: [zlib]
+builddeps: [zlib, ncurses]
 buildsteps: |
   ./configure --bindir=/usr/bin     \
               --libdir=/usr/lib     \

@@ -12,7 +12,7 @@ description: |
 phase: 5
 # TTF and OTF fonts required at runtime
 builddeps: [
-  glibc, make, pkgconf, xorg-server, luit, pcre2, sed
+  glibc, make, pkgconfig, xorg-server, luit, pcre2, sed
 ]
 
 buildsteps: |

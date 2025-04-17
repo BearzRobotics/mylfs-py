@@ -1,5 +1,4 @@
 # Here ncurses 6.5 is being built with abi comp for version 5. This allows older software to run
-
 name: ncurses5
 version: 6.5
 release: 1
@@ -13,8 +12,8 @@ phase: 5
 
 buildsteps: |
   ./configure \
-    --prefix=/usr \
-    --libdir=/usr/lib/ncurses5 \
+    --prefix=/opt/ncurses5 \
+    --libdir=/opt/ncurses5/lib \
     --with-shared \
     --with-abi-version=5 \
     --without-debug \
@@ -26,5 +25,14 @@ buildsteps: |
   make
   make install
 
-  ln -svf /usr/lib/ncurses5/libncurses.so.5 /usr/lib/libncurses.so.5
-  ln -svf /usr/lib/ncurses5/libtinfo.so.5   /usr/lib/libtinfo.so.5
+  # Optionally add a .pc file override path if needed
+  mkdir -vp /opt/ncurses5/lib/pkgconfig
+  cp -vf ../static/ncurses5.pc /opt/ncurses5/lib/pkgconfig/ncurses5.pc
+
+  # To build with this either
+
+  # -L/opt/ncurses5/lib -lncurses 
+  # or 
+  # export PKG_CONFIG_PATH=/opt/ncurses5/lib/pkgconfig
+
+

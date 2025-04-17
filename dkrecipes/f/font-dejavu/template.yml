@@ -1,7 +1,7 @@
 name: dejavu-fonts
 version: 2.37
 release: 1
-url: https://sourceforge.net/projects/dejavu/files/dejavu/2.37/dejavu-fonts-2.37.tar.bz2
+url: https://sourceforge.net/projects/dejavu/files/dejavu/2.37/dejavu-fonts-ttf-2.37.tar.bz2
 homepage: https://dejavu-fonts.github.io/
 
 license: Bitstream Vera & Public Domain
@@ -14,7 +14,6 @@ buildsystem: manual
 builddeps: [fontconfig]
 
 buildsteps: |
-
-  install -v -d -m755 /usr/share/fonts/dejavu &&
+  install -v -d -m755 /usr/share/fonts/dejavu
   install -v -m644 ttf/*.ttf /usr/share/fonts/dejavu &&
   fc-cache -v /usr/share/fonts/dejavu

@@ -9,4 +9,11 @@ description: |
   libtirpc is a library that provides transport-independent remote procedure call (RPC) functionality. It replaces the RPC code removed from glibc and is required for NIS, NFS, and related networking services.
 phase: 5
 builddeps: [make, autoconf, automake, pkgconfig, glibc]
-buildsteps: "./configure --prefix=/usr       \\\n            --sysconfdir=/etc   \\\n            --disable-static    \\\n            --disable-gssapi                                \nmake\nmake install\n"
+buildsteps: |
+  ./configure --prefix=/usr       \
+              --sysconfdir=/etc   \
+              --disable-static    \
+              --disable-gssapi    
+  make 
+  
+  make install

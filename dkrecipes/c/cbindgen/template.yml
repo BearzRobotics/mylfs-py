@@ -10,7 +10,7 @@ description: |
   cbindgen is a tool for generating C and C++ header files from Rust libraries. It is used to create FFI-compatible interfaces for use in C/C++ applications.
 
 phase: 5
-builddeps: [rust, llvm, pkgconf]
+builddeps: [rust, llvm, pkgconfig]
 
 buildsteps: |
   export PATH=/opt/rustc/bin:$PATH

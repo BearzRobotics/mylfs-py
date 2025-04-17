@@ -12,7 +12,7 @@ description: |
 phase: 5
 buildsystem: autotools
 builddeps: [
-  glibc, make, pkgconf, xorg-server, libinput, xorgsetup
+  glibc, make, pkgconfig, xorg-server, libinput, xorgsetup
 ]
 
 buildsteps: |

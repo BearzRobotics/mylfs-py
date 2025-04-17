@@ -11,9 +11,7 @@ description: |
 
 phase: 5
 buildsystem: autotools
-builddeps: [
-  glibc, make, pkgconf, xorg-libs, twm, xclock, xterm
-]
+builddeps: [glibc, make, pkgconfig, xorg-libs, twm, xclock, xterm]
 
 buildsteps: |
   source /etc/profile

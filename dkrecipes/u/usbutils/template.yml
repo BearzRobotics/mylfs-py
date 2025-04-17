@@ -11,7 +11,7 @@ description: |
 
 phase: 5
 buildsystem: autotools
-builddeps: [glibc, libusb, hwdata, make, pkgconf, meson, ninja]
+builddeps: [glibc, libusb, hwdata, make, pkgconfig, meson, ninja]
 
 buildsteps: |
   mkdir build &&

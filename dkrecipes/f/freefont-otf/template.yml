@@ -1,0 +1,21 @@
+name: freefont-otf
+version: 20080323
+release: 1
+url: https://gnu.mirror.constant.com/freefont/freefont-otf-20080323.zip
+homepage: https://www.gnu.org/software/freefont/
+license: GPL-3.0-or-later
+summary: Free UCS Outline Fonts in OpenType format
+description: |
+  GNU FreeFont is a collection of free high-quality Unicode fonts
+  covering a wide range of scripts and symbols. This package installs
+  the OpenType versions of FreeSerif, FreeSans, and FreeMono.
+
+phase: 5
+buildsystem: none
+builddeps: [fontconfig, libarchive]
+
+buildsteps: |
+  ls
+  mkdir -pv /usr/share/fonts/opentype/freefont
+  install -v -m644 *.otf /usr/share/fonts/opentype/freefont/
+  fc-cache -f

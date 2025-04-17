@@ -469,12 +469,21 @@ def buildAllPhase5(config: GlobalConfig, recipes: List[Recipe]):
 
     pkg_count = 0
     
+    # Running into a problem where a yaml feild isn't present and I can't get it's name. 
+    # we are going to iterate over the enter list and log it's order to p5_00_build_order.log
+    blog_file = Path(f"{config.build_path}logs/p5_00_build_order.log")
+    blog_file.parent.mkdir(parents=True, exist_ok=True)
+    
+    for re in phase5:
+        with blog_file.open("a") as f:
+            f.write(f"{re.name}\n")
+    
     for recipe in phase5:
-        
         if (was_built(session, recipe.name)):
             # if you bump the revision of a package. This should build a reverse dep
             # map that sets all packages that rely on this to built=false (o in the db)
             # that way they will get rebuilt agianst the update.
+            
             if (new_release(session, recipe.name, recipe.release)):
                 rev_map = build_reverse_dep_map(phase5)
                 to_rebuild = get_all_dependents(recipe.name, rev_map)
@@ -482,7 +491,7 @@ def buildAllPhase5(config: GlobalConfig, recipes: List[Recipe]):
             else:
                 # Otherwise, if it was already built and no new release skip it.
                 # .ljust(20) built in str method to left justify optons
-                print(f"    [SKIP] {recipe.name.ljust(33)}: already built")
+                print(f"    [SKIP] {recipe.name.ljust(33)} already built")
                 #  I need to preserved the order that It would have built
                 #pkg_count += 1 
                 #log_file = Path(f"{config.build_path}logs/p5_{pkg_count}_{recipe.name}_SKIPPED.log")
@@ -493,7 +502,7 @@ def buildAllPhase5(config: GlobalConfig, recipes: List[Recipe]):
         
         failed_deps = all_deps_built(recipe, session)
         if failed_deps:
-            print(f"    [SKIP] {recipe.name.ljust(33)}: missing/failed deps -> \x1b[33m {', '.join(failed_deps)}\x1b[0m ")
+            print(f"    [SKIP] {recipe.name.ljust(33)} missing/failed deps -> \x1b[33m {', '.join(failed_deps)}\x1b[0m ")
             continue
         
         entry = BuildEntry(

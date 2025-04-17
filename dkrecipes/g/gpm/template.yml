@@ -35,7 +35,7 @@ buildsteps: |
   # boot scripts
   # mkdir bootscripts
   # cd bootscripts
-  # tar ../../blfs-bootscripts-20250225.tar.xz
+  # tar -xf ../../blfs-bootscripts-20250225.tar.xz
   # make install-gpm
   
   cat > /etc/sysconfig/mouse << "EOF"
