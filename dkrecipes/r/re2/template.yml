@@ -1,0 +1,18 @@
+name: re2
+version: 2024-07-02
+release: 1
+url: https://github.com/google/re2/archive/refs/tags/2024-07-02.tar.gz
+homepage: https://github.com/google/re2
+
+license: BSD-3-Clause
+summary: Fast, safe, thread-friendly regular expression library
+description: |
+  RE2 is a fast, safe, thread-friendly regular expression library developed by Google. It is designed to handle regular expression matching in a way that guarantees linear time complexity, preventing common security pitfalls of backtracking-based engines.
+
+phase: 5
+builddeps: [glibc, cmake, abseil-cpp]
+
+buildsteps: |
+  cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build -j$(nproc)
+  cmake --install build

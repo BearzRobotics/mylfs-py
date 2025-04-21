@@ -1,0 +1,33 @@
+name: at-spi2-core
+version: 2.56.1
+release: 1
+url: https://download.gnome.org/sources/at-spi2-core/2.56/at-spi2-core-2.56.1.tar.xz
+homepage: https://wiki.gnome.org/Accessibility
+
+license: LGPL-2.1-or-later
+summary: Assistive Technology Service Provider Interface core components
+description: |
+  AT-SPI2 is the primary means by which assistive technologies
+  communicate with applications running under the X Window System and Wayland.
+  It provides the core components needed for accessibility support.
+
+phase: 5
+
+# if you want docs gi-docgen, sphinx
+builddeps: [glib, dbus, xorg-libs, gsettings-desktop-schemas, meson, ninja]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  # add -D docs=true for docs
+  meson setup ..                  \
+        --prefix=/usr             \
+        --buildtype=release       \
+        -D gtk2_atk_adaptor=false \
+        -D systemd_user_dir=/tmp  
+  ninja
+
+
+  ninja install 
+  rm /tmp/at-spi-dbus-bus.service

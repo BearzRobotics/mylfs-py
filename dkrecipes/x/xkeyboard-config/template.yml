@@ -11,7 +11,7 @@ description: |
 
 phase: 5
 buildsystem: meson
-builddeps: [glibc, meson, ninja, xorgproto, xorgsetup, xorg-libs, xorg-apps]
+builddeps: [glibc, meson, ninja, xorgproto, xorgsetup, xorg-libs]
 
 buildsteps: |
   source /etc/profile

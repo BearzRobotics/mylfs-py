@@ -1,0 +1,22 @@
+name: libgxps
+version: 0.3.2
+release: 1
+url: https://download.gnome.org/sources/libgxps/0.3/libgxps-0.3.2.tar.xz
+homepage: https://wiki.gnome.org/Projects/libgxps
+license: LGPL-2.1-or-later
+summary: Library for handling XPS documents
+description: |
+  libgxps is a GObject-based library for parsing and rendering XPS
+  (XML Paper Specification) documents. It provides API functions 
+  for reading, rendering, and converting XPS files to other formats, 
+  and is used by viewers and document converters.
+phase: 5
+builddeps: [glibc, glib, libjpeg-turbo, libpng, zlib, lcms, meson, ninja, pkgconfig, gtk3, libxslt, libarchive]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  meson setup --prefix=/usr --buildtype=release .. 
+  ninja
+
+  ninja install

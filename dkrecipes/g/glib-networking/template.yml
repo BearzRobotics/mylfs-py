@@ -1,0 +1,26 @@
+name: glib-networking
+version: 2.80.1
+release: 1
+url: https://download.gnome.org/sources/glib-networking/2.80/glib-networking-2.80.1.tar.xz
+homepage: https://gitlab.gnome.org/GNOME/glib-networking
+license: LGPL-2.1-or-later
+summary: TLS and proxy support for GLib applications
+description: |
+  glib-networking provides network-related extensions for GLib's 
+  GIO library, including TLS/SSL support using GnuTLS, and HTTP, 
+  SOCKS, and other proxy protocols. It enables secure communications 
+  for GLib-based applications.
+phase: 5
+builddeps: [glibc, glib, gnutls, pkgconfig, meson, ninja, gsettings-desktop-schemas]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  meson setup             \
+    --prefix=/usr        \
+    --buildtype=release  \
+    -D libproxy=disabled \
+    .. 
+  ninja
+
+  ninja install

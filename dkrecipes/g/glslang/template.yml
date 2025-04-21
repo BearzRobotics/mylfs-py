@@ -1,0 +1,31 @@
+name: glslang
+version: 15.2.0
+release: 1
+url: https://github.com/KhronosGroup/glslang/archive/15.2.0/glslang-15.2.0.tar.gz
+homepage: https://github.com/KhronosGroup/glslang
+license: Apache-2.0
+summary: Khronos reference GLSL and SPIR-V shader compiler
+description: |
+  glslang is the official Khronos reference compiler for GLSL (OpenGL Shading Language)
+  and ESSL (OpenGL ES Shading Language), and generates SPIR-V output for Vulkan.
+  It is a core dependency for graphics drivers and shader development tools.
+
+phase: 5
+builddeps: [glibc, cmake, ninja, python, patch, spirv-tools]
+
+
+buildsteps: |
+  patch -Np1 -i ../patches/glslang-15.2.0-SPIRV_install-1.patch
+
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr     \
+        -D CMAKE_BUILD_TYPE=Release      \
+        -D ALLOW_EXTERNAL_SPIRV_TOOLS=ON \
+        -D BUILD_SHARED_LIBS=ON          \
+        -D GLSLANG_TESTS=ON              \
+        -G Ninja .. 
+  ninja
+
+  ninja install

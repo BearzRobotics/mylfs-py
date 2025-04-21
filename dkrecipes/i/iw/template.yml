@@ -1,0 +1,18 @@
+name: iw
+version: 6.9
+release: 1
+url: https://www.kernel.org/pub/software/network/iw/iw-6.9.tar.xz
+homepage: https://wireless.wiki.kernel.org/en/users/documentation/iw
+license: ISC
+summary: nl80211 configuration tool for wireless devices
+description: |
+  iw is a new nl80211 based CLI configuration utility for wireless devices.
+  It supports all new drivers that use the kernel's mac80211 subsystem.
+
+builddeps: [glibc, libnl, sed, make]
+
+buildsteps: |
+  sed -i "/INSTALL.*gz/s/.gz//" Makefile &&
+  make
+
+  make install

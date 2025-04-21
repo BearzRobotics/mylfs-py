@@ -11,7 +11,7 @@ description: |
 
 phase: 5
 buildsystem: autotools
-builddeps: [glibc, flac, libogg, libvorbis, make, flack, opus, alsa-lib, sqlite, speex, mpg123]
+builddeps: [glibc, flac, libogg, libvorbis, make, flac, opus, alsa-lib, sqlite, speex, mpg123]
 
 buildsteps: |
   ./configure --prefix=/usr    \

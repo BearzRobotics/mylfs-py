@@ -1,0 +1,19 @@
+name: dysk
+version: 2.10.0
+release: 1
+url: https://github.com/Canop/dysk/archive/refs/tags/v2.10.0.tar.gz
+homepage: https://github.com/Canop/dysk
+license: MIT
+summary: A modern disk usage analyzer for the terminal
+description: |
+  dysk is a modern, colorful disk usage analyzer written in Rust. 
+  It displays the size, usage percentage, and file type of each mount 
+  point or device on your system, with graphical bar charts and 
+  minimal output clutter.
+phase: 5
+builddeps: [rust]
+buildsteps: |
+  source /etc/profile
+
+  cargo build --release
+  install -Dm755 target/release/dysk /usr/bin/dysk

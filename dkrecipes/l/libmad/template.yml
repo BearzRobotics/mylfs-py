@@ -1,0 +1,40 @@
+name: libmad
+version: 0.15.1b
+release: 1
+url: https://downloads.sourceforge.net/mad/libmad-0.15.1b.tar.gz
+homepage: https://sourceforge.net/projects/mad/
+license: GPL-2.0-or-later
+summary: High-quality MPEG audio decoder library
+description: |
+  libmad is a high-quality MPEG audio decoder library specifically 
+  optimized for fixed-point arithmetic. It can decode all three layers 
+  of MPEG audio streams (Layer I, II, III) including MP3 files, and 
+  is known for providing superior audio quality without relying on 
+  floating-point operations.
+phase: 5
+builddeps: [glibc, pkgconfig, make, patch]
+buildsteps: |
+  patch -Np1 -i ../patches/libmad-0.15.1b-fixes-1.patch                &&
+  sed "s@AM_CONFIG_HEADER@AC_CONFIG_HEADERS@g" -i configure.ac &&
+  touch NEWS AUTHORS ChangeLog                                 &&
+  autoreconf -fi                                               &&
+
+  ./configure --prefix=/usr --disable-static &&
+  make
+
+
+  make install
+
+  cat > /usr/lib/pkgconfig/mad.pc << "EOF"
+  prefix=/usr
+  exec_prefix=${prefix}
+  libdir=${exec_prefix}/lib
+  includedir=${prefix}/include
+
+  Name: mad
+  Description: MPEG audio decoder
+  Requires:
+  Version: 0.15.1b
+  Libs: -L${libdir} -lmad
+  Cflags: -I${includedir}
+  EOF

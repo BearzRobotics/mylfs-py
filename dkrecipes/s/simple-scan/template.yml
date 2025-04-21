@@ -1,0 +1,24 @@
+name: simple-scan
+version: 46.0
+release: 1
+url: https://download.gnome.org/sources/simple-scan/46/simple-scan-46.0.tar.xz
+homepage: https://gitlab.gnome.org/GNOME/simple-scan
+license: GPL-3.0-or-later
+summary: Easy-to-use document scanner application
+description: |
+  Simple Scan is a simple scanning application for GNOME. 
+  It allows users to easily scan documents or photos, save them 
+  as PDF or image files, and send them via email. It uses 
+  sane-backends for device support and offers a clean, minimal 
+  interface suitable for daily use.
+phase: 5
+builddeps: [glibc, libadwaita, sane, pkgconfig, colord, itstool, libgusb, libwebp, meson, ninja]
+buildsteps: |
+  mkdir build
+  cd    build
+
+  meson setup --prefix=/usr --buildtype=release .. 
+  ninja
+
+  ninja install 
+  gtk-update-icon-cache -qtf /usr/share/icons/hicolor

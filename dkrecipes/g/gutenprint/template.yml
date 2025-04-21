@@ -1,0 +1,29 @@
+name: gutenprint
+version: 5.3.5
+release: 1
+url: https://downloads.sourceforge.net/gimp-print/gutenprint-5.3.5.tar.xz
+homepage: http://gimp-print.sourceforge.net/
+license: GPL-2.0-or-later
+summary: High-quality printer drivers for UNIX/Linux systems
+description: |
+  Gutenprint (formerly Gimp-Print) provides high-quality drivers for printers,
+  supporting a wide range of Epson, Canon, HP, and other printers.
+  It is commonly used with CUPS for advanced printing capabilities
+  and fine-tuned color and resolution settings.
+
+phase: 5
+builddeps: [glibc, make, cups, sed]
+
+buildsteps: |
+  sed -i 's|$(PACKAGE)/doc|doc/$(PACKAGE)-$(VERSION)|'  {,doc/,doc/developer/}Makefile.in 
+
+  ./configure --prefix=/usr                 \
+              --disable-static              \
+              --without-gimp2               \
+              --without-gimp2-as-gutenprint 
+  make
+
+  make install &&
+  install -v -m755 -d /usr/share/doc/gutenprint-5.3.5/api/gutenprint{,ui2} 
+  install -v -m644    doc/gutenprint/html/* /usr/share/doc/gutenprint-5.3.5/api/gutenprint 
+  install -v -m644    doc/gutenprintui2/html/*  /usr/share/doc/gutenprint-5.3.5/api/gutenprintui2

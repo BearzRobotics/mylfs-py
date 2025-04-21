@@ -1,0 +1,9 @@
+Device Drivers --->
+  [*] USB support --->                                             [USB_SUPPORT]
+    <*/M> USB Printer support                                      [USB_PRINTER]
+
+Device Drivers --->
+  <*/M> Parallel port support --->                                     [PARPORT]
+    <*/M> PC-style hardware                                         [PARPORT_PC]
+  Character devices --->
+    <*/M> Parallel printer support                                     [PRINTER]

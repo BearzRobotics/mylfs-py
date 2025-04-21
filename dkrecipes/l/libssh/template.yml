@@ -1,0 +1,18 @@
+name: libssh
+version: 0.11.1
+release: 1
+url: https://www.libssh.org/files/0.11/libssh-0.11.1.tar.xz
+homepage: https://www.libssh.org/
+license: LGPL-2.1-or-later
+summary: A multiplatform C library implementing the SSHv2 and SSHv1 protocols
+description: |
+  libssh is a C library that provides an API to work with SSH servers and 
+  clients, supporting both SSHv1 and SSHv2 protocols. It can be used 
+  to implement secure remote shells, secure file transfers, and more.
+  
+phase: 5
+builddeps: [glibc, openssl, zlib, cmake]
+buildsteps: |
+  cmake -B build -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release
+  cmake --build build
+  cmake --install build

@@ -1,0 +1,18 @@
+name: libseatd
+version: 0.9.1
+release: 1
+url: https://github.com/kennylevinsen/seatd/archive/refs/tags/0.9.1.tar.gz
+homepage: https://git.sr.ht/~kennylevinsen/seatd
+
+license: MIT
+summary: Minimal seat management daemon and client library
+description: |
+  seatd is a minimal seat management daemon and client library, offering a simple alternative to logind for Wayland compositors. It provides privileged seat operations to unprivileged clients in a secure and lightweight manner.
+
+phase: 5
+builddeps: [glibc, meson, ninja]
+
+buildsteps: |
+  meson setup build --prefix=/usr
+  meson compile -C build
+  meson install -C build

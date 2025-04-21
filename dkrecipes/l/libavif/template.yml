@@ -1,0 +1,30 @@
+name: libavif
+version: 1.2.1
+release: 1
+url: https://github.com/AOMediaCodec/libavif/archive/v1.2.1/libavif-1.2.1.tar.gz
+homepage: https://github.com/AOMediaCodec/libavif
+license: BSD-2-Clause
+summary: Library for encoding and decoding .avif images
+description: |
+  libavif is a C library for encoding and decoding images in the AVIF format.
+  AVIF is based on the AV1 video compression algorithm, providing high-efficiency
+  image storage and transmission.
+
+phase: 5
+builddeps: [glibc, cmake, ninja, libaom, gdk-pixbuf]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        -D AVIF_CODEC_AOM=SYSTEM     \
+        -D AVIF_BUILD_GDK_PIXBUF=ON  \
+        -D AVIF_LIBYUV=OFF           \
+        -G Ninja .. &&
+  ninja
+
+  ninja install
+
+  gdk-pixbuf-query-loaders --update-cache

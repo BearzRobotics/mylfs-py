@@ -1,0 +1,17 @@
+name: libatasmart
+version: 0.19
+release: 1
+url: https://0pointer.de/public/libatasmart-0.19.tar.xz
+homepage: https://0pointer.de/blog/projects/being-smart.html
+license: LGPL-2.1-or-later
+summary: ATA S.M.A.R.T. access library
+description: |
+  libatasmart is a small C library for querying and parsing S.M.A.R.T.
+  information from ATA drives without requiring any device-specific
+  knowledge.
+phase: 5
+builddeps: [glibc, make]
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make docdir=/usr/share/doc/libatasmart-0.19 install

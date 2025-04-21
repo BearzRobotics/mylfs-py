@@ -1,0 +1,22 @@
+name: libdisplay-info
+version: 0.2.0
+release: 1
+url: https://ftp2.osuosl.org/pub/blfs/conglomeration/libdisplay-info/libdisplay-info-0.2.0.tar.xz
+homepage: https://gitlab.freedesktop.org/emersion/libdisplay-info
+
+license: MIT
+summary: Library for parsing display information (EDID/DisplayID)
+description: |
+  libdisplay-info is a C library to parse EDID and DisplayID display descriptors. It is primarily designed for use by Wayland compositors and DRM-based applications to access structured monitor information.
+
+phase: 5
+builddeps: [glibc, meson, ninja, hwdata]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+  ninja
+
+  ninja install

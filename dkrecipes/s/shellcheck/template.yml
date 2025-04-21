@@ -1,0 +1,17 @@
+name: shellcheck
+version: 0.10.0
+release: 1
+url: https://github.com/koalaman/shellcheck/archive/refs/tags/v0.10.0.tar.gz
+homepage: https://www.shellcheck.net/
+license: GPL-3.0-or-later
+summary: Shell script static analysis tool
+description: |
+  ShellCheck is a static analysis tool for shell scripts.
+  It helps detect syntax errors, semantic problems, and
+  style issues in Bash, sh, and related shell scripts.
+phase: 5
+builddeps: [ghc]
+buildsteps: |
+  export PATH="$HOME/.ghcup/bin:$PATH"
+  cabal update 
+  cabal install --installdir=/usr/bin --overwrite-policy=always

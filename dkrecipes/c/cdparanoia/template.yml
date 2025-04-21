@@ -1,0 +1,24 @@
+name: cdparanoia
+version: III-10.2
+release: 1
+url: https://downloads.xiph.org/releases/cdparanoia/cdparanoia-III-10.2.src.tgz
+homepage: https://www.xiph.org/paranoia/
+license: GPL-2.0-or-later
+summary: Audio CD reading utility with error correction
+description: |
+  Cdparanoia extracts audio from CDs with extra data verification,
+  focusing on precise, reliable reads even from scratched or damaged discs.
+  It is known for its high accuracy and error recovery capabilities.
+
+phase: 5
+builddeps: [glibc, make, patch]
+
+buildsteps: |
+  patch -Np1 -i ../patches/cdparanoia-III-10.2-gcc_fixes-1.patch &&
+  ./configure --prefix=/usr --mandir=/usr/share/man &&
+  make -j1
+
+
+  make install &&
+  chmod -v 755 /usr/lib/libcdda_*.so.0.10.2 &&
+  rm -fv /usr/lib/libcdda_*.a

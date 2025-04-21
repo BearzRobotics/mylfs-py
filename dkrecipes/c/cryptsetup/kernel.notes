@@ -1,0 +1,16 @@
+Device Drivers --->
+  [*] Multiple devices driver support (RAID and LVM) --->                   [MD]
+    <*/M> Device mapper support                                     [BLK_DEV_DM]
+    <*/M>   Crypt target support                                      [DM_CRYPT]
+
+-*- Cryptographic API --->                                              [CRYPTO]
+  Block ciphers --->
+    <*/M> AES (Advanced Encryption Standard)                        [CRYPTO_AES]
+    # For tests:
+    <*/M> Twofish                                               [CRYPTO_TWOFISH]
+  Length-preserving ciphers and modes --->
+    <*/M> XTS (XOR Encrypt XOR with ciphertext stealing)            [CRYPTO_XTS]
+  Hashes, digests, and MACs --->
+    <*/M> SHA-224 and SHA-256                                    [CRYPTO_SHA256]
+  Userspace interface --->
+    <*/M> Symmetric key cipher algorithms             [CRYPTO_USER_API_SKCIPHER]

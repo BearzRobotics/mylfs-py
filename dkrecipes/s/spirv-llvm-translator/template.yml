@@ -1,0 +1,27 @@
+name: spirv-llvm-translator
+version: 20.1.1
+release: 1
+url: https://github.com/KhronosGroup/SPIRV-LLVM-Translator/archive/v20.1.1/SPIRV-LLVM-Translator-20.1.1.tar.gz
+homepage: https://github.com/KhronosGroup/SPIRV-LLVM-Translator
+license: Apache-2.0
+summary: LLVM/SPIR-V translation library
+description: |
+  The SPIRV-LLVM-Translator provides tools and libraries for converting between
+  LLVM IR and SPIR-V, enabling translation for OpenCL, SYCL, and Vulkan compute shaders.
+
+phase: 5
+builddeps: [glibc, cmake, ninja, llvm, spirv-tools]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr                   \
+        -D CMAKE_BUILD_TYPE=Release                    \
+        -D BUILD_SHARED_LIBS=ON                        \
+        -D CMAKE_SKIP_INSTALL_RPATH=ON                 \
+        -D LLVM_EXTERNAL_SPIRV_HEADERS_SOURCE_DIR=/usr \
+        -G Ninja ..                                    
+  ninja
+
+  ninja install

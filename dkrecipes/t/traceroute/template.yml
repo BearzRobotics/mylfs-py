@@ -1,0 +1,20 @@
+name: traceroute
+version: 2.1.6
+release: 1
+url: https://downloads.sourceforge.net/traceroute/traceroute-2.1.6.tar.gz
+homepage: https://traceroute.sourceforge.net/
+license: GPL-2.0-or-later
+summary: Traces the route of IP packets to a destination host
+description: |
+  Traceroute displays the route packets take to a network host.
+  It helps diagnose routing issues and network slowdowns.
+
+builddeps: [glibc, make]
+
+buildsteps: |
+  make
+
+  make prefix=/usr install                                 
+  ln -sv -f traceroute /usr/bin/traceroute6                
+  ln -sv -f traceroute.8 /usr/share/man/man8/traceroute6.8 
+  rm -fv /usr/share/man/man1/traceroute.1

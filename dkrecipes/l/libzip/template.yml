@@ -1,0 +1,19 @@
+name: libzip
+version: 1.11.3
+release: 1
+url: https://github.com/nih-at/libzip/releases/download/v1.11.3/libzip-1.11.3.tar.gz
+homepage: https://libzip.org/
+
+license: BSD-3-Clause
+summary: C library for reading, creating, and modifying ZIP archives
+description: |
+  libzip is a C library for reading, creating, and modifying ZIP archives. It offers a simple and robust API for manipulating ZIP files, supporting standard compression methods and various advanced features.
+
+phase: 5
+builddeps: [glibc, cmake, openssl, bzip2, xz, zlib]
+
+buildsteps: |
+  cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
+  cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
+
+  cmake --install ./build

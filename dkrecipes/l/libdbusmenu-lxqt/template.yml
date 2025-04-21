@@ -1,0 +1,26 @@
+name: libdbusmenu-lxqt
+version: 0.2.0
+release: 1
+url: https://github.com/lxqt/libdbusmenu-lxqt/releases/download/0.2.0/libdbusmenu-lxqt-0.2.0.tar.xz
+homepage: https://github.com/lxqt/libdbusmenu-lxqt
+license: LGPL-2.1-or-later
+summary: Lightweight library for D-Bus menu handling in LXQt
+description: |
+  libdbusmenu-lxqt provides a lightweight implementation of the 
+  D-Bus menu protocol for use with LXQt components. It is used to 
+  expose application menus over D-Bus for integration into panels 
+  and system trays.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, doxygen-qt6]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        -D WITH_DOC=ON               \
+        -W no-dev ..                 
+  make
+
+
+  make install

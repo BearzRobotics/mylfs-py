@@ -1,0 +1,27 @@
+name: apache-ant
+version: 1.10.15
+release: 1
+url: https://archive.apache.org/dist/ant/source/apache-ant-1.10.15-src.tar.xz
+homepage: https://ant.apache.org/
+license: Apache-2.0
+summary: Java-based build tool similar to Make
+description: |
+  Apache Ant is a Java library and command-line tool whose mission is to drive
+  processes described in build files as targets and extension points dependent
+  upon each other. It is primarily used for building Java applications.
+
+phase: 5
+builddeps: [glibc, openjdk, makeca_certs]
+
+buildsteps: |
+  ./bootstrap.sh
+
+  bootstrap/bin/ant -f fetch.xml -Ddest=optional
+
+  ./build.sh -Ddist.dir=$PWD/ant-1.10.15 dist
+
+  cp -rv ant-1.10.15 /opt/            &&
+  chown -R root:root /opt/ant-1.10.15 &&
+  ln -sfv ant-1.10.15 /opt/ant
+
+  install -m755 ../static/ant.sh /etc/profile.d/ant.sh

@@ -1,0 +1,24 @@
+name: lxqt-globalkeys
+version: 2.1.0
+release: 1
+url: https://github.com/lxqt/lxqt-globalkeys/releases/download/2.1.0/lxqt-globalkeys-2.1.0.tar.xz
+homepage: https://github.com/lxqt/lxqt-globalkeys
+license: LGPL-2.1-or-later
+summary: Global keyboard shortcut daemon and library for LXQt
+description: |
+  lxqt-globalkeys is a daemon and library for managing global keyboard
+  shortcuts within the LXQt desktop environment. It enables users to
+  launch applications, control media, and switch desktops using custom
+  key combinations.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, liblxqt]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+
+  make install

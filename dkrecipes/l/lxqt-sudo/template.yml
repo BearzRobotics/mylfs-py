@@ -1,0 +1,23 @@
+name: lxqt-sudo
+version: 2.1.0
+release: 1
+url: https://github.com/lxqt/lxqt-sudo/releases/download/2.1.0/lxqt-sudo-2.1.0.tar.xz
+homepage: https://github.com/lxqt/lxqt-sudo
+license: GPL-2.0-or-later
+summary: Graphical sudo program for LXQt
+description: |
+  lxqt-sudo provides a graphical frontend to sudo for launching
+  applications with root privileges. It is a lightweight replacement
+  for tools like gksudo or kdesu, designed for the LXQt environment.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, liblxqt]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+
+  make install

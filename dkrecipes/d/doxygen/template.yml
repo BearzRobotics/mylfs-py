@@ -10,8 +10,7 @@ description: |
 phase: 5
 builddeps: [cmake, make, gcc, glibc, flex, bison, cmake, git, libxml2, python]
 buildsteps: | 
-  set +e
-  #grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
+  grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
 
   mkdir -v build
   cd       build
@@ -19,8 +18,7 @@ buildsteps: |
   cmake -G "Unix Makefiles"          \
         -D CMAKE_BUILD_TYPE=Release  \
         -D CMAKE_INSTALL_PREFIX=/usr \
-        -D build_wizard=ON           \
-        -D force_qt=Qt6              \
+        -D build_wizard=OFF \
         -W no-dev .. 
   make
 

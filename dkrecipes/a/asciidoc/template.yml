@@ -1,0 +1,16 @@
+name: asciidoc
+version: 10.2.1
+release: 1
+url: https://files.pythonhosted.org/packages/source/a/asciidoc/asciidoc-10.2.1.tar.gz
+homepage: https://asciidoc-py.github.io/
+license: GPL-2.0-or-later
+summary: Lightweight markup language for writing documentation
+description: |
+  AsciiDoc is a text document format for writing notes, articles, 
+  documentation, books, and UNIX man pages. AsciiDoc files can be 
+  translated to HTML, PDF, and other formats.
+phase: 5
+builddeps: [python, python-setuptools, python-wheel, docbook-xsl, libxslt, lynx]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user asciidoc

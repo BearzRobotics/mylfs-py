@@ -1,0 +1,23 @@
+https://www.linuxfromscratch.org/blfs/view/svn/postlfs/openssh.html
+
+Configuring OpenSSH
+Config Files
+~/.ssh/*, /etc/ssh/ssh_config, and /etc/ssh/sshd_config
+
+There are no required changes to any of these files. However, you may wish to view the /etc/ssh/ files and make any changes appropriate for the security of your system. One recommended change is that you disable root login via ssh. Execute the following command as the root user to disable root login via ssh:
+
+echo "PermitRootLogin no" >> /etc/ssh/sshd_config
+If you want to be able to log in without typing in your password, first create ~/.ssh/id_rsa and ~/.ssh/id_rsa.pub with ssh-keygen and then copy ~/.ssh/id_rsa.pub to ~/.ssh/authorized_keys on the remote computer that you want to log into. You'll need to change REMOTE_USERNAME and REMOTE_HOSTNAME for the username and hostname of the remote computer and you'll also need to enter your password for the ssh-copy-id command to succeed:
+
+ssh-keygen &&
+ssh-copy-id -i ~/.ssh/id_ed25519.pub REMOTE_USERNAME@REMOTE_HOSTNAME
+Once you've got passwordless logins working it's actually more secure than logging in with a password (as the private key is much longer than most people's passwords). If you would like to now disable password logins, as the root user:
+
+echo "PasswordAuthentication no" >> /etc/ssh/sshd_config &&
+echo "KbdInteractiveAuthentication no" >> /etc/ssh/sshd_config
+If you added Linux-PAM support and you want ssh to use it then you will need to add a configuration file for sshd and enable use of LinuxPAM. Note, ssh only uses PAM to check passwords, if you've disabled password logins these commands are not needed. If you want to use PAM, issue the following commands as the root user:
+
+sed 's@d/login@d/sshd@g' /etc/pam.d/login > /etc/pam.d/sshd &&
+chmod 644 /etc/pam.d/sshd &&
+echo "UsePAM yes" >> /etc/ssh/sshd_config
+Additional configuration information can be found in the man pages for sshd, ssh and ssh-agent.

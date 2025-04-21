@@ -36,8 +36,7 @@ def resolveBO(config: GlobalConfig, recipes: List[Recipe]) -> List[Recipe]:
     name_to_recipe = {r.name: r for r in recipes}
     ts = TopologicalSorter()
 
-    for recipe in recipes:
-        
+    for recipe in recipes:        
         if (config.debug):
             ConsoleMSG.info(f"resolveBO: {recipe.name}")
         deps = recipe.builddeps if recipe.builddeps else []

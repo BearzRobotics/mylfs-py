@@ -1,0 +1,31 @@
+# had packages fail because cmake 4 has removed compatiblily 
+# for older versions
+
+# Packages that call this should add export PATH=/opt/cmake-3.31.7/bin:$PATH
+name: cmake-legacy
+version: 3.31.7
+release: 1
+url: https://github.com/Kitware/CMake/releases/download/v3.31.7/cmake-3.31.7.tar.gz
+homepage: https://cmake.org/
+license: BSD-3-Clause
+summary: The CMake package contains a modern toolset used for generating Makefiles.
+description: |
+  The CMake package contains a modern toolset used for generating Makefiles. It is a successor of the auto-generated configure script and aims to be platform- and compiler-independent. A significant user of CMake is KDE since version 4.
+phase: 5
+builddeps: [make, glibc, curl, libarchive, libuv, nghttp2, zlib, expat, ncurses]
+buildsteps: |
+  mkdir -pv /opt/cmake-3.31.7
+  ln -svfn cmake-3.31.7 /opt/cmake
+
+  sed -i '/"lib64"/s/64//' Modules/GNUInstallDirs.cmake 
+
+  ./bootstrap --prefix=/opt/cmake-3.31.7  \
+              --system-libs               \
+              --mandir=/share/man         \
+              --no-system-jsoncpp         \
+              --no-system-cppdap          \
+              --no-system-librhash        \
+              --docdir=/share/doc/cmake-{version}
+  make
+
+  make install

@@ -1,0 +1,19 @@
+name: lsof
+version: 4.99.0
+release: 1
+url: https://github.com/lsof-org/lsof/releases/download/4.99.0/lsof-4.99.0.tar.gz
+homepage: https://github.com/lsof-org/lsof
+license: custom
+summary: Utility to list open files
+description: |
+  lsof is a command-line utility that lists information about files 
+  opened by processes. It can report open files, network sockets, 
+  pipes, devices, and more, making it a critical tool for 
+  troubleshooting and system administration.
+phase: 5
+builddeps: [make, libtirpc, nmap]
+buildsteps: |
+  ./configure --prefix=/usr --disable-static 
+  make
+
+  make install

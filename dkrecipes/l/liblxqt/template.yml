@@ -1,0 +1,24 @@
+name: liblxqt
+version: 2.1.0
+release: 1
+url: https://github.com/lxqt/liblxqt/releases/download/2.1.0/liblxqt-2.1.0.tar.xz
+homepage: https://github.com/lxqt/liblxqt
+license: LGPL-2.1-or-later
+summary: Core utility library for LXQt desktop components
+description: |
+  liblxqt is the basic library providing shared functionality used by
+  many LXQt desktop components. It offers common utilities, settings
+  handling, system integration functions, and more for lightweight 
+  Qt-based environments.
+phase: 5
+builddeps: [qt6, glibc, extra-cmake, lxqt-build-tools, libqtxdg, kwindowsystem, polkit-qt]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+
+  make install

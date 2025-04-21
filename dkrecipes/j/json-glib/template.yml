@@ -1,0 +1,23 @@
+name: json-glib
+version: 1.10.6
+release: 1
+url: https://download.gnome.org/sources/json-glib/1.10/json-glib-1.10.6.tar.xz
+homepage: https://wiki.gnome.org/Projects/JsonGlib
+license: LGPL-2.1-or-later
+summary: JSON parser and generator using GLib
+description: |
+  json-glib is a C library based on GLib and GObject that provides parsing and
+  generation of JSON data streams. It integrates with the GObject type system
+  and supports DOM-like tree building and manipulation APIs.
+
+phase: 5
+builddeps: [glibc, meson, ninja, glib ]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  meson setup --prefix=/usr --buildtype=release .. 
+  ninja
+
+  ninja install

@@ -1,0 +1,27 @@
+name: libgusb
+version: 0.4.9
+release: 1
+url: https://github.com/hughsie/libgusb/releases/download/0.4.9/libgusb-0.4.9.tar.xz
+homepage: https://github.com/hughsie/libgusb
+license: LGPL-2.1-or-later
+summary: GLib wrapper around libusb1
+description: |
+  libgusb is a small library that provides GLib-style synchronous and asynchronous
+  wrappers around libusb1 for USB device interaction. It is commonly used by
+  device firmware updaters and other system integration tools.
+
+phase: 5
+builddeps: [glibc, meson, ninja, glib, libusb, glib, hwdata, json-glib, vala]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  meson setup ..            \
+        --prefix=/usr       \
+        --buildtype=release \
+        -D docs=false       
+  ninja
+
+
+  ninja install

@@ -1,0 +1,23 @@
+name: adwaita-icon-theme
+version: 48.0
+release: 1
+url:
+  - https://download.gnome.org/sources/adwaita-icon-theme/48/adwaita-icon-theme-48.0.tar.xz
+homepage: https://gitlab.gnome.org/GNOME/adwaita-icon-theme
+license: CC-BY-SA-3.0
+summary: GNOME's default icon theme
+description: |
+  Adwaita Icon Theme provides the default set of icons used by GNOME applications
+  and desktop environments. It is compliant with the freedesktop.org Icon Theme Specification.
+
+builddeps: [glibc, gtk3, gtk4, librsvg, meson, ninja]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  meson setup --prefix=/usr .. 
+  ninja
+
+  rm -rf /usr/share/icons/Adwaita/ 
+  ninja install

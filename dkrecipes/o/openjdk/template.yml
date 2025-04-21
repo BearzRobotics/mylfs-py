@@ -1,0 +1,93 @@
+name: openjdk
+version: 23.0.2
+release: 1
+url: 
+  - https://anduin.linuxfromscratch.org/BLFS/OpenJDK/OpenJDK-23.0.2/OpenJDK-23.0.2+7-x86_64-bin.tar.xz
+  - https://github.com/openjdk/jdk23u/archive/jdk-23.0.2-ga.tar.gz
+homepage: https://openjdk.org/
+license: GPL-2.0-with-classpath-exception
+summary: OpenJDK 23 — Free Java Development Kit
+description: |
+  OpenJDK is the free and open-source implementation of the Java Platform, Standard Edition.
+  This package provides version 23.0.2, a production-quality Java development environment.
+
+phase: 5
+builddeps: [glibc, make, libarchive, fontconfig, freetype2, alsa-lib, xorg-libs, cups, libffi, lcms, glib, wget, harfbuzz, zip]
+
+buildsteps: |
+  # We need a JDK to build OpenJDK
+  #=========================================
+  install -vdm755 /opt/OpenJDK-23.0.2-bin &&
+  mv -vf * /opt/OpenJDK-23.0.2-bin         &&
+  chown -R root:root /opt/OpenJDK-23.0.2-bin
+  ln -sfn OpenJDK-23.0.2-bin /opt/jdk
+
+
+  # build our openJDK
+  #=========================================
+  export PATH=$PATH:/opt/OpenJDK-23.0.2-bin/bin
+  mkdir openjdk
+  tar -xf ../jdk-23.0.2-ga.tar.gz -C openjdk --strip-component=1
+  cd openjdk
+
+  export CPLUS_INCLUDE_PATH=/usr/include/c++/14.2.0/:/usr/include
+
+  export CPPFLAGS="-I/usr/include/harfbuzz"
+  export LDFLAGS="-lharfbuzz"
+
+  unset JAVA_HOME                             &&
+  unset CLASSPATH                             &&
+  unset MAKEFLAGS                             &&
+  bash configure --enable-unlimited-crypto    \
+                --disable-warnings-as-errors \
+                --with-stdc++lib=dynamic     \
+                --with-giflib=system         \
+                --with-harfbuzz=bundled       \
+                --with-lcms=system           \
+                --with-libjpeg=system        \
+                --with-libpng=system         \
+                --with-zlib=system           \
+                --with-version-build="7"     \
+                --with-version-pre=""        \
+                --with-version-opt=""        \
+                --with-jobs=$(nproc)         \
+                --with-cacerts-file=/etc/pki/tls/java/cacerts 
+                
+  make images
+
+  install -vdm755 /opt/jdk-23.0.2+7             
+  cp -Rv build/*/images/jdk/* /opt/jdk-23.0.2+7 
+  chown -R root:root /opt/jdk-23.0.2+7          
+  for s in 16 24 32 48; do
+    install -vDm644 src/java.desktop/unix/classes/sun/awt/X11/java-icon${s}.png  /usr/share/icons/hicolor/${s}x${s}/apps/java.png
+  done
+
+  ln -v -nsf /opt/jdk-23.0.2+7 /opt/jdk
+
+  cd ..
+  mkdir -pv /usr/share/applications 
+  install -m644 ../static/openjdk-java.desktop /usr/share/applications/openjdk-java.desktop 
+
+  mkdir -pv /opt/jdk/lib/security/
+  ln -sfv /etc/pki/tls/java/cacerts /opt/jdk/lib/security/cacerts
+
+
+    # install our java enviroment config
+  #=========================================
+  install -m 755 ../static/openjdk.sh /etc/profile.d/openjdk.sh
+
+  mkdir -pv /etc/sudoers.d/ 
+  install -m 644 ../static/java /etc/sudoers.d/java 
+
+  cat >> /etc/man_db.conf << "EOF" &&
+  # Begin Java addition
+  MANDATORY_MANPATH     /opt/jdk/man
+  MANPATH_MAP           /opt/jdk/bin     /opt/jdk/man
+  MANDB_MAP             /opt/jdk/man     /var/cache/man/jdk
+  # End Java addition
+  EOF
+
+  mkdir -p /var/cache/man &&
+  mandb -c /opt/jdk/man
+
+  source /etc/profile

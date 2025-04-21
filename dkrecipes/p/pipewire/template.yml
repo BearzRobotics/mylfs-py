@@ -1,0 +1,28 @@
+name: pipewire
+version: 1.4.1
+release: 1
+url: https://gitlab.freedesktop.org/pipewire/pipewire/-/archive/1.4.1/pipewire-1.4.1.tar.bz2
+homepage: https://pipewire.org/
+license: MIT
+summary: Multimedia server for audio and video streams
+description: |
+  PipeWire is a server and user space API to deal with multimedia pipelines.
+  It handles audio and video streams for Linux desktops, offering an advanced 
+  alternative to PulseAudio and JACK, with support for sandboxed applications 
+  and Wayland screen sharing.
+phase: 5
+builddeps: [glibc, glib, dbus, libsndfile, cmake, ninja, meson, libxml2, alsa-lib, libdrm, 
+  libxcb, libusb, opus, sdl2, vulkan-loader, xorg-libs, graphviz, ffmpeg, gst-plugins-base,
+  gstreamer, sbc,  v4l-utils, 
+]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..                 \
+        --prefix=/usr            \
+        --buildtype=release      \
+        -D session-managers="[]" &&
+  ninja
+
+  ninja install

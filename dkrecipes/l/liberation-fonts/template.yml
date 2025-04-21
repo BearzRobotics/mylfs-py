@@ -1,0 +1,19 @@
+name: liberation-fonts
+version: 2.1.5
+release: 1
+url: https://github.com/liberationfonts/liberation-fonts/files/7261482/liberation-fonts-ttf-2.1.5.tar.gz
+homepage: https://github.com/liberationfonts/liberation-fonts
+license: SIL Open Font License
+summary: Liberation Fonts TTF (Sans, Serif, Mono)
+description: |
+  Liberation Fonts are metric-compatible replacements for Times New Roman,
+  Arial, and Courier New. This package installs the TrueType (TTF) versions
+  of Liberation Sans, Serif, and Mono.
+
+phase: 5
+builddeps: [fontconfig, libarchive]
+
+buildsteps: |
+  mkdir -pv /usr/share/fonts/truetype/liberation
+  install -v -m644 *.ttf /usr/share/fonts/truetype/liberation/
+  fc-cache -f

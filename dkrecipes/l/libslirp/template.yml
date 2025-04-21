@@ -1,0 +1,24 @@
+name: libslirp
+version: 4.9.0
+release: 1
+url: https://gitlab.freedesktop.org/slirp/libslirp/-/archive/v4.9.0/libslirp-v4.9.0.tar.bz2
+homepage: https://gitlab.freedesktop.org/slirp/libslirp
+
+license: BSD-3-Clause
+summary: User-mode networking library used by virtualization systems
+description: |
+  libslirp provides a user-space TCP/IP stack for virtualized environments. It is commonly used by 
+  QEMU, virtio, and container technologies to provide network connectivity without requiring elevated privileges.
+
+phase: 5
+
+builddeps: [meson, ninja, glib]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+
+  ninja
+  ninja install

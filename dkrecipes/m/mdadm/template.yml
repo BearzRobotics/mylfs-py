@@ -1,0 +1,16 @@
+name: mdadm
+version: 4.3
+release: 1
+url: https://www.kernel.org/pub/linux/utils/raid/mdadm/mdadm-4.3.tar.xz
+homepage: https://www.kernel.org/pub/linux/utils/raid/mdadm/
+license: GPL-2.0-or-later
+summary: Tool for managing Linux MD (multiple device) RAID arrays
+description: |
+  mdadm is a utility for managing and monitoring Linux MD (multiple device)
+  RAID arrays. It can create, assemble, grow, and monitor arrays composed
+  of multiple storage devices.
+phase: 5
+builddeps: [glibc, make]
+buildsteps: |
+  make
+  make BINDIR=/usr/sbin install

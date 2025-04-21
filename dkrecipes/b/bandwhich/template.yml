@@ -1,0 +1,19 @@
+name: bandwhich
+version: 0.23.1
+release: 1
+url: https://github.com/imsnif/bandwhich/archive/refs/tags/v0.23.1.tar.gz
+homepage: https://github.com/imsnif/bandwhich
+license: MIT
+summary: Terminal bandwidth utilization monitor by process, connection, and remote address
+description: |
+  bandwhich is a terminal bandwidth utilization monitor that shows 
+  which processes are using the network, how much bandwidth they are 
+  consuming, and the addresses they are communicating with. It provides 
+  a real-time, top-like interface in the terminal.
+phase: 5
+builddeps: [rust]
+buildsteps: |
+  source /etc/profile
+
+  cargo build --release
+  install -Dm755 target/release/bandwhich /usr/bin/bandwhich

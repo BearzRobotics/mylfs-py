@@ -1,0 +1,25 @@
+name: modemmanager
+version: 1.18.12
+release: 1
+url: https://www.freedesktop.org/software/ModemManager/ModemManager-1.18.12.tar.xz
+homepage: https://www.freedesktop.org/wiki/Software/ModemManager/
+license: GPL-2.0-or-later
+summary: Mobile broadband modem management service
+description: |
+  ModemManager is a D-Bus system service that provides a unified 
+  high-level API for communicating with mobile broadband modems. 
+  It supports GSM, UMTS, LTE, 5G, and CDMA technologies, handling 
+  connections, status reporting, and network selection.
+phase: 5
+builddeps: [glibc, make, python, glib, dbus, elogind, libgudev, libmbim, libqmi, polkit, libqmi]
+buildsteps: |
+  ./configure --prefix=/usr                 \
+              --sysconfdir=/etc             \
+              --localstatedir=/var          \
+              --disable-static              \
+              --disable-maintainer-mode     \
+              --with-systemd-journal=no     \
+              --with-systemd-suspend-resume 
+  make
+
+  make install

@@ -1,0 +1,16 @@
+name: hexabyte
+version: 0.8.7
+release: 1
+url: https://github.com/thetacom/hexabyte/archive/refs/tags/v0.8.7.tar.gz
+homepage: https://github.com/thetacom/hexabyte
+license: MIT
+summary: Lightweight terminal-based hex editor
+description: |
+  hexabyte is a minimal yet feature-rich terminal hex editor written 
+  in python It offers efficient binary file viewing and editing, 
+  searching, and navigation, all through a clean and simple ncurses-based 
+  interface suitable for quick or extensive binary data manipulation.
+phase: 5
+builddeps: [glibc, ncurses,python, python-setuptools, python-wheel, makeca_certs]
+buildsteps: |
+  pip3 install --no-input hexabyte

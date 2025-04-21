@@ -15,6 +15,19 @@ phase: 5
 builddeps: [make, gcc]
 
 buildsteps: |
-  ./configure --prefix=/usr --disable-static
+  ./configure --prefix=/usr --enable-shared --enable-coredump --enable-setjmp --enable-ptrace --enable-debug-frame
   make
   make install
+
+  cat > /usr/lib/pkgconfig/libunwind.pc << "EOF"
+  prefix=/usr
+  exec_prefix=\${prefix}
+  libdir=\${exec_prefix}/lib
+  includedir=\${prefix}/include
+
+  Name: libunwind
+  Description: Portable and efficient C programming interface (API) to determine the call-chain of a program
+  Version: 1.8.1
+  Libs: -L\${libdir} -lunwind
+  Cflags: -I\${includedir}
+  EOF

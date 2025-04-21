@@ -1,0 +1,31 @@
+name: tomlplusplus
+version: 3.4.0
+release: 1
+url: https://github.com/marzer/tomlplusplus/archive/refs/tags/v3.4.0.tar.gz
+homepage: https://marzer.github.io/tomlplusplus/
+
+license: MIT
+summary: Header-only TOML library for C++17 and later
+description: |
+  tomlplusplus is a header-only TOML configuration file parser and serializer for C++17 and later. It is designed to be fast, safe, and standards-compliant, offering modern C++ developers an easy way to work with TOML data.
+
+phase: 5
+builddeps: [glibc, cmake]
+
+buildsteps: |
+  cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build
+  cmake --build ./build --config Release --target all -j`nproc 2>/dev/null || getconf _NPROCESSORS_CONF`
+
+  cmake --install ./build
+
+
+  cat > /usr/lib/pkgconfig/tomlplusplus.pc << EOF
+  prefix=/usr
+  includedir=\${prefix}/include
+
+  Name: tomlplusplus
+  Description: toml++ header-only library
+  Version: 3.4.0
+
+  Cflags: -I\${includedir}
+  EOF

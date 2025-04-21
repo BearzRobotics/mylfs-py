@@ -1,0 +1,29 @@
+name: libpaper
+version: 2.2.6
+release: 1
+url: https://github.com/rrthomas/libpaper/releases/download/v2.2.6/libpaper-2.2.6.tar.gz
+homepage: https://packages.debian.org/source/sid/libpaper
+license: GPL-2.0-or-later
+summary: Library and tools for handling paper size information
+description: |
+  libpaper provides a simple way for applications to take actions
+  based on the system default paper size, such as A4 or Letter.
+  It includes a shared library and command-line tools for querying
+  and setting paper defaults.
+
+phase: 5
+builddeps: [glibc, make, pkgconfig]
+
+buildsteps: |
+  ./configure --prefix=/usr        \
+              --sysconfdir=/etc    \
+              --disable-static     \
+              --docdir=/usr/share/doc/libpaper-{version}
+  make
+  make install
+
+  mkdir -pv ~/.config &&
+  echo "a4" > ~/.config/papersize
+
+  # you can over ride papersize globally 
+  echo "PAPERSIZE=a4" > /etc/profile.d/libpaper.sh

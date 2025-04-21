@@ -1,0 +1,20 @@
+name: mkfontscale
+version: 1.2.3
+release: 1
+url: https://gitlab.freedesktop.org/xorg/app/mkfontscale/-/archive/mkfontscale-1.2.3/mkfontscale-mkfontscale-1.2.3.tar.gz
+homepage: https://gitlab.freedesktop.org/xorg/app/mkfontscale
+license: MIT
+summary: X11 tool to create font.scale files
+description: |
+  mkfontscale is a tool used to create the fonts.scale files, which are needed by
+  legacy X11 font servers and applications to locate available fonts.
+
+phase: 5
+# we need libfontenc from xorg-libs
+builddeps: [glibc, freetype2, fontconfig, xorgproto, pkgconfig, xorg-libs]
+
+buildsteps: |
+  sh autogen.sh
+  ./configure $XORG_CONFIG
+  make
+  make install

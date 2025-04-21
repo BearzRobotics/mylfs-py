@@ -1,0 +1,16 @@
+name: keyutils
+version: 1.6.3
+release: 1
+url: https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/keyutils.git/snapshot/keyutils-1.6.3.tar.gz
+homepage: https://git.kernel.org/pub/scm/linux/kernel/git/dhowells/keyutils.git/
+license: GPL-2.0-or-later
+summary: Utilities and library for managing Linux kernel keys
+description: |
+  keyutils provides a set of utilities and a library for interacting
+  with the Linux kernel's key management facility. It is used for
+  managing keys, keyrings, and related cryptographic operations.
+phase: 5
+builddeps: [glibc, make, lsb-tools]
+buildsteps: |
+  make
+  make NO_ARLIB=1 LIBDIR=/usr/lib BINDIR=/usr/bin SBINDIR=/usr/sbin install

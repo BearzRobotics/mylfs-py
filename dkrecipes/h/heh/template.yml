@@ -1,0 +1,20 @@
+name: heh
+version: 0.6.1
+release: 1
+url: https://github.com/ndd7xv/heh/archive/refs/tags/v0.6.1.tar.gz
+homepage: https://github.com/ndd7xv/heh
+license: MIT
+summary: Minimal hex editor for the terminal
+description: |
+  heh is a minimal and lightweight hex editor designed for use in 
+  the terminal. It offers fast binary file editing with a simple 
+  ncurses-based interface, making it ideal for quick inspection 
+  and modification of binary files.
+phase: 5
+builddeps: [glibc, rust]
+# inside the chroot rust is not in the path. Source /etc/profile fixes this issue
+buildsteps: |
+  source /etc/profile
+  
+  cargo build --release
+  install -m755 target/release/heh /usr/bin/heh

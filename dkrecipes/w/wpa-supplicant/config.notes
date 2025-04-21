@@ -1,0 +1,58 @@
+Configuration Information
+To connect to an access point that uses a password, you need to put the pre-shared key in /etc/sysconfig/wpa_supplicant-wifi0.conf. SSID is the string that the access point/router transmits to identify itself. Run the following command as the root user:
+
+wpa_passphrase SSID SECRET_PASSWORD > /etc/sysconfig/wpa_supplicant-wifi0.conf
+/etc/sysconfig/wpa_supplicant-wifi0.conf can hold the details of several access points. When wpa_supplicant is started, it will scan for the SSIDs it can see and choose the appropriate password to connect.
+
+If you want to connect to an access point that isn't password protected, put an entry like this in /etc/sysconfig/wpa_supplicant-wifi0.conf. Replace "Some-SSID" with the SSID of the access point/router.
+
+network={
+  ssid="Some-SSID"
+  key_mgmt=NONE
+}
+Connecting to a new access point that is not in the configuration file can be accomplished manually via the command line, but it must be done via a privileged user. To do that, add the following to the configuration file:
+
+ctrl_interface=DIR=/run/wpa_supplicant GROUP=<privileged group>
+update_config=1
+Replace the <privileged group> above with a system group where members have the ability to connect to a wireless access point.
+
+There are many options that you could use to tweak how you connect to each access point. They are described in some detail in the wpa_supplicant/wpa_supplicant.conf file in the source tree.
+
+
+https://www.linuxfromscratch.org/blfs/view/svn/basicnet/wpa_supplicant.html
+
+
+If your router/access point uses DHCP to allocate IP addresses, you can install dhcpcd-10.2.2 and use it to automatically obtain network addresses. Create the /etc/sysconfig/ifconfig-wifi0 by running the following command as the root user:
+
+cat > /etc/sysconfig/ifconfig.wifi0 << "EOF"
+ONBOOT="yes"
+IFACE="wlan0"
+SERVICE="wpa"
+
+# Additional arguments to wpa_supplicant
+WPA_ARGS=""
+
+WPA_SERVICE="dhcpcd"
+DHCP_START="-b -q <insert appropriate start options here>"
+DHCP_STOP="-k <insert additional stop options here>"
+EOF
+Alternatively, if you use static addresses on your local network, then create the /etc/sysconfig/ifconfig-wifi0 by running the following command as the root user:
+
+cat > /etc/sysconfig/ifconfig.wifi0 << "EOF"
+ONBOOT="yes"
+IFACE="wlan0"
+SERVICE="wpa"
+
+# Additional arguments to wpa_supplicant
+WPA_ARGS=""
+
+WPA_SERVICE="ipv4-static"
+IP="192.168.1.1"
+GATEWAY="192.168.1.2"
+PREFIX="24"
+BROADCAST="192.168.1.255"
+EOF
+You can connect to the wireless access point by running the following command as the root user:
+
+ifup wifi0
+Replace wlan0 with the correct wireless interface and wifi0 with desired name for the configuration file. Please note that wpa_supplicant-*.conf and ifconfig.* configuration files need to have identical names, ie both contain wifi0 in their name.

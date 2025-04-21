@@ -1,0 +1,24 @@
+name: shared-mime-info
+version: 2.4
+release: 1
+url: https://gitlab.freedesktop.org/xdg/shared-mime-info/-/archive/2.4/shared-mime-info-2.4.tar.gz
+homepage: https://gitlab.freedesktop.org/xdg/shared-mime-info
+license: GPL-2.0-or-later
+summary: Database of common MIME types
+description: |
+  The shared-mime-info package contains the core database of common
+  MIME types along with the update-mime-database utility used to keep
+  MIME information up to date on the system. It is used by desktops like
+  GNOME and KDE for file type detection.
+
+phase: 5
+builddeps: [glibc, meson, ninja, glib, xmlto, libxml2, libxslt]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release -D update-mimedb=true .. &&
+  ninja
+
+  ninja install

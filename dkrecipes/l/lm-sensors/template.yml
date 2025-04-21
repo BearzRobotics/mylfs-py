@@ -1,0 +1,26 @@
+name: lm-sensors
+version: 3.6.0
+release: 1
+url: https://github.com/lm-sensors/lm-sensors/archive/V3-6-0/lm-sensors-3-6-0.tar.gz
+homepage: https://hwmon.wiki.kernel.org/lm_sensors
+license: GPL-2.0-or-later
+summary: Tools and libraries for monitoring hardware sensors
+description: |
+  lm-sensors provides user-space utilities and libraries for reading
+  temperature, voltage, and fan speed sensor data. It supports a wide 
+  range of hardware monitoring chips through kernel drivers and is used 
+  by system monitors and desktop environments.
+phase: 5
+builddeps: [glibc, make, which]
+buildsteps: |
+  make PREFIX=/usr            \
+      BUILD_STATIC_LIB=0      \
+      MANDIR=/usr/share/man   \
+      EXLDFLAGS=
+
+  make PREFIX=/usr              \
+      BUILD_STATIC_LIB=0        \
+      MANDIR=/usr/share/man install 
+
+  install -v -m755 -d /usr/share/doc/lm-sensors-3-6-0 
+  cp -rv              README INSTALL doc/*  /usr/share/doc/lm-sensors-3-6-0

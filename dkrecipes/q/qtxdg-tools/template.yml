@@ -1,0 +1,24 @@
+name: qtxdg-tools
+version: 4.1.0
+release: 1
+url: https://github.com/lxqt/qtxdg-tools/releases/download/4.1.0/qtxdg-tools-4.1.0.tar.xz
+homepage: https://github.com/lxqt/qtxdg-tools
+license: LGPL-2.1-or-later
+summary: Desktop integration tools based on libqtxdg
+description: |
+  qtxdg-tools provides simple utilities built on top of libqtxdg
+  to handle tasks like setting default applications and opening
+  files or URLs according to the XDG specifications. They are
+  mainly used in LXQt desktop environments.
+phase: 5
+builddeps: [qt6, glibc, extra-cmake, cmake, make, lxqt-build-tools, libqtxdg]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+
+  make install

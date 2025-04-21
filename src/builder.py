@@ -391,6 +391,8 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
 # builder for phase 5
 # This will build one package
 def chroot_builder(config: GlobalConfig, recipe: Recipe, pkg_count: int): 
+    if (config.debug):
+        ConsoleMSG.info("Inside chroot_builder")
     log_file = Path(f"{config.build_path}logs/p5_{pkg_count}_{recipe.name}_{recipe.version}.log")
     log_file.parent.mkdir(parents=True, exist_ok=True)
     
@@ -479,11 +481,14 @@ def buildAllPhase5(config: GlobalConfig, recipes: List[Recipe]):
             f.write(f"{re.name}\n")
     
     for recipe in phase5:
+        if (config.debug):
+            ConsoleMSG.info(f"buildAllPhase5 inside for loop: {recipe.name}")
         if (was_built(session, recipe.name)):
             # if you bump the revision of a package. This should build a reverse dep
             # map that sets all packages that rely on this to built=false (o in the db)
             # that way they will get rebuilt agianst the update.
             
+            # This code is buggy. If you set the release higher than 1 it complains
             if (new_release(session, recipe.name, recipe.release)):
                 rev_map = build_reverse_dep_map(phase5)
                 to_rebuild = get_all_dependents(recipe.name, rev_map)

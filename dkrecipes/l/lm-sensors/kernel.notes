@@ -1,0 +1,15 @@
+Power management and ACPI options --->
+  [*] ACPI (Advanced Configuration and Power Interface) Support --->      [ACPI]
+    < /*/M> Battery                                               [ACPI_BATTERY]
+    < /*/M> Thermal Zone                                          [ACPI_THERMAL]
+
+Device Drivers --->
+  NVME Support --->
+    < /*> NVM Express block device                                [BLK_DEV_NVME]
+    # Set [HWMON] to <*> (not <M>!) or it will not show up:
+    [ /*] NVMe hardware monitoring                                  [NVME_HWMON]
+  <*/M> Hardware Monitoring support --->                                 [HWMON]
+    < /*/M> AMD Athlon64/FX or Opteron temperature sensor       [SENSORS_K8TEMP]
+    < /*/M> AMD Family 10h+ temperature sensor                 [SENSORS_K10TEMP]
+    < /*/M> AMD Family 15h processor power                [SENSORS_FAM15H_POWER]
+    < /*/M> Intel Core/Core2/Atom temperature sensor          [SENSORS_CORETEMP]

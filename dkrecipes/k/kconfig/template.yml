@@ -1,0 +1,26 @@
+name: kconfig
+version: 6.11.0
+release: 1
+url: https://download.kde.org/stable/frameworks/6.11/kconfig-6.11.0.tar.xz
+homepage: https://invent.kde.org/frameworks/kconfig
+license: LGPL-2.0-or-later
+summary: Configuration settings framework
+description: |
+  KConfig provides an advanced configuration system that supports a
+  variety of storage backends. It is used extensively throughout KDE
+  software for reading and writing user settings.
+phase: 5
+builddeps: [qt6, extra-cmake, cmake]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr        \
+        -D CMAKE_BUILD_TYPE=Release         \
+        -D CMAKE_INSTALL_LIBEXECDIR=libexec \
+        -D KDE_INSTALL_USE_QT_SYS_PATHS=ON  \
+        -D BUILD_TESTING=OFF                \
+        -W no-dev ..                        
+  make
+
+  make install

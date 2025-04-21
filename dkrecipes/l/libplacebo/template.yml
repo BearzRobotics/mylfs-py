@@ -1,0 +1,39 @@
+name: libplacebo
+version: 7.349.0
+release: 1
+url: https://github.com/haasn/libplacebo/archive/v7.349.0/libplacebo-7.349.0.tar.gz
+homepage: https://code.videolan.org/videolan/libplacebo
+license: LGPL-2.1-or-later
+summary: Reusable GPU-accelerated rendering library
+description: |
+  libplacebo is a library providing high-quality GPU-accelerated
+  image and video rendering, designed as a core component of
+  modern media players like mpv. It supports HDR tone mapping,
+  advanced color management, interpolation, and Vulkan/OpenGL backends.
+phase: 5
+builddeps: [glibc, vulkan-headers, vulkan-loader, mesa, pkgconfig, meson, ninja,
+  ffmpeg, glad, glslang, libunwind-generic, xxhash]
+buildsteps: |
+    # when building agaisnt libunwind, I get these errors
+    # undefined reference to `unw_getcontext`
+    # undefined reference to `unw_init_local`
+    # undefined reference to `unw_step`
+    # undefined reference to `unw_get_reg`
+  
+    # build fails with glslang fixes it
+    sed -e "20s/$/,/"                                         \
+        -e "21i cxx.find_library('glslang', required: false)" \
+        -i src/glsl/meson.build
+
+    mkdir build &&
+    cd    build &&
+
+    meson setup ..              \
+          --prefix=/usr         \
+          --buildtype=release   \
+          -D tests=true         \
+          -D unwind=disabled  \
+          -D demos=false      
+    ninja
+
+    ninja install

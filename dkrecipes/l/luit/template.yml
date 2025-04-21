@@ -11,7 +11,7 @@ description: |
 
 phase: 5
 buildsystem: autotools
-builddeps: [glibc, make, xorg-apps, libX11, xorgsetup]
+builddeps: [glibc, make, xorg-apps, xorgsetup]
 
 buildsteps: |
   source /etc/profile

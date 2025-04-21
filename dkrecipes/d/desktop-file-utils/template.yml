@@ -1,0 +1,28 @@
+name: desktop-file-utils
+version: 0.28
+release: 1
+url: https://www.freedesktop.org/software/desktop-file-utils/releases/desktop-file-utils-0.28.tar.xz
+homepage: https://freedesktop.org/wiki/Software/desktop-file-utils/
+license: GPL-2.0-or-later
+summary: Utilities for working with .desktop entry files
+description: |
+  desktop-file-utils provides utilities for working with 
+  freedesktop.org .desktop files. These files are used to 
+  describe application launchers for desktop environments.
+  The package includes tools for validation, installation, 
+  and updating of the MIME database.
+phase: 5
+builddeps: [glibc, glib, pkgconfig, meson, ninja]
+buildsteps: |
+  rm -fv /usr/bin/desktop-file-edit
+
+  mkdir build 
+  cd    build 
+  
+  meson setup --prefix=/usr --buildtype=release .. 
+  ninja
+
+  ninja install
+
+  install -vdm755 /usr/share/applications 
+  update-desktop-database /usr/share/applications

@@ -163,6 +163,9 @@ def initialize_recipes(config):
         with open(template) as f:
             data = yaml.safe_load(f)
 
+        if (config.debug):
+            name = data.get("name")
+            print(f"Recipe being initalized: {name}")
         urls = data.get("url")
         if isinstance(urls, str):
             urls = [urls]
@@ -206,8 +209,10 @@ def initialize_recipes(config):
     
     # if builddp = True copy are presvered build_state.db over
     if (is_builddb):
+        ConsoleMSG.info("Copying DB from previous build!")
         shutil.copy2(Path(temp_dir.name) / "build_state.db", target_recipes / "build_state.db")
-
+        ConsoleMSG.passed("Preserved DB from previous build!")
+        
     # delete tmp dir
     temp_dir.cleanup()
     

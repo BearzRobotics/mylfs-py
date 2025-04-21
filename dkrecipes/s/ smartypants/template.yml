@@ -1,0 +1,24 @@
+name: smartypants
+version: 2.0.0
+release: 1
+url: https://github.com/justinmayer/smartypants.py/archive/refs/tags/v2.0.0.tar.gz
+homepage: https://github.com/leohemsted/smartypants.py
+
+license: BSD-3-Clause
+summary: Python library for translating plain ASCII punctuation into typographic quotes and dashes
+description: |
+  smartypants.py is a Python implementation of SmartyPants, a tool for converting 
+  plain ASCII punctuation characters into “smart” typographic punctuation HTML 
+  entities. It helps improve typographic quality of plain-text HTML output.
+
+phase: 5
+
+builddeps: [python-setuptools, python-wheel, python, docutils, pygments]
+
+buildsteps: |
+  # pip3 install --no-input smartypants
+  # I'm so burnt out fixing package errors. This is a python program
+  # I will just pip it instead.
+  # bash: line 4: cd: too many arguments
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user smartypants

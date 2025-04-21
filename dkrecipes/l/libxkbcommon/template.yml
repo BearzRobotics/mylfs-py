@@ -1,0 +1,26 @@
+name: libxkbcommon
+version: 1.8.1
+release: 1
+url: https://github.com/lfs-book/libxkbcommon/archive/v1.8.1/libxkbcommon-1.8.1.tar.gz
+homepage: https://xkbcommon.org/
+license: MIT
+summary: Keymap handling library for X11 and Wayland
+description: |
+  libxkbcommon is a keymap handling library for toolkits and window systems.
+  It provides a portable API for handling keyboard descriptions (keymaps) and layouts,
+  supporting both X11 and Wayland environments.
+
+phase: 5
+builddeps: [glibc, meson, ninja, xkeyboard-config, xorgproto, libxcb, wayland, wayland-protocols, sed]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  meson setup ..             \
+        --prefix=/usr        \
+        --buildtype=release  \
+        -D enable-docs=false 
+  ninja
+
+  ninja install

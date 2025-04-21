@@ -1,0 +1,23 @@
+name: liboauth
+version: 1.0.3
+release: 1
+url: https://downloads.sourceforge.net/liboauth/liboauth-1.0.3.tar.gz
+homepage: https://liboauth.sourceforge.net/
+license: MIT
+summary: C library implementing OAuth 1.0 authentication protocol
+description: |
+  liboauth is a C library implementing the OAuth 1.0 protocol 
+  for authenticating HTTP requests. It provides mechanisms for 
+  signing HTTP messages with OAuth credentials, supporting both 
+  consumer and service provider roles.
+phase: 5
+builddeps: [glibc, openssl, pkgconfig, curl, nss, doxygen]
+buildsteps: |
+  patch -Np1 -i ../patches/liboauth-1.0.3-openssl-1.1.0-3.patch
+
+  ./configure --prefix=/usr --disable-static &&
+  make
+
+  make dox
+
+  make install

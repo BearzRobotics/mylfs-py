@@ -1,0 +1,5 @@
+File systems --->
+  [*] Inotify support for userspace                               [INOTIFY_USER]
+  Pseudo filesystems --->
+    [*] Tmpfs virtual memory file system support (former shm fs)         [TMPFS]
+    [*]   Tmpfs POSIX Access Control Lists                     [TMPFS_POSIX_ACL]

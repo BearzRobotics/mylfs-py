@@ -19,9 +19,9 @@ builddeps: [fontconfig, libarchive]
 
 buildsteps: |
   mkdir -pv /usr/share/fonts/opentype/unifont
-  cp -rfv ../unifont-15.1.04.otf /usr/share/fonts/opentype/unifont-15.1.04.otf
+  cp -rfv ../unifont-15.1.04.otf /usr/share/fonts/opentype/unifont/unifont-15.1.04.otf
 
   mkdir -pv /usr/share/consolefonts/
   gzip -df ../Unifont-APL8x16-15.1.04.psf.gz
-  mv  Unifont-APL8x16-15.1.04.psf /usr/share/consolefonts/Unifont-APL8x16-15.1.04.psf
+  cp -rfv ../Unifont-APL8x16-15.1.04.psf /usr/share/consolefonts/Unifont-APL8x16-15.1.04.psf
   fc-cache -f

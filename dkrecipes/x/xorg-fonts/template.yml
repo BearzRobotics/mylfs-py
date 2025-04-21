@@ -20,7 +20,7 @@ description: |
 
 phase: 5
 buildsystem: manual
-builddeps: [glibc, make, xorgproto, fontconfig, xorgsetup]
+builddeps: [glibc, make, xorgproto, fontconfig, xorgsetup, mkfontscale]
 
 buildsteps: |
   source /etc/profile

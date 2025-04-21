@@ -1,0 +1,17 @@
+name: libdnet
+version: 1.18.0
+release: 1
+url: https://github.com/ofalk/libdnet/archive/refs/tags/libdnet-1.18.0.tar.gz
+homepage: https://github.com/ofalk/libdnet
+license: BSD-3-Clause
+summary: A simplified, portable interface to several low-level networking routines
+description: |
+  libdnet provides a simplified, portable interface to several low-level 
+  networking routines, including interface management, firewall control, 
+  and raw IP packet construction.
+phase: 5
+builddeps: [make, check]
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install

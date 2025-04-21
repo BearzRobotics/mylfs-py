@@ -1,0 +1,20 @@
+name: libsigsegv
+version: 2.14
+release: 1
+url: https://ftp.gnu.org/gnu/libsigsegv/libsigsegv-2.14.tar.gz
+homepage: https://www.gnu.org/software/libsigsegv/
+license: GPL-2.0-or-later
+summary: Library for handling page faults and segmentation violations
+description: |
+  libsigsegv is a library for handling page faults in user mode. 
+  It is useful for implementing garbage collectors, stack overflow 
+  handlers, or similar runtime error handlers.
+phase: 5
+builddeps: [glibc, make, gcc]
+buildsteps: |
+  ./configure --prefix=/usr   \
+              --enable-shared \
+              --disable-static 
+  make
+
+  make install

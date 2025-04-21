@@ -1,0 +1,24 @@
+name: graphene
+version: 1.10.8
+release: 1
+url: https://download.gnome.org/sources/graphene/1.10/graphene-1.10.8.tar.xz
+homepage: https://ebassi.github.io/graphene/
+license: MIT
+summary: Library for 3D vector mathematics optimized with SIMD
+description: |
+  Graphene is a small library designed to provide types and
+  operations commonly needed in graphics programming, such as
+  vectors, matrices, and quaternions, optimized for performance
+  using SIMD instruction sets when available.
+
+phase: 5
+builddeps: [glibc, meson, ninja, glib]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+  ninja
+
+  ninja install

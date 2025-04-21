@@ -1,0 +1,21 @@
+name: nwipe
+version: 0.38
+release: 1
+url: https://github.com/martijnvanbrummelen/nwipe/archive/refs/tags/v0.38.tar.gz
+homepage: https://github.com/martijnvanbrummelen/nwipe
+license: GPL-2.0-or-later
+summary: Secure data wiping tool forked from dwipe (DBAN)
+description: |
+  nwipe is a secure disk erasure tool forked from dwipe, the 
+  drive wiping program used in DBAN. It offers multiple wiping 
+  algorithms, including DoD 5220.22-M, Gutmann method, and random 
+  overwrites, making it suitable for securely erasing entire disks.
+phase: 5
+builddeps: [glibc, ncurses, pkgconfig, make, libconfig, parted, libeconf, libpcap, libgudev, libblockdev]
+buildsteps: |
+  source /etc/profile
+
+  sh autogen.sh
+  ./configure --prefix=/usr
+  make
+  make install

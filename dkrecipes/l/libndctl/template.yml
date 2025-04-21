@@ -1,0 +1,18 @@
+name: libndctl
+version: 81
+release: 1
+url: https://github.com/pmem/ndctl/archive/refs/tags/v81.tar.gz
+homepage: https://github.com/pmem/ndctl
+license: GPL-2.0-or-later
+summary: Utility library and command-line tools for managing NVDIMM devices
+description: |
+  ndctl provides a utility library and a set of tools for managing 
+  the Linux kernel's NVDIMM (Non-Volatile Memory) subsystem. 
+  It supports creating, deleting, and configuring namespaces, 
+  and provides APIs to query and interact with persistent memory devices.
+phase: 5
+builddeps: [glibc, meson, ninja, pkgconfig, libtool, json-c, kmod, libtraceevent, libtracefs, asciidoc, asciidoctor, keyutils, iniparser]
+buildsteps: |
+  meson setup build --prefix=/usr -Dsystemd=disabled
+  ninja -C build
+  ninja -C build install

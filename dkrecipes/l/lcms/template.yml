@@ -1,0 +1,19 @@
+name: lcms
+version: 2.17
+release: 1
+url: https://github.com/mm2/Little-CMS/releases/download/lcms2.17/lcms2-2.17.tar.gz
+homepage: https://www.littlecms.com/
+license: MIT
+summary: Little CMS 2 — color management engine
+description: |
+  Little CMS (LCMS) is a small-footprint, speed-optimized color management engine,
+  supporting ICC profiles and color transforms. It is used by many graphics applications
+  and printers to handle accurate color reproduction.
+
+phase: 5
+builddeps: [glibc, make, libjpeg-turbo, libtiff]
+
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

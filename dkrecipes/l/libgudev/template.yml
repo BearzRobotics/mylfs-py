@@ -1,0 +1,24 @@
+name: libgudev
+version: 238
+release: 1
+url: https://download.gnome.org/sources/libgudev/238/libgudev-238.tar.xz
+homepage: https://wiki.gnome.org/Projects/libgudev
+license: LGPL-2.1-or-later
+summary: GObject bindings for libudev device library
+description: |
+  libgudev is a GObject-based wrapper around libudev that allows GLib applications
+  to monitor and query device information easily using GObject interfaces.
+  It is commonly used by GNOME and other desktop environments to track
+  hardware changes.
+
+phase: 5
+builddeps: [glibc, meson, ninja, glib]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+  ninja
+
+  ninja install

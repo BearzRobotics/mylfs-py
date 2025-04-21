@@ -1,0 +1,17 @@
+name: libtraceevent
+version: 1.8.3
+release: 1
+url: https://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git/snapshot/libtraceevent-1.8.3.tar.gz
+homepage: https://git.kernel.org/pub/scm/libs/libtrace/libtraceevent.git/
+license: LGPL-2.1-or-later
+summary: Library for parsing Linux kernel ftrace events
+description: |
+  libtraceevent provides a C library to parse event tracing data 
+  produced by the Linux kernel's ftrace framework. It is designed to 
+  simplify reading and processing trace events programmatically.
+phase: 5
+builddeps: [glibc, meson, ninja, xmlto, asciidoc]
+buildsteps: |
+  meson setup build --prefix=/usr
+  ninja -C build
+  ninja -C build install

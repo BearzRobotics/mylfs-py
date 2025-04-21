@@ -1,0 +1,51 @@
+name: cups
+version: 2.4.12
+release: 1
+url: https://github.com/OpenPrinting/cups/releases/download/v2.4.12/cups-2.4.12-source.tar.gz
+homepage: https://openprinting.github.io/cups/
+license: Apache-2.0
+summary: Common Unix Printing System
+description: |
+  CUPS is a modular printing system for Unix-like operating systems
+  which allows a computer to act as a print server. It supports
+  printing to both local and network printers with standard
+  IPP protocols.
+
+phase: 5
+builddeps: [glibc, make, pkgconfig, libusb, openssl, dbus, linux-pam, gnutls, colord, xdg-utils, libpaper]
+
+buildsteps: |
+  # Create lp group if it doesn't exist
+  if ! getent group lp > /dev/null; then
+      groupadd -g 9 lp
+  fi
+
+  # Create lpadmin group if it doesn't exist
+  if ! getent group lpadmin > /dev/null; then
+      groupadd -g 19 lpadmin
+  fi
+
+  # Create lp user if it doesn't exist
+  if ! id -u lp > /dev/null 2>&1; then
+      useradd -c "Print Service User" -d /var/spool/cups -g lp -s /bin/false -u 9 lp
+  fi
+
+
+  # If you want to add a user to the lpadmin group
+  #usermod -a -G lpadmin <username>
+
+  sed -i 's#@CUPS_HTMLVIEW@#firefox#' desktop/cups.desktop.in
+
+  ./configure --libdir=/usr/lib            \
+              --with-rcdir=/tmp/cupsinit   \
+              --with-rundir=/run/cups      \
+              --with-system-groups=lpadmin \
+              --with-docdir=/usr/share/cups/doc-2.4.12 &&
+  make
+
+  make install &&
+  ln -svnf ../cups/doc-2.4.12 /usr/share/doc/cups-2.4.12
+
+  rm -rf /tmp/cupsinit
+
+  echo "ServerName /run/cups/cups.sock" > /etc/cups/client.conf

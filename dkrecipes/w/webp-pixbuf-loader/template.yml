@@ -1,0 +1,25 @@
+name: webp-pixbuf-loader
+version: 0.2.7
+release: 1
+url: https://github.com/aruiz/webp-pixbuf-loader/archive/0.2.7/webp-pixbuf-loader-0.2.7.tar.gz
+homepage: https://github.com/aruiz/webp-pixbuf-loader
+license: GPL-2.0-or-later
+summary: WebP image loader plugin for GDK-Pixbuf
+description: |
+  A GdkPixbuf loader plugin for loading images encoded in the WebP format.
+  This allows programs that use GdkPixbuf (such as image viewers and file managers)
+  to display WebP images.
+
+phase: 5
+builddeps: [glibc, meson, ninja, glib, gdk-pixbuf, libwebp]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+  ninja
+
+  ninja install
+
+  gdk-pixbuf-query-loaders --update-cache

@@ -1,0 +1,28 @@
+name: freeglut
+version: 3.6.0
+release: 1
+url: https://downloads.sourceforge.net/freeglut/freeglut-3.6.0.tar.gz
+homepage: http://freeglut.sourceforge.net/
+license: MIT
+summary: Open-source alternative to the OpenGL Utility Toolkit (GLUT)
+description: |
+  freeglut is an open-source alternative to the OpenGL Utility Toolkit (GLUT) library.
+  It provides functionality for window management, handling user input, and other
+  operations essential for OpenGL programs.
+
+phase: 5
+builddeps: [glibc, make, mesa, cmake, glu]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr        \
+        -D CMAKE_BUILD_TYPE=Release         \
+        -D CMAKE_POLICY_VERSION_MINIMUM=3.5 \
+        -D FREEGLUT_BUILD_DEMOS=OFF         \
+        -D FREEGLUT_BUILD_STATIC_LIBS=OFF   \
+        -W no-dev .. 
+  make
+
+  make install

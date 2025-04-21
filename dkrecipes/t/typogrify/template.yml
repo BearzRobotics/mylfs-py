@@ -1,0 +1,20 @@
+name: typogrify
+version: 2.1.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/t/typogrify/typogrify-2.1.0.tar.gz
+homepage: https://github.com/mintchaos/typogrify
+
+license: BSD-3-Clause
+summary: A Python library to improve web typography
+description: |
+  Typogrify is a Python library that provides a set of filters to
+  help improve web typography, including smart quotes, widont,
+  and other spacing and formatting enhancements.
+
+phase: 5
+
+builddeps: [python-setuptools, python-wheel, python, smartypants]
+
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user typogrify

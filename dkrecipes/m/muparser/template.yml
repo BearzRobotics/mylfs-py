@@ -1,0 +1,23 @@
+name: muparser
+version: 2.3.5
+release: 1
+url: https://github.com/beltoforion/muparser/archive/v2.3.5/muparser-2.3.5.tar.gz
+homepage: https://beltoforion.de/en/muparser/
+license: BSD-2-Clause
+summary: Fast math expression parser library
+description: |
+  muparser is a high-performance math expression parser library written 
+  in C++. It allows applications to evaluate user-defined mathematical 
+  formulas at runtime.
+phase: 5
+builddeps: [glibc, cmake, make]
+buildsteps: |
+  mkdir -v build &&
+  cd       build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           &&
+  make
+
+  make install

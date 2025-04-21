@@ -1,0 +1,18 @@
+name: libbytesize
+version: 2.11
+release: 1
+url: https://github.com/storaged-project/libbytesize/releases/download/2.11/libbytesize-2.11.tar.gz
+homepage: https://github.com/storaged-project/libbytesize
+license: LGPL-2.1-or-later
+summary: Library for handling sizes in bytes
+description: |
+  libbytesize is a library designed to handle calculations and
+  representations of storage sizes in bytes, providing functions
+  to manipulate and format sizes for storage devices.
+phase: 5
+builddeps: [glib, glibc, pcre2, pygments]
+buildsteps: |
+  ./configure --prefix=/usr 
+  make
+
+  make install

@@ -1,0 +1,23 @@
+name: libsysstat
+version: 1.1.0
+release: 1
+url: https://github.com/lxqt/libsysstat/releases/download/1.1.0/libsysstat-1.1.0.tar.xz
+homepage: https://github.com/lxqt/libsysstat
+license: LGPL-2.1-or-later
+summary: Library for system statistics used by LXQt
+description: |
+  libsysstat is a lightweight library providing access to system
+  statistics such as CPU usage, memory usage, and other resource
+  monitors. It is used by LXQt desktop components like the panel
+  plugins and system monitor widgets.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, extra-cmake]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+  make install

@@ -1,0 +1,31 @@
+name: sassc
+version: 3.6.2
+release: 1
+url: 
+  - https://github.com/sass/sassc/archive/3.6.2/sassc-3.6.2.tar.gz
+  - https://github.com/sass/libsass/archive/3.6.6/libsass-3.6.6.tar.gz
+homepage: https://github.com/sass/sassc
+license: MIT
+summary: C implementation of a Sass compiler
+description: |
+  sassc is a fast and lightweight C implementation of the Sass 
+  compiler, using libsass. It converts SCSS files into standard 
+  CSS files and is used in many theme engines and web development 
+  workflows.
+phase: 5
+builddeps: [glibc, make]
+buildsteps: |
+  tar -xf ../libsass-3.6.6.tar.gz 
+  pushd libsass-3.6.6 
+    autoreconf -fi
+    ./configure --prefix=/usr --disable-static 
+    make
+
+    make install
+  popd 
+  autoreconf -fi 
+
+  ./configure --prefix=/usr 
+  make
+
+  make install

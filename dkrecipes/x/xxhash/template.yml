@@ -1,0 +1,16 @@
+name: xxhash
+version: 0.8.3
+release: 1
+url: https://github.com/Cyan4973/xxHash/archive/refs/tags/v0.8.3.tar.gz
+homepage: https://cyan4973.github.io/xxHash/
+license: BSD
+summary: Extremely fast non-cryptographic hash algorithm
+description: |
+  xxHash is an extremely fast hash algorithm, running at RAM speed limits. 
+  It is suitable for checksums, hash tables, and compression schemes where 
+  high-speed hashing is critical. xxHash focuses on performance, not security.
+phase: 5
+builddeps: [make, glibc]
+buildsteps: |
+  make PREFIX=/usr
+  make PREFIX=/usr install

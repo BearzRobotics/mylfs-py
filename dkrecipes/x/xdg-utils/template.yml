@@ -1,0 +1,20 @@
+name: xdg-utils
+version: 1.2.1
+release: 1
+url: https://gitlab.freedesktop.org/xdg/xdg-utils/-/archive/v1.2.1/xdg-utils-v1.2.1.tar.gz
+homepage: https://www.freedesktop.org/wiki/Software/xdg-utils/
+license: MIT
+summary: Tools for integrating applications with desktop environments
+description: |
+  xdg-utils is a set of simple scripts that provide basic desktop integration
+  functions for Linux and Unix systems. It includes utilities to open URLs, manage
+  MIME types, and handle application autostart in a desktop-independent way.
+
+phase: 5
+#  xorg-apps required at runtime
+builddeps: [glibc, make, xmlto, lynx, xorg-libs, xorg-apps]
+
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install

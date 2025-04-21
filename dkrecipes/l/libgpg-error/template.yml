@@ -1,0 +1,19 @@
+name: libgpg-error
+version: 1.54
+release: 1
+url: https://www.gnupg.org/ftp/gcrypt/libgpg-error/libgpg-error-1.54.tar.bz2
+homepage: https://www.gnupg.org/related_software/libgpg-error/
+license: GPL-2.0-or-later AND LGPL-2.1-or-later
+summary: Common error codes and messages for GnuPG components
+description: |
+  libgpg-error is a small library that defines common error codes 
+  and messages used by GnuPG, GPGME, and related software. 
+  It provides a uniform API for reporting error conditions.
+phase: 5
+builddeps: [glibc, make, pkgconfig]
+buildsteps: |
+  ./configure --prefix=/usr 
+  make
+
+  make install 
+  install -v -m644 -D README /usr/share/doc/libgpg-error-1.54/README

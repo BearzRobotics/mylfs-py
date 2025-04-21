@@ -1,0 +1,25 @@
+name: hicolor-icon-theme
+version: 0.18
+release: 1
+url: https://icon-theme.freedesktop.org/releases/hicolor-icon-theme-0.18.tar.xz
+homepage: https://freedesktop.org/wiki/Software/icon-theme/
+
+license: GPL-2.0-or-later
+summary: Default fallback icon theme
+description: |
+  The hicolor-icon-theme package defines a fallback icon theme
+  for freedesktop-compliant icon themes. It is a required component
+  for properly themed desktop environments.
+
+phase: 5
+
+builddeps: [meson, ninja]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+  ninja
+
+  ninja install

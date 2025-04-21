@@ -1,0 +1,21 @@
+name: libseccomp
+version: 2.6.0
+release: 1
+url: https://github.com/seccomp/libseccomp/releases/download/v2.6.0/libseccomp-2.6.0.tar.gz
+homepage: https://github.com/seccomp/libseccomp
+
+license: LGPL-2.1-or-later
+summary: Library for Linux syscall filtering
+description: |
+  libseccomp provides an easy-to-use, platform-independent, abstraction layer for Linux Kernel's syscall filtering mechanism, seccomp. It is commonly used to sandbox applications and limit their system call surface.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make, which, valgrind, cython]
+
+buildsteps: |
+  source /etc/profile
+  ./configure --prefix=/usr --enable-python
+  make
+  make install
+  ldconfig

@@ -1,0 +1,21 @@
+name: libdvdcss
+version: 1.4.3
+release: 1
+url: https://get.videolan.org/libdvdcss/1.4.3/libdvdcss-1.4.3.tar.bz2
+homepage: https://www.videolan.org/developers/libdvdcss.html
+license: GPL-2.0-or-later
+summary: Library for accessing and unscrambling encrypted DVDs
+description: |
+  libdvdcss is a simple library designed for accessing DVDs 
+  like a block device without having to bother about the 
+  decryption. It is used by media players like VLC and mpv 
+  to access encrypted DVD content protected by the CSS system.
+phase: 5
+builddeps: [glibc, pkgconfig, make]
+buildsteps: |
+  ./configure --prefix=/usr    \
+              --disable-static \
+              --docdir=/usr/share/doc/libdvdcss-1.4.3 &&
+  make
+
+  make install

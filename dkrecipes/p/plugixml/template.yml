@@ -1,0 +1,19 @@
+name: pugixml
+version: 1.15
+release: 1
+url: https://github.com/zeux/pugixml/releases/download/v1.15/pugixml-1.15.tar.gz
+homepage: https://pugixml.org/
+
+license: MIT
+summary: Light-weight, simple and fast XML parser for C++
+description: |
+  pugixml is a C++ XML processing library that enables DOM-like tree traversal and XPath queries, with a light-weight and simple-to-integrate API optimized for performance.
+
+phase: 5
+builddeps: [glibc, cmake, ninja]
+
+buildsteps: |
+  cmake -DCMAKE_INSTALL_PREFIX=/usr -B build
+  cmake --build build -j `nproc`
+
+  cmake --install build

@@ -1,0 +1,25 @@
+name: qterminal
+version: 2.1.0
+release: 1
+url: https://github.com/lxqt/qterminal/releases/download/2.1.0/qterminal-2.1.0.tar.xz
+homepage: https://github.com/lxqt/qterminal
+license: GPL-2.0-or-later
+summary: Lightweight and Qt-based terminal emulator
+description: |
+  QTerminal is a lightweight, multi-tabbed terminal emulator built on
+  top of qtermwidget. It is designed for use with the LXQt desktop
+  environment but can also function standalone. QTerminal offers
+  features like drop-down mode, tabbed sessions, color schemes, 
+  transparency, and customizable keyboard shortcuts.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, qtermwidget]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           &&
+  make
+
+  make install

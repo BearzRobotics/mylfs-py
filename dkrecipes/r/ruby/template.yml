@@ -1,0 +1,27 @@
+name: ruby
+version: 3.4.2
+release: 1
+url: https://cache.ruby-lang.org/pub/ruby/3.4/ruby-3.4.2.tar.xz
+homepage: https://www.ruby-lang.org/
+license: Ruby
+summary: Powerful, clean, object-oriented scripting language
+description: |
+  Ruby is a dynamic, open-source programming language with a focus 
+  on simplicity and productivity. It has an elegant syntax that 
+  is natural to read and easy to write, making it popular for 
+  web development, scripting, and build automation.
+phase: 5
+builddeps: [glibc, make, zlib, openssl, libyaml, gdbm, ncurses, graphviz, doxygen, valgrind]
+buildsteps: |
+  #             --without-valgrind    \
+  ./configure --prefix=/usr         \
+              --disable-rpath       \
+              --enable-shared       \
+              --without-baseruby    \
+              ac_cv_func_qsort_r=no \
+              --docdir=/usr/share/doc/ruby-3.4.2
+  make
+
+  make capi
+
+  make install

@@ -1,0 +1,21 @@
+name: iso-codes
+version: 4.18.0
+release: 1
+url: https://salsa.debian.org/iso-codes-team/iso-codes/-/archive/v4.18.0/iso-codes-v4.18.0.tar.gz
+homepage: https://salsa.debian.org/iso-codes-team/iso-codes
+license: LGPL-2.1-or-later
+summary: ISO standard language, territory, currency, and script codes
+description: |
+  The iso-codes package provides lists of various ISO standards, such as country (ISO-3166),
+  language (ISO-639), script (ISO-15924), and currency (ISO-4217) codes, in machine-readable form.
+  These lists are used by programs and libraries that need standardized information
+  about countries, languages, and other international codes.
+
+phase: 5
+builddeps: [glibc, make]
+
+buildsteps: |
+  ./configure --prefix=/usr &&
+  make
+
+  make install LN_S='ln -sfn'

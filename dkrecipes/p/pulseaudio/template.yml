@@ -1,0 +1,28 @@
+name: pulseaudio
+version: 17.0
+release: 1
+url: https://www.freedesktop.org/software/pulseaudio/releases/pulseaudio-17.0.tar.xz
+homepage: https://www.freedesktop.org/wiki/Software/PulseAudio/
+license: LGPL-2.1-or-later AND GPL-2.0-or-later
+summary: Sound server for POSIX operating systems
+description: |
+  PulseAudio is a sound server for POSIX and Win32 systems, allowing
+  real-time software mixing, per-application volume control, networked
+  audio streaming, and advanced sound processing.
+phase: 5
+builddeps: [glibc, libsndfile, cmake, dbus, elogind, glib, speex, xorg-libs, libsamplerate, gst-plugins-base, meson, ninja]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  meson setup --prefix=/usr       \
+              --buildtype=release \
+              -D database=gdbm    \
+              -D doxygen=false    \
+              -D bluez5=disabled  \
+              -D tests=false      \
+              ..                  
+  ninja
+
+  ninja install
+  rm /usr/share/dbus-1/system.d/pulseaudio-system.conf

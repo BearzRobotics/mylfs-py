@@ -1,0 +1,24 @@
+name: qtermwidget
+version: 2.1.0
+release: 1
+url: https://github.com/lxqt/qtermwidget/releases/download/2.1.0/qtermwidget-2.1.0.tar.xz
+homepage: https://github.com/lxqt/qtermwidget
+license: GPL-2.0-or-later
+summary: Terminal emulator widget for Qt applications
+description: |
+  qtermwidget is a terminal emulator widget for Qt-based applications.
+  It provides terminal emulation capabilities using Qt APIs and supports
+  features like color profiles, transparency, font customization, and 
+  input/output handling. It is used by terminal applications like QTerminal.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           &&
+  make
+
+  make install

@@ -1,0 +1,28 @@
+name: gst-plugins-base
+version: 1.26.0
+release: 1
+url: https://gstreamer.freedesktop.org/src/gst-plugins-base/gst-plugins-base-1.26.0.tar.xz
+homepage: https://gstreamer.freedesktop.org/
+license: LGPL-2.1-or-later
+summary: Base set of GStreamer plugins and libraries
+description: |
+  GStreamer Base Plugins is a well-groomed and well-maintained set of
+  GStreamer plugins and libraries that provide support for essential
+  audio and video formats, such as Ogg Vorbis, Theora, Opus, and many others.
+
+phase: 5
+builddeps: [glibc, meson, ninja, gstreamer, glib, libogg, libvorbis, iso-codes, graphene, libgudev, 
+ cdparanoia, libjpeg-turbo, opus, libpng, alsa-lib, mesa, pango, wayland-protocols, xorg-libs, sdl2
+]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..               \
+        --prefix=/usr          \
+        --buildtype=release    \
+        --wrap-mode=nodownload 
+  ninja
+
+  ninja install

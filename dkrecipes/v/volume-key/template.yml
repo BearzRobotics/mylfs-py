@@ -1,0 +1,19 @@
+name: volume-key
+version: 0.3.12
+release: 1
+url: https://pagure.io/volume_key/archive/volume_key-0.3.12/volume_key-volume_key-0.3.12.tar.gz
+homepage: https://pagure.io/volume_key
+license: GPL-2.0-or-later
+summary: Library for extracting, recovering, and manipulating encrypted volume keys
+description: |
+  volume_key is a library and command-line tool for saving and restoring
+  encryption keys of storage volumes, allowing encrypted volumes to be
+  backed up and recovered without re-encrypting the data.
+phase: 5
+# libuuid
+builddeps: [glibc, make, gcc, nss, gnutls, libgcrypt, gettext, gpgme, libassuan]
+buildsteps: |
+  autoreconf -fi
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

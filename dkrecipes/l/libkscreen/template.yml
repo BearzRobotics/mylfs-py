@@ -1,0 +1,28 @@
+name: libkscreen
+version: 6.3.2
+release: 1
+url: https://download.kde.org/stable/plasma/6.3.2/libkscreen-6.3.2.tar.xz
+homepage: https://invent.kde.org/plasma/libkscreen
+license: LGPL-2.0-or-later
+summary: KDE library for screen management
+description: |
+  Libkscreen is a KDE library that provides an API for querying and 
+  manipulating screen properties such as resolution, rotation, and 
+  display configuration. It supports both X11 and Wayland backends.
+phase: 5
+builddeps: [qt6, kwayland, extra-cmake, plasma-wayland-protocols, cmake, make]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr        \
+        -D CMAKE_BUILD_TYPE=Release         \
+        -D CMAKE_INSTALL_LIBEXECDIR=libexec \
+        -D KDE_INSTALL_USE_QT_SYS_PATHS=ON  \
+        -D BUILD_TESTING=OFF                \
+        -W no-dev ..                        
+  make
+
+  make install
+
+  rm -v /usr/lib/systemd/user/plasma-kscreen.service

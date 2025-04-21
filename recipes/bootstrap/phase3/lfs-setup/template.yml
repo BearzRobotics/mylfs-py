@@ -19,22 +19,6 @@ buildsteps: |
     x86_64) chown -R root:root $LFS/lib64 ;;
   esac
 
-
-  # LFS 12.3 Section 7.5
-  mkdir -vp /etc/{opt,sysconfig,skel,profile.d}
-  mkdir -vp /lib/firmware
-  mkdir -vp /media/{usb,lfs,cdrom,dvd}
-  mkdir -vp /usr/{include,src}
-  mkdir -vp /usr/lib/locale
-  mkdir -vp /usr/local/{bin,lib,sbin}
-  mkdir -vp /usr/share/{color,dict,doc,info,locale,man}
-  mkdir -vp /usr/share/{misc,terminfo,zoneinfo}
-  mkdir -vp /usr/share/man/man{1..8}
-  mkdir -vp /var/{cache,local,log,mail,opt,spool}
-  mkdir -vp /var/lib/{color,misc,locate}
-  mkdir -vp /root
-  mkdir -vp /boot
-
   ln -sfv /run /var/run
   ln -sfv /run/lock /var/lock
 

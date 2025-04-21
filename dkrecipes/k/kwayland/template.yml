@@ -1,0 +1,26 @@
+name: kwayland
+version: 6.3.2
+release: 1
+url: https://download.kde.org/stable/plasma/6.3.2/kwayland-6.3.2.tar.xz
+homepage: https://invent.kde.org/plasma/kwayland
+license: LGPL-2.0-or-later
+summary: KDE Framework wrapping Wayland protocols
+description: |
+  KWayland provides Qt-style client and server libraries around Wayland
+  interfaces. It is used extensively by KDE Plasma and related software
+  for interacting with the Wayland display server.
+phase: 5
+builddeps: [qt6, wayland, wayland-protocols, extra-cmake, mesa, plasma-wayland-protocols, make, cmake]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr        \
+        -D CMAKE_BUILD_TYPE=Release         \
+        -D CMAKE_INSTALL_LIBEXECDIR=libexec \
+        -D KDE_INSTALL_USE_QT_SYS_PATHS=ON  \
+        -D BUILD_TESTING=OFF                \
+        -W no-dev ..                        
+  make
+
+  make install

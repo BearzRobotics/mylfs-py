@@ -1,0 +1,31 @@
+name: lua
+version: 5.4.7
+release: 1
+url: https://www.lua.org/ftp/lua-5.4.7.tar.gz
+homepage: https://www.lua.org/
+license: MIT
+summary: Lightweight scripting language (modern version)
+description: |
+  Lua is a powerful, efficient, lightweight, embeddable scripting language.
+  This package installs the latest stable 5.4.x series version, intended for use by modern applications.
+
+phase: 5
+
+builddeps: [glibc, make, patch, sed, pkgconfig]
+
+buildsteps: |
+  patch -Np1 -i ../patches/lua-5.4.7-shared_library-1.patch
+  make linux
+
+  make INSTALL_TOP=/usr                \
+      INSTALL_DATA="cp -d"            \
+      INSTALL_MAN=/usr/share/man/man1 \
+      TO_LIB="liblua.so liblua.so.5.4 liblua.so.5.4.7" \
+      install
+
+  mkdir -pv                      /usr/share/doc/lua-5.4.7 
+  cp -v doc/*.{html,css,gif,png} /usr/share/doc/lua-5.4.7 
+
+  # Install pkgconfig file
+  install -Dm644 ../static/lua.pc /usr/lib/pkgconfig/lua5.4.pc
+  install -Dm644 ../static/lua.pc /usr/lib/pkgconfig/lua.pc

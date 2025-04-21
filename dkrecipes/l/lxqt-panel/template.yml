@@ -1,0 +1,21 @@
+name: lxqt-panel
+version: 2.1.4
+release: 1
+url: https://github.com/lxqt/lxqt-panel/releases/download/2.1.4/lxqt-panel-2.1.4.tar.xz
+homepage: https://github.com/lxqt/lxqt-panel
+license: LGPL-2.1-or-later
+summary: Main panel for the LXQt desktop environment
+description: |
+  lxqt-panel provides the main panel (taskbar, system tray, clock, 
+  launchers, and various plugins) for the LXQt desktop environment. 
+  It is modular, lightweight, and fully configurable by users.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, libdbusmenu-lxqt, liblxqt, libsysstat, 
+  lxqt-globalkeys, libqtxdg, qtxdg-tools, menu-cache, libfm-qt, polkit-qt, layer-shell-qt, 
+   lxqt-menu-data, solid, libxkbcommon, lm-sensors, pulseaudio]
+buildsteps: |
+  mkdir build
+  cd build
+  cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release
+  make
+  make install

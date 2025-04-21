@@ -1,0 +1,18 @@
+name: bat
+version: 0.25.0
+release: 1
+url: https://github.com/sharkdp/bat/archive/refs/tags/v0.25.0.tar.gz
+homepage: https://github.com/sharkdp/bat
+license: Apache-2.0
+summary: A cat clone with syntax highlighting and Git integration
+description: |
+  bat is a clone of the UNIX cat command with syntax highlighting 
+  and Git integration. It provides beautiful and readable outputs, 
+  with paging support via less, syntax coloring, and file context.
+phase: 5
+builddeps: [rust]
+buildsteps: |
+  source /etc/profile
+  
+  cargo build --release
+  install -Dm755 target/release/bat /usr/bin/bat

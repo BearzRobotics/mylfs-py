@@ -1,0 +1,27 @@
+# it would be cool to get this bootstrapped
+name: ghc
+version: 9.8.4
+release: 1
+url: 
+  - https://downloads.haskell.org/~ghc/9.8.4/ghc-9.8.4-src.tar.xz
+homepage: https://www.haskell.org/ghc/
+license: BSD-3-Clause
+summary: The Glasgow Haskell Compiler
+description: |
+  GHC is an open source, state-of-the-art compiler and interactive
+  environment for the functional language Haskell. GHC is highly 
+  portable and widely used, providing advanced language features 
+  such as type classes, GADTs, and concurrency support.
+phase: 5
+builddeps: [gmp, libffi, perl, python, llvm, curl, xz, makeca_certs]
+buildsteps: |
+  touch ~/.bashrc
+  export BOOTSTRAP_HASKELL_NONINTERACTIVE=1
+  export BOOTSTRAP_HASKELL_NO_UPGRADE=1
+  export BOOTSTRAP_HASKELL_INSTALL_STACK=0
+  export BOOTSTRAP_HASKELL_INSTALL_HLS=1
+  export BOOTSTRAP_HASKELL_ADJUST_BASHRC=1
+
+  curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | sh
+
+  export PATH="$HOME/.ghcup/bin:$PATH"

@@ -1,0 +1,3 @@
+Defaults env_keep += JAVA_HOME
+Defaults env_keep += CLASSPATH
+Defaults env_keep += _JAVA_OPTIONS

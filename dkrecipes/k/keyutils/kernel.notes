@@ -1,0 +1,28 @@
+Security options --->
+  [*] Enable access key retention support                                 [KEYS]
+  [*]   Large payload keys                                            [BIG_KEYS]
+  [*]   Diffie-Hellman operations on retained keys           [KEY_DH_OPERATIONS]
+
+-*- Cryptographic API --->                                              [CRYPTO]
+  Public-key cryptography --->
+    <*/M> RSA (Rivest-Shamir-Adleman)                               [CRYPTO_RSA]
+  Hashes, digests, and MACs --->
+    <*/M> SHA-1                                                    [CRYPTO_SHA1]
+  [*] Asymmetric (public-key cryptographic) key type --->  [ASYMMETRIC_KEY_TYPE]
+    <*> Asymmetric public-key crypto algorithm subtype
+                                            ...  [ASYMMETRIC_PUBLIC_KEY_SUBTYPE]
+    # If not built into the kernel, [SYSTEM_TRUSTED_KEYRING] won't show up;
+    # building as a module won't work:
+    <*>   X.509 certificate parser                     [X509_CERTIFICATE_PARSER]
+  Certificates for signature checking --->
+    [*] Provide system-wide ring of trusted keys        [SYSTEM_TRUSTED_KEYRING]
+    [*]   Provide a keyring to which extra trustable keys may be added
+                                                ...  [SECONDARY_TRUSTED_KEYRING]
+    [*] Provide system-wide ring of blacklisted keys  [SYSTEM_BLACKLIST_KEYRING]
+
+Library routines --->
+  Crypto library routines --->
+    # If not built into the kernel, [BIG_KEYS] won't show up;
+    # building as a module won't work:
+    <*> ChaCha20-Poly1305 AEAD support (8-byte nonce library version)
+                                              ...  [CRYPTO_LIB_CHACHA20POLY1305]

@@ -1,0 +1,24 @@
+name: libburn
+version: 1.5.6
+release: 1
+url: https://files.libburnia-project.org/releases/libburn-1.5.6.tar.gz
+homepage: https://dev.lovelyhq.com/libburnia/web/wiki
+license: GPL-2.0-or-later
+summary: Library for reading, writing, and formatting optical discs
+description: |
+  libburn is a library that provides an API for reading and writing 
+  optical media like CD, DVD, and Blu-ray discs. It offers a simple 
+  interface to burn ISO images, create audio CDs, and manipulate 
+  sessions and tracks on rewritable media.
+phase: 5
+builddeps: [glibc, pkgconfig, make, doxygen]
+buildsteps: |
+  ./configure --prefix=/usr --disable-static 
+  make
+
+  doxygen doc/doxygen.conf
+
+  make install
+
+  install -v -dm755 /usr/share/doc/libburn-1.5.6 
+  install -v -m644 doc/html/* /usr/share/doc/libburn-1.5.6

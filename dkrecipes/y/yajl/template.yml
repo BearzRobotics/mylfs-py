@@ -1,0 +1,23 @@
+name: yajl
+version: 2.1.0
+release: 1
+url: https://github.com/lloyd/yajl/archive/refs/tags/2.1.0.tar.gz
+homepage: https://lloyd.github.io/yajl/
+license: ISC
+summary: A small event-driven (SAX-style) JSON parser in C
+description: |
+  YAJL (Yet Another JSON Library) is a small, fast, event-driven 
+  JSON parser written in C. It supports both stream-based parsing 
+  and complete in-memory parsing, and provides a generator for 
+  emitting JSON as well. It is widely used in embedded systems 
+  and lightweight applications.
+phase: 5
+builddeps: [glibc, make, cmake-legacy]
+buildsteps: |
+  export PATH=/opt/cmake-3.31.7/bin:$PATH
+  mkdir build
+  cd build
+  cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release
+  make
+
+  make install

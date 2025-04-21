@@ -1,0 +1,33 @@
+name: elogind
+version: 255.17
+release: 1
+url: https://github.com/elogind/elogind/archive/v255.17/elogind-255.17.tar.gz
+homepage: https://github.com/elogind/elogind
+license: LGPL-2.1-or-later
+summary: Standalone logind fork from systemd
+description: |
+  elogind is the systemd project's "logind" extracted as a standalone project.
+  It handles user sessions, seat management, and shutdown/suspend/resume
+  behavior for systems not using full systemd.
+
+phase: 5
+# runtime deps dbus and polkit
+builddeps: [glibc, meson, ninja, linux-pam, dbus, lxml, libxslt, docbook-xml, docbook-xsl]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  meson setup ..                               \
+        --prefix=/usr                          \
+        --buildtype=release                    \
+        -D man=auto                            \
+        -D docdir=/usr/share/doc/elogind-255.17 \
+        -D cgroup-controller=elogind           \
+        -D dev-kvm-mode=0660                   \
+        -D dbuspolicydir=/etc/dbus-1/system.d 
+  ninja
+
+  ninja install                                           
+  ln -sfv  libelogind.pc /usr/lib/pkgconfig/libsystemd.pc 
+  ln -sfvn elogind /usr/include/systemd

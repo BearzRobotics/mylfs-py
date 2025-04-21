@@ -1,0 +1,25 @@
+name: gtk-doc
+version: 1.34.0
+release: 1
+url: https://download.gnome.org/sources/gtk-doc/1.34/gtk-doc-1.34.0.tar.xz
+homepage: https://www.gtk.org/gtk-doc/
+
+license: GPL-2.0-or-later
+summary: Documentation tool for public library APIs
+description: |
+  gtk-doc is a tool used to extract documentation from source code comments 
+  and generate API reference documentation for libraries, especially those 
+  based on GObject (like GTK and GNOME libraries).
+
+phase: 5
+
+builddeps: [python, itstool, libxml2, libxslt, glib, docbook-xsl, docbook-xml, pygments, which, lxml, meson, ninja]
+
+buildsteps: |
+  mkdir -p build 
+  cd       build 
+
+  meson setup --prefix=/usr --buildtype=release .. 
+  ninja
+
+  ninja install

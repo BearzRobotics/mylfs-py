@@ -1,0 +1,26 @@
+name: libblockdev
+version: 3.3.0
+release: 1
+url: https://github.com/storaged-project/libblockdev/releases/download/3.3.0/libblockdev-3.3.0.tar.gz
+homepage: https://github.com/storaged-project/libblockdev
+license: LGPL-2.1-or-later
+summary: A library for low-level block device manipulation
+description: |
+  libblockdev is a library wrapping low-level operations with block
+  devices, such as partitioning, LVM, Btrfs, encryption, and more.
+  It provides a plugin-based architecture for modular support.
+phase: 5
+
+# cryptsetup is an optional package
+builddeps: [glib, glibc, libnvme, lvm2, btrfs-progs, json-glib, libndctl, volume-key,
+  smartmontools, parted, libbytesize, libatasmart, keyutils, mdadm, cryptsetup ]
+buildsteps: |
+  ./configure --prefix=/usr      \
+              --sysconfdir=/etc  \
+              --with-python3     \
+              --without-gtk-doc  \
+              --without-lvm_dbus \
+              --without-tools    
+  make
+
+  make install

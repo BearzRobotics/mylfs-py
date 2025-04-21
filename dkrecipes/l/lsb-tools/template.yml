@@ -1,0 +1,18 @@
+name: lsb-tools
+version: 0.12
+release: 1
+url: https://github.com/lfs-book/LSB-Tools/releases/download/v0.12/LSB-Tools-0.12.tar.gz
+homepage: https://github.com/lfs-book/LSB-Tools
+license: public-domain
+summary: Tools for Linux Standard Base (LSB) compliance testing
+description: |
+  LSB-Tools provides a set of scripts and programs for validating
+  compliance with the Linux Standard Base (LSB) specification. It is
+  mainly used for testing and bootstrapping in Linux From Scratch (LFS)
+  systems.
+phase: 5
+builddeps: [make]
+buildsteps: |
+  make
+  make install
+  rm /usr/sbin/lsbinstall

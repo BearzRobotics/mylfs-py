@@ -1,0 +1,25 @@
+name: valgrind
+version: 3.24.0
+release: 1
+url: https://sourceware.org/pub/valgrind/valgrind-3.24.0.tar.bz2
+homepage: https://valgrind.org/
+license: GPL-2.0-or-later
+summary: Tool for memory debugging, memory leak detection, and profiling
+description: |
+  Valgrind is a programming tool for memory debugging, memory leak 
+  detection, and profiling. It includes tools like Memcheck, Cachegrind, 
+  and Massif to help find memory management problems and performance 
+  bottlenecks in programs written in C, C++, and other compiled languages.
+phase: 5
+builddeps: [glibc, llvm, pkgconfig, docbook-xml, gdb, which, sed]
+buildsteps: |
+  sed -i 's|/doc/valgrind||' docs/Makefile.in &&
+
+  ./configure --prefix=/usr \
+              --datadir=/usr/share/doc/valgrind-3.24.0 &&
+  make
+
+  sed -e 's@prereq:.*@prereq: false@' \
+      -i {helgrind,drd}/tests/pth_cond_destroy_busy.vgtest
+
+  make install

@@ -1,0 +1,22 @@
+name: libao
+version: 1.2.0
+release: 1
+url: https://downloads.xiph.org/releases/ao/libao-1.2.0.tar.gz
+homepage: https://xiph.org/ao/
+license: GPL-2.0-or-later OR MIT
+summary: Cross-platform audio output library
+description: |
+  libao is a cross-platform audio output library that provides a simple 
+  API for programs to output audio to a variety of platforms and sound 
+  systems. It supports ALSA, PulseAudio, OSS, and more, offering a 
+  consistent interface for application developers.
+phase: 5
+builddeps: [glibc, pkgconfig, alsa-lib, pulseaudio, make, sed]
+buildsteps: |
+  sed -i '/limits.h/a #include <time.h>' src/plugins/pulse/ao_pulse.c
+
+  ./configure --prefix=/usr &&
+  make
+
+  make install &&
+  install -v -m644 README /usr/share/doc/libao-1.2.0

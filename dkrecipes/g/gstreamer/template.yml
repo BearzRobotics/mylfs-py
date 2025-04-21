@@ -1,0 +1,33 @@
+name: gstreamer
+version: 1.26.0
+release: 1
+url: https://gstreamer.freedesktop.org/src/gstreamer/gstreamer-1.26.0.tar.xz
+homepage: https://gstreamer.freedesktop.org/
+license: LGPL-2.1-or-later
+summary: Multimedia framework for constructing graphs of media-handling components
+description: |
+  GStreamer is a multimedia framework that allows the construction of
+  graphs of media-handling components. Applications can use GStreamer
+  to capture, process, and output audio and video streams.
+
+phase: 5
+builddeps: [glibc, meson, ninja, glib, libunwind-generic, rust, libnsl]
+
+buildsteps: |
+  # when building agaisnt libunwind, I get these errors
+  # undefined reference to `unw_getcontext`
+  # undefined reference to `unw_init_local`
+  # undefined reference to `unw_step`
+  # undefined reference to `unw_get_reg`
+
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..              \
+        --prefix=/usr         \
+        --buildtype=release   \
+        -Dlibunwind=disabled  \
+        -D gst_debug=false  
+  ninja
+
+  ninja install

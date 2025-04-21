@@ -1,0 +1,17 @@
+name: libev
+version: 4.33
+release: 1
+url: https://dist.schmorp.de/libev/Attic/libev-4.33.tar.gz
+homepage: https://software.schmorp.de/pkg/libev.html
+license: BSD
+summary: High-performance event loop library
+description: |
+  libev is a full-featured and high-performance event loop written in C. 
+  It provides APIs similar to libevent and can be used to develop 
+  highly scalable network servers and event-driven applications.
+phase: 5
+builddeps: [glibc, make]
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

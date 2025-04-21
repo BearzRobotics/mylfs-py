@@ -1,0 +1,18 @@
+name: aquamarine
+version: 0.8.0
+release: 1
+url: https://github.com/hyprwm/aquamarine/archive/refs/tags/v0.8.0.tar.gz
+homepage: https://github.com/hyprwm/aquamarine
+
+license: BSD-2-Clause
+summary: Rendering backend abstraction library for Hyprland
+description: |
+  aquamarine is a rendering backend abstraction library developed for Hyprland. It simplifies rendering operations across multiple graphics APIs, ensuring flexibility and performance within the Hyprland compositor.
+
+phase: 5
+builddeps: [glibc, cmake, wayland, wayland-protocols, libinput, libseatd, libdrm, libdisplay-info, hyprutils, mesa, libglvnd]
+
+buildsteps: |
+  cmake -B build -DCMAKE_BUILD_TYPE=Release  -DCMAKE_INSTALL_PREFIX=/usr
+  cmake --build build -j$(nproc)
+  cmake --install build

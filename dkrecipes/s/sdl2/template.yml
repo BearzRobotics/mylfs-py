@@ -1,0 +1,22 @@
+name: sdl2
+version: 2.30.11
+release: 1
+url: https://www.libsdl.org/release/SDL2-2.30.11.tar.gz
+homepage: https://www.libsdl.org/
+license: Zlib
+summary: Simple DirectMedia Layer 2 — cross-platform multimedia library
+description: |
+  SDL2 is a cross-platform development library designed to provide low-level access
+  to audio, keyboard, mouse, joystick, and graphics hardware via OpenGL and Direct3D.
+  It is used by video playback software, emulators, and popular games.
+
+phase: 5
+# doxygen
+builddeps: [glibc, make, alsa-lib, libxkbcommon, mesa, libdrm,  wayland-protocols, wayland, xorg-libs, nasm, libunwind-generic, libsamplerate]
+
+buildsteps: |
+  ./configure --prefix=/usr 
+  make
+
+  make install              
+  rm -v /usr/lib/libSDL2*.a

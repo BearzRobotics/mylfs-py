@@ -1,0 +1,25 @@
+name: sox
+version: 14.4.2
+release: 1
+url:
+  - https://downloads.sourceforge.net/project/sox/sox/14.4.2/sox-14.4.2.tar.gz
+homepage: http://sox.sourceforge.net/
+license: LGPL-2.1-or-later
+summary: Sound eXchange - universal sound sample translator
+description: |
+  SoX is the Swiss Army knife of sound processing programs.
+  It can convert various formats of audio files, apply effects,
+  and play and record audio on most platforms.
+
+# I Don't actually know all the deps.
+# however, this is a music app and it seems natural that
+# relying on ffmpeg is a good short cut to ensure it builds
+builddeps: [glibc, libpng, alsa-li, sed, zlib, ffmpeg ]
+
+buildsteps: |
+  ./configure --prefix=/usr
+
+  sed -i '/#include "sox.h"/a #include <math.h>' src/sox_sample_test.h
+
+  make    
+  make install

@@ -1,0 +1,16 @@
+name: vim-plug
+version: 0.14.0
+release: 1
+url: https://github.com/junegunn/vim-plug/archive/refs/tags/0.14.0.tar.gz
+homepage: https://github.com/junegunn/vim-plug
+license: MIT
+summary: Minimalist Vim plugin manager
+description: |
+  vim-plug is a fast and minimalist Vim/Neovim plugin manager 
+  that supports parallel installation and lazy-loading of plugins. 
+  It is configured directly inside your .vimrc or init.vim file.
+phase: 5
+builddeps: [vim, neovim]
+buildsteps: |
+  mkdir -p /usr/share/vim/vimfiles/autoload
+  install -Dm644 plug.vim /usr/share/vim/vimfiles/autoload/plug.vim

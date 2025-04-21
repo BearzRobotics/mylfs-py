@@ -1,0 +1,26 @@
+name: vulkan-loader
+version: 1.4.309
+release: 1
+url: https://github.com/KhronosGroup/Vulkan-Loader/archive/v1.4.309/Vulkan-Loader-1.4.309.tar.gz
+homepage: https://github.com/KhronosGroup/Vulkan-Loader
+license: Apache-2.0
+summary: Vulkan Installable Client Driver (ICD) Loader
+description: |
+  The Vulkan-Loader manages the enumeration and loading of Vulkan Installable Client Drivers (ICDs),
+  and layers for Vulkan API usage. It provides a stable interface between Vulkan applications
+  and graphics drivers.
+
+phase: 5
+builddeps: [glibc, cmake, ninja, python, wayland, wayland-protocols, xorg-libs, vulkan-headers]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr   \
+        -D CMAKE_BUILD_TYPE=Release    \
+        -D CMAKE_SKIP_INSTALL_RPATH=ON \
+        -G Ninja .. 
+  ninja
+
+  ninja install

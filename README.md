@@ -14,6 +14,15 @@ landscape has seen good development I would like to return to this.
 
 NOT all config options are implement yet! Patches are welcome if anyone want to implement a feature not there yet!
 
+If a package fails to download and it's from the linux kernel git site. I had to manually download them first in a browser and
+then wget worked. -- It's a bot protection mechanism they're using. -- If you download the right version and drop it in place the 
+program will just pick up like normal. As if it was already downloaded.
+
+
+https://git.kernel.org
+https://youtu.be/3MTyv7hystI?si=jcm_VvVByv3tWD6Q
+
+On the other hand, some packages connect to the internet to download things. If they fail most of the time restarting them works.
 
 # build 
 This will build the base system with a handful of extra packages in phase 5 (including efi support).
@@ -48,6 +57,7 @@ you can grep each one from ps aux until your find the one you want
 ps aux | grep pts/3
 ```
 
+If this doesn't work, you either need to manually umount each instance of our bind mnts (dev, dev/{pts,shm}, proc, sys, run). Or you can just reboot. (type findmnt and you'll see why)
 
 
 # Phases
@@ -116,6 +126,10 @@ recipes/
         └── config_templates/    # optional
 
 # template.yml
+
+After doing 100 of these manually for the base install. What I would recomend is to past an 
+example in chatgpt and give it a link. The build commands and discriptions aren't always right. However, it's a lot faster than hand creating every template.yml file. Especially if 
+you're adding a lot of packages in your recipes folder.
 
 name:            # Required - package name
 version:         # Required - package version

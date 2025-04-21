@@ -1,0 +1,18 @@
+name: watchexec
+version: 2.3.0
+release: 1
+url: https://github.com/watchexec/watchexec/archive/refs/tags/v2.3.0.tar.gz
+homepage: https://github.com/watchexec/watchexec
+license: Apache-2.0
+summary: Executes commands in response to file changes
+description: |
+  watchexec is a simple and efficient tool that watches files and 
+  runs a command whenever they change. It can be used to automate 
+  builds, reload services, or perform any task triggered by file system events.
+phase: 5
+builddeps: [rust]
+buildsteps: |
+  source /etc/profile
+  
+  cargo build --release
+  install -Dm755 target/release/watchexec /usr/bin/watchexec

@@ -1,0 +1,32 @@
+name: giflib
+version: 5.2.2
+release: 1
+url: https://sourceforge.net/projects/giflib/files/giflib-5.2.2.tar.gz
+homepage: https://giflib.sourceforge.net/
+license: MIT
+summary: GIF image format library
+description: |
+  giflib is a library for reading and writing GIF image files.
+  It is lightweight and provides utilities to manipulate GIFs,
+  including animation support. It is used by many applications
+  needing simple GIF handling.
+
+phase: 5
+builddeps: [glibc, make, xmlto]
+
+buildsteps: |
+  patch -Np1 -i ../patches/giflib-5.2.2-upstream_fixes-1.patch
+
+  cp pic/gifgrid.gif doc/giflib-logo.gif
+
+  make
+
+  make PREFIX=/usr install &&
+
+  rm -fv /usr/lib/libgif.a &&
+
+  find doc \( -name Makefile\* -o -name \*.1 \
+          -o -name \*.xml \) -exec rm -v {} \; &&
+
+  install -v -dm755 /usr/share/doc/giflib-5.2.2 &&
+  cp -v -R doc/* /usr/share/doc/giflib-5.2.2

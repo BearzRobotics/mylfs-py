@@ -25,7 +25,6 @@ buildsteps: |
   make install
 
   # If you want this service on start enable it here
-  mkdir bootscripts
-  cd bootscripts
-  tar -xf ../../blfs-bootscripts-20250225.tar.xz
+  #tar -xf ../blfs-bootscripts-20250225.tar.xz
+  #cd blfs-bootscripts-20250225
   #make install-smartd

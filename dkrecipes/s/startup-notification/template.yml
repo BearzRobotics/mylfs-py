@@ -1,0 +1,22 @@
+name: startup-notification
+version: 0.12
+release: 1
+url: https://www.freedesktop.org/software/startup-notification/releases/startup-notification-0.12.tar.gz
+homepage: https://www.freedesktop.org/wiki/Software/startup-notification/
+license: MIT
+summary: Library for application startup feedback
+description: |
+  Startup Notification is a small library that supports startup 
+  notification and feedback to the user for applications launched 
+  in desktop environments. It provides a standard mechanism for 
+  applications to inform the desktop when they are starting, 
+  and when they are ready for user interaction.
+phase: 5
+builddeps: [glibc, pkgconfig, xorg-libs, xcb-util, make]
+buildsteps: |
+  ./configure --prefix=/usr --disable-static &&
+  make
+
+  make install &&
+  install -v -m644 -D doc/startup-notification.txt \
+      /usr/share/doc/startup-notification-0.12/startup-notification.txt

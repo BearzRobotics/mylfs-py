@@ -1,0 +1,29 @@
+name: jasper
+version: 4.2.5
+release: 1
+url: https://github.com/jasper-software/jasper/archive/version-4.2.5/jasper-version-4.2.5.tar.gz
+homepage: https://jasper-software.github.io/
+license: JasPer-2.0
+summary: JPEG-2000 image compression library
+description: |
+  JasPer is a software-based implementation of the codec specified in
+  the JPEG-2000 Part-1 standard (i.e., ISO/IEC 15444-1). It provides
+  tools and libraries for encoding and decoding JPEG-2000 images.
+
+phase: 5
+builddeps: [glibc, cmake, ninja, libjpeg-turbo, freeglut]
+
+buildsteps: |
+  mkdir BUILD &&
+  cd    BUILD &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr    \
+        -D CMAKE_BUILD_TYPE=Release     \
+        -D CMAKE_SKIP_INSTALL_RPATH=ON  \
+        -D JAS_ENABLE_DOC=NO            \
+        -D ALLOW_IN_SOURCE_BUILD=YES    \
+        -D CMAKE_INSTALL_DOCDIR=/usr/share/doc/jasper-4.2.5 \
+        ..  &&
+  make
+
+  make install

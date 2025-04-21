@@ -1,0 +1,19 @@
+name: alacritty
+version: 0.15.1
+release: 1
+url: https://github.com/alacritty/alacritty/archive/refs/tags/v0.15.1.tar.gz
+homepage: https://github.com/alacritty/alacritty
+license: Apache-2.0
+summary: A fast, GPU-accelerated terminal emulator written in Rust
+description: |
+  Alacritty is a cross-platform, GPU-accelerated terminal emulator 
+  written in Rust. It emphasizes performance and simplicity, providing 
+  a fast and modern alternative to traditional terminal emulators 
+  without unnecessary features.
+phase: 5
+builddeps: [rust, freetype2, fontconfig, pkgconfig, wayland, xorg-libs, xcb-utilities]
+buildsteps: |
+  source /etc/profile
+
+  cargo build --release
+  install -Dm755 target/release/alacritty /usr/bin/alacritty

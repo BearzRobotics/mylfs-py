@@ -1,0 +1,27 @@
+name: libwebp
+version: 1.5.0
+release: 1
+url: https://storage.googleapis.com/downloads.webmproject.org/releases/webp/libwebp-1.5.0.tar.gz
+homepage: https://developers.google.com/speed/webp
+license: BSD-3-Clause
+summary: WebP image format library
+description: |
+  libwebp is a library for encoding and decoding images in the WebP format,
+  a modern image format that provides superior lossless and lossy compression
+  for images on the web.
+
+phase: 5
+# libwebp can optionally depend on libtiff and libtiff can optionally depend on this.
+builddeps: [glibc, make, libjpeg-turbo, libpng, libtiff, sdl2, giflib, freeglut]
+
+buildsteps: |
+  ./configure --prefix=/usr           \
+              --enable-libwebpmux     \
+              --enable-libwebpdemux   \
+              --enable-libwebpdecoder \
+              --enable-libwebpextras  \
+              --enable-swap-16bit-csp \
+              --disable-static        
+  make
+
+  make install

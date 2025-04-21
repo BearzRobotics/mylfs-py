@@ -1,0 +1,20 @@
+name: isl
+version: 80035e4c3fcbebf13a70752111f03d48a5e46dda
+release: 1
+url: https://libisl.sourceforge.io/isl-0.27.tar.xz
+homepage: https://libisl.sourceforge.io/
+
+license: MIT
+summary: Integer Set Library for manipulating sets and relations of integer points
+description: |
+  isl is a library for manipulating sets and relations of integer points bounded by linear constraints. It is commonly used in compilers for static analysis and optimization, such as in polyhedral models.
+
+phase: 5
+
+builddeps: [glibc, make, gmp]
+
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install
+

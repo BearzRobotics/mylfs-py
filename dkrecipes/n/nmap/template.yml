@@ -1,0 +1,22 @@
+name: nmap
+version: 7.95
+release: 1
+url: https://nmap.org/dist/nmap-7.95.tar.bz2
+homepage: https://nmap.org/
+license: GPL-2.0-only
+summary: Network exploration tool and security / port scanner
+description: |
+  Nmap ("Network Mapper") is a free and open source utility for network discovery 
+  and security auditing. It was designed to rapidly scan large networks, but works 
+  fine against single hosts too.
+
+# libdnet
+builddeps: [openssl, liblinear, libpcap, lua, pcre2, pygobject, libssh2, makeca_certs, build, libdnet]
+phase: 5
+buildsteps: |
+  # build now builds. If this fails on a clean build. Uncomment next line
+  #pip3 install build
+  ./configure --prefix=/usr &&
+  make
+
+  make install

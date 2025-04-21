@@ -18,5 +18,6 @@ buildsteps: |
   ./configure --prefix=/musl
 
   make 
-
   make install
+
+  install -Dm755 ../static/musl.sh /etc/profile.d/musl.sh

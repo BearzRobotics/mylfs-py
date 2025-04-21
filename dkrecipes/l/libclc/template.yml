@@ -1,0 +1,26 @@
+name: libclc
+version: 20.1.1
+release: 1
+url: https://github.com/llvm/llvm-project/releases/download/llvmorg-20.1.1/libclc-20.1.1.src.tar.xz
+homepage: https://libclc.llvm.org/
+license: MIT
+summary: OpenCL C language builtin library implementation
+description: |
+  libclc is an implementation of the library requirements of the OpenCL C programming language.
+  It provides the builtins required for OpenCL C programs to function on various hardware backends,
+  targeting LLVM-based OpenCL implementations.
+
+phase: 5
+builddeps: [glibc, llvm, spirv-llvm-translator, python]
+
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        -G Ninja ..                  
+  ninja
+
+  ninja install

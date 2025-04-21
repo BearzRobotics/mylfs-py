@@ -1,0 +1,27 @@
+name: pango
+version: 1.56.3
+release: 1
+url: https://download.gnome.org/sources/pango/1.56/pango-1.56.3.tar.xz
+homepage: https://pango.gnome.org/
+license: LGPL-2.1-or-later
+summary: Framework for layout and rendering of internationalized text
+description: |
+  Pango is a library for laying out and rendering text, with an emphasis
+  on internationalization. It forms the core text and font handling for
+  GTK and GNOME applications.
+
+phase: 5
+builddeps: [glibc, meson, ninja, glib, cairo, fontconfig, freetype2, harfbuzz, fribidi, xorg-libs]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr            \
+              --buildtype=release      \
+              --wrap-mode=nofallback   \
+              -D introspection=enabled \
+              ..                       &&
+  ninja
+
+  ninja install

@@ -15,7 +15,7 @@ buildsystem: none
 builddeps: [fontconfig, libarchive]
 
 buildsteps: |
-  ls
+  cd freefont-20080323
   mkdir -pv /usr/share/fonts/opentype/freefont
   install -v -m644 *.otf /usr/share/fonts/opentype/freefont/
   fc-cache -f

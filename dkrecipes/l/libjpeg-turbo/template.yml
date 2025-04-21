@@ -1,0 +1,30 @@
+name: libjpeg-turbo
+version: 3.0.1
+release: 1
+url: https://downloads.sourceforge.net/libjpeg-turbo/libjpeg-turbo-3.0.1.tar.gz
+homepage: https://libjpeg-turbo.org/
+license: IJG & BSD-3-Clause & Zlib
+summary: SIMD-accelerated JPEG image codec
+description: |
+  libjpeg-turbo is a JPEG image codec that uses SIMD instructions (MMX, SSE2, AVX2, NEON)
+  to accelerate baseline JPEG compression and decompression. It is API/ABI compatible
+  with the standard libjpeg.
+
+phase: 5
+builddeps: [glibc, cmake, nasm]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr        \
+        -D CMAKE_BUILD_TYPE=RELEASE         \
+        -D ENABLE_STATIC=FALSE              \
+        -D CMAKE_INSTALL_DEFAULT_LIBDIR=lib \
+        -D CMAKE_POLICY_VERSION_MINIMUM=3.5 \
+        -D CMAKE_SKIP_INSTALL_RPATH=ON      \
+        -D CMAKE_INSTALL_DOCDIR=/usr/share/doc/libjpeg-turbo-3.0.1 \
+        .. 
+  make
+
+  make install

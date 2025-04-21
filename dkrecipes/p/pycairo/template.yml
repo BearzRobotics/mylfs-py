@@ -1,0 +1,24 @@
+name: pycairo
+version: 1.26.1
+release: 1
+url: https://github.com/pygobject/pycairo/releases/download/v1.26.1/pycairo-1.26.1.tar.gz
+homepage: https://pycairo.readthedocs.io/
+
+license: LGPL-2.1-or-later, MPL-1.1
+summary: Python bindings for the cairo graphics library
+description: |
+  Pycairo is a set of Python bindings for the cairo graphics library.
+  It provides Python interfaces to cairo's functionality for 2D graphics rendering.
+
+phase: 5
+
+builddeps: [python-setuptools, python-wheel, python, cairo, ninja, meson]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+  ninja
+
+  ninja install

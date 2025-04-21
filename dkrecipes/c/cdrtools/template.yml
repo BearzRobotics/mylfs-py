@@ -1,0 +1,38 @@
+name: cdrtools
+version: 3.02a09
+release: 1
+url: https://downloads.sourceforge.net/cdrtools/cdrtools-3.02a09.tar.bz2
+homepage: https://sourceforge.net/projects/cdrtools/
+license: CDDL-1.0 OR GPL-2.0-only
+summary: CD/DVD/Blu-ray recording and ISO manipulation tools
+description: |
+  cdrtools is a comprehensive package of tools for CD, DVD, and 
+  Blu-ray writing. It includes cdrecord for burning discs, 
+  mkisofs for creating ISO 9660 filesystems, readcd for reading 
+  media, and other tools for verifying and duplicating optical discs.
+phase: 5
+builddeps: [glibc, make, alsa-lib, sed]
+buildsteps: |
+  sed -i 's|/opt/schily|/usr|g'           DEFAULTS/Defaults.linux &&
+  sed -i 's|DEFINSGRP=.*|DEFINSGRP=root|' DEFAULTS/Defaults.linux &&
+  sed -i 's|INSDIR=\s*sbin|INSDIR=bin|'   rscsi/Makefile          &&
+
+  export GMAKE_NOWARN=true &&
+  export CFLAGS="$CFLAGS -std=gnu89 -fno-strict-aliasing" &&
+
+  make -j1 INS_BASE=/usr  \
+          DEFINSUSR=root \
+          DEFINSGRP=root \
+          VERSION_OS="LinuxFromScratch"
+
+  GMAKE_NOWARN=true &&
+
+  make INS_BASE=/usr    \
+      DEFINSUSR=root   \
+      DEFINSGRP=root   \
+      MANSUFF_LIB=3cdr \
+      install          &&
+
+  install -v -m755 -d /usr/share/doc/cdrtools-3.02a09 &&
+  install -v -m644 README.* READMEs/* ABOUT doc/*.ps \
+                      /usr/share/doc/cdrtools-3.02a09

@@ -1,0 +1,24 @@
+name: lxqt-build-tools
+version: 2.2.0
+release: 1
+url: https://github.com/lxqt/lxqt-build-tools/releases/download/2.2.0/lxqt-build-tools-2.2.0.tar.xz
+homepage: https://github.com/lxqt/lxqt-build-tools
+license: BSD-3-Clause
+summary: Build tools and CMake extensions for LXQt
+description: |
+  lxqt-build-tools provide common CMake modules and build scripts
+  used by LXQt and related lightweight desktop projects. They help
+  standardize the build process across the LXQt ecosystem.
+phase: 5
+builddeps: [cmake, qt6, extra-cmake, make]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        .. &&
+
+  make
+
+  make install

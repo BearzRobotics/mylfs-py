@@ -1,0 +1,24 @@
+name: lxqt-config
+version: 2.1.1
+release: 1
+url: https://github.com/lxqt/lxqt-config/releases/download/2.1.1/lxqt-config-2.1.1.tar.xz
+homepage: https://github.com/lxqt/lxqt-config
+license: GPL-2.0-or-later
+summary: Configuration center for the LXQt desktop environment
+description: |
+  lxqt-config provides configuration tools and settings modules
+  for the LXQt desktop environment, including appearance settings,
+  monitor settings, keyboard and mouse configuration, locale, and
+  session settings.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, liblxqt, libqtxdg, libkscreen,  kconfig, xf86-input-libinput]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+
+  make install

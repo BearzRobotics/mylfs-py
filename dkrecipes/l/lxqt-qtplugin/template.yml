@@ -1,0 +1,23 @@
+name: lxqt-qtplugin
+version: 2.1.0
+release: 1
+url: https://github.com/lxqt/lxqt-qtplugin/releases/download/2.1.0/lxqt-qtplugin-2.1.0.tar.xz
+homepage: https://github.com/lxqt/lxqt-qtplugin
+license: LGPL-2.1-or-later
+summary: LXQt Qt Platform integration plugin
+description: |
+  lxqt-qtplugin provides Qt platform plugins for better integration of
+  Qt applications within the LXQt desktop environment. It ensures proper
+  styling, settings application, and system resource access for Qt apps.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, liblxqt, libfm-qt, libdbusmenu-lxqt]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+
+  make install

@@ -1,0 +1,28 @@
+name: librsvg
+version: 2.60.0
+release: 1
+url: https://download.gnome.org/sources/librsvg/2.60/librsvg-2.60.0.tar.xz
+homepage: https://gitlab.gnome.org/GNOME/librsvg
+license: LGPL-2.1-or-later
+summary: SVG rendering library
+description: |
+  Librsvg is a small C and Rust library for rendering SVG files into
+  raster images. It is used in many desktop environments like GNOME
+  for displaying scalable icons and artwork.
+
+phase: 5
+builddeps: [glibc, rust, cairo, pango, gdk-pixbuf, libxml2, glib, vala]
+
+buildsteps: |
+  sed -e "/OUTDIR/s|,| / 'librsvg-2.60.0', '--no-namespace-dir',|" \
+      -e '/output/s|Rsvg-2.0|librsvg-2.60.0|'                      \
+      -i doc/meson.build
+
+
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+  ninja
+
+  ninja install

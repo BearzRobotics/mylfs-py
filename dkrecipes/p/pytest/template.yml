@@ -1,0 +1,18 @@
+name: pytest
+version: 8.3.5
+release: 1
+url: https://files.pythonhosted.org/packages/source/p/pytest/pytest-8.3.5.tar.gz
+homepage: https://docs.pytest.org/
+license: MIT
+summary: Framework for writing and running test cases in Python
+description: |
+  pytest is a mature full-featured Python testing tool that helps you write
+  simple and scalable test cases. It supports fixtures, parameterized testing,
+  test discovery, and plugins to extend its functionality.
+
+phase: 5
+builddeps: [glibc, python, python-wheel, iniconfig, packaging, pluggy, setuptools-scm]
+
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user pytest

@@ -1,0 +1,23 @@
+name: lxqt-runner
+version: 2.1.2
+release: 1
+url: https://github.com/lxqt/lxqt-runner/releases/download/2.1.2/lxqt-runner-2.1.2.tar.xz
+homepage: https://github.com/lxqt/lxqt-runner
+license: GPL-2.0-or-later
+summary: Lightweight application launcher for LXQt
+description: |
+  lxqt-runner is a simple and fast application launcher dialog
+  for the LXQt desktop environment. It provides command execution 
+  and basic autocompletion based on installed applications.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, lxqt-globalkeys, kwindowsystem,  muparser, extra-cmake]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+
+  make install

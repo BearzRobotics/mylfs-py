@@ -1,0 +1,25 @@
+name: openjpeg
+version: 2.5.3
+release: 1
+url: https://github.com/uclouvain/openjpeg/archive/v2.5.3/openjpeg-2.5.3.tar.gz
+homepage: https://github.com/uclouvain/openjpeg
+license: BSD-2-Clause
+summary: JPEG 2000 image codec library
+description: |
+  OpenJPEG is an open-source library implementing the JPEG 2000 
+  image compression standard. It provides tools for encoding and 
+  decoding JPEG 2000 images with support for lossless and lossy 
+  compression, multithreading, and color management.
+phase: 5
+builddeps: [glibc, cmake, libpng, libtiff, make, lcms]
+buildsteps: |
+  mkdir -v build &&
+  cd       build &&
+
+  cmake -D CMAKE_BUILD_TYPE=Release  \
+        -D CMAKE_INSTALL_PREFIX=/usr \
+        -D BUILD_STATIC_LIBS=OFF ..  &&
+  make
+
+  make install &&
+  cp -rv ../doc/man -T /usr/share/man

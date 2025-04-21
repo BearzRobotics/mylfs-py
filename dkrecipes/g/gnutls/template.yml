@@ -1,0 +1,22 @@
+name: gnutls
+version: 3.8.9
+release: 1
+url: https://www.gnupg.org/ftp/gcrypt/gnutls/v3.8/gnutls-3.8.9.tar.xz
+homepage: https://www.gnutls.org/
+license: LGPL-2.1-or-later
+summary: GNU TLS library
+description: |
+  GnuTLS is a secure communications library implementing SSL, TLS, and DTLS protocols.
+  It provides cryptographic building blocks and APIs for secure network communications
+  and is designed to be portable and flexible.
+
+phase: 5
+builddeps: [glibc, make, pkgconfig, nettle, libtasn1, libunistring, p11kit, zlib, brotli]
+
+buildsteps: |
+  ./configure --prefix=/usr \
+              --docdir=/usr/share/doc/gnutls-3.8.9 \
+              --with-default-trust-store-pkcs11="pkcs11:" &&
+  make
+
+  make install

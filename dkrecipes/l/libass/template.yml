@@ -11,7 +11,7 @@ description: |
 
 phase: 5
 # harfbuzz was marked optional -- Not building for me right now.
-builddeps: [glibc, fontconfig, freetype2, fribidi, make, nasm]
+builddeps: [glibc, fontconfig, freetype2, fribidi, make, nasm, harfbuzz]
 
 buildsteps: |
   ./configure --prefix=/usr --disable-static

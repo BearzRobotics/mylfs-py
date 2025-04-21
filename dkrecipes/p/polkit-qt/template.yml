@@ -1,0 +1,24 @@
+name: polkit-qt
+version: 0.200.0
+release: 1
+url: https://download.kde.org/stable/polkit-qt-1/polkit-qt-1-0.200.0.tar.xz
+homepage: https://invent.kde.org/libraries/polkit-qt-1
+license: LGPL-2.1-or-later
+summary: Qt wrapper around PolicyKit authorization framework
+description: |
+  polkit-qt-1 provides a Qt-style API for accessing the PolicyKit
+  authorization framework. It allows Qt applications to check and 
+  request privileges easily and securely.
+phase: 5
+builddeps: [qt6, polkit, glibc, cmake, extra-cmake]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        -D QT_MAJOR_VERSION=6        \
+        -W no-dev .. &&
+  make
+
+  make install

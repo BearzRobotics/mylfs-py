@@ -1,0 +1,22 @@
+name: libxmlb
+version: 0.3.22
+release: 1
+url: https://github.com/hughsie/libxmlb/releases/download/0.3.22/libxmlb-0.3.22.tar.xz
+homepage: https://github.com/hughsie/libxmlb
+license: LGPL-2.1-or-later
+summary: Binary XML library for fast metadata access
+description: |
+  libxmlb is a library designed to create and query binary XML blobs 
+  for faster access to metadata. It is used primarily by projects 
+  such as fwupd, GNOME Software, and AppStream to efficiently 
+  access structured data.
+phase: 5
+builddeps: [glibc, glib, meson, ninja, pkgconfig]
+buildsteps: |
+  mkdir build
+  cd    build
+
+  meson setup --prefix=/usr --buildtype=release -D gtkdoc=false ..
+  ninja
+
+  ninja install

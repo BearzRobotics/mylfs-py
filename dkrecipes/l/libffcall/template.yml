@@ -1,0 +1,18 @@
+name: libffcall
+version: 2.5
+release: 1
+url: https://ftp.gnu.org/gnu/libffcall/libffcall-2.5.tar.gz
+homepage: https://www.gnu.org/software/libffcall/
+license: GPL-2.0-or-later
+summary: Foreign function call libraries for interpreters
+description: |
+  libffcall is a collection of four libraries which offer foreign function 
+  interfaces: calling C functions with variable arguments, closures with variable 
+  arguments, and dynamic call generation. It is useful for language interpreters 
+  that need to call compiled C functions.
+phase: 5
+builddeps: [glibc, make]
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

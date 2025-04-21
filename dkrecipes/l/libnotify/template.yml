@@ -1,0 +1,30 @@
+name: libnotify
+version: 0.8.6
+release: 1
+url: https://download.gnome.org/sources/libnotify/0.8/libnotify-0.8.6.tar.xz
+homepage: https://gitlab.gnome.org/GNOME/libnotify
+license: LGPL-2.1-or-later
+summary: Library for sending desktop notifications
+description: |
+  libnotify is a library that sends desktop notifications 
+  to a notification daemon, according to the Desktop 
+  Notifications Specification. It allows applications to 
+  inform users about events asynchronously.
+phase: 5
+builddeps: [glibc, glib, gtk3, pkgconfig, meson, ninja, xmlto]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr       \
+              --buildtype=release \
+              -D gtk_doc=false    \
+              -D man=false        \
+              ..                  &&
+  ninja
+
+  ninja install &&
+  if [ -e /usr/share/doc/libnotify ]; then
+    rm -rf /usr/share/doc/libnotify-0.8.6
+    mv -v  /usr/share/doc/libnotify{,-0.8.6}
+  fi

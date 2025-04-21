@@ -10,7 +10,6 @@ description: |
   FFmpeg is a powerful multimedia framework that can decode, encode, transcode, mux, demux, stream, filter and play almost anything that humans and machines have created. It supports the most obscure ancient formats up to the cutting edge.
 
 phase: 5
-buildsystem: configure
 builddeps: [glibc, nasm, zlib, x264, x265, fdk-aac, libvpx, opus, libvorbis, lame, libaom, xz, make, alsa-lib, freetype2]
 
 buildsteps: |

@@ -1,0 +1,28 @@
+name: gst-plugins-bad
+version: 1.24.12
+release: 1
+url: https://gstreamer.freedesktop.org/src/gst-plugins-bad/gst-plugins-bad-1.24.12.tar.xz
+homepage: https://gstreamer.freedesktop.org/
+
+license: LGPL-2.1-or-later
+summary: GStreamer "bad" plugin set (experimental/less tested plugins)
+description: |
+  gst-plugins-bad is a set of plug-ins for GStreamer that aren't up to par compared to the rest. It contains experimental and less-tested plugins, including gstreamer-player, which is required by newer versions of GTK4 for video playback widgets.
+
+phase: 5
+builddeps: [glibc, meson, ninja, gstreamer, gst-plugins-base, libdvdread, libdvdnav,  libva,
+  curl, fdk-aac, json-glib, lcms, libaom, libass, librsvg, libsoup, libsndfile, libssh2, libusb, libwebp, libxkbcommon,
+  nettle, openjpeg, opus, sbc, valgrind, vulkan-loader, shaderc, wayland, soundtouch
+  ]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..            \
+        --prefix=/usr       \
+        --buildtype=release \
+        -D gpl=enabled      &&
+  ninja
+
+  ninja install

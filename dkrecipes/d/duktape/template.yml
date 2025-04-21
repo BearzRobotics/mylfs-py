@@ -1,0 +1,20 @@
+name: duktape
+version: 2.7.0
+release: 1
+url: https://duktape.org/duktape-2.7.0.tar.xz
+homepage: https://duktape.org/
+license: MIT
+summary: Embeddable JavaScript engine
+description: |
+  Duktape is an embeddable JavaScript engine with a focus on portability
+  and compact footprint. It is designed for integrating into C/C++ projects,
+  with minimal external dependencies and a simple API.
+
+phase: 5
+builddeps: [glibc, make, sed]
+
+buildsteps: |
+  sed -i 's/-Os/-O2/' Makefile.sharedlibrary
+  make -f Makefile.sharedlibrary INSTALL_PREFIX=/usr
+
+  make -f Makefile.sharedlibrary INSTALL_PREFIX=/usr install

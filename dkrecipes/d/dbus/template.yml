@@ -28,27 +28,20 @@ buildsteps: |
   ninja
   ninja install
 
-  hown -v root:messagebus /usr/libexec/dbus-daemon-launch-helper &&
+  chown -v root:messagebus /usr/libexec/dbus-daemon-launch-helper &&
   chmod -v      4750       /usr/libexec/dbus-daemon-launch-helper
 
   dbus-uuidgen --ensure
 
   ln -sfv /var/lib/dbus/machine-id /etc
 
+  cd ..
+  mkdir -pv /etc/dbus-1/
+  install -m 644 ../static/session-local.conf /etc/dbus-1/session-local.conf 
+
   # bootup
-  mkdir bootscripts
-  cd bootscripts
-  tar -xf ../../blfs-bootscripts-20250225.tar.xz
+  tar -xf ../blfs-bootscripts-20250225.tar.xz
+  cd blfs-bootscripts-20250225
   make install-dbus
 
-  cat > /etc/dbus-1/session-local.conf << "EOF"
-  <!DOCTYPE busconfig PUBLIC
-  "-//freedesktop//DTD D-BUS Bus Configuration 1.0//EN"
-  "http://www.freedesktop.org/standards/dbus/1.0/busconfig.dtd">
-  <busconfig>
-
-    <!-- Search for .service files in /usr/local -->
-    <servicedir>/usr/local/share/dbus-1/services</servicedir>
-
-  </busconfig>
-  EOF
+  

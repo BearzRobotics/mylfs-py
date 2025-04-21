@@ -1,0 +1,20 @@
+name: libexif
+version: 0.6.25
+release: 1
+url: https://github.com/libexif/libexif/releases/download/v0.6.25/libexif-0.6.25.tar.bz2
+homepage: https://libexif.github.io/
+license: LGPL-2.1-or-later
+summary: Library for parsing EXIF metadata from image files
+description: |
+  libexif provides functions for reading and writing EXIF metadata
+  embedded in image files such as JPEGs. It is used by image viewers,
+  editors, and file managers to extract camera information, timestamps,
+  and other metadata.
+phase: 5
+builddeps: [glibc, make, doxygen, graphviz]
+buildsteps: |
+  ./configure --prefix=/usr    \
+              --disable-static \
+              --with-doc-dir=/usr/share/doc/libexif-{version}
+  make
+  make install

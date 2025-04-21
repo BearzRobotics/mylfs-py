@@ -1,0 +1,19 @@
+name: libqmi
+version: 1.30.8
+release: 1
+url: https://www.freedesktop.org/software/libqmi/libqmi-1.30.8.tar.xz
+homepage: https://www.freedesktop.org/wiki/Software/libqmi/
+license: LGPL-2.1-or-later
+summary: Library and utilities for QMI protocol modems
+description: |
+  libqmi provides a GLib-based C library for communicating with 
+  mobile broadband modems using the Qualcomm MSM Interface (QMI) 
+  protocol. It includes utilities to send raw and structured QMI 
+  messages to modems.
+phase: 5
+builddeps: [glibc, make, glib, dbus, libmbim, help2man, libgudev, python]
+buildsteps: |
+  PYTHON=python3 ./configure --prefix=/usr --disable-static &&
+  make
+
+  make install

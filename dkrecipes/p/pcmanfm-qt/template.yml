@@ -1,0 +1,30 @@
+name: pcmanfm-qt
+version: 2.1.0
+release: 1
+url: https://github.com/lxqt/pcmanfm-qt/releases/download/2.1.0/pcmanfm-qt-2.1.0.tar.xz
+homepage: https://github.com/lxqt/pcmanfm-qt
+license: GPL-2.0-or-later
+summary: File manager for the LXQt desktop environment
+description: |
+  pcmanfm-qt is a lightweight, fast file manager developed as part
+  of the LXQt project. It provides a simple and efficient interface
+  for file operations, desktop management, and device browsing.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, layer-shell-qt, liblxqt, libfm-qt, lxqt-menu-data]
+buildsteps: |
+  if [   -e /opt/kf6/lib/libLayerShellQtInterface.so -a \
+      ! -e /usr/lib/libLayerShellQtInterface.so ]; then
+
+      ln -sv /opt/kf6/lib/libLayerShellQtInterface.so \
+            /usr/lib/libLayerShellQtInterface.so
+  fi
+
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           &&
+  make
+
+  make install

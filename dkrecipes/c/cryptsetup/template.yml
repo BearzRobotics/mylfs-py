@@ -1,0 +1,19 @@
+name: cryptsetup
+version: 2.7.5
+release: 1
+url: https://www.kernel.org/pub/linux/utils/cryptsetup/v2.7/cryptsetup-2.7.5.tar.xz
+homepage: https://gitlab.com/cryptsetup/cryptsetup
+license: GPL-2.0-or-later
+summary: LUKS and disk encryption setup tool
+description: |
+  cryptsetup is a utility for setting up disk encryption using the
+  dm-crypt kernel module and the LUKS (Linux Unified Key Setup) standard.
+  It supports creating, formatting, unlocking, and managing encrypted
+  storage volumes.
+phase: 5
+builddeps: [glib, glibc, lvm2, openssl, popt, json-c, asciidoctor, libssh]
+buildsteps: |
+  sh autogen.sh
+  ./configure --prefix=/usr
+  make
+  make install

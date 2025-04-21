@@ -1,0 +1,26 @@
+# version 4.1.0 was broken. 
+# lxqt-build-tools also had to be upgraded
+name: libqtxdg
+version: 4.2.0
+release: 1
+url: https://github.com/lxqt/libqtxdg/releases/download/4.2.0/libqtxdg-4.2.0.tar.xz
+homepage: https://github.com/lxqt/libqtxdg
+license: LGPL-2.1-or-later
+summary: Qt implementation of freedesktop.org standards for LXQt
+description: |
+  libqtxdg provides Qt-based utilities and abstractions for freedesktop.org
+  XDG standards such as desktop entries, user directories, MIME types, 
+  and icon themes. It is used by LXQt and lightweight Qt applications.
+phase: 5
+builddeps: [qt6, glibc, cmake, xterm, lxqt-build-tools]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..       
+
+  make
+
+  make install

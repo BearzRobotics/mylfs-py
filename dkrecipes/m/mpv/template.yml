@@ -1,0 +1,31 @@
+name: mpv
+version: 0.40.0
+release: 1
+url: https://github.com/mpv-player/mpv/archive/v0.40.0/mpv-0.40.0.tar.gz
+homepage: https://mpv.io/
+license: GPL-2.0-or-later
+summary: GPU-accelerated media player based on MPlayer and FFmpeg
+description: |
+  mpv is a free, open-source, and highly configurable media player 
+  based on MPlayer and FFmpeg. It supports a wide variety of video 
+  and audio formats, offers GPU video decoding, HDR tone mapping, 
+  and advanced rendering with libplacebo and Vulkan/OpenGL.
+phase: 5
+builddeps: [
+  glibc, ffmpeg, lua, libass, libplacebo, xorg-libs, xorg-apps, mesa, vulkan-headers, vulkan-loader,
+  libdrm, wayland, wayland-protocols, zlib, libjpeg-turbo, libarchive, luajit, pipewire, sdl2, docutils,
+  pkgconfig, python, libvdpau, uchardet, libdvdcss, libdvdnav, libdvdread
+]
+buildsteps: |
+  sed -i 's/AV_OPT_TYPE_CHANNEL_LAYOUT/AV_OPT_TYPE_CHLAYOUT/' filters/f_lavfi.c
+
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr       \
+              --buildtype=release \
+              -D x11=enabled      \
+              ..                  &&
+  ninja
+
+  ninja install

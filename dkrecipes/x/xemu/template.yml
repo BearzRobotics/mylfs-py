@@ -1,0 +1,23 @@
+name: xemu
+version: 0.8.54
+release: 1
+url: https://github.com/xemu-project/xemu/archive/refs/tags/v0.8.54.tar.gz
+homepage: https://xemu.app/
+license: GPL-2.0-or-later
+summary: Original Xbox emulator
+description: |
+  xemu is an open-source, cross-platform emulator for the original 
+  Xbox console (2001). It focuses on providing accurate emulation, 
+  support for a wide variety of Xbox games, and high performance 
+  through OpenGL and Vulkan backends.
+# There is no phase 6. This took a long time to build and I need to focus on other things
+phase: 6
+# I assume this has the same build deps as qemu
+builddeps: [glib, pixman, libslirp, dtc, alsa-lib, sdl2, libjpeg-turbo, libpng,
+   lzo, fuse, nettle, mesa, libaio, libusb, gtk3, bridge-utils, libpcap, keyutils, glu, git]
+
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install
+

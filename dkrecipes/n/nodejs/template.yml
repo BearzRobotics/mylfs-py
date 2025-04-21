@@ -1,0 +1,28 @@
+name: nodejs
+version: 22.14.0
+release: 1
+url: https://nodejs.org/dist/v22.14.0/node-v22.14.0.tar.xz
+homepage: https://nodejs.org/
+
+license: MIT
+summary: JavaScript runtime built on Chrome's V8 JavaScript engine
+description: |
+  Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. It allows developers to use JavaScript to write command-line tools and server-side scripting outside of a browser.
+
+phase: 5
+
+builddeps: [python, glibc, zlib, openssl, libuv, which, brotli, c-ares, icu, nghttp2]
+
+buildsteps: |
+  ./configure --prefix=/usr          \
+              --shared-brotli        \
+              --shared-cares         \
+              --shared-libuv         \
+              --shared-openssl       \
+              --shared-nghttp2       \
+              --shared-zlib          \
+              --with-intl=system-icu
+  make
+
+  make install &&
+  ln -sf node /usr/share/doc/node-{version}

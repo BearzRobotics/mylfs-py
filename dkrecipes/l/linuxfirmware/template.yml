@@ -1,0 +1,17 @@
+# There was a wired bug where if I had linux-firmware it would break 
+name: linuxfirmware
+version: 20250410
+release: 1
+url: https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot/linux-firmware-20250410.tar.gz
+homepage: https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git
+
+license: Various
+summary: Linux firmware blobs
+description: |
+  Collection of binary firmware blobs used by the Linux kernel for hardware devices.
+  Snapshot mirror of linux-firmware.git hosted by LFS project.
+phase: 5
+
+buildsteps: |
+  tar -xvf ../linux-firmware-20250410.tar.gz -C /lib/firmware --strip-component=1
+  

@@ -1,0 +1,30 @@
+name: bridge-utils
+version: 1.7.1
+release: 1
+url:
+  - https://www.kernel.org/pub/linux/utils/net/bridge-utils/bridge-utils-1.7.1.tar.xz
+  - https://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-20250225.tar.xz
+homepage: https://www.linuxfoundation.org/
+license: GPL-2.0-only
+summary: Utilities for configuring Ethernet bridges
+description: |
+  The bridge-utils package contains utilities for configuring and managing
+  network bridge devices in Linux. These devices can connect multiple network
+  segments at the data link layer.
+
+builddeps: [glibc]
+phase: 5
+
+buildsteps: |
+  autoconf                  
+  ./configure --prefix=/usr 
+  make
+
+  make install
+
+  # bootscripts
+  #tar -xf ../blfs-bootscripts-20250225.tar.xz
+  #cd blfs-bootscripts-20250225
+  #make install-service-bridge
+
+  #install -m644 ../static/ifconfig.br0 /etc/sysconfig/ifconfig.br0

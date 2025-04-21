@@ -1,0 +1,25 @@
+# This is being added to make it easier to use a verison 
+# of rust not shipped with BLFS or a backend you would rather not build
+# as it takes a long time. -- This is not a replacement for the system
+# rust compiler in /opt/rust. If a system package requires a new rust version 
+# you should up grade the system rust compiler.
+
+name: rustup
+version: 1.28.1
+release: 1
+url: https://github.com/rust-lang/rustup/archive/refs/tags/1.28.1.tar.gz
+homepage: https://github.com/rust-lang/rustup
+license: Apache-2.0 OR MIT
+summary: Rust toolchain installer and version manager
+description: |
+  rustup is the official tool for installing, managing, and updating 
+  Rust toolchains and related components. It allows developers to easily 
+  switch between multiple versions of Rust, cross-compile to different 
+  targets, and manage nightly/stable/beta channels.
+phase: 5
+builddeps: [rust]
+buildsteps: |
+  source /etc/profile
+  
+  cargo build --release
+  install -Dm755 target/release/rustup-init /usr/bin/rustup

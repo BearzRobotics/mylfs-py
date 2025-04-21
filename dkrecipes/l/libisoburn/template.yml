@@ -1,0 +1,26 @@
+name: libisoburn
+version: 1.5.6
+release: 1
+url: https://files.libburnia-project.org/releases/libisoburn-1.5.6.tar.gz
+homepage: https://dev.lovelyhq.com/libburnia/web/wiki
+license: GPL-2.0-or-later
+summary: Library and frontend for editing and burning ISO images
+description: |
+  libisoburn provides a frontend to libburn and libisofs to enable 
+  creation, modification, and burning of ISO 9660 filesystem images. 
+  It allows for direct editing of existing ISO images and mastering 
+  of new images without the need for intermediate staging areas.
+phase: 5
+builddeps: [glibc, libburn, libisofs, zlib, pkgconfig, doxygen]
+buildsteps: |
+  ./configure --prefix=/usr              \
+              --disable-static           \
+              --enable-pkg-check-modules &&
+  make
+
+  doxygen doc/doxygen.conf
+
+  make install
+
+  install -v -dm755 /usr/share/doc/libisoburn-1.5.6 
+  install -v -m644 doc/html/* /usr/share/doc/libisoburn-1.5.6

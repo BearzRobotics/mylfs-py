@@ -1,0 +1,21 @@
+name: hexpatch
+version: 1.11.1
+release: 1
+url: https://github.com/Etto48/HexPatch/archive/refs/tags/v1.11.1.tar.gz
+homepage: https://github.com/Etto48/HexPatch
+license: GPL-3.0-or-later
+summary: Minimal terminal hex editor and patcher
+description: |
+  HexPatch is a lightweight, fast, and modern terminal-based hex 
+  editor written in rust It supports editing, searching, 
+  patching, and navigating binary files with a simple TUI
+  interface, making it ideal for reverse engineering, patching, 
+  and binary file analysis.
+phase: 5
+builddeps: [rust, cmake-legacy]
+buildsteps: |
+  source /etc/profile
+  export PATH=/opt/cmake-3.31.7/bin:$PATH
+
+  cargo build --release
+  install -m755 target/release/hex-patch /usr/bin/hex-patch

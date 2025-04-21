@@ -1,0 +1,71 @@
+name: wireplumber
+version: 0.5.8
+release: 1
+url: https://gitlab.freedesktop.org/pipewire/wireplumber/-/archive/0.5.8/wireplumber-0.5.8.tar.bz2
+homepage: https://pipewire.pages.freedesktop.org/wireplumber/
+license: MIT
+summary: Session and policy manager for PipeWire
+description: |
+  WirePlumber is the modular session and policy manager for PipeWire.
+  It is responsible for managing audio and video devices, stream routing,
+  and policy enforcement in PipeWire-based multimedia systems.
+phase: 5
+builddeps: [glibc, glib, lua, dbus, pipewire, meson, ninja, lxml]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  meson setup --prefix=/usr --buildtype=release -D system-lua=true .. 
+  ninja
+
+  ninja install
+
+  mv -v /usr/share/doc/wireplumber{,-0.5.8}
+
+  rm -vf /etc/xdg/autostart/pulseaudio.desktop         &&
+  rm -vf /etc/xdg/Xwayland-session.d/00-pulseaudio-x11 &&
+  sed -e '$a autospawn = no' -i /etc/pulse/client.conf
+
+  cat > /usr/bin/pipewire-launcher.sh << "EOF"
+  #!/bin/sh
+  # Begin /usr/bin/pipewire-launcher.sh
+
+  # First, kill any previous instances of pipewire, wireplumber, or pipewire-pulse
+  # that are running. Multiple instances of the daemon can not be run at the same
+  # time, and this helps prevent possible errors if a user logs out or logs in
+  # too fast, and restores audio if Pipewire hangs and needs to be reset.
+
+  pkill -u ${USER} -fx /usr/bin/pipewire-pulse
+  pkill -u ${USER} -fx /usr/bin/wireplumber
+  pkill -u ${USER} -fx /usr/bin/pipewire
+
+  # Start Pipewire first.
+  exec /usr/bin/pipewire &
+
+  # Next, we need to wait until pipewire is up before starting wireplumber.
+  # This prevents a possible race condition where pipewire takes too long
+  # to start, as some users have run into.
+  while [ $(pgrep -f /usr/bin/pipewire) = "" ]; do
+    sleep 1
+  done
+
+  # Start Wireplumber now that Pipewire has been started.
+  exec /usr/bin/wireplumber &
+
+  # Start the Pulseaudio server included with Pipewire.
+  exec /usr/bin/pipewire-pulse &
+
+  # End /usr/bin/pipewire-launcher.sh
+  EOF
+
+  chmod +x /usr/bin/pipewire-launcher.sh
+
+  cat > /etc/xdg/autostart/pipewire.desktop << "EOF"
+  [Desktop Entry]
+  Version=1.0
+  Name=Pipewire
+  Comment=Starts the Pipewire and Wireplumber daemons
+  Exec=/usr/bin/pipewire-launcher.sh
+  Terminal=false
+  Type=Application
+  EOF

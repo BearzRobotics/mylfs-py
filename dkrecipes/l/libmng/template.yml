@@ -1,0 +1,23 @@
+name: libmng
+version: 2.0.3
+release: 1
+url: https://downloads.sourceforge.net/libmng/libmng-2.0.3.tar.xz
+homepage: http://libmng.sourceforge.net/
+license: zlib/libpng License
+summary: Library for handling Multiple-Image Network Graphics (MNG) format files
+description: |
+  Libmng is a library for reading, displaying, writing, and examining
+  Multiple-Image Network Graphics (MNG) files. MNG is an extension of PNG
+  that supports animations, similar to animated GIFs but based on the PNG format.
+
+phase: 5
+builddeps: [glibc, make, libjpeg-turbo, zlib, lcms]
+
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make
+
+  make install 
+
+  install -v -m755 -d        /usr/share/doc/libmng-2.0.3 
+  install -v -m644 doc/*.txt /usr/share/doc/libmng-2.0.3

@@ -1,0 +1,18 @@
+name: libconfuse
+version: 3.3
+release: 1
+url: https://github.com/libconfuse/libconfuse/archive/refs/tags/v3.3.tar.gz
+homepage: https://github.com/libconfuse/libconfuse
+license: ISC
+summary: C library for parsing structured configuration files
+description: |
+  libconfuse is a configuration file parser library written in C. It supports
+  sections and (sub)sections, lists of values, default values, and includes.
+  It is flexible enough to handle more complex configuration formats than .ini files.
+phase: 5
+builddeps: [glibc, make, gcc ]
+buildsteps: |
+  sh autogen.sh
+  ./configure --prefix=/usr
+  make
+  make install

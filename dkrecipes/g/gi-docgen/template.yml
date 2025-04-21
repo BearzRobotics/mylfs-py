@@ -1,0 +1,20 @@
+name: gi-docgen
+version: 2025.3
+release: 1
+url: https://files.pythonhosted.org/packages/source/g/gi-docgen/gi_docgen-2025.3.tar.gz
+homepage: https://gitlab.gnome.org/GNOME/gi-docgen
+
+license: Apache-2.0
+summary: Documentation tool for GObject-based libraries
+description: |
+  gi-docgen is a documentation generator for GObject-based libraries,
+  using introspection data and Markdown to produce modern and
+  user-friendly documentation websites.
+
+phase: 5
+
+builddeps: [python-setuptools, python-wheel, python, typogrify,  pygments, packaging, markdown, graphviz]
+
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user gi-docgen

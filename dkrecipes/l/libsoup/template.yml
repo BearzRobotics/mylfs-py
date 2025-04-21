@@ -1,0 +1,28 @@
+name: libsoup
+version: 3.6.5
+release: 1
+url: https://download.gnome.org/sources/libsoup/3.6/libsoup-3.6.5.tar.xz
+homepage: https://gitlab.gnome.org/GNOME/libsoup
+license: LGPL-2.1-or-later
+summary: HTTP client/server library for GNOME
+description: |
+  libsoup is an HTTP client and server library for GNOME applications 
+  and other GLib-based software. It uses glib-networking and GIO for 
+  asynchronous I/O, supporting HTTP/1.1 and HTTP/2 protocols, 
+  with support for secure HTTPS connections.
+phase: 5
+builddeps: [glibc, glib, glib-networking, gnutls, sqlite, pkgconfig, meson, 
+  ninja, python, sqlite, libpsl, libxml2, vala, brotli, sed]
+buildsteps: |
+  sed 's/apiversion/soup_version/' -i docs/reference/meson.build
+
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr          \
+              --buildtype=release    \
+              --wrap-mode=nofallback \
+              ..                     &&
+  ninja
+
+  ninja install

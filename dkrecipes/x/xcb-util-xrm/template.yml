@@ -1,0 +1,21 @@
+name: xcb-util-xrm
+version: 1.3
+release: 1
+url: https://github.com/Airblader/xcb-util-xrm/releases/download/v1.3/xcb-util-xrm-1.3.tar.gz
+homepage: https://github.com/Airblader/xcb-util-xrm
+license: MIT
+summary: X resource manager (Xresources) support for XCB-based applications
+description: |
+  xcb-util-xrm provides a small utility library that adds 
+  Xresource file (Xresources) support for XCB applications. 
+  It enables programs using XCB to easily read configuration 
+  from ~/.Xresources or X server properties.
+phase: 5
+builddeps: [glibc, pkgconfig, libxcb, xcb-util, 
+  xcb-utilities, xorg-libs]
+buildsteps: |
+  source /etc/profile
+
+  ./configure  $XORG_CONFIG
+  make
+  make install

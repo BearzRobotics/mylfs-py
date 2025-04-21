@@ -1,15 +1,19 @@
 name: zip
 version: 3.0
 release: 1
-url: https://downloads.sourceforge.net/infozip/unzip60.tar.gz
-homepage: https://downloads.sourceforge.net/infozip
+url: https://downloads.sourceforge.net/infozip/zip30.tar.gz
+homepage: https://infozip.sourceforge.net/
 license: Info-ZIP
-summary: Create zip archives
+summary: Compression and file packaging utility
 description: |
-  Create zip archives
+  Zip is a compression and file packaging utility for Unix-based systems.
+  It creates .zip archives compatible with PKZIP. It is often used to compress
+  multiple files into a single archive with optional encryption and compression.
+
 phase: 5
-buildsteps: |-
+builddeps: [glibc, gcc, make]
+
+buildsteps: |
   make -f unix/Makefile generic CC="gcc -std=gnu89"
 
   make prefix=/usr MANDIR=/usr/share/man/man1 -f unix/Makefile install
-builddeps: []

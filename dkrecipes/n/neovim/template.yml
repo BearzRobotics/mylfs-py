@@ -15,13 +15,9 @@ builddeps: [glibc, cmake, gettext, luv, libvterm, msgpack, tree-sitter,
   lua51, luajit, icu, unibilium, lua, lpeg, pkgconfig]
 
 buildsteps: |
-  cmake -S . -B build \
-    -DCMAKE_BUILD_TYPE=Release \
-    -DCMAKE_INSTALL_PREFIX=/usr
+  make CMAKE_BUILD_TYPE=RelWithDebInfo 
 
-  cmake --build build
-
-  cmake --install build
+  make CMAKE_INSTALL_PREFIX=/usr install
 
 
 

@@ -1,0 +1,24 @@
+name: xdg-desktop-portal-lxqt
+version: 1.1.0
+release: 1
+url: https://github.com/lxqt/xdg-desktop-portal-lxqt/releases/download/1.1.0/xdg-desktop-portal-lxqt-1.1.0.tar.xz
+homepage: https://github.com/lxqt/xdg-desktop-portal-lxqt
+license: LGPL-2.1-or-later
+summary: LXQt backend implementation for xdg-desktop-portal
+description: |
+  xdg-desktop-portal-lxqt implements a backend for the xdg-desktop-portal 
+  specification for the LXQt desktop environment. It provides integration
+  for file chooser dialogs, screenshots, screen sharing, and other services
+  needed by sandboxed applications and Wayland sessions.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, liblxqt, kwindowsystem]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+
+  make install

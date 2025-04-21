@@ -1,0 +1,18 @@
+name: wireless-tools
+version: 29
+release: 1
+url: https://hewlettpackard.github.io/wireless-tools/wireless_tools.29.tar.gz
+homepage: https://hewlettpackard.github.io/wireless-tools/
+license: GPL-2.0-or-later
+summary: Tools for manipulating Linux Wireless Extensions
+description: |
+  Wireless Tools are utilities to configure and manage wireless network
+  interfaces using the legacy Linux Wireless Extensions (WEXT) interface.
+
+builddeps: [glibc, make, patch]
+
+buildsteps: |
+  patch -Np1 -i ../patches/wireless_tools-29-fix_iwlist_scanning-1.patch
+  make
+
+  make PREFIX=/usr INSTALL_MAN=/usr/share/man install

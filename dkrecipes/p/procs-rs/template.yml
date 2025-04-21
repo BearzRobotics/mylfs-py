@@ -1,0 +1,18 @@
+name: procs-rs
+version: 0.14.10
+release: 1
+url: https://github.com/dalance/procs/archive/refs/tags/v0.14.10.tar.gz
+homepage: https://github.com/dalance/procs
+license: MIT OR Apache-2.0
+summary: Modern replacement for ps written in Rust
+description: |
+  procs is a modern, colorful replacement for the traditional ps command. 
+  It provides an intuitive and customizable view of running processes, 
+  including CPU usage, memory usage, user, command-line arguments, and more.
+phase: 5
+builddeps: [rust]
+buildsteps: |
+  source /etc/profile
+
+  cargo build --release
+  install -Dm755 target/release/procs /usr/bin/procs

@@ -1,0 +1,23 @@
+name: obconf-qt
+version: 0.16.5
+release: 1
+url: https://github.com/lxqt/obconf-qt/releases/download/0.16.5/obconf-qt-0.16.5.tar.xz
+homepage: https://github.com/lxqt/obconf-qt
+license: GPL-2.0-or-later
+summary: Qt-based Openbox configuration tool for LXQt
+description: |
+  obconf-qt is a Qt port of the original obconf utility, allowing 
+  users to configure Openbox settings through a graphical interface. 
+  It integrates well with LXQt and provides options for theming, 
+  keyboard shortcuts, window focus behavior, and margins.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, hicolor-icon-theme, openbox]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+  make install

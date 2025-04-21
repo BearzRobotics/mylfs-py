@@ -1,0 +1,19 @@
+name: imlib2
+version: 1.12.5
+release: 1
+url: https://downloads.sourceforge.net/enlightenment/imlib2-1.12.5.tar.xz
+homepage: https://docs.enlightenment.org/api/imlib2/html/
+license: BSD-2-Clause
+summary: Image loading, rendering, and manipulation library
+description: |
+  imlib2 is an advanced replacement for Imlib, providing a lightweight,
+  fast, and customizable image loading and rendering library. It supports
+  multiple image formats and is widely used in file managers, compositors,
+  and lightweight desktop environments.
+phase: 5
+builddeps: [glibc, make, freetype2, libjpeg-turbo, libpng, giflib, libtiff, zlib, pkgconfig, highway, librsvg, libjxl, xorg-libs]
+buildsteps: |
+  ./configure --prefix=/usr --disable-static 
+  make
+
+  make install

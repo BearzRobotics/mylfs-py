@@ -1,0 +1,21 @@
+name: libdvdnav
+version: 6.1.1
+release: 1
+url: https://get.videolan.org/libdvdnav/6.1.1/libdvdnav-6.1.1.tar.bz2
+homepage: https://www.videolan.org/developers/libdvdnav.html
+license: GPL-2.0-or-later
+summary: DVD navigation library
+description: |
+  libdvdnav is a library that allows seamless navigation of DVD menus, 
+  titles, and chapters. Built on top of libdvdread, it provides 
+  functionality for interactive menu support, allowing media players 
+  to mimic the behavior of standalone DVD players.
+phase: 5
+builddeps: [glibc, pkgconfig, libdvdread]
+buildsteps: |
+  ./configure --prefix=/usr    \
+              --disable-static \
+              --docdir=/usr/share/doc/libdvdnav-6.1.1 &&
+  make
+
+  make install

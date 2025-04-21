@@ -1,0 +1,22 @@
+name: udisks
+version: 2.10.1
+release: 1
+url: https://github.com/storaged-project/udisks/releases/download/udisks-2.10.1/udisks-2.10.1.tar.bz2
+homepage: https://github.com/storaged-project/udisks
+license: GPL-2.0-or-later
+summary: Disk management service for Linux systems
+description: |
+  udisks provides a daemon, D-Bus interfaces, and a command-line tool
+  for managing storage devices. It is used by desktop environments for
+  automounting, partitioning, and monitoring drives.
+phase: 5
+builddeps: [glib, glibc, libblockdev, libatasmart, polkit, elogind, libgudev, lvm2, libxslt, pygobject, make]
+buildsteps: |
+  ./configure --prefix=/usr        \
+              --sysconfdir=/etc    \
+              --localstatedir=/var \
+              --disable-static     \
+              --enable-available-modules
+  make
+
+  make install

@@ -1,0 +1,17 @@
+name: pyproject-hooks
+version: 1.2.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/p/pyproject-hooks/pyproject_hooks-1.2.0.tar.gz
+homepage: https://pypi.org/project/pyproject-hooks/
+license: MIT
+summary: Wrappers to call Python build backend hooks
+description: |
+  This project provides wrappers around the PEP 517 hooks for Python packaging.
+  It enables consistent and standardized communication with build backends.
+
+builddeps: [python, python-setuptools, python-wheel]
+phase: 5
+
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user pyproject_hooks

@@ -13,7 +13,8 @@ phase: 5
 buildsystem: meson
 builddeps: [
   glibc, meson, ninja, llvm, libdrm, wayland, wayland-protocols,
-  libva-bootstrap, mako, python, xorgproto, expat, xorg-libs, pyyaml, ply, cbindgen, rust-bindgen
+  libva-bootstrap, mako, python, xorgproto, expat, xorg-libs, pyyaml, ply, cbindgen, rust-bindgen, glslang,
+  libclc, vulkan-loader,  libvdpau
 ]
 
 buildsteps: |

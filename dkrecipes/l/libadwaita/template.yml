@@ -1,0 +1,23 @@
+name: libadwaita
+version: 1.7.2
+release: 1
+url: https://download.gnome.org/sources/libadwaita/1.7/libadwaita-1.7.2.tar.xz
+homepage: https://gitlab.gnome.org/GNOME/libadwaita
+license: LGPL-2.1-or-later
+summary: Building blocks for modern GTK 4 GNOME applications
+description: |
+  libadwaita is a GTK 4 library that provides building blocks for 
+  developing modern GNOME applications. It provides adaptive, 
+  mobile-friendly widgets, a design system matching GNOME Human 
+  Interface Guidelines (HIG), and additional widgets and styles 
+  not included in GTK itself.
+phase: 5
+builddeps: [glibc, gtk4, glib, appstream, sassc, vala, meson, ninja]
+buildsteps: |
+  mkdir build
+  cd    build
+
+  meson setup --prefix=/usr --buildtype=release .. 
+  ninja
+
+  ninja install

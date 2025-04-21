@@ -1,0 +1,25 @@
+name: pcre
+version: 8.45
+release: 1
+url: https://downloads.sourceforge.net/project/pcre/pcre/8.45/pcre-8.45.tar.bz2
+homepage: https://www.pcre.org/
+license: BSD
+summary: Perl-compatible regular expression library (PCRE1)
+description: |
+  PCRE is a library of functions to support regular expressions
+  whose syntax and semantics are as close as possible to those 
+  of the Perl 5 language. PCRE is used by many programs requiring
+  efficient and powerful pattern matching capabilities.
+phase: 5
+builddeps: [glibc, make, zlib, bzip2]
+buildsteps: |
+  ./configure --prefix=/usr            \
+              --enable-utf             \
+              --enable-unicode-properties \
+              --docdir=/usr/share/doc/pcre-8.45 \
+              --enable-pcregrep-libz   \
+              --enable-pcregrep-libbz2
+
+  make
+
+  make install

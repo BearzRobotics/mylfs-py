@@ -1,0 +1,26 @@
+name: kidletime
+version: 6.11.0
+release: 1
+url: https://download.kde.org/stable/frameworks/6.11/kidletime-6.11.0.tar.xz
+homepage: https://invent.kde.org/frameworks/kidletime
+license: LGPL-2.0-or-later
+summary: Framework for detecting user idle time
+description: |
+  Kidletime is a KDE Framework that provides a way to detect when the
+  user is idle, based on user activity. It is used by applications and
+  desktop environments to trigger actions after periods of inactivity.
+phase: 5
+builddeps: [qt6, extra-cmake, plasma-wayland-protocols]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr        \
+        -D CMAKE_BUILD_TYPE=Release         \
+        -D CMAKE_INSTALL_LIBEXECDIR=libexec \
+        -D KDE_INSTALL_USE_QT_SYS_PATHS=ON  \
+        -D BUILD_TESTING=OFF                \
+        -W no-dev ..                        
+  make
+
+  make install

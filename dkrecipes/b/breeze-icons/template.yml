@@ -1,0 +1,23 @@
+name: breeze-icons
+version: 6.11.0
+release: 1
+url: https://download.kde.org/stable/frameworks/6.11/breeze-icons-6.11.0.tar.xz
+homepage: https://invent.kde.org/frameworks/breeze-icons
+license: LGPL-3.0-or-later
+summary: Breeze icon theme for desktop environments
+description: |
+  breeze-icons provides a modern and visually consistent icon 
+  theme developed by the KDE community. It includes scalable 
+  icons in both SVG and PNG formats and is used by KDE Plasma, 
+  LXQt, and other desktop environments.
+phase: 5
+builddeps: [glibc, cmake, ninja, extra-cmake, qt6, libxml2, lxml]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D BUILD_TESTING=OFF         \
+        -W no-dev ..
+
+  make install

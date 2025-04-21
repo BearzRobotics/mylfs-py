@@ -44,7 +44,7 @@ description: |
 
 phase: 5
 buildsystem: manual
-builddeps: [glibc, make, xorgproto, libxcb, xorgsetup]
+builddeps: [glibc, make, xorgproto, libxcb, xorgsetup, xorg-libs, mesa ]
 
 buildsteps: |
   source /etc/profile
@@ -53,15 +53,27 @@ buildsteps: |
   # we want to clean it up so that the for loop can do it's things.
   rm -rfv * 
 
+  as_root()
+  {
+    if   [ $EUID = 0 ];        then $*
+    elif [ -x /usr/bin/sudo ]; then sudo $*
+    else                            su -c \\"$*\\"
+    fi
+  }
+
+  export -f as_root
+
   for package in $(grep -v '^#' ../static/app-7.md5 | awk '{print $2}'); do
     packagedir=${package%.tar.?z*}
     echo "Building $packagedir"
     tar -xf ../$package
+
     pushd $packagedir
       ./configure $XORG_CONFIG
       make
       make install
     popd
+    
     rm -rf $packagedir
   done
 

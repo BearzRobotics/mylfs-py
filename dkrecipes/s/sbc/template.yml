@@ -1,0 +1,20 @@
+name: sbc
+version: 2.1
+release: 1
+url: https://www.kernel.org/pub/linux/bluetooth/sbc-2.1.tar.xz
+homepage: https://git.kernel.org/pub/scm/bluetooth/sbc.git/
+license: LGPL-2.1-or-later
+summary: Bluetooth SBC audio codec implementation
+description: |
+  SBC (Subband Codec) is a digital audio codec used to transfer 
+  audio over Bluetooth connections, especially A2DP (Advanced Audio
+  Distribution Profile). This library provides encoding and decoding 
+  functionality for SBC streams, used by audio servers like PulseAudio 
+  and PipeWire.
+phase: 5
+builddeps: [glibc, make, libsndfile]
+buildsteps: |
+  ./configure --prefix=/usr --disable-static --disable-tester &&
+  make
+
+  make install

@@ -1,0 +1,23 @@
+name: lxqt-openssh-askpass
+version: 2.1.0
+release: 1
+url: https://github.com/lxqt/lxqt-openssh-askpass/releases/download/2.1.0/lxqt-openssh-askpass-2.1.0.tar.xz
+homepage: https://github.com/lxqt/lxqt-openssh-askpass
+license: GPL-2.0-or-later
+summary: LXQt graphical askpass dialog for OpenSSH
+description: |
+  lxqt-openssh-askpass provides a lightweight graphical password
+  prompt for use with OpenSSH. It is triggered when an SSH connection
+  or key authentication requires a passphrase and no terminal is available.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, liblxqt]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+
+  make install

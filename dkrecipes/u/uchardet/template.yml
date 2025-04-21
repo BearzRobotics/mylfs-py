@@ -1,0 +1,26 @@
+name: uchardet
+version: 0.0.8
+release: 1
+url: https://www.freedesktop.org/software/uchardet/releases/uchardet-0.0.8.tar.xz
+homepage: https://www.freedesktop.org/wiki/Software/uchardet/
+license: MPL-1.1
+summary: Universal character set detection library
+description: |
+  uchardet is an encoding detector library, which takes a sequence 
+  of bytes and attempts to guess the character set encoding. 
+  It is a C++ implementation based on Mozilla's Universal Charset 
+  Detector and is useful for applications needing automatic encoding 
+  recognition.
+phase: 5
+builddeps: [glibc, cmake-legacy]
+buildsteps: |
+  export PATH=/opt/cmake-3.31.7/bin:$PATH
+  mkdir build 
+  cd    build
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D BUILD_STATIC=OFF          \
+        -W no-dev ..                 
+  make
+
+  make install

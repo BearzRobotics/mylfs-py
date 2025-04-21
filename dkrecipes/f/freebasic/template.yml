@@ -13,7 +13,7 @@ description: |
 
 phase: 5
 buildsystem: manual
-builddeps: [glibc, ncurses5, libarchive]
+builddeps: [glibc, ncurses5, libarchive, xorg-libs]
 
 buildsteps: |
   ./install.sh -i /usr

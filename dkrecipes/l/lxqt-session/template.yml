@@ -1,0 +1,26 @@
+name: lxqt-session
+version: 2.1.1
+release: 1
+url: https://github.com/lxqt/lxqt-session/releases/download/2.1.1/lxqt-session-2.1.1.tar.xz
+homepage: https://github.com/lxqt/lxqt-session
+license: GPL-2.0-or-later
+summary: Session manager for the LXQt desktop environment
+description: |
+  lxqt-session provides the session manager for the LXQt desktop 
+  environment. It is responsible for starting components at login, 
+  handling logout and shutdown, and managing the saving and restoring
+  of user sessions.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, liblxqt, polkit-qt,  xdg-user-dirs]
+buildsteps: |
+  sed -e '/TryExec/s|=|=/usr/bin/|'  -i xsession/lxqt.desktop.in 
+
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+
+  make install

@@ -1,0 +1,28 @@
+name: nspr
+version: 4.36
+release: 1
+url: https://archive.mozilla.org/pub/nspr/releases/v4.36/src/nspr-4.36.tar.gz
+homepage: https://developer.mozilla.org/en-US/docs/Mozilla/Projects/NSPR
+
+license: MPL-2.0
+summary: Netscape Portable Runtime
+description: |
+  NSPR provides a platform-neutral API for system-level and libc-like functions. It is used by Mozilla projects and other applications to ensure portability across platforms.
+
+phase: 5
+
+builddeps: [sed, glibc, make]
+
+buildsteps: |
+  cd nspr
+
+  sed -i '/^RELEASE/s|^|#|' pr/src/misc/Makefile.in 
+  sed -i 's|$(LIBRARY) ||'  config/rules.mk         
+
+  ./configure --prefix=/usr   \
+              --with-mozilla  \
+              --with-pthreads \
+              $([ $(uname -m) = x86_64 ] && echo --enable-64bit)
+  make
+
+  make install

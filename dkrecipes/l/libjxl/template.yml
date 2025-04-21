@@ -1,0 +1,32 @@
+name: libjxl
+version: 0.11.1
+release: 1
+url: https://github.com/libjxl/libjxl/archive/v0.11.1/libjxl-0.11.1.tar.gz
+homepage: https://github.com/libjxl/libjxl
+license: BSD-3-Clause
+summary: JPEG XL image format reference implementation
+description: |
+  libjxl is a reference implementation for JPEG XL, a modern image compression
+  format offering high quality, efficient compression, and progressive decoding
+  features. It provides both an encoder and decoder API.
+
+phase: 5
+builddeps: [glibc, cmake, ninja, highway, brotli, giflib, libjpeg-turbo, libpng, lcms, highway, gdk-pixbuf, openjdk, libavif, libwebp]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr             \
+        -D CMAKE_BUILD_TYPE=Release              \
+        -D BUILD_TESTING=OFF                     \
+        -D BUILD_SHARED_LIBS=ON                  \
+        -D JPEGXL_ENABLE_SKCMS=OFF               \
+        -D JPEGXL_ENABLE_SJPEG=OFF               \
+        -D JPEGXL_ENABLE_PLUGINS=ON              \
+        -D JPEGXL_INSTALL_JARDIR=/usr/share/java \
+        -G Ninja ..                              
+  ninja
+
+  ninja install &&
+  gdk-pixbuf-query-loaders --update-cache

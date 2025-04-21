@@ -1,0 +1,22 @@
+name: libvdpau
+version: 1.5
+release: 1
+url: https://gitlab.freedesktop.org/vdpau/libvdpau/-/archive/1.5/libvdpau-1.5.tar.bz2
+homepage: https://gitlab.freedesktop.org/vdpau/libvdpau
+license: MIT
+summary: VDPAU library for GPU-accelerated video decoding
+description: |
+  libvdpau is a library that provides the Video Decode and Presentation API 
+  for Unix (VDPAU). It acts as an abstraction layer between media players 
+  and the GPU hardware, allowing efficient hardware-accelerated video decoding 
+  and presentation on supported GPUs.
+phase: 5
+builddeps: [glibc, pkgconfig, meson, ninja, xorg-libs, graphviz]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=$XORG_PREFIX .. &&
+  ninja
+
+  ninja install

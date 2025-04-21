@@ -1,0 +1,53 @@
+name: colord
+version: 1.4.7
+release: 1
+url: https://www.freedesktop.org/software/colord/releases/colord-1.4.7.tar.xz
+homepage: https://www.freedesktop.org/software/colord/
+license: GPL-2.0-or-later
+summary: Color management daemon
+description: |
+  colord is a system service that makes it easy to manage, install, and generate
+  color profiles to accurately color manage input and output devices.
+  It provides a framework for managing ICC profiles and devices in a session or system scope.
+
+phase: 5
+builddeps: [glibc, gcc, meson, ninja, dbus, sqlite, lcms, glib, libgusb, polkit, elogind, docbook-xml, docbook-xsl-ns, libxslt, libgudev]
+
+buildsteps: |
+  patch -Np1 -i ../patches/colord-1.4.7-upstream_fixes-1.patch
+
+  # Create colord group if it doesn't exist
+  if ! getent group colord > /dev/null; then
+      groupadd -g 71 colord
+  fi
+
+  # Create colord user if it doesn't exist
+  if ! id -u colord > /dev/null 2>&1; then
+      useradd -c "Color Daemon Owner" -d /var/lib/colord -u 71 \
+          -g colord -s /bin/false colord
+  fi
+
+
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..                  \
+        --prefix=/usr             \
+        --buildtype=release       \
+        -D daemon_user=colord     \
+        -D vapi=true              \
+        -D systemd=false          \
+        -D libcolordcompat=true   \
+        -D argyllcms_sensor=false \
+        -D bash_completion=false  \
+        -D docs=false             \
+        -D man=false              
+  ninja
+
+  # Build man pages. If it fails here, I'll commet them out
+  sed -e '/class="manual"/i<refmiscinfo class="source">colord</refmiscinfo>' \
+      -i ../man/*.xml &&
+  meson configure -D man=true &&
+  ninja
+
+  ninja install

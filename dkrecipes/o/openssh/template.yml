@@ -1,0 +1,51 @@
+name: openssh
+version: 10.0p1
+release: 1
+url: 
+  - https://ftp.openbsd.org/pub/OpenBSD/OpenSSH/portable/openssh-10.0p1.tar.gz
+  - https://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-20250225.tar.xz
+homepage: https://www.openssh.com/
+license: BSD-2-Clause
+summary: OpenBSD's Secure Shell client and server
+description: |
+  OpenSSH is a free version of the SSH protocol suite of network connectivity tools.
+  It encrypts all traffic to effectively eliminate eavesdropping, connection hijacking,
+  and other attacks. Additionally, OpenSSH provides secure tunneling capabilities
+  and several authentication methods.
+
+builddeps: [zlib, openssl, linux-pam, xorg-apps, which, net-tools, ]
+
+buildsteps: |
+  install -v -g sys -m700 -d /var/lib/sshd 
+
+  if ! getent group sshd >/dev/null; then
+      groupadd -g 50 sshd
+  fi
+
+  if ! id sshd >/dev/null 2>&1; then
+      useradd -c 'sshd PrivSep' \
+              -d /var/lib/sshd  \
+              -g sshd           \
+              -s /bin/false     \
+              -u 50 sshd
+  fi
+
+  ./configure --prefix=/usr                            \
+              --sysconfdir=/etc/ssh                    \
+              --with-privsep-path=/var/lib/sshd        \
+              --with-default-path=/usr/bin             \
+              --with-superuser-path=/usr/sbin:/usr/bin \
+              --with-pid-dir=/run                      
+  make
+
+  make install &&
+  install -v -m755    contrib/ssh-copy-id /usr/bin     
+
+  install -v -m644    contrib/ssh-copy-id.1   /usr/share/man/man1              
+  install -v -m755 -d /usr/share/doc/openssh-10.0p1     
+  install -v -m644    INSTALL LICENCE OVERVIEW README* /usr/share/doc/openssh-10.0p1
+
+  # bootscripts
+  #tar -xf ../blfs-bootscripts-20250225.tar.xz
+  #cd blfs-bootscripts-20250225
+  #make install-sshd

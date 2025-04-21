@@ -1,0 +1,23 @@
+name: c-ares
+version: 1.34.5
+release: 1
+url: https://github.com/c-ares/c-ares/releases/download/v1.34.5/c-ares-1.34.5.tar.gz
+homepage: https://c-ares.org/
+
+license: MIT
+summary: Asynchronous DNS request library
+description: |
+  c-ares is a C library for asynchronous DNS requests. It allows DNS queries to be performed without blocking the execution of a program, enabling more efficient network communication.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, cmake]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  cmake  -D CMAKE_INSTALL_PREFIX=/usr .. &&
+  make
+
+  make install

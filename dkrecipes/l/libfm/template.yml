@@ -1,0 +1,22 @@
+name: libfm
+version: 1.3.2
+release: 1
+url: https://downloads.sourceforge.net/pcmanfm/libfm-1.3.2.tar.xz
+homepage: https://wiki.lxde.org/en/PCManFM
+license: LGPL-2.0-or-later
+summary: File management support library used by PCManFM
+description: |
+  libfm is a file management support library providing a GIO-like
+  API for handling files and directories. It is used by PCManFM
+  and PCManFM-Qt for core file manager operations.
+phase: 5
+builddeps: [make, glibc, glib]
+buildsteps: |
+  ./configure --prefix=/usr     \
+              --sysconfdir=/etc \
+              --with-extra-only \
+              --with-gtk=no     \
+              --disable-static 
+  make
+
+  make install

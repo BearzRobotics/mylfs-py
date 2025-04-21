@@ -1,0 +1,19 @@
+name: libmbim
+version: 1.26.4
+release: 1
+url: https://www.freedesktop.org/software/libmbim/libmbim-1.26.4.tar.xz
+homepage: https://www.freedesktop.org/wiki/Software/libmbim/
+license: LGPL-2.1-or-later
+summary: Library and utilities for MBIM protocol modems
+description: |
+  libmbim provides a GLib-based C library for communicating with 
+  mobile broadband modems using the MBIM (Mobile Broadband Interface Model) 
+  protocol. It includes utilities for sending raw and structured 
+  MBIM messages to modems.
+phase: 5
+builddeps: [glibc, make, help2man]
+buildsteps: |
+  ./configure --prefix=/usr --disable-static &&
+  make
+
+  make install

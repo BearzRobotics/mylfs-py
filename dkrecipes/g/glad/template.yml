@@ -1,0 +1,18 @@
+name: glad
+version: 2.0.8
+release: 1
+url: https://github.com/Dav1dde/glad/archive/v2.0.8/glad-2.0.8.tar.gz
+homepage: https://glad.dav1d.de/
+
+license: MIT
+summary: Multi-Language Vulkan/OpenGL/EGL/GLX/WGL Loader-Generator
+description: |
+  glad is a multi-language generator for Vulkan and OpenGL/EGL/GLX/WGL loader code. It can generate loading code for different programming languages and profiles, making it easier to work with OpenGL and Vulkan APIs.
+
+phase: 5
+buildsystem: cmake
+builddeps: [glibc, make, cmake, rust, xorg-libs, python, python-setuptools, python-wheel]
+
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user glad2

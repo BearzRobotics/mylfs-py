@@ -1,0 +1,17 @@
+name: log4cplus
+version: 2.1.2
+release: 1
+url: https://github.com/log4cplus/log4cplus/releases/download/REL_2_1_2/log4cplus-2.1.2.tar.xz
+homepage: https://log4cplus.sourceforge.net/
+license: Apache-2.0
+summary: Logging framework for C++ modeled after log4j
+description: |
+  log4cplus is a C++ logging library modeled after the Java log4j 
+  framework. It provides hierarchical logging, multiple log targets, 
+  log levels, filtering, and configurability for C++ applications.
+phase: 5
+builddeps: [glibc, cmake]
+buildsteps: |
+  ./configure --prefix=/usr &&
+  make
+  make install

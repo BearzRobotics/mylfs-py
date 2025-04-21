@@ -1,0 +1,21 @@
+name: markdown
+version: 3.7
+release: 1
+url: https://files.pythonhosted.org/packages/source/M/Markdown/markdown-3.7.tar.gz
+homepage: https://python-markdown.github.io/
+
+license: BSD-3-Clause
+summary: A Python implementation of John Gruber’s Markdown.
+description: |
+  Markdown is a Python library that implements the popular Markdown
+  syntax, allowing for easy-to-read and easy-to-write plain text
+  formatting that can be converted into HTML.
+
+phase: 5
+
+builddeps: [python-setuptools, python-wheel, python, pyyaml]
+
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user Markdown
+

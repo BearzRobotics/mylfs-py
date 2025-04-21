@@ -1,0 +1,22 @@
+name: libassuan
+version: 3.0.2
+release: 1
+url: https://www.gnupg.org/ftp/gcrypt/libassuan/libassuan-3.0.2.tar.bz2
+homepage: https://www.gnupg.org/related_software/libassuan/index.html
+license: LGPL-2.1-or-later
+summary: IPC library for GnuPG and related projects
+description: |
+  libassuan is a small C library designed to facilitate IPC (Inter-Process 
+  Communication) between two processes, especially GnuPG components. It supports 
+  Unix domain sockets and Windows named pipes.
+phase: 5
+builddeps: [glibc, make, libgpg-error]
+buildsteps: |
+  ./configure --prefix=/usr 
+  make                      
+
+  make -C doc html                                                       
+  makeinfo --html --no-split -o doc/assuan_nochunks.html doc/assuan.texi 
+  makeinfo --plaintext       -o doc/assuan.txt           doc/assuan.texi
+
+  make install

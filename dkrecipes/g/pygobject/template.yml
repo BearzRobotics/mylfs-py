@@ -1,0 +1,27 @@
+name: pygobject
+version: 3.52.3
+release: 1
+url: https://download.gnome.org/sources/pygobject/3.52/pygobject-3.52.3.tar.gz
+homepage: https://pygobject.readthedocs.io/
+
+license: LGPL-2.1-or-later
+summary: Python bindings for GObject
+description: |
+  PyGObject provides Python bindings for GObject-based libraries such as GTK, GStreamer, and others.
+  It is used to write Python applications that interact with GNOME technologies.
+
+phase: 5
+
+builddeps: [python, meson, ninja, glib, cairo, pycairo, python-setuptools, python-wheel]
+
+buildsteps: |
+  mv -v tests/test_gdbus.py{,.nouse}         &&
+  mv -v tests/test_overrides_gtk.py{,.nouse}
+
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+  ninja
+
+  ninja install

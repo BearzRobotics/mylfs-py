@@ -1,0 +1,18 @@
+name: libtracefs
+version: 1.8.2
+release: 1
+url: https://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git/snapshot/libtracefs-1.8.2.tar.gz
+homepage: https://git.kernel.org/pub/scm/libs/libtrace/libtracefs.git/
+license: LGPL-2.1-or-later
+summary: Library to interact with the Linux kernel ftrace filesystem
+description: |
+  libtracefs provides a C library to simplify interactions with 
+  the Linux kernel's ftrace filesystem interface. It allows 
+  controlling tracing sessions, reading trace buffers, and 
+  configuring trace options programmatically.
+phase: 5
+builddeps: [glibc, meson, ninja, pkgconfig, libtraceevent, asciidoc]
+buildsteps: |
+  meson setup build --prefix=/usr
+  ninja -C build
+  ninja -C build install

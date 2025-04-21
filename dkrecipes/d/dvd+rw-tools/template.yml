@@ -1,0 +1,22 @@
+name: dvd+rw-tools
+version: 7.1
+release: 1
+url: https://fy.chalmers.se/~appro/linux/DVD+RW/tools/dvd+rw-tools-7.1.tar.gz
+homepage: https://fy.chalmers.se/~appro/linux/DVD+RW/
+license: GPL-2.0-or-later
+summary: DVD and Blu-ray burning and formatting tools
+description: |
+  dvd+rw-tools is a collection of utilities for burning and formatting 
+  DVD+RW, DVD-RW, and Blu-ray (BD) media. It includes growisofs for 
+  writing ISO filesystems to DVD media, dvd+rw-format for low-level 
+  disc formatting, and other tools for managing rewritable media.
+phase: 5
+builddeps: [glibc, cdrtools, sed, make]
+buildsteps: |
+  sed -i '/stat.h/a #include <sys/sysmacros.h>' growisofs.c &&
+  sed -i '/stdlib/a #include <limits.h>' transport.hxx &&
+  make all rpl8 btcflash
+
+  make prefix=/usr install &&
+  install -v -m644 -D index.html \
+      /usr/share/doc/dvd+rw-tools-7.1/index.html

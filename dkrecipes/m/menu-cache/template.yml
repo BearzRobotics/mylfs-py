@@ -1,0 +1,19 @@
+name: menu-cache
+version: 1.1.1
+release: 1
+url: https://github.com/lxde/menu-cache/archive/1.1.1/menu-cache-1.1.1.tar.gz
+homepage: https://wiki.lxde.org/en/Menu-cache
+license: GPL-2.0-or-later
+summary: Library for caching and loading freedesktop.org application menus
+description: |
+  menu-cache is a library designed to cache the content of
+  freedesktop.org-compliant application menus to speed up
+  access and reduce startup times. It is used by file managers
+  and panels such as PCManFM and LXQt components.
+phase: 5
+builddeps: [glib, xdg-utils, gtk-doc, libfm]
+buildsteps: |
+  sh autogen.sh                              
+  ./configure --prefix=/usr --disable-static 
+  make
+  make install

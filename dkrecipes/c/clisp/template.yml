@@ -1,0 +1,35 @@
+name: clisp
+version: 2.49
+release: 1
+url: https://ftp.gnu.org/gnu/clisp/latest/clisp-2.49.tar.bz2
+homepage: https://clisp.sourceforge.io/
+license: GPL-2.0-or-later
+summary: Common Lisp implementation in C
+description: |
+  CLISP is a portable, bytecode-compiled implementation of the Common Lisp 
+  programming language. It includes an interpreter, a compiler, a debugger, 
+  and foreign language interfaces.
+phase: 5
+builddeps: [glibc, make, libsigsegv, readline, ncurses, libffcall, libnsl ]
+buildsteps: |
+  case $(uname -m) in
+      i?86) export CFLAGS="${CFLAGS:--O2 -g} -falign-functions=4" ;;
+  esac
+
+  sed -i -e '/socket/d' -e '/"streams"/d' tests/tests.lisp
+
+
+  patch -Np1 -i ../patches/clisp-2.49-readline7_fixes-1.patch
+
+  mkdir build &&
+  cd    build &&
+
+  ../configure --srcdir=../                       \
+              --prefix=/usr                      \
+              --docdir=/usr/share/doc/clisp-2.49 \
+              --with-libsigsegv-prefix=/usr &&
+
+  ulimit -S -s 16384 &&
+  make -j1
+
+  make install

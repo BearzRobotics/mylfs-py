@@ -1,0 +1,31 @@
+name: links
+version: 2.30
+release: 1
+url: http://links.twibright.com/download/links-2.30.tar.bz2
+homepage: http://links.twibright.com/
+license: GPL-2.0-or-later
+summary: Lightweight text and graphics web browser
+description: |
+  Links is a graphics and text mode web browser, primarily aimed at users
+  who require a fast and lightweight browsing experience.
+  It can run in both a text terminal and under graphical environments
+  such as X11 or framebuffer.
+
+phase: 5
+builddeps: [glibc, make, gpm, libavif, libpng, libjpeg-turbo, libtiff, librsvg, brotli]
+
+buildsteps: |
+  ./configure --prefix=/usr --mandir=/usr/share/man &&
+  make
+
+  make install &&
+  install -v -d -m755 /usr/share/doc/links-2.30 &&
+  install -v -m644 doc/links_cal/* KEYS BRAILLE_HOWTO \
+      /usr/share/doc/links-2.30  ./configure --prefix=/usr --mandir=/usr/share/man &&
+  make
+
+
+  make install &&
+  install -v -d -m755 /usr/share/doc/links-2.30 &&
+  install -v -m644 doc/links_cal/* KEYS BRAILLE_HOWTO \
+      /usr/share/doc/links-2.30

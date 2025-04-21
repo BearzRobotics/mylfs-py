@@ -1,0 +1,27 @@
+name: openbox
+version: 3.6.1
+release: 1
+url: http://openbox.org/dist/openbox/openbox-3.6.1.tar.gz
+homepage: http://openbox.org/wiki/Main_Page
+license: GPL-2.0-or-later
+summary: Lightweight and highly configurable stacking window manager
+description: |
+  Openbox is a highly configurable, lightweight, and standards-compliant 
+  window manager. It is well-suited for users who want a fast and minimal 
+  desktop environment. Openbox can function as a stand-alone environment 
+  or as a window manager within larger desktop environments like LXQt.
+phase: 5
+builddeps: [glibc, glib, pango, startup-notification, xorg-libs, xorg-apps, dbus, imlib2, imagemagick, librsvg ]
+buildsteps: |
+  patch -Np1 -i ../patches/openbox-3.6.1-py3-1.patch
+
+  autoreconf -fi &&
+  ./configure --prefix=/usr     \
+              --sysconfdir=/etc \
+              --disable-static  \
+              --docdir=/usr/share/doc/openbox-3.6.1 &&
+  make
+
+  make install
+
+  rm -v /usr/share/xsessions/openbox-{gnome,kde}.desktop

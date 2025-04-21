@@ -1,0 +1,25 @@
+name: itstool
+version: 2.0.7
+release: 1
+url: https://files.itstool.org/itstool/itstool-2.0.7.tar.bz2
+homepage: https://itstool.org/
+
+license: GPL-2.0-or-later
+summary: Tool for translating XML documents with PO files
+description: |
+  ITS Tool uses the W3C Internationalization Tag Set (ITS) to extract messages 
+  from XML documents into PO files, allowing the use of standard translation tools.
+  It can then merge translations back into the XML documents.
+
+phase: 5
+
+builddeps: [python, libxml2, docbook-xml, sed]
+
+buildsteps: |
+  sed -i 's/re.sub(/re.sub(r/'         itstool.in &&
+  sed -i 's/re.compile(/re.compile(r/' itstool.in
+
+  PYTHON=/usr/bin/python3 ./configure --prefix=/usr &&
+  make
+
+  make install

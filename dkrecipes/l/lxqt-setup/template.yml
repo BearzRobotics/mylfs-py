@@ -1,0 +1,24 @@
+name: lxqt-setup
+version: 4.18.4
+release: 1
+homepage: https://www.gtk.org/
+
+license: LGPL-2.1-or-later
+summary: config files for lxqt
+    
+phase: 5
+
+# I want to make sure this runs sufficanlty after most of these are done
+builddeps: [
+  obconf-qt, xdg-desktop-portal-lxqt, lxqt-sudo, lxqt-config
+]
+
+buildsteps: |
+  ldconfig                             &&
+  update-mime-database /usr/share/mime &&
+  xdg-icon-resource forceupdate        &&
+  update-desktop-database -q
+
+  cat > ~/.xinitrc << "EOF"
+  exec startlxqt
+  EOF

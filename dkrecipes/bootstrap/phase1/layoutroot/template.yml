@@ -17,11 +17,14 @@ buildsteps: |
     echo "double check what user I'm running on"
     whoami
 
+    for i in bin lib sbin; do
+        ln -svf usr/$i $LFS/$i
+    done
+
     # LFS 12.3 Section 4.2
     mkdir -vp $LFS/{etc,var} $LFS/usr/{bin,lib,sbin}
     mkdir -p $LFS/{dev,proc,sys,run}
     mkdir -p $LFS/etc/{opt,sysconfig,skel,profile.d}
-    mkdir -p $LFS/lib/firmware
     mkdir -p $LFS/media/{floppy,cdrom}
     mkdir -p $LFS/usr/{,local/}{include,src}
     mkdir -p $LFS/usr/lib/locale
@@ -33,10 +36,9 @@ buildsteps: |
     mkdir -p $LFS/var/lib/{color,misc,locate}
     mkdir -p $LFS/root
     mkdir -p $LFS/mnt/{usb,lfs,cdrom,dvd}
+    mkdir -p $LFS/lib/firmware
 
-    for i in bin lib sbin; do
-        ln -svf usr/$i $LFS/$i
-    done
+
 
     case $(uname -m) in
       x86_64)

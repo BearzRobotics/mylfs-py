@@ -1,0 +1,23 @@
+name: layer-shell-qt
+version: 6.3.2
+release: 1
+url: https://download.kde.org/stable/plasma/6.3.2/layer-shell-qt-6.3.2.tar.xz
+homepage: https://invent.kde.org/plasma/layer-shell-qt
+license: LGPL-2.0-or-later
+summary: Qt wrapper for Wayland Layer Shell protocol
+description: |
+  Layer-shell-qt is a KDE Framework that provides a Qt-style interface
+  to the Wayland Layer Shell protocol, which allows surfaces like panels,
+  notifications, and desktop widgets to be properly positioned and layered.
+phase: 5
+builddeps: [qt6, extra-cmake, cmake, make, kwayland]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        -W no-dev ..                 
+  make
+
+  make install

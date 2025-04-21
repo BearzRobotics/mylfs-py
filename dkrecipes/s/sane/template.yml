@@ -1,0 +1,40 @@
+name: sane-backends
+version: 1.2.1
+release: 1
+url: https://anduin.linuxfromscratch.org/BLFS/sane/sane-backends-1.2.1.tar.gz
+homepage: http://www.sane-project.org/
+license: GPL-2.0-or-later
+summary: Scanner Access Now Easy (SANE) - Backends
+description: |
+  sane-backends is a collection of scanner drivers and a universal 
+  API for accessing scanners and other image acquisition devices 
+  on UNIX systems. It provides support for a wide range of 
+  flatbed and document scanners, and supports both USB and networked devices.
+phase: 5
+builddeps: [glibc, libusb, libpng,  libtiff, v4l-utils, pkgconfig, python]
+buildsteps: |
+  if ! getent group scanner > /dev/null; then
+    groupadd -g 70 scanner
+  fi
+
+  sg scanner -c "                                 \
+  PYTHON=python3 ./configure --prefix=/usr        \
+                            --sysconfdir=/etc    \
+                            --localstatedir=/var \
+                            --with-lockdir=/run/lock \
+                            --docdir=/usr/share/doc/sane-backends-1.2.1" 
+  make
+
+
+  make install                                         
+  install -m 644 -v tools/udev/libsane.rules           \
+                    /etc/udev/rules.d/65-scanner.rules 
+  mkdir -p          /run/lock/sane 
+  chgrp -v scanner  /run/lock/sane
+
+
+  #mkdir -pv /etc/sane.d/
+  #cat >> /etc/sane.d/net.conf << "EOF"
+  #connect_timeout = 60
+  #<server_ip>
+  #EOF

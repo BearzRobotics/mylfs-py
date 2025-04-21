@@ -1,0 +1,32 @@
+# glslc
+name: shaderc
+version: 2024.4
+release: 1
+url: https://github.com/google/shaderc/archive/v2024.4/shaderc-2024.4.tar.gz
+homepage: https://github.com/google/shaderc
+license: Apache-2.0
+summary: Collection of tools and libraries for compiling GLSL to SPIR-V
+description: |
+  shaderc is a collection of tools and libraries for compiling 
+  shader code written in GLSL into SPIR-V binary format for use 
+  in Vulkan applications. It includes glslc, a command-line compiler 
+  with GCC-like interface.
+phase: 5
+builddeps: [glibc, ninja, cmake, ninja, python, spirv-tools, spirv-headers, glslang]
+buildsteps: |
+  sed '/build-version/d'   -i glslc/CMakeLists.txt            &&
+  sed '/third_party/d'     -i CMakeLists.txt                  &&
+  sed 's|SPIRV|glslang/&|' -i libshaderc_util/src/compiler.cc &&
+
+  echo '"2024.4"' > glslc/src/build-version.inc
+
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        -D SHADERC_SKIP_TESTS=ON     \
+        -G Ninja ..
+  ninja
+
+  install -vm755 glslc/glslc /usr/bin

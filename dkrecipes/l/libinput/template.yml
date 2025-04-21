@@ -29,4 +29,4 @@ buildsteps: |
         -D udev-dir=/usr/lib/udev &&
   ninja
 
-  inja install
+  ninja install

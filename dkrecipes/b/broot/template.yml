@@ -1,0 +1,20 @@
+name: broot
+version: 1.46.0
+release: 1
+url: https://github.com/Canop/broot/archive/refs/tags/v1.46.0.tar.gz
+homepage: https://github.com/Canop/broot
+license: MIT
+summary: Modern interactive tree-based file manager and finder
+description: |
+  broot is a modern terminal file manager that allows you to 
+  navigate directory trees, search files using fuzzy matching, 
+  preview files, and perform operations like copy, move, and 
+  delete directly from the terminal. It aims to be faster and 
+  more efficient than traditional file managers.
+phase: 5
+builddeps: [rust]
+buildsteps: |
+  source /etc/profile
+
+  cargo build --release
+  install -Dm755 target/release/broot /usr/bin/broot

@@ -1,0 +1,44 @@
+name: polkit
+version: 126
+release: 1
+url: https://github.com/polkit-org/polkit/archive/126/polkit-126.tar.gz
+homepage: https://gitlab.freedesktop.org/polkit/polkit
+license: LGPL-2.1-or-later
+summary: Authorization framework for privilege management
+description: |
+  polkit (PolicyKit) provides a way for non-privileged processes to
+  communicate with privileged ones. It is used for system-wide components
+  to control authorizations, like allowing or denying administrative actions
+  in a secure, flexible, and centralized manner.
+
+phase: 5
+builddeps: [glibc, meson, ninja, glib, expat, linux-pam, dbus, libxslt, elogind]
+
+buildsteps: |
+  # Create polkitd group if it doesn't exist
+  if ! getent group polkitd > /dev/null; then
+      groupadd -fg 27 polkitd
+  fi
+
+  # Create polkitd user if it doesn't exist
+  if ! id -u polkitd > /dev/null 2>&1; then
+      useradd -c "PolicyKit Daemon Owner" -d /etc/polkit-1 -u 27 \
+          -g polkitd -s /bin/false polkitd
+  fi
+
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..                     \
+        --prefix=/usr                \
+        --buildtype=release          \
+        -D session_tracking=elogind  \
+        -D systemdsystemunitdir=/tmp \
+        -D tests=true
+
+  ninja
+
+  ninja install
+
+  rm -v /tmp/*.service                 
+  rm -rf /usr/lib/{sysusers,tmpfiles}.d 

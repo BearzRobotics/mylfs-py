@@ -19,7 +19,18 @@ buildsteps: |
   make linux
 
   make INSTALL_TOP=/usr TO_LIB="liblua.so liblua.so.5.1 liblua.so.5.1.5" INSTALL_DATA="cp -d" INSTALL_MAN=/usr/share/man/man1 install
+
+  # Rename binaries to avoid collision with Lua 5.4+
+  mv /usr/bin/lua /usr/bin/lua5.1
+  mv /usr/bin/luac /usr/bin/luac5.1
+
+  # Move headers to versioned directory
+  mkdir -pv /usr/include/lua5.1
+  mv /usr/include/lua.h /usr/include/lualib.h /usr/include/lauxlib.h /usr/include/lua5.1/
+
+  # Install documentation
   mkdir -pv /usr/share/doc/lua-5.1.5
   cp -v doc/*.{html,css,gif,png} /usr/share/doc/lua-5.1.5
 
-  install -Dm644 ../static/lua.pc /usr/lib/pkgconfig/lua.pc
+  # Install pkgconfig file
+  install -Dm644 ../static/lua.pc /usr/lib/pkgconfig/lua5.1.pc

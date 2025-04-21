@@ -1,6 +1,7 @@
 name: zig
 version: 0.14.0
 release: 1
+url: https://github.com/tristanisham/zvm/releases/download/v0.8.6/zvm-linux-amd64.tar
 homepage: https://github.com/tristanisham/zvm
 
 license: MIT
@@ -12,10 +13,20 @@ phase: 5
 builddeps: [curl, bash, git]
 
 buildsteps: |
+  # When I tried to build the bootstrap it would fail in stage3 linking. -- I've opened github issues and yeah.
   set +e
-  touch ~/.bashrc 
-  curl -fsSL https://raw.githubusercontent.com/tristanisham/zvm/master/install.sh | bash
-  source ~/.bashrc
+  # do to the nature of using the --strip-componant in in the python code, I need to re extract it here 
+  # otherwise this will be an empty dir
+  #tar -xf zvm-linux-amd64.tar -C source/ --strip-componant=1
+
+  # this way zvm is in the path, If you create another user they can just install zig with it
+
+  tar -xf ../zvm-linux-amd64.tar 
+  install -Dm755 zvm /usr/bin/zvm
+
+  install -Dm755 ../static/zvm.sh /etc/profile.d/zvm.sh
+  source /etc/profile 
+
   zvm install master
   zvm install 0.13.0
   zvm install 0.14.0

@@ -1,0 +1,27 @@
+name: double-conversion
+version: 3.3.1
+release: 1
+url: https://github.com/google/double-conversion/archive/v3.3.1/double-conversion-3.3.1.tar.gz
+homepage: https://github.com/google/double-conversion
+license: BSD-3-Clause
+summary: Library for binary to decimal and decimal to binary floating-point conversions
+description: |
+  Double-conversion provides binary-decimal and decimal-binary routines
+  for IEEE doubles. Its design emphasizes high performance and correctness,
+  making it a key dependency in many systems like V8, Qt, and others.
+
+phase: 5
+builddeps: [glibc, cmake, make]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr        \
+        -D CMAKE_POLICY_VERSION_MINIMUM=3.5 \
+        -D BUILD_SHARED_LIBS=ON             \
+        -D BUILD_TESTING=ON                 \
+        ..                                  &&
+  make
+
+  make install

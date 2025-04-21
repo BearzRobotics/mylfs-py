@@ -1,0 +1,23 @@
+name: yasm
+version: 1.3.0
+release: 1
+url: https://www.tortall.net/projects/yasm/releases/yasm-1.3.0.tar.gz
+homepage: https://yasm.tortall.net/
+license: BSD-2-Clause
+summary: Modular assembler supporting multiple instruction sets
+description: |
+  yasm is a complete rewrite of the NASM assembler, designed to be portable and modular.
+  It supports multiple instruction sets and output formats, and is used to assemble
+  projects targeting x86 and x86_64 architectures, including multimedia libraries
+  and compression tools.
+
+phase: 5
+builddeps: [glibc, make, sed, cython]
+
+buildsteps: |
+  sed -i 's#) ytasm.*#)#' Makefile.in &&
+
+  ./configure --prefix=/usr &&
+  make
+
+  make install

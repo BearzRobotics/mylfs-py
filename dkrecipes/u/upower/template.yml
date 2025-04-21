@@ -1,0 +1,27 @@
+name: upower
+version: 1.90.9
+release: 1
+url: https://gitlab.freedesktop.org/upower/upower/-/archive/v1.90.9/upower-v1.90.9.tar.bz2
+homepage: https://upower.freedesktop.org/
+license: GPL-2.0-or-later
+summary: Power device monitoring daemon
+description: |
+  upower provides a system service that monitors power sources such as
+  batteries and line power. It is used by desktop environments to display
+  battery status, warn about low battery, and control power-related settings.
+phase: 5
+builddeps: [glib, glibc, libgudev, libusb, libxslt, pygobject, docbook-xsl, meson, ninja]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..                   \
+        --prefix=/usr              \
+        --buildtype=release        \
+        -D gtk-doc=false           \
+        -D man=false               \
+        -D systemdsystemunitdir=no \
+        -D udevrulesdir=/usr/lib/udev/rules.d 
+  ninja
+
+  ninja install

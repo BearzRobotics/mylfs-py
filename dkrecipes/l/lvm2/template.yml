@@ -11,11 +11,9 @@ description: |
 phase: 5
 builddeps: [glibc, make, libaio, libnvme, which]
 buildsteps: |
-  export PATH=/usr/sbin:$PATH
   ./configure --prefix=/usr     \
             --enable-cmdlib     \
-            --enable-pkgconfig  \            
-            --enable-udev_sync 
+            --enable-pkgconfig  
 
   make
 

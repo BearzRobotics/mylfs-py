@@ -1,0 +1,18 @@
+name: dmenu
+version: 4.7
+release: 1
+url: https://github.com/Digital-Chaos/dmenu/archive/refs/tags/4.7.tar.gz
+homepage: https://tools.suckless.org/dmenu/
+license: MIT
+summary: Dynamic menu for X11
+description: |
+  dmenu is a fast and lightweight dynamic menu for X11. It reads a 
+  list of newline-separated items from stdin and displays them as a 
+  menu for the user to select an item. Designed for minimalists, it 
+  is widely used as an application launcher in lightweight window 
+  managers like i3, Openbox, and dwm.
+phase: 5
+builddeps: [glibc, freetype2, fontconfig, xorg-libs]
+buildsteps: |
+  make PREFIX=/usr
+  make PREFIX=/usr install

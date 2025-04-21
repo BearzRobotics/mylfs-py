@@ -1,0 +1,31 @@
+name: v4l-utils
+version: 1.28.1
+release: 1
+url: https://www.linuxtv.org/downloads/v4l-utils/v4l-utils-1.28.1.tar.xz
+homepage: https://linuxtv.org/
+license: GPL-2.0-or-later AND LGPL-2.1-or-later
+summary: Utilities and libraries for Video4Linux devices
+description: |
+  v4l-utils provides a set of utilities and libraries to handle
+  video devices compliant with the Video4Linux (V4L and V4L2) APIs.
+  It includes programs for listing devices, setting video controls, 
+  and libraries for use by multimedia frameworks and desktop systems.
+phase: 5
+builddeps: [glibc, libjpeg-turbo, meson, ninja, cmake, gettext, python, alsa-lib, glu, sdl2]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..            \
+        --prefix=/usr       \
+        --buildtype=release \
+        -D gconv=disabled   \
+        -D doxygen-doc=disabled &&
+  ninja
+
+  ninja install
+
+  for prog in v4l2gl v4l2grab
+  do
+    cp -v contrib/test/$prog /usr/bin
+  done

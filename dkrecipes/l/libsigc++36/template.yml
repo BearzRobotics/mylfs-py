@@ -1,0 +1,21 @@
+name: libsigc++36
+version: 2.6.0
+release: 1
+url: https://download.gnome.org/sources/libsigc++/3.6/libsigc++-3.6.0.tar.xz
+homepage: https://libsigcplusplus.github.io/libsigcplusplus/
+license: LGPL-2.1-or-later
+summary: Typesafe callback system for standard C++
+description: |
+  libsigc++ implements a typesafe callback system for standard C++. 
+  It allows you to define signals and connect them to any callable 
+  objects. It is the foundation of the glibmm and gtkmm libraries.
+phase: 5
+builddeps: [glibc, make, meson, ninja, python, boost, libxslt]
+buildsteps: |
+  mkdir bld &&
+  cd    bld &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+  ninja
+
+  ninja install

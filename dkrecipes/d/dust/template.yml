@@ -1,0 +1,18 @@
+name: dust
+version: 1.2.0
+release: 1
+url: https://github.com/bootandy/dust/archive/refs/tags/v1.2.0.tar.gz
+homepage: https://github.com/bootandy/dust
+license: MIT
+summary: Dust - A more intuitive version of du in Rust
+description: |
+  dust is a more intuitive and user-friendly version of the Unix du command, 
+  written in Rust. It displays disk usage with graphical bar charts and 
+  colorized output, making it easy to spot large directories and files.
+phase: 5
+builddeps: [rust]
+buildsteps: |
+  source /etc/profile
+  
+  cargo build --release
+  install -Dm755 target/release/dust /usr/bin/dust

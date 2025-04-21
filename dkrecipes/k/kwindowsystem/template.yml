@@ -1,0 +1,25 @@
+name: kwindowsystem
+version: 6.11.0
+release: 1
+url: https://download.kde.org/stable/frameworks/6.11/kwindowsystem-6.11.0.tar.xz
+homepage: https://invent.kde.org/frameworks/kwindowsystem
+license: LGPL-2.0-or-later
+summary: KDE Framework for window management
+description: |
+  KWindowSystem provides information about and allows interaction with
+  the windowing system. It provides useful functions for desktop
+  applications to handle window states and types, and interact with the
+  window manager.
+phase: 5
+builddeps: [qt6, extra-cmake, xorg-libs, plasma-wayland-protocols, make, cmake]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        -D BUILD_TESTING=OFF         \
+        -W no-dev ..                 &&
+  make
+
+  make install

@@ -1,0 +1,25 @@
+name: ion
+version: git
+release: 1
+url: https://gitlab.redox-os.org/redox-os/ion
+homepage: https://gitlab.redox-os.org/redox-os/ion
+license: MIT
+summary: A modern system shell written in Rust
+description: |
+  Ion is a system shell written for Redox and other Unix-like operating systems. 
+  It aims to be faster and more efficient while incorporating many modern 
+  scripting features in a user-friendly and consistent manner.
+phase: 5
+builddeps: [rust, git]
+
+buildsteps: |
+  # https://doc.redox-os.org/ion-manual/introduction.html
+  git clone https://gitlab.redox-os.org/redox-os/ion.git
+  cd ion
+  source /etc/profile
+
+  cargo build --release
+
+  install -m755 target/release/ion /usr/bin/ion
+
+  echo 'export USER="$(whoami)"' >> /etc/profile

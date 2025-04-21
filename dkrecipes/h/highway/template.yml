@@ -1,0 +1,28 @@
+name: highway
+version: 1.2.0
+release: 1
+url: https://github.com/google/highway/archive/1.2.0/highway-1.2.0.tar.gz
+homepage: https://github.com/google/highway
+license: Apache-2.0
+summary: Performance-portable SIMD (Single Instruction, Multiple Data) library
+description: |
+  Highway is a C++ library that provides portable SIMD (Single Instruction,
+  Multiple Data) operations across platforms. It allows writing vectorized code
+  without platform-specific intrinsics and automatically adapts to available
+  CPU capabilities.
+
+phase: 5
+builddeps: [glibc, gcc, cmake, ninja]
+
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        -D BUILD_TESTING=OFF         \
+        -D BUILD_SHARED_LIBS=ON      \
+        -G Ninja ..                  
+  ninja
+
+  ninja install

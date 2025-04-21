@@ -1,0 +1,29 @@
+name: protobuf
+version: 30.2
+release: 1
+url: https://github.com/protocolbuffers/protobuf/releases/download/v30.2/protobuf-30.2.tar.gz
+homepage: https://developers.google.com/protocol-buffers/
+license: BSD-3-Clause
+summary: Google's data interchange format
+description: |
+  Protocol Buffers (Protobuf) is a method developed by Google for serializing
+  structured data. It is useful in developing programs to communicate with each
+  other over a wire or for storing data.
+
+phase: 5
+builddeps: [glibc, cmake, ninja, abseil-cpp]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr      \
+        -D CMAKE_BUILD_TYPE=Release       \
+        -D CMAKE_SKIP_INSTALL_RPATH=ON    \
+        -D protobuf_BUILD_TESTS=OFF       \
+        -D protobuf_BUILD_LIBUPB=OFF      \
+        -D protobuf_BUILD_SHARED_LIBS=ON  \
+        -G Ninja ..                       &&
+  ninja
+
+  ninja install

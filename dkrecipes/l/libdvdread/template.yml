@@ -1,0 +1,21 @@
+name: libdvdread
+version: 6.1.3
+release: 1
+url: https://get.videolan.org/libdvdread/6.1.3/libdvdread-6.1.3.tar.bz2
+homepage: https://www.videolan.org/developers/libdvdread.html
+license: GPL-2.0-or-later
+summary: Library for reading DVD video discs based on libdvdcss
+description: |
+  libdvdread provides the functionality to read DVD video images, 
+  including encrypted ones when used with libdvdcss. It handles 
+  parsing of ifo files, navigation menus, and title sets, and 
+  enables playback of DVDs by media players like VLC and mpv.
+phase: 5
+builddeps: [glibc, pkgconfig, make]
+buildsteps: |
+  ./configure --prefix=/usr    \
+              --disable-static \
+              --docdir=/usr/share/doc/libdvdread-6.1.3 &&
+  make
+
+  make install

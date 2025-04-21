@@ -1,0 +1,52 @@
+name: wireshark
+version: 4.4.6
+release: 1
+url: 
+  - https://www.wireshark.org/download/src/all-versions/wireshark-4.4.6.tar.xz
+  - https://www.wireshark.org/download/docs/Wireshark%20Developer's%20Guide.pdf
+  - https://www.wireshark.org/download/docs/wsdg_html.zip
+  - https://www.wireshark.org/download/docs/wsar_html.zip
+  - https://www.wireshark.org/download/docs/wsug_html.zip
+  - https://www.wireshark.org/download/docs/Wireshark%20User%27s%20Guide.pdf
+homepage: https://www.wireshark.org/
+license: GPL-2.0-or-later
+summary: Network protocol analyzer
+description: |
+  Wireshark is the world's foremost network protocol analyzer. 
+  It lets you capture and interactively browse the traffic running 
+  on a computer network. Wireshark supports hundreds of protocols, 
+  live capture, and offline analysis.
+phase: 5
+builddeps: [glibc, pkgconfig, cmake, ninja, zlib, libpcap, libgcrypt, libgpg-error, libssh, libnl, libxml2, c-ares, glib, 
+  qt6, speex, brotli, cups, git, gnutls, libnl, libxslt, lua, nghttp2, sbc]
+buildsteps: |
+  if ! getent group wireshark > /dev/null; then
+      groupadd -g 62 wireshark
+  fi
+
+
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        -D CMAKE_INSTALL_DOCDIR=/usr/share/doc/wireshark-4.4.6 \
+        -G Ninja \
+        .. 
+  ninja
+
+  ninja install 
+
+  install -v -m755 -d /usr/share/doc/wireshark-4.4.6 &&
+  install -v -m644    ../README.linux ../doc/README.* ../doc/randpkt.txt \
+                      /usr/share/doc/wireshark-4.4.6 &&
+
+  pushd /usr/share/doc/wireshark-4.4.6 &&
+    for FILENAME in ../../wireshark/*.html; do
+        ln -s -v -f $FILENAME .
+    done &&
+  popd
+  unset FILENAME
+
+  chown -v root:wireshark /usr/bin/tshark &&
+  chmod -v 6550 /usr/bin/tshark

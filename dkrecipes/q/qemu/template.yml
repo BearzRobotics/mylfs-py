@@ -1,0 +1,54 @@
+name: qemu
+version: 9.2.3
+release: 1
+url: https://download.qemu.org/qemu-9.2.3.tar.xz
+homepage: https://www.qemu.org/
+
+license: GPL-2.0-or-later
+summary: Generic and open source machine emulator and virtualizer
+description: |
+  QEMU is a generic and open source machine emulator and virtualizer. 
+  It can run operating systems and programs for one machine on a different machine. 
+  By using dynamic translation, it achieves reasonable speed while being portable.
+
+phase: 5
+
+builddeps: [glib, pixman, libslirp, dtc, alsa-lib, sdl2, libjpeg-turbo, libpng, lzo, fuse, nettle, mesa, libaio, libusb, gtk3, bridge-utils]
+
+buildsteps: |
+  grep -E '^flags.*(vmx|svm)' /proc/cpuinfo
+
+  echo "QEMU add user to kvm group to use kvm: usermod -a -G kvm <username>" > /root/qemu.setup
+
+  if [ $(uname -m) = i686 ]; then
+   QEMU_ARCH=i386-softmmu
+  else
+    QEMU_ARCH=x86_64-softmmu
+  fi
+
+
+  mkdir -vp build 
+  cd        build 
+
+  # by default qemu adds this line --target-list=$QEMU_ARCH    \
+  # I'm going to try and let qemu build all target backends and not just one for my platform.
+
+  ../configure --prefix=/usr               \
+              --sysconfdir=/etc           \
+              --localstatedir=/var        \
+              --audio-drv-list=alsa       \
+              --disable-pa                \
+              --enable-slirp              \
+              --docdir=/usr/share/doc/qemu-{version}
+
+  unset QEMU_ARCH 
+
+  make
+
+  make install
+
+  chgrp kvm  /usr/libexec/qemu-bridge-helper 
+  chmod 4750 /usr/libexec/qemu-bridge-helper
+
+  install -vdm 755 /etc/qemu 
+  echo allow br0 > /etc/qemu/bridge.conf

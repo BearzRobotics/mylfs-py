@@ -1,0 +1,19 @@
+name: liblinear
+version: 248
+release: 1
+url: https://github.com/cjlin1/liblinear/archive/v248/liblinear-248.tar.gz
+homepage: https://www.csie.ntu.edu.tw/~cjlin/liblinear/
+license: BSD-3-Clause
+summary: A library for large linear classification
+description: |
+  LIBLINEAR is a simple, efficient library for large-scale linear classification
+  problems. It supports logistic regression and linear support vector machines (SVMs).
+
+builddeps: [glibc, make]
+phase: 5
+
+buildsteps: |
+  make lib
+  install -vm644 linear.h /usr/include &&
+  install -vm755 liblinear.so.6 /usr/lib &&
+  ln -sfv liblinear.so.6 /usr/lib/liblinear.so

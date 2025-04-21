@@ -1,0 +1,25 @@
+name: xdg-desktop-portal
+version: 1.20.0
+release: 1
+url: https://github.com/flatpak/xdg-desktop-portal/releases/download/1.20.0/xdg-desktop-portal-1.20.0.tar.xz
+homepage: https://flatpak.github.io/xdg-desktop-portal/
+license: LGPL-2.1-or-later
+summary: Desktop integration portal service for sandboxed applications
+description: |
+  xdg-desktop-portal is a D-Bus service that provides sandboxed applications
+  (such as Flatpak apps or Wayland-native programs) access to desktop features
+  like file pickers, printing, screenshots, and more in a controlled, secure way.
+  It delegates actual handling to desktop environment-specific backends.
+# xdg-desktop-portal-lxqt may only be needed at runtime
+phase: 5
+builddeps: [glibc, glib, dbus, fuse, gdk-pixbuf, json-glib,  bubblewrap]
+buildsteps: |
+  mkdir build
+  cd    build 
+
+  meson setup --prefix=/usr --buildtype=release -D tests=disabled .. 
+  ninja
+
+  ninja install
+
+  rm -rvf /usr/lib/systemd

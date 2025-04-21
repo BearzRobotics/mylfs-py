@@ -1,0 +1,21 @@
+name: xdg-user-dirs
+version: 0.18
+release: 1
+url: https://user-dirs.freedesktop.org/releases/xdg-user-dirs-0.18.tar.gz
+homepage: https://freedesktop.org/wiki/Software/xdg-user-dirs/
+license: GPL-2.0-or-later
+summary: Tool to manage user directories according to the XDG Base Directory Specification
+description: |
+  xdg-user-dirs is a tool to help manage "well known" user directories
+  like Desktop, Documents, Music, Pictures, and Downloads. It creates
+  them and sets up appropriate environment variables according to the 
+  freedesktop.org XDG base directory specification.
+phase: 5
+builddeps: [glibc, make, libxslt, docbook-xml, docbook-xsl]
+buildsteps: |
+  ./configure --prefix=/usr           \
+              --sysconfdir=/etc       \
+              --disable-documentation &&
+  make
+
+  make install

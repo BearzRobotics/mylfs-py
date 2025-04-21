@@ -1,0 +1,20 @@
+name: cdrdao
+version: 1.2.4
+release: 1
+url: https://downloads.sourceforge.net/cdrdao/cdrdao-1.2.4.tar.bz2
+homepage: https://sourceforge.net/projects/cdrdao/
+license: GPL-2.0-or-later
+summary: Disk-At-Once (DAO) CD recording tool
+description: |
+  cdrdao is a tool for writing audio or data CDs in Disk-At-Once (DAO) mode 
+  based on a textual description of the CD contents. It allows creating 
+  gapless audio CDs, copying CDs, and precise control over audio track layouts.
+phase: 5
+builddeps: [glibc, libao, libvorbis, libmad, lame, make, pkgconfig]
+buildsteps: |
+  ./configure --prefix=/usr --mandir=/usr/share/man
+  make
+
+  make install &&
+  install -v -m755 -d /usr/share/doc/cdrdao-1.2.4
+  install -v -m644 README /usr/share/doc/cdrdao-1.2.4

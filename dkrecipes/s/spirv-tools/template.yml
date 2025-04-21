@@ -1,0 +1,30 @@
+name: spirv-tools
+version: 1.4.309.0
+release: 1
+url: https://github.com/KhronosGroup/SPIRV-Tools/archive/vulkan-sdk-1.4.309.0/SPIRV-Tools-vulkan-sdk-1.4.309.0.tar.gz
+homepage: https://github.com/KhronosGroup/SPIRV-Tools
+license: Apache-2.0
+summary: Khronos SPIR-V binary intermediate language tools
+description: |
+  SPIRV-Tools provide libraries and tools to process SPIR-V intermediate language modules,
+  including assembling, disassembling, validation, optimization, and analysis.
+  It is widely used by Vulkan compilers and shader tools.
+
+phase: 5
+builddeps: [glibc, cmake, ninja, spirv-headers]
+
+
+buildsteps: |
+  mkdir build
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr     \
+        -D CMAKE_BUILD_TYPE=Release      \
+        -D SPIRV_WERROR=OFF              \
+        -D BUILD_SHARED_LIBS=ON          \
+        -D SPIRV_TOOLS_BUILD_STATIC=OFF  \
+        -D SPIRV-Headers_SOURCE_DIR=/usr \
+        -G Ninja .. 
+  ninja
+
+  ninja install

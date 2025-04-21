@@ -12,7 +12,7 @@ description: |
 phase: 4
 order: 240
 critical: true
-builddeps: [make, glibc, libarchive, curl, xz, sqlite3]
+builddeps: [make, glibc, libarchive, curl, xz, sqlite]
 buildsteps: |
   ./configure --prefix=/usr                \
               --disable-debuginfod         \

@@ -1,0 +1,33 @@
+name: gpgme
+version: 1.24.2
+release: 1
+url: https://www.gnupg.org/ftp/gcrypt/gpgme/gpgme-1.24.2.tar.bz2
+homepage: https://www.gnupg.org/related_software/gpgme/
+license: LGPL-2.1-or-later
+summary: High-level crypto API for GnuPG
+description: |
+  GPGME (GnuPG Made Easy) provides a C language library that allows 
+  cryptographic operations such as encryption, decryption, signing, 
+  and verification to be performed via a simple API, abstracting 
+  away the details of calling GnuPG directly.
+phase: 5
+# gnupg
+builddeps: [glibc, make, libassuan, libgpg-error, swig, qt6, graphviz, clisp, python]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  ../configure --prefix=/usr --disable-gpg-test &&
+  make PYTHONS=
+
+  if swig -version > /dev/null; then
+    srcdir=$PWD/../lang/python \
+    top_builddir=$PWD          \
+    pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD/lang/python
+  fi
+
+  make install PYTHONS=
+
+  if swig -version > /dev/null; then
+    pip3 install --no-index --find-links dist --no-user gpg
+  fi

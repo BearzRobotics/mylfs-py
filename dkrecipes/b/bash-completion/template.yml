@@ -1,0 +1,19 @@
+name: bash-completion
+version: 2.16.0
+release: 1
+url: https://github.com/scop/bash-completion/releases/download/2.16.0/bash-completion-2.16.0.tar.xz
+homepage: https://github.com/scop/bash-completion
+license: GPL-2.0-or-later
+summary: Programmable completion for Bash
+description: |
+  bash-completion extends the standard shell completion behavior of Bash
+  to intelligently complete arguments for many common programs, improving
+  usability and efficiency for the user.
+
+phase: 5
+builddeps: [glibc, make, bash]
+
+buildsteps: |
+  ./configure
+  make               # GNU make required
+  make install       # as root

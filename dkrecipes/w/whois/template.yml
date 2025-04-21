@@ -1,0 +1,18 @@
+name: whois
+version: 5.4.3
+release: 1
+url: https://github.com/rfc1036/whois/archive/v5.4.3/whois-5.4.3.tar.gz
+homepage: https://github.com/rfc1036/whois
+license: GPL-2.0-or-later
+summary: Client for the WHOIS protocol to query domain and network information
+description: |
+  Whois is a client utility that queries WHOIS servers to obtain information
+  about domains, IP addresses, and network resources.
+
+builddeps: [glibc, make, libidn2]
+
+buildsteps: |
+  make
+  make prefix=/usr install-whois
+  make prefix=/usr install-mkpasswd
+  make prefix=/usr install-pos

@@ -1,0 +1,23 @@
+name: lxqt-policykit
+version: 2.1.0
+release: 1
+url: https://github.com/lxqt/lxqt-policykit/releases/download/2.1.0/lxqt-policykit-2.1.0.tar.xz
+homepage: https://github.com/lxqt/lxqt-policykit
+license: GPL-2.0-or-later
+summary: PolicyKit agent for LXQt
+description: |
+  lxqt-policykit provides a PolicyKit authentication agent for the
+  LXQt desktop environment. It allows GUI dialogs to request user
+  authentication when applications require elevated privileges.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, polkit-qt, liblxqt]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+
+  make install

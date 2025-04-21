@@ -1,0 +1,23 @@
+name: strace
+version: 6.12
+release: 1
+url: https://github.com/strace/strace/releases/download/v6.12/strace-6.12.tar.xz
+homepage: https://strace.io/
+license: LGPL-2.1-or-later
+summary: Diagnostic, debugging, and instructional userspace tracer
+description: |
+  strace is a diagnostic, debugging, and instructional tool for Linux. 
+  It monitors and records the system calls used by a process and the 
+  signals it receives, providing detailed insight into how programs 
+  interact with the operating system.
+phase: 5
+builddeps: [glibc, make, libunwind-generic]
+buildsteps: |
+  # Solus builds strace against libunwind, however, I can't get it to find the header files.
+  # I'm leaving libunwind-generic as a dep, because I would like to figure this out.
+  #./configure --prefix=/usr --with-libunwind
+
+  # Apperently strace can't build against my kernel headers.
+  ./configure --prefix=/usr --enable-bundled=yes
+  make
+  make install

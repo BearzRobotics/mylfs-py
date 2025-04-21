@@ -1,0 +1,23 @@
+name: lxqt-powermanagement
+version: 2.1.0
+release: 1
+url: https://github.com/lxqt/lxqt-powermanagement/releases/download/2.1.0/lxqt-powermanagement-2.1.0.tar.xz
+homepage: https://github.com/lxqt/lxqt-powermanagement
+license: GPL-2.0-or-later
+summary: Power management daemon and tray for LXQt
+description: |
+  lxqt-powermanagement provides a daemon and user interface for
+  handling power management events within the LXQt desktop environment.
+  It supports suspend, hibernate, brightness control, and battery monitoring.
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, liblxqt, upower, polkit-qt,  kidletime, solid]
+buildsteps: |
+  mkdir build 
+  cd    build 
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        ..                           
+  make
+
+  make install

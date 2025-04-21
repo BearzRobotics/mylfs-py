@@ -1,0 +1,21 @@
+name: liburcu
+version: 0.15.2
+release: 1
+url: https://lttng.org/files/urcu/userspace-rcu-0.15.2.tar.bz2
+homepage: https://liburcu.org/
+license: LGPL-2.1-or-later
+summary: Userspace Read-Copy-Update library for lock-free data structures
+description: |
+  userspace-rcu (liburcu) provides Read-Copy-Update (RCU) synchronization 
+  primitives for userspace applications. RCU allows extremely fast 
+  concurrent read access while providing mechanisms for safe updates, 
+  making it ideal for high-performance multithreaded applications.
+phase: 5
+builddeps: [glibc, make, pkgconfig]
+buildsteps: |
+  ./configure --prefix=/usr    \
+              --disable-static \
+              --docdir=/usr/share/doc/liburcu-0.15.2
+  make
+
+  make install

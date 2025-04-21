@@ -1,0 +1,26 @@
+name: libtiff
+version: 4.7.0
+release: 1
+url: https://download.osgeo.org/libtiff/tiff-4.7.0.tar.gz
+homepage: https://libtiff.gitlab.io/libtiff/
+license: libtiff
+summary: Library for reading and writing TIFF image files
+description: |
+  libtiff provides support for reading and writing images in the Tag Image File Format (TIFF).
+  TIFF is a widely used format for storing high-quality raster graphics, including photographs
+  and line art. The library includes a collection of utilities for manipulating TIFF images.
+
+phase: 5
+builddeps: [glibc, cmake, ninja, zlib, libjpeg-turbo, xz, libpng, sdl2]
+
+buildsteps: |
+  mkdir -p libtiff-build &&
+  cd       libtiff-build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr ..     \
+        -D CMAKE_POLICY_VERSION_MINIMUM=3.5 \
+        -G Ninja                            \
+        -D CMAKE_INSTALL_DOCDIR=/usr/share/doc/libtiff-4.7.0 &&
+  ninja
+
+  ninja install
