@@ -7,6 +7,7 @@ url:
   - https://xcb.freedesktop.org/dist/xcb-util-renderutil-0.3.10.tar.xz
   - https://xcb.freedesktop.org/dist/xcb-util-wm-0.4.2.tar.xz
   - https://xcb.freedesktop.org/dist/xcb-util-cursor-0.1.5.tar.xz
+  - https://xcb.freedesktop.org/dist/xcb-util-errors-1.0.1.tar.gz
 homepage: https://xcb.freedesktop.org/
 
 license: MIT

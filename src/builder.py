@@ -156,17 +156,18 @@ def extract_tarball(config: GlobalConfig, recipe: Recipe, phase: int):
         ConsoleMSG.failed(f"Error: {e}")
         return False
 
-def filter_start_package(recipes: List[Recipe], start_pkg: str | None) -> List[Recipe]:
-    if not start_pkg:
-        return recipes  # no filtering needed
+def filter_start_package(recipes: List[Recipe], start_pkgs: List[str] | None) -> List[Recipe]:
+    if not start_pkgs:
+        return recipes
 
-    for idx, recipe in enumerate(recipes):
-        if recipe.name == start_pkg:
-            return recipes[idx:]  # return from the matching package onward
+    matched = [r for r in recipes if r.name in start_pkgs]
 
-    # fallback if not found
-    ConsoleMSG.warn(f"Start package '{start_pkg}' not found, building all.")
-    return recipes
+    if not matched:
+        ConsoleMSG.warn(f"Start package(s) {start_pkgs} not found, building all.")
+        return recipes
+
+    return matched
+
 
 def get_chroot_cwd(config, recipe):
     path = Path(recipe.recipe_source)
@@ -464,7 +465,16 @@ def buildAllPhase5(config: GlobalConfig, recipes: List[Recipe]):
     
     if config.start_package is not None:
         if (config.start_phase - 1 == 4 or config.start_phase - 1 == 5):
-            phase5 = filter_start_package(phase5, config.start_package)
+            oldlist = phase5
+            filtered = filter_start_package(phase5, config.start_package)
+            
+            needed = set(r.name for r in filtered)
+            for recipe in filtered:
+                for dep in recipe.builddeps + recipe.rundeps:
+                    needed.add(dep)
+            
+            phase5 = [r for r in oldlist if r.name in needed]
+            phase5 = resolveBO(config, phase5)
         else:
             if config.debug:
                 print(f"Ignoring start_package '{config.start_package}' in phase {phase + 1}, only applies to phase {config.start_phase}")
@@ -531,12 +541,7 @@ def buildAllPhase5(config: GlobalConfig, recipes: List[Recipe]):
 
             
     session.close()
-        
-# This takes a list of recipe names on builds them and their deps
-def buildSelectPhase5(config: GlobalConfig):
-    pass
-
-
+    
 # This function should update the running system
 def updateSystem(config: GlobalConfig):
     pass

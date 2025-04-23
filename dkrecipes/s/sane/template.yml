@@ -1,4 +1,4 @@
-name: sane-backends
+name: sane
 version: 1.2.1
 release: 1
 url: https://anduin.linuxfromscratch.org/BLFS/sane/sane-backends-1.2.1.tar.gz
@@ -11,6 +11,7 @@ description: |
   on UNIX systems. It provides support for a wide range of 
   flatbed and document scanners, and supports both USB and networked devices.
 phase: 5
+
 builddeps: [glibc, libusb, libpng,  libtiff, v4l-utils, pkgconfig, python]
 buildsteps: |
   if ! getent group scanner > /dev/null; then

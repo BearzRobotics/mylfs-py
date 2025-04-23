@@ -40,9 +40,9 @@ buildsteps: |
 
     cp ./.config /boot/$CONFIGFILE
 
-    cp arch/x86_64/boot/bzImage /boot/vmlinuz-{version}-lfs-$LFS_VERSION
+    cp -vf arch/x86_64/boot/bzImage /boot/vmlinuz-{version}-lfs-$LFS_VERSION
 
-    cp System.map /boot/System.map-{version}
+    cp -vf System.map /boot/System.map-{version}
 
     mkdir -vp /usr/share/doc/linux-{version}
-    cp -r Documentation/* /usr/share/doc/linux-{version}
+    cp -rvf Documentation/* /usr/share/doc/linux-{version}

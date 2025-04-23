@@ -42,7 +42,7 @@ def parse_cli_args() -> CLIConfig:
     parser.add_argument("--debug", action="store_true")
     parser.add_argument("--no-install", action="store_true")
     parser.add_argument("--start-phase", type=int, choices=[0,1, 2, 3, 4, 5])
-    parser.add_argument("--start-package", type=str)
+    parser.add_argument("--start-package", nargs="+", type=str)
     parser.add_argument("--chroot", action="store_true")
 
     args = parser.parse_args()

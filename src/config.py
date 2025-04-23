@@ -17,7 +17,7 @@
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from dataclasses import dataclass, field
-from typing import Optional
+from typing import List, Optional
 
 # 3rd party
 import yaml
@@ -67,7 +67,7 @@ class CLIConfig:
     install_drive: Optional[str] = None
     install_filesystem: Optional[str] = None
     start_phase: Optional[int] = 0
-    start_package: Optional[str] = None
+    start_package: Optional[List[str]] = None
     chroot: bool = False
 
 @dataclass

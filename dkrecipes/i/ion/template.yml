@@ -1,7 +1,6 @@
 name: ion
 version: git
 release: 1
-url: https://gitlab.redox-os.org/redox-os/ion
 homepage: https://gitlab.redox-os.org/redox-os/ion
 license: MIT
 summary: A modern system shell written in Rust

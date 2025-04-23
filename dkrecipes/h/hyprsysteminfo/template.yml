@@ -10,7 +10,7 @@ description: |
   hyprsysteminfo is a lightweight system information tool designed for use with Hyprland. It provides basic hardware and system details in a clean and Hyprland-friendly format.
 
 phase: 5
-builddeps: [glibc, meson, ninja, hyprutils]
+builddeps: [glibc, meson, ninja, hyprutils, qt6, wayland]
 
 buildsteps: |
   cmake --no-warn-unused-cli -DCMAKE_BUILD_TYPE:STRING=Release -DCMAKE_INSTALL_PREFIX:PATH=/usr -S . -B ./build

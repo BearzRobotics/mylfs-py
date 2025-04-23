@@ -11,7 +11,7 @@ description: |
 
 phase: 5
 builddeps: [
-  glibc, meson, ninja, cmake, pkgconfing,
+  glibc, meson, ninja, cmake, pkgconfig,
   wayland, wayland-protocols, libdisplay-info,
   libinput, libseatd, pixman, pango, cairo,
   hyprwayland-scanner, hyprutils, hyprlang,

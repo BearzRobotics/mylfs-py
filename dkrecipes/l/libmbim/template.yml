@@ -11,7 +11,7 @@ description: |
   protocol. It includes utilities for sending raw and structured 
   MBIM messages to modems.
 phase: 5
-builddeps: [glibc, make, help2man]
+builddeps: [glibc, make, help2man, glib]
 buildsteps: |
   ./configure --prefix=/usr --disable-static &&
   make

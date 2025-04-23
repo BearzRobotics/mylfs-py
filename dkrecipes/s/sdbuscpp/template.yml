@@ -13,7 +13,7 @@ description: |
   sdbus-cpp is a C++ library for D-Bus IPC communication, providing a modern, simple, and convenient API over low-level D-Bus. It is suitable for developing desktop, embedded, and system applications that use D-Bus services.
 
 phase: 5
-builddeps: [glibc, cmake]
+builddeps: [glibc, cmake, elogind, basu]
 
 buildsteps: |
   cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr

@@ -66,19 +66,21 @@ usage() {
         "  -t <TAG>       Use device tag (LABEL, UUID, PARTLABEL, PARTUUID)" \
         "  -p / -P        Exclude/include pseudo filesystems (default: exclude)" \
         "  -f <filter>    Only show entries under this path" \
+        "  -C             This option follows the default LFS guidelines for mounting the temp filesystem" \
         "  -h             Show this help"
     exit "${1:-0}"
 }
 
 # Parse arguments
-ident='' filter='' pseudo=0
-while getopts hPpLUf:t: flag; do
+ident='' filter='' pseudo=0 clean=0
+while getopts hPpLUCf:t: flag; do
     case $flag in
         h) usage ;;
         P) pseudo=1 ;;
         p) pseudo=0 ;;
         L) ident=LABEL ;;
         U) ident=UUID ;;
+        C) clean=1 ;;
         f) [ -d "$OPTARG" ] || die "Not a directory '$OPTARG'"
            filter=$(_readlinkf "$OPTARG") ;;
         t) case "$OPTARG" in
@@ -104,19 +106,33 @@ cat <<EOF
 EOF
 
 # /proc/mounts
+# If you want comments remove the # infront of the &&
 while read -r fs dir type options _; do
     if ispseudo; then
         pass=0
         [ "$pseudo" != 1 ] && continue
-        [ "$ident" ] && out "# $fs"
+        [ "$ident" ] # && out "# $fs"
     else
         case "$dir" in "${root:-/}"*) ;; *) continue; esac
-        [ "$ident" ] && out "# $fs"
+        [ "$ident" ] # && out "# $fs"
         fs="$(find_tag "$fs")"
         [ "$root" ] && dir=/${dir#$root}
         case "$dir" in /) pass=1 ;; *) pass=2 ;; esac
     fi
     [ "$filter" ] && case "$dir" in ${filter%/}*) ;; *) continue; esac
+    
+    if [ "$clean" = 1 ]; then
+        case "$dir" in
+            /proc)           options="nosuid,noexec,nodev" ;;
+            /sys)            options="nosuid,noexec,nodev" ;;
+            /dev/pts)        options="gid=5,mode=620" ;;
+            /run)            options="defaults" ;;
+            /dev)            options="mode=0755,nosuid" ;;
+            /dev/shm)        options="nosuid,nodev" ;;
+            /sys/fs/cgroup)  options="nosuid,noexec,nodev" ;;
+        esac
+    fi
+    
     print_mnt "$fs" "${dir:-/}" "$type" "$options" 0 "$pass"
 done < /proc/mounts
 
@@ -130,9 +146,30 @@ while read -r file _; do
     print_mnt "$file" none swap "pri=1" 0 0
 done < /proc/swaps
 
+add_if_missing_clean() {
+    case "$2" in
+        /proc)           print_mnt "$1" "$2" "$3" "nosuid,noexec,nodev" 0 0 ;;
+        /sys)            print_mnt "$1" "$2" "$3" "nosuid,noexec,nodev" 0 0 ;;
+        /dev/pts)        print_mnt "$1" "$2" "$3" "gid=5,mode=620"      0 0 ;;
+        /run)            print_mnt "$1" "$2" "$3" "defaults"            0 0 ;;
+        /dev)            print_mnt "$1" "$2" "$3" "mode=0755,nosuid"    0 0 ;;
+        /dev/shm)        print_mnt "$1" "$2" "$3" "nosuid,nodev"        0 0 ;;
+        /sys/fs/cgroup)  print_mnt "$1" "$2" "$3" "nosuid,noexec,nodev" 0 0 ;;
+    esac
+}
+
+
 # Add essential pseudo-filesystems explicitly if missing
 add_if_missing() {
-    grep -q -E "[[:space:]]$2[[:space:]]" /proc/mounts || print_mnt "$1" "$2" "$3" "$4" 0 0
+    if grep -q -E "[[:space:]]$2[[:space:]]" /proc/mounts; then
+        return
+    fi
+
+    if [ "$clean" = 1 ]; then
+        add_if_missing_clean "$@"
+    else
+        print_mnt "$@"
+    fi
 }
 
 add_if_missing proc           /proc           proc     "nosuid,noexec,nodev"

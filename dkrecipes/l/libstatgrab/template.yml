@@ -1,0 +1,20 @@
+name: libstatgrab
+version: 0.92.1
+release: 1
+url: https://www.mirrorservice.org/sites/ftp.i-scream.org/pub/i-scream/libstatgrab/libstatgrab-0.92.1.tar.gz
+homepage: https://libstatgrab.org/
+
+license: GPL-2.0-or-later
+summary: Library for system statistics (CPU, memory, network, disk)
+description: |
+  libstatgrab is a library that provides system statistics such as CPU usage, memory utilization, network traffic, and disk usage. It is used by monitoring tools and panels like lxqt-panel's CPU load plugin.
+
+phase: 5
+builddeps: [glibc, make, log4cplus]
+
+buildsteps: |
+  ./configure --prefix=/usr   \
+              --disable-static \
+              --docdir=/usr/share/doc/libstatgrab-0.92.1 &&
+  make
+  make install

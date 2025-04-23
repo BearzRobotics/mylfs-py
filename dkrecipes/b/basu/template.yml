@@ -1,0 +1,22 @@
+name: basu
+version: 0.2.1
+release: 1
+url: https://git.sr.ht/~emersion/basu/refs/download/v0.2.1/basu-0.2.1.tar.gz
+homepage: https://git.sr.ht/~emersion/basu
+
+license: MIT
+summary: systemd-compatible D-Bus activation shim
+description: |
+  basu (Basic Audit System Utilities) is a minimal, systemd-compatible
+  D-Bus service activation shim. It provides the org.freedesktop.systemd1
+  D-Bus interface needed by software that depends on systemd, without
+  requiring the full systemd init system. It is useful for minimalist
+  distributions and init systems like OpenRC, runit, or s6.
+
+phase: 5
+builddeps: [glibc, meson, ninja, dbus, gperf]
+
+buildsteps: |
+  meson setup build --prefix=/usr
+  ninja -C build
+  ninja -C build install
