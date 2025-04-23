@@ -24,9 +24,19 @@ buildsteps: |-
 
   install -v -m755 -d /etc/pam.d
 
-  if [ -e /etc/pam.d/other ]; then
-      rm -rf /etc/pam.d/other
-  fi
+  install -v -m755 -d /etc/pam.d &&
+
+  # for test
+  #cat > /etc/pam.d/other << "EOF"
+  #auth     required       pam_deny.so
+  #account  required       pam_deny.so
+  #password required       pam_deny.so
+  #session  required       pam_deny.so
+  #EOF
+
+  #if [ -e /etc/pam.d/other ]; then
+  #    rm -rf /etc/pam.d/other
+  #fi
 
 
   ninja install
@@ -36,12 +46,12 @@ buildsteps: |-
   install -vdm755 /etc/pam.d 
 
   cd ..
-  cp -rv ../static/other           /etc/pam.d/other
-  cp -rv ../static/system-account  /etc/pam.d/system-account
-  cp -rv ../static/system-auth     /etc/pam.d/system-auth
-  cp -rv ../static/passwd          /etc/pam.d/passwd
-
-
+  cp -rv ../static/other            /etc/pam.d/other
+  cp -rv ../static/system-account   /etc/pam.d/system-account
+  cp -rv ../static/system-auth      /etc/pam.d/system-auth
+  cp -rv ../static/system-password  /etc/pam.d/system-password
+  cp -rv ../static/system-session   /etc/pam.d/system-session
+  
   # Ensure all PAM configs are owned by root and have correct permissions
   chown -v root:root /etc/pam.d/*
   chmod -v 644 /etc/pam.d/*
