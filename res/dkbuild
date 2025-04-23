@@ -91,6 +91,8 @@ Total offline memory:      0B
 # I'll copy that from this build dir to res/logs and res/logs2 will be the rebuild for 
 # that one unexpected failed package.
 
+# Logs dirs are in the tarball
+
 # as root
 /usr/bin/time ./mylfs
 
