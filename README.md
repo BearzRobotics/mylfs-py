@@ -204,17 +204,6 @@ Make sure to set a root password.
 
 NOTE: This should be patched. However, when I first booted I could not set the root password. Doing this seems to have fixed that issue.
 
-cat > /etc/pam.d/passwd << "EOF"
-# Begin /etc/pam.d/passwd
-
-#%PAM-1.0
-auth       required     pam_unix.so
-account    required     pam_unix.so
-password   required     pam_unix.so sha512 shadow
-session    required     pam_unix.so
-
-# End /etc/pam.d/passwd
-EOF
 
 # grub2
 In our Chroot we need to install grub2 to our drive. My drive is /dev/sdc make sure you properly
