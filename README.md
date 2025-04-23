@@ -239,6 +239,27 @@ menuentry "GNU/Linux, Linux 6.13.9-lfs-12.3" {
 ---
 
 
+Grub config from the bash script MyLFS that I based this off.
+You can get the Part UUID from running blkid and passing in your drive with it's partition id.
+```console
+blkid /dev/sdc4
+```
+
+In it's output you'll see PARTUUID="". What ever is in the string is your part uuid and would go in the grub config. (Best success using this)
+---
+# Begin /boot/grub/grub.cfg
+set default=0
+set timeout=5
+
+insmod ext2
+
+menuentry "GNU/Linux, Linux 6.10.5-lfs-12.2" {
+  search --no-floppy --label LFSROOT --set=root
+  linux   /boot/vmlinuz-6.10.5-lfs-12.2 rootwait root=PARTUUID=46e41690-01 ro net.ifnames=0 biosdevname=0 nomodeset
+}
+
+---
+
 if you build dkrecipes you should have grub-mkconfig command.  I like to use UUIDs instead of /dev/sdX notation.
 
 
