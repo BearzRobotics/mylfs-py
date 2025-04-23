@@ -39,6 +39,7 @@ buildsteps: |-
   cp -rv ../static/other           /etc/pam.d/other
   cp -rv ../static/system-account  /etc/pam.d/system-account
   cp -rv ../static/system-auth     /etc/pam.d/system-auth
+  cp -rv ../static/passwd          /etc/pam.d/passwd
 
 
   # Ensure all PAM configs are owned by root and have correct permissions

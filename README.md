@@ -193,13 +193,28 @@ When done make sure to unmount your bind mounts
 # configure
 fstab & hosts need to be configured inside. This is a good time to make any last minute configuration to other files as well. 
 
-
 brave souls can try genfstab, however, I can't guarantee that it will work. Otherwise refer to the LFS book for setting up this file. This modified version also allows for a -C to be used with -P to allow for a clean style LFS fstab setup. --- Experimental
 
 
 ```console
 genfstab -UP > /etc/fstab
 ```
+
+Make sure to set a root password.
+
+NOTE: This should be patched. However, when I first booted I could not set the root password. Doing this seems to have fixed that issue.
+
+cat > /etc/pam.d/passwd << "EOF"
+# Begin /etc/pam.d/passwd
+
+#%PAM-1.0
+auth       required     pam_unix.so
+account    required     pam_unix.so
+password   required     pam_unix.so sha512 shadow
+session    required     pam_unix.so
+
+# End /etc/pam.d/passwd
+EOF
 
 # grub2
 In our Chroot we need to install grub2 to our drive. My drive is /dev/sdc make sure you properly
@@ -259,6 +274,7 @@ umount -l /mnt/usb/dev
 umount -l /mnt/usb/proc
 umount -l /mnt/usb/sys
 umount -l /mnt/usb/run
+umount -l /mnt/usb/
 sync
 ```
 
@@ -276,6 +292,8 @@ if you were working with the image file also run
 losetup -d /dev/loop0
 ```
 Remember my drive was /dev/sdc. Make sure to pass in the right drive or lfs.img.
+
+When creating the grub config, the system /dev/ is mounted. However, when booting the drive directly in qemu like done below it becomes the only drive. Thus I had to edit the grub config and change /dev/sdc4 to /dev/sda4. eg. linux /boot/vmlinuz-6.13.9-lfs-12.3 root=/dev/sda3 ro
 
 
 ```console
