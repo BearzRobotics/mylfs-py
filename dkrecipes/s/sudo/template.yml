@@ -42,3 +42,9 @@ buildsteps: |-
   # End /etc/pam.d/sudo
   EOF
   chmod 644 /etc/pam.d/sudo
+  chown root:root   /etc/pam.d/sudo
+  chown root:root   /etc/sudo.conf
+  chown root:root   /usr/bin/sudo
+  chmod u+s         /usr/bin/sudo
+
+

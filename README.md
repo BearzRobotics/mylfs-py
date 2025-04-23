@@ -287,7 +287,6 @@ When creating the grub config, the system /dev/ is mounted. However, when bootin
 
 ```console
 qemu-system-x86_64 -m 2048 -enable-kvm -hda /dev/sdc -boot order=d -vga std
-
 ```
 
 # Phases
