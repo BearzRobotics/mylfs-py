@@ -1,0 +1,26 @@
+name: gtk3mm
+version: 3.24.9
+release: 1
+url: https://download.gnome.org/sources/gtkmm/3.24/gtkmm-3.24.9.tar.xz
+homepage: https://www.gtkmm.org/
+
+license: LGPL-2.1-or-later
+summary: C++ bindings for GTK+ 3
+description: |
+  gtkmm is the official C++ interface for the popular GUI library GTK+. It provides
+  a convenient interface for C++ developers to build graphical user interfaces using
+  GTK+ 3, with full support for the object-oriented features of C++.
+
+phase: 5
+builddeps: [gtk3, libcairomm, pangomm, atkmm, pkgconfig, ninja, meson, doxygen]
+
+buildsteps: |
+  mkdir gtkmm3-build &&
+  cd    gtkmm3-build &&
+
+  meson setup --prefix=/usr -D build-documentation=true --buildtype=release .. &&
+  ninja
+
+  ninja install
+
+  mv -v /usr/share/doc/gtkmm-3.0 /usr/share/doc/gtkmm-3.24.9

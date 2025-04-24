@@ -1,0 +1,20 @@
+name: xdg-su
+version: 1.2.3
+release: 1
+url: https://github.com/tarakbumba/xdg-su/archive/refs/tags/xdg-su-1.2.3.tar.gz
+homepage: https://github.com/tarakbumba/xdg-su
+
+license: GPL-2.0-or-later
+summary: xdg-su - run programs as root using available su/sudo tools
+description: |
+  xdg-su provides a simple command to launch graphical or terminal applications
+  as another user (typically root) using available tools like su, sudo, kdesu, or gksu.
+  It is designed to fit into XDG-compliant desktop environments.
+
+phase: 5
+builddeps: [make, lynx, xdg-utils]
+
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install

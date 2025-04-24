@@ -1,0 +1,20 @@
+name: exfatprogs
+version: 1.2.8
+release: 1
+url: https://github.com/exfatprogs/exfatprogs/releases/download/1.2.8/exfatprogs-1.2.8.tar.gz
+homepage: https://github.com/exfatprogs/exfatprogs
+
+license: GPL-2.0-or-later
+summary: Utilities for creating and checking exFAT filesystems
+description: |
+  exfatprogs provides a set of utilities for creating, checking, and repairing
+  exFAT filesystems. It is the official userspace implementation maintained by
+  the Linux kernel exFAT maintainers.
+
+phase: 5
+builddeps: [pkgconfig, glibc, make]
+
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install

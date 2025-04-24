@@ -1,0 +1,28 @@
+name: gparted
+version: 1.7.0
+release: 1
+url: https://downloads.sourceforge.net/gparted/gparted-1.7.0.tar.gz
+homepage: https://gparted.org/
+
+license: GPL-2.0-or-later
+summary: GNOME partition editor for managing disk partitions
+description: |
+  GParted is a graphical partition editor that allows you to create, resize, move,
+  and manage disk partitions. It provides a user-friendly interface for libparted
+  and supports many filesystem types.
+
+phase: 5
+builddeps: [gtk3mm, parted, xorg-libs, pkgconfig, make, 
+  btrfs-progs, udftools, exfatprogs, mtools, e2fsprogs, dosfstools, jfsutils
+  ]
+
+buildsteps: |
+  ./configure --prefix=/usr    \
+              --disable-doc    \
+              --disable-static &&
+  make
+
+
+  make install
+
+  

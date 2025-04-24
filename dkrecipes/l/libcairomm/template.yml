@@ -1,0 +1,28 @@
+name: libcairomm
+version: 1.14.5
+release: 1
+url: https://www.cairographics.org/releases/cairomm-1.14.5.tar.xz
+homepage: https://www.cairographics.org/
+
+license: LGPL-2.1-or-later
+summary: C++ bindings for the Cairo graphics library
+description: |
+  cairomm provides a C++ interface to the Cairo 2D graphics library. It allows
+  C++ applications to use Cairo's powerful graphics rendering features with
+  an object-oriented approach, suitable for use in graphical toolkits such as GTKmm.
+
+phase: 5
+builddeps: [cairo, pkgconfig, libsigc++21, boost, doxygen, meson, ninja, mm-common]
+
+buildsteps: |
+  mkdir bld &&
+  cd    bld &&
+
+  meson setup ..             \
+        --prefix=/usr        \
+        --buildtype=release  \
+        -D build-tests=true  \
+        -D boost-shared=true &&
+  ninja
+
+  ninja install

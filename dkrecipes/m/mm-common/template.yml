@@ -1,0 +1,25 @@
+name: mm-common
+version: 1.0.6
+release: 1
+url: https://github.com/GNOME/mm-common/archive/refs/tags/1.0.6.tar.gz
+homepage: https://gitlab.gnome.org/GNOME/mm-common
+
+license: GPL-2.0-or-later
+summary: Common build infrastructure for GNOME C++ binding projects
+description: |
+  mm-common provides common files and macros used to build GNOME C++ binding libraries
+  such as glibmm, atkmm, cairomm, pangomm, and gtkmm. It includes autoconf macros, 
+  documentation tools, and build infrastructure shared across multiple mm projects.
+
+phase: 5
+builddeps: [autoconf, meson, ninja, gettext, libtool, wget, curl, tar, sed]
+
+buildsteps: |
+  meson setup build --prefix=/usr -Duse-network=true
+  ninja -C build  
+  ninja -C build/ install
+  
+  #sh autogen.sh
+  #./configure --prefix=/usr --enable-network
+  #make
+  #make install

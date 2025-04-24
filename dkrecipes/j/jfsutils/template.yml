@@ -1,0 +1,25 @@
+name: jfsutils
+version: 1.1.15
+release: 1
+url: https://jfs.sourceforge.net/project/pub/jfsutils-1.1.15.tar.gz
+homepage: https://jfs.sourceforge.net/
+
+license: GPL-2.0-or-later
+summary: Utilities for managing JFS filesystems
+description: |
+  jfsutils contains utilities for creating, checking, and maintaining JFS (Journaled File System)
+  filesystems on Linux. JFS was originally developed by IBM and is known for its performance and low CPU usage.
+
+phase: 5
+builddeps: [make, sed, patch]
+
+buildsteps: |
+  patch -Np1 -i ../patches/jfsutils-1.1.15-gcc10_fix-1.patch
+
+  sed -i "/unistd.h/a#include <sys/types.h>"    fscklog/extract.c &&
+  sed -i "/ioctl.h/a#include <sys/sysmacros.h>" libfs/devices.c   &&
+
+  ./configure &&
+  make
+
+  make install

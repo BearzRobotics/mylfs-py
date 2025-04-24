@@ -1,0 +1,22 @@
+name: pangomm
+version: 2.46.4
+release: 1
+url: https://download.gnome.org/sources/pangomm/2.46/pangomm-2.46.4.tar.xz
+homepage: https://www.gtkmm.org/
+
+license: LGPL-2.1-or-later
+summary: C++ bindings for the Pango text layout library
+description: |
+  pangomm provides a C++ interface to the Pango text layout and rendering library,
+  which is used for internationalized text layout in GTKmm applications.
+
+phase: 5
+builddeps: [pango, glibmm26, libcairomm, pkgconfig, meson, ninja, mm-common]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+  ninja
+  ninja install

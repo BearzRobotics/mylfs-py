@@ -1,0 +1,19 @@
+name: udftools
+version: 2.3
+release: 1
+url: https://github.com/pali/udftools/releases/download/2.3/udftools-2.3.tar.gz
+homepage: https://github.com/pali/udftools
+
+license: GPL-2.0-or-later
+summary: Tools for creating and manipulating UDF filesystems
+description: |
+  udftools is a collection of utilities for creating, checking, and writing to
+  UDF (Universal Disk Format) filesystems, commonly used on DVDs and Blu-ray discs.
+
+phase: 5
+builddeps: [glibc, readline, make]
+
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install
