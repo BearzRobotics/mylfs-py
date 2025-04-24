@@ -22,6 +22,8 @@ recipes/**/*.tar.bz2
 recipes/**/*.tgz
 recipes/**/*.zip
 
+# EXCEPTION: keep static_files.tar.gz in lfs-setup
+!recipes/bootstrap/phase3/lfs-setup/static/static_files.tar.gz
 
 dkrecipes/**/*.tar.gz
 dkrecipes/**/*.tar.xz
@@ -29,6 +31,9 @@ dkrecipes/**/*.tar.zst
 dkrecipes/**/*.tar.bz2
 dkrecipes/**/*.tgz
 dkrecipes/**/*.zip
+
+# EXCEPTION: keep static_files.tar.gz in lfs-setup
+!dkrecipes/bootstrap/phase3/lfs-setup/static/static_files.tar.gz
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
