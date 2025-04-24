@@ -9,7 +9,7 @@ description: |
   gping is a command-line utility like ping, but with a graphical interface. It uses Unicode and terminal graphics to visually display ping results over time.
 phase: 5
 # cargo isn't it's own package
-builddeps: [rust, gcc, ncurses]
+builddeps: [rust, gcc, ncurses, iputils]
 buildsteps: |
   
   export PATH=/opt/rustc/bin:$PATH

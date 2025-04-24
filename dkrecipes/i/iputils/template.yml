@@ -1,0 +1,19 @@
+name: iputils
+version: 20240905
+release: 1
+url: https://github.com/iputils/iputils/releases/download/20240905/iputils-20240905.tar.gz
+homepage: https://github.com/iputils/iputils
+
+license: GPL-2.0-or-later
+summary: Network utilities for IP management (ping, traceroute, etc.)
+description: |
+  iputils provides essential network utilities for managing and diagnosing
+  IP networks, including tools like ping, traceroute, clockdiff, and arping.
+  These tools are commonly used for network troubleshooting and system monitoring.
+
+phase: 5
+builddeps: [make, meson, libcap, libidn2, pkgconfig]
+
+buildsteps: |
+  ./configure && meson build --prefix=/usr
+  cd builddir && meson install

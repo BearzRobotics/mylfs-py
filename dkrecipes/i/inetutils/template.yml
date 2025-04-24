@@ -23,7 +23,9 @@ buildsteps: |
               --disable-rexec      \
               --disable-rlogin     \
               --disable-rsh        \
-              --disable-servers
+              --disable-servers    \
+              --disable-ping       \
+              --disable-ping6
   make
 
   if [ "$RUN_TESTS" = "1" ]; then
@@ -34,4 +36,4 @@ buildsteps: |
 
   make install
 
-  mv /usr/{,s}bin/ifconfig
+  #mv /usr/{,s}bin/ifconfig
