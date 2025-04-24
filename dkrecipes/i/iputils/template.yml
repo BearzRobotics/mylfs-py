@@ -12,8 +12,9 @@ description: |
   These tools are commonly used for network troubleshooting and system monitoring.
 
 phase: 5
-builddeps: [make, meson, libcap, libidn2, pkgconfig]
+builddeps: [make, meson, libcap, libidn2, pkgconfig, docbook-xml]
 
 buildsteps: |
-  ./configure && meson build --prefix=/usr
-  cd builddir && meson install
+  meson setup build --prefix=/usr
+  ninja -C build
+  ninja -C build install

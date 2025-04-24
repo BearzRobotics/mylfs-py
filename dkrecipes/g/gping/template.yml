@@ -11,7 +11,6 @@ phase: 5
 # cargo isn't it's own package
 builddeps: [rust, gcc, ncurses, iputils]
 buildsteps: |
-  
   export PATH=/opt/rustc/bin:$PATH
   
   cargo build --release
