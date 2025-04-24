@@ -15,7 +15,7 @@ buildsteps: |
   mkdir build 
   cd    build 
 
-  meson setup --prefix=/usr --buildtype=release -D system-lua=true .. 
+  meson setup --prefix=/usr --buildtype=release -D system-lua=false .. 
   ninja
 
   ninja install

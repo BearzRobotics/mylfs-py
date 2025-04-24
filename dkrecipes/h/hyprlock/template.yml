@@ -10,7 +10,8 @@ description: |
   hyprlock is a fast and configurable screen locker for the Hyprland Wayland compositor. It supports rich theming, multiple monitors, and quick unlock mechanisms integrated with Wayland session management.
 
 phase: 5
-builddeps: [glibc, cmake, wayland, wayland-protocols, linux-pam, hyprgraphics, pango, hyprutils, glib, cairo, libdrm, sdbuscpp]
+builddeps: [glibc, cmake, wayland, wayland-protocols, linux-pam, hyprgraphics, pango, 
+  hyprutils, glib, cairo, libdrm, sdbus-cpp]
 
 buildsteps: |
   cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr

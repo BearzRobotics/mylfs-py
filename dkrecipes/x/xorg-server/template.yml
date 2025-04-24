@@ -12,7 +12,8 @@ description: |
 phase: 5
 buildsystem: meson
 builddeps: [
-  glibc, meson, ninja, xorgproto, xorgsetup, xorg-fonts, xkeyboard-config, pixman, libxcvt, libtirpc, dbus, mesa
+  glibc, meson, ninja, xorgproto, xorgsetup, xorg-fonts, xkeyboard-config, pixman, libxcvt, 
+  libtirpc, dbus, mesa, libepoxy
 ]
 
 buildsteps: |

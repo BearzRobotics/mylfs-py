@@ -53,10 +53,7 @@ buildsteps: |-
   cp -rv ../static/system-session   /etc/pam.d/system-session
   
   # Ensure all PAM configs are owned by root and have correct permissions
-  chown -v root:root /etc/pam.d/*
+  chown -Rv root:root /etc/pam.d/*
   chmod -v 644 /etc/pam.d/*
-
-  chown -R root:root  /etc/pam.d/
-  chmod 644 /etc/pam.d/*
 
   tar -C / -xvf ../Linux-PAM-1.7.0-docs.tar.xz

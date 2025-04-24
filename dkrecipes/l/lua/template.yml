@@ -11,7 +11,9 @@ description: |
 
 phase: 5
 
-builddeps: [glibc, make, patch, sed, pkgconfig]
+# while lua 5.4 doesn't actually depend on lua51, I want to build that first
+# and ensure a clean envieroment.
+builddeps: [glibc, make, patch, sed, pkgconfig, lua51]
 
 buildsteps: |
   patch -Np1 -i ../patches/lua-5.4.7-shared_library-1.patch

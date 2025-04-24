@@ -1,0 +1,20 @@
+name: sqlalchemy
+version: 2.0.40
+release: 1
+url: https://github.com/sqlalchemy/sqlalchemy/archive/refs/tags/rel_2_0_40.tar.gz
+homepage: https://www.sqlalchemy.org/
+
+license: MIT
+summary: The Python SQL Toolkit and Object Relational Mapper
+description: |
+  SQLAlchemy is the Python SQL toolkit and Object Relational Mapper that gives
+  application developers the full power and flexibility of SQL. It provides
+  a full suite of well-known enterprise-level persistence patterns.
+
+phase: 5
+builddeps: [python, python-setuptools, python-wheel]
+
+buildsteps: |
+  # Should build this from source later. For now I just need to get 
+  # mylfs-py working on the LFS build it creates
+  pip3 install sqlalchemy

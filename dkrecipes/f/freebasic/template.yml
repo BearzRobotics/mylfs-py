@@ -16,6 +16,7 @@ buildsystem: manual
 builddeps: [glibc, ncurses5, libarchive, xorg-libs]
 
 buildsteps: |
+  ln -sv /opt/ncurses5/lib/libtinfo.so.5 /usr/lib/libtinfo.so.5
   ./install.sh -i /usr
 
   cp -frv examples /root/fbe/

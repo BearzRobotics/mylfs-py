@@ -13,5 +13,7 @@ phase: 5
 builddeps: [lua51, make]
 
 buildsteps: |
-  make LUA_VERSION=5.1
+  make LUA_VERSION=5.1 \
+    CFLAGS="$(pkg-config --cflags lua5.1) -fPIC" \
+    LUA_LIB="$(pkg-config --libs lua5.1)" 
   install -Dm755 lpeg.so /usr/lib/lua/5.1/lpeg.so

@@ -10,7 +10,7 @@ description: |
   hypridle is a Wayland idle daemon designed for Hyprland and other compositors. It provides hooks for handling idle events such as screen locking, screen dimming, and running custom user scripts on idle timeouts.
 
 phase: 5
-builddeps: [glibc, cmake, wayland, wayland-protocols, sdbuscpp, hyprlang]
+builddeps: [glibc, cmake, wayland, wayland-protocols, sdbus-cpp, hyprlang]
 
 buildsteps: |
   cmake -B build -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=/usr
