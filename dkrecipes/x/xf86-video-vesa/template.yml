@@ -1,0 +1,22 @@
+name: xf86-video-vesa
+version: 1.2.3
+release: 1
+url: https://gitlab.freedesktop.org/xorg/driver/xf86-video-vesa/-/archive/xf86-video-vesa-2.5.0/xf86-video-vesa-xf86-video-vesa-2.5.0.tar.gz
+homepage: https://gitlab.freedesktop.org/xorg/
+
+license: MIT
+summary: X.Org input driver for Wacom tablets
+description: |
+  xf86-video-vesa, is a basic VGA driver that should work in QEMU
+phase: 5
+buildsystem: autotools
+builddeps: [
+  glibc, make, pkgconfig, xorg-server, xorgsetup, libtool
+]
+
+buildsteps: |
+  source /etc/profile
+  sh autogen.sh
+  ./configure $XORG_CONFIG
+  make
+  make install

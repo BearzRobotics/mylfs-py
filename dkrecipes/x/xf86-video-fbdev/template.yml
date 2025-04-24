@@ -1,0 +1,24 @@
+name: xf86-video-fbdev
+version: 0.5.1
+release: 1
+url: https://gitlab.freedesktop.org/xorg/driver/xf86-video-fbdev/-/archive/xf86-video-fbdev-0.5.1/xf86-video-fbdev-xf86-video-fbdev-0.5.1.tar.gz
+homepage: https://gitlab.freedesktop.org/xorg/
+
+license: MIT
+summary: X.Org video driver for framebuffer devices
+description: |
+  xf86-video-fbdev is a generic framebuffer video driver for X.Org, used to
+  interface with kernel-provided framebuffer devices such as /dev/fb0.
+
+phase: 5
+buildsystem: autotools
+builddeps: [
+  glibc, make, pkgconfig, xorg-server, xorgsetup, libtool, util-macros, xorgproto
+]
+
+buildsteps: |
+  source /etc/profile
+  sh autogen.sh
+  ./configure $XORG_CONFIG
+  make
+  make install

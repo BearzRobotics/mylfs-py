@@ -35,6 +35,10 @@ buildsteps: |
   echo "creating test user for later in the book. Will be cleaned up at end of phase 4"
   install -o tester -d /home/tester
 
+
+  chmod +x /etc/init.d/hostname
+  touch /etc/hostname
+  
   touch /var/log/{btmp,lastlog,faillog,wtmp}
   chgrp -v utmp /var/log/lastlog
   chmod -v 664 /var/log/lastlog

@@ -1,0 +1,20 @@
+name: pyparsing
+version: 3.2.3
+release: 1
+url: https://github.com/pyparsing/pyparsing/releases/download/3.2.3/pyparsing-3.2.3.tar.gz
+homepage: https://github.com/pyparsing/pyparsing
+
+license: MIT
+summary: Python library for building PEG parsers
+description: |
+  pyparsing is a general parsing module for Python that allows you to construct
+  grammars directly in Python code. It's widely used in many projects that require
+  dynamic parsing.
+
+phase: 5
+buildsystem: python
+builddeps: [python, python-setuptools, python-wheel]
+
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user  pyparsing

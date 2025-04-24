@@ -1,0 +1,14 @@
+name: lxqt-final-setup
+version: 1
+release: 1
+license: GPL-2.0-or-later
+summary: My attempt to get lxqt working
+
+  
+phase: 5
+builddeps: [qt6, glibc, cmake, lxqt-build-tools, liblxqt, libqtxdg, libkscreen,  kconfig, xf86-input-libinput, lxqt-config, lxqt-session, lxqt-panel]
+buildsteps: |
+  install -m 755 ../static/session.conf             /root/.config/lxqt/session.conf
+  install -m 755 ../static/session.conf             /etc/skel/.config/lxqt/session.conf
+  install -m 755 ../static/lxqt-essential.desktop   /root/.config/autostart/lxqt-essential.desktop
+  install -m 755 ../static/lxqt-essential.desktop   /etc/skel/.config/autostart/lxqt-essential.desktop

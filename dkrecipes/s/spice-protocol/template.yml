@@ -1,0 +1,22 @@
+name: spice-protocol
+version: 0.14.4
+release: 1
+url: https://www.spice-space.org/download/releases/spice-protocol-0.14.4.tar.xz
+homepage: https://www.spice-space.org/
+
+license: BSD
+summary: Header files defining SPICE protocol
+description: |
+  spice-protocol contains the header files that define the SPICE protocol.
+  It is required for building SPICE-enabled software such as xf86-video-qxl.
+
+phase: 5
+buildsystem: autotools
+builddeps: [glibc, make, pkgconfig, meson, ninja, python, makeca_certs, pyparsing]
+
+buildsteps: |
+  source /etc/profile
+  mkdir -v build
+  meson setup build --prefix=/usr --buildtype=release
+  ninja -C build
+  ninja -C build install

@@ -1,0 +1,25 @@
+name: xf86-video-qxl
+version: 0.1.6
+release: 1
+url: https://gitlab.freedesktop.org/xorg/driver/xf86-video-qxl/-/archive/xf86-video-qxl-0.1.6/xf86-video-qxl-xf86-video-qxl-0.1.6.tar.gz
+homepage: https://gitlab.freedesktop.org/xorg/
+
+license: MIT
+summary: X.Org driver for QXL virtual GPU (SPICE/QEMU)
+description: |
+  xf86-video-qxl is an X.Org video driver for the QXL virtual GPU, used with
+  QEMU and SPICE. It enables high-performance graphics in virtual machines.
+
+phase: 5
+buildsystem: autotools
+builddeps: [
+  glibc, make, pkgconfig, xorg-server, xorgsetup, libtool,
+  util-macros, xorgproto, gettext, spice-protocol
+]
+
+buildsteps: |
+  source /etc/profile
+  sh autogen.sh
+  ./configure $XORG_CONFIG
+  make
+  make install
