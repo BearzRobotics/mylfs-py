@@ -43,6 +43,6 @@ buildsteps: |
   make install
 
   # IF you want to start on system start
-  #tar -xf ../blfs-bootscripts-20250225.tar.xz
-  #cd blfs-bootscripts-20250225
-  # make install-service-dhcpcd
+  tar -xf ../blfs-bootscripts-20250225.tar.xz
+  cd blfs-bootscripts-20250225
+  make install-service-dhcpcd

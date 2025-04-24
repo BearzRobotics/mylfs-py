@@ -41,7 +41,8 @@ keep_logs: true
 uefi: false
 
 # build path is a relative path to the execution of the program
-build_path: "mnt/lfs/"
+# default is "mnt/lfs/"
+build_path: "/mnt/usb"
 
 # path to recipes dir
 # default is recipes_path: "recipes/"
