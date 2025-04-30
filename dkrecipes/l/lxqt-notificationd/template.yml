@@ -1,0 +1,20 @@
+name: lxqt-notificationd
+version: 2.1.1
+release: 1
+url: https://github.com/lxqt/lxqt-notificationd/releases/download/2.1.1/lxqt-notificationd-2.1.1.tar.xz
+
+summary: "LXQt notification daemon"
+license: GPL-2.0-or-later
+builddeps: [cmake, qt6, liblxqt, xdg-utils]
+phase: 5
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_BUILD_TYPE=Release  \
+        -D CMAKE_INSTALL_PREFIX=/usr \
+        ..                           &&
+  make
+
+  make install

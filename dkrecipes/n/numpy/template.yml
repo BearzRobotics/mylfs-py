@@ -1,0 +1,18 @@
+name: numpy
+version: 2.2.3
+release: 1
+url: https://files.pythonhosted.org/packages/source/n/numpy/numpy-2.2.3.tar.gz
+homepage: https://numpy.org/
+license: BSD-3-Clause
+summary: Fundamental package for scientific computing with Python
+description: |
+  NumPy is the core library for scientific computing in Python.  
+  It provides support for large, multi-dimensional arrays and matrices,  
+  along with a collection of mathematical functions to operate on these arrays efficiently.
+phase: 5
+builddeps: [cython, python, python-setuptools, python-wheel, meson-python, 
+  ninja, pkgconfig, pyproject-metadata, meson-python, gcc-full]
+buildsteps: |
+    #pip3 install numpy
+    pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir -C setup-args=-Dallow-noblas=true $PWD
+    pip3 install --no-index --find-links dist --no-user numpy

@@ -1,0 +1,17 @@
+name: gsl
+version: 2.8
+release: 1
+url: https://ftp.gnu.org/gnu/gsl/gsl-2.8.tar.gz
+homepage: https://www.gnu.org/software/gsl/
+license: GPL-3.0-or-later
+summary: GNU Scientific Library for numerical computations
+description: |
+  The GNU Scientific Library (GSL) is a numerical library for C and C++ programmers.  
+  It provides a wide range of mathematical routines such as random number generators,  
+  special functions, and least-squares fitting, designed for scientific and engineering applications.
+phase: 5
+builddeps: [glibc, make, pkgconfig]
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

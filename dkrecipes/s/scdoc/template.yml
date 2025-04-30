@@ -1,0 +1,18 @@
+name: scdoc
+version: 1.11.3
+release: 1
+url: https://git.sr.ht/~sircmpwn/scdoc/archive/1.11.3.tar.gz
+homepage: https://git.sr.ht/~sircmpwn/scdoc
+license: MIT
+summary: Minimal man page generator for POSIX systems
+description: |
+  scdoc is a simple man page generator written in C. It converts a 
+  Markdown-like format into groff man pages and is used in many 
+  minimal Linux projects for fast, dependency-free documentation.
+
+phase: 5
+builddeps: [glibc, make]
+
+buildsteps: |
+  make CFLAGS='-std=c99' PREFIX=/usr
+  make CFLAGS='-std=c99'  PREFIX=/usr install

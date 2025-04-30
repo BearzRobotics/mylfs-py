@@ -1,0 +1,25 @@
+name: flatpak
+version: 1.16.0
+release: 1
+url: https://github.com/flatpak/flatpak/releases/download/1.16.0/flatpak-1.16.0.tar.xz
+homepage: https://flatpak.org/
+license: LGPL-2.1-or-later
+summary: Application sandboxing and distribution framework
+description: |
+  Flatpak is a system for building, distributing, and running sandboxed desktop applications  
+  on Linux. It provides a runtime environment and a method for installing apps across  
+  different distributions, focusing on security and portability.
+phase: 5
+builddeps: [
+  glibc, glib, libarchive, libsoup, json-glib, libcap-pam,
+  bubblewrap, ostree, gettext, pkgconfig, meson, ninja, socat,
+  docbook-xml, docbook-xsl, xmlto, libxml2, curl, polkit, gdk-pixbuf,
+  fuse, zstd, gnupg
+]
+buildsteps: |
+  meson setup --prefix=/usr build
+  ninja -C build
+  ninja -C build install
+
+  # add the real only flathub repo
+  flatpak remote-add --if-not-exists flathub https://dl.flathub.org/repo/flathub.flatpakrepo

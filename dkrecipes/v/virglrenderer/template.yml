@@ -1,0 +1,21 @@
+name: virglrenderer
+version: 1.1.1
+release: 1
+phase: 5
+url: https://gitlab.freedesktop.org/virgl/virglrenderer/-/archive/1.1.1/virglrenderer-1.1.1.tar.gz
+
+summary: "Virtual 3D GPU renderer for use with QEMU and virtio-gpu"
+license: MIT
+builddeps: [meson, ninja, libepoxy, libdrm, wayland, xorg-libs, vulkan-headers, libva]
+
+buildsteps: |
+  mkdir build
+  cd build 
+
+  meson setup ..                  \
+    --prefix=/usr                 \
+    --buildtype=release           \
+    -Dtests=false 
+
+  ninja
+  ninja install

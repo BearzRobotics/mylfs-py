@@ -1,0 +1,24 @@
+name: qbasic
+version: 7.1
+release: 1
+homepage: https://qbasic.net/
+license: Proprietary
+summary: Microsoft Professional Development System 7.1 for DOS
+description: |
+  Microsoft Professional Development System 7.1 (PDS 7.1) is a full 
+  professional version of QuickBASIC, designed for creating DOS 
+  applications with extended memory support, modular programming 
+  features, and compatibility with large programs beyond the limits 
+  of earlier BASIC compilers. It includes both an IDE and standalone 
+  compiler/linker tools.
+phase: 5
+builddeps: [dosbox, unzip, libarchive]
+buildsteps: |
+  source /etc/profile
+
+  # Create destination
+  mkdir -pv /dos/pds71
+
+  # Extract into /dos/pds71
+  unzip -o ../pds71.zip -d /dos/pds71
+

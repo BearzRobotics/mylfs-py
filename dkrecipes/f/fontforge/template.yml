@@ -1,0 +1,33 @@
+name: fontforge
+version: 20230101
+release: 1
+url: https://github.com/fontforge/fontforge/releases/download/20230101/fontforge-20230101.tar.xz
+homepage: https://fontforge.org/
+license: BSD-3-Clause
+summary: Font editor for creating and editing fonts in various formats
+description: |
+  FontForge is a sophisticated font editor supporting a wide range 
+  of font formats including TrueType, OpenType, PostScript, and bitmap fonts. 
+  It provides both a graphical and command-line interface for font 
+  creation, conversion, and editing, and is widely used by professional 
+  and amateur typographers alike.
+phase: 5
+builddeps: [cmake, ninja, gcc, glibc, freetype2, libpng, libjpeg-turbo, libtiff, libxml2, libspiro,
+ giflib, cairo, pango, libtool, pkgconfig, python, gtk3, patch, sed, sphinx]
+buildsteps: |
+  patch -Np1 -i ../patches/fontforge-20230101-security_fixes-1.patch
+
+  sed -i.orig 's/\(%[^%[:space:]]*\)hs/\1s/g' \
+    fontforgeexe/searchview.c po/de.po po/ca.po \
+    po/hr.po po/it.po po/pl.po po/uk.po po/en_GB.po \
+    po/fr.po po/vi.po po/ko.po po/ja.po
+
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        -W no-dev .. &&
+  make
+
+  make install

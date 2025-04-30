@@ -1,0 +1,169 @@
+name: kde-frameworks
+version: 6.11.0
+release: 1
+url:
+  - https://download.kde.org/stable/frameworks/6.11/attica-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/extra-cmake-modules-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kapidox-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/karchive-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kcodecs-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kconfig-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kcoreaddons-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kdbusaddons-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kdnssd-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kguiaddons-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/ki18n-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kidletime-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kimageformats-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kitemmodels-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kitemviews-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kplotting-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kwidgetsaddons-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kwindowsystem-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/networkmanager-qt-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/solid-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/sonnet-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/threadweaver-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kauth-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kcompletion-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kcrash-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kdoctools-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kpty-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kunitconversion-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kcolorscheme-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kconfigwidgets-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kservice-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kglobalaccel-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kpackage-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kdesu-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kiconthemes-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/knotifications-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kjobwidgets-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/ktextwidgets-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kxmlgui-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kbookmarks-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kwallet-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kded-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kio-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kdeclarative-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kcmutils-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kirigami-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/syndication-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/knewstuff-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/frameworkintegration-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kparts-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/syntax-highlighting-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/ktexteditor-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/modemmanager-qt-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kcontacts-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kpeople-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/bluez-qt-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kfilemetadata-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/baloo-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/krunner-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/prison-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/qqc2-desktop-style-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kholidays-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/purpose-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kcalendarcore-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kquickcharts-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/knotifyconfig-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kdav-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kstatusnotifieritem-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/ksvg-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/ktexttemplate-6.11.0.tar.xz
+  - https://download.kde.org/stable/frameworks/6.11/kuserfeedback-6.11.0.tar.xz
+
+homepage: https://community.kde.org/Frameworks
+
+license: LGPL-2.1-or-later
+summary: KDE Frameworks libraries collection
+description: |
+  KDE Frameworks is a collection of libraries and software frameworks by KDE, 
+  built on top of Qt. They provide a wide range of additional functionality 
+  needed for building full-featured desktop and mobile applications.
+
+phase: 5
+buildsystem: manual
+builddeps: [glibc, qt6, cmake, ninja, extra-cmake, breeze-icons, docbook-xml,
+  docbook-xsl, libcanberra, libgcrypt, libical, libxslt, lmdb, plasma-wayland-protocols,
+  pyyaml, shared-mime-info, uri, wget, aspell, avahi, modemmanager, networkmanager,
+  polkit-qt, vulkan-loader, libraw, libavif, libjxl,  requests, udisks, upower, gpgme,
+  hunspell, zxing-cpp, doxypypy, doxyqml
+]
+
+buildsteps: |
+  export KF6_PREFIX=/usr
+  
+  source /etc/profile
+
+  # by default we are in the first package tarball listed.
+  # we want to clean it up so that the for loop can do it's things.
+  rm -rf * 
+
+  as_root()
+  {
+    if   [ $EUID = 0 ];        then $*
+    elif [ -x /usr/bin/sudo ]; then sudo $*
+    else                            su -c \\"$*\\"
+    fi
+  }
+
+  export -f as_root
+
+  while read -r line; do
+    # Skip empty or comment lines
+    if echo "$line" | grep -Eq '^ *$|^#'; then
+      continue
+    fi
+
+    file=$(echo "$line" | awk '{ print $2 }')
+
+    # Only process known archive extensions
+    case "$file" in
+      *.tar.xz)
+        ;;
+      *)
+        echo "Skipping unrecognized file type: $file"
+        continue
+        ;;
+    esac
+    
+    pkg=$(basename "$file")                      # Strip directory
+    packagedir=$(echo "$pkg" | sed 's|\.tar.*||') # Directory inside tarball
+    name=$(echo "$pkg" | sed 's|-6.*$||')         # Name without version
+
+    echo "Processing $pkg..."
+
+    tar -xf ../"$file"
+    pushd "$packagedir" || exit 1
+
+      # Special case: kapidox is a python module
+      if [ "$name" = "kapidox" ]; then
+        pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir .
+        sudo pip3 install --no-index --find-links=dist --no-user kapidox
+        popd
+        rm -rf "$packagedir"
+        continue
+      fi
+
+      mkdir build
+      cd build || exit 1
+
+      cmake -D CMAKE_INSTALL_PREFIX="$KF6_PREFIX" \
+            -D CMAKE_INSTALL_LIBEXECDIR=libexec \
+            -D CMAKE_PREFIX_PATH="$QT6DIR" \
+            -D CMAKE_SKIP_INSTALL_RPATH=ON \
+            -D CMAKE_BUILD_TYPE=Release \
+            -D BUILD_TESTING=OFF \
+            -W no-dev ..
+      make
+      sudo make install
+
+    popd
+    rm -rf "$packagedir"
+    sudo /sbin/ldconfig
+
+  done < ../static/frameworks-6.11.0.md5
+
+  rm -rf $KF6_PREFIX/lib/systemd

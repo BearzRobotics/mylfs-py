@@ -10,6 +10,7 @@ description: |
 phase: 5
 builddeps: [make, glibc, linux-pam]
 buildsteps: |-
+  echo "If you want a non root user to be able to run sudo you must add them to the wheel group. Or edit your /etc/sudoers file\n run usermod -aG wheel dakota" >> /root/dknotes
   ./configure --prefix=/usr              \
               --libexecdir=/usr/lib      \
               --with-secure-path         \
@@ -46,5 +47,9 @@ buildsteps: |-
   chown root:root   /etc/sudo.conf
   chown root:root   /usr/bin/sudo
   chmod u+s         /usr/bin/sudo
+
+  sed -i '/^# *%wheel ALL=(ALL:ALL) ALL/s/^# *//' /etc/sudoers
+
+
 
 

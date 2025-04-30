@@ -11,6 +11,7 @@ description: |
   It implements WPA key negotiation, IEEE 802.1X authentication,
   and plain WPA-PSK authentication with wireless LAN drivers.
 
+phase: 5
 builddeps: [glibc, openssl, dbus, libnl, libxml2]
 
 buildsteps: |

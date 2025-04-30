@@ -1,0 +1,26 @@
+name: gavl
+version: 1.4.0
+release: 1
+url: https://downloads.sourceforge.net/gmerlin/gavl-1.4.0.tar.gz
+homepage: https://gmerlin.sourceforge.net/
+license: GPL-2.0-or-later
+summary: Gmerlin Audio Video Library
+description: |
+  Gavl (Gmerlin Audio Video Library) is a low-level library for audio and video 
+  processing. It provides common functionality for multimedia applications 
+  such as format conversion, scaling, and time-stamping.
+
+phase: 5
+builddeps: [glibc, make, libpng, doxygen]
+
+buildsteps: |
+  sed -i "/stdio/a #include <string.h>" src/fill_test.c
+
+  LIBS=-lm                         \
+  ./configure --prefix=/usr        \
+              --without-doxygen    \
+              --with-cpuflags=none \
+              --docdir=/usr/share/doc/gavl-1.4.0 &&
+  make
+
+  make install

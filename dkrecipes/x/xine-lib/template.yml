@@ -1,0 +1,34 @@
+name: xine-lib
+version: 1.2.13
+release: 1
+url: https://downloads.sourceforge.net/xine/xine-lib-1.2.13.tar.xz
+homepage: https://www.xine-project.org/
+license: GPL-2.0-or-later
+summary: Multimedia playback engine library
+description: |
+  xine-lib is the core engine of the xine multimedia framework. It supports 
+  the playback of CDs, DVDs, and multimedia files from local disk and network 
+  sources using a modular plugin-based architecture.
+
+phase: 5
+builddeps: [glibc, ffmpeg, alsa-lib, pulseaudio, aalib, gdk-pixbuf, glu,
+  libvdpau, libvorbis, libvpx, mesa, speex, v4l-utils, doxygen, libva, libmad,
+  libdvdcss, libdvdnav
+  ]
+
+buildsteps: |
+  patch -Np1 -i ../patches/xine-lib-1.2.13-upstream_fixes-1.patch
+
+  ./configure --prefix=/usr          \
+              --disable-vcd          \
+              --with-external-dvdnav \
+              --docdir=/usr/share/doc/xine-lib-1.2.13 &&
+  make
+
+  doxygen doc/Doxyfile
+
+  make install
+
+  install -v -m755 -d /usr/share/doc/xine-lib-1.2.13/api &&
+  install -v -m644    doc/api/* \
+                      /usr/share/doc/xine-lib-1.2.13/api

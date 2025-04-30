@@ -1,0 +1,19 @@
+name: business-isbn
+version: 3.011
+release: 1
+url: https://www.cpan.org/authors/id/B/BR/BRIANDFOY/Business-ISBN-3.011.tar.gz
+homepage: https://metacpan.org/dist/Business-ISBN
+license: Artistic-1.0-Perl
+summary: Work with International Standard Book Numbers (ISBNs)
+description: |
+  Business::ISBN provides tools to work with ISBN-10 and ISBN-13 numbers. 
+  It can validate, convert, and format ISBNs and uses the 
+  Business::ISBN::Data module to determine valid group and publisher ranges.
+
+phase: 5
+builddeps: [perl, business-isbn-data]
+
+buildsteps: |
+  perl Makefile.PL
+  make
+  make install

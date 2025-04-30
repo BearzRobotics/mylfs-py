@@ -1,0 +1,72 @@
+# Many of these programs allow using texlive to build docs 
+name: texlive
+version: 20240312
+release: 1
+url: 
+  - https://ftp.math.utah.edu/pub/tex/historic/systems/texlive/2024/texlive-20240312-source.tar.xz
+  - https://ftp.tu-chemnitz.de/pub/tug/historic/systems/texlive/2024/texlive-20240312-extra.tar.xz
+homepage: https://tug.org/texlive/
+license: GPL-2.0-or-later
+summary: Comprehensive TeX typesetting system
+description: |
+  TeX Live is a complete TeX system including all major TeX-related programs, 
+  macro packages, and fonts that are free software. It supports a wide range 
+  of TeX engines including pdfTeX, XeTeX, LuaTeX, and others.
+
+phase: 5
+builddeps: [glibc, perl, zlib, libpng, poppler, freetype2, xorg-libs, icu,
+  harfbuzz, libpaper, gc, graphite2, ruby, python, ghostscript, mpfr, pixman,
+  cairo, gmp]
+
+buildsteps: |
+  sed -e '182 s/internal_font_number/boolean/' \
+      -e '301 s/internal_font_number/boolean/' \
+      -i texk/web2c/pdftexdir/pdftex.ch
+  export TEXARCH=$(uname -m | sed -e 's/i.86/i386/' -e 's/$/-linux/') &&
+
+  patch -Np1 -i ../patches/texlive-20240312-source-upstream_fixes-1.patch &&
+
+  mkdir texlive-build &&
+  cd    texlive-build &&
+
+  ../configure -C                                   \
+      --prefix=$TEXLIVE_PREFIX                      \
+      --bindir=$TEXLIVE_PREFIX/bin/$TEXARCH         \
+      --datarootdir=$TEXLIVE_PREFIX                 \
+      --includedir=$TEXLIVE_PREFIX/include          \
+      --infodir=$TEXLIVE_PREFIX/texmf-dist/doc/info \
+      --libdir=$TEXLIVE_PREFIX/lib                  \
+      --mandir=$TEXLIVE_PREFIX/texmf-dist/doc/man   \
+      --disable-native-texlive-build                \
+      --disable-static --enable-shared              \
+      --disable-dvisvgm                             \
+      --with-system-cairo                           \
+      --with-system-fontconfig                      \
+      --with-system-freetype2                       \
+      --with-system-gmp                             \
+      --with-system-graphite2                       \
+      --with-system-harfbuzz                        \
+      --with-system-icu                             \
+      --with-system-libgs                           \
+      --with-system-libpaper                        \
+      --with-system-libpng                          \
+      --with-system-mpfr                            \
+      --with-system-pixman                          \
+      --with-system-zlib                            \
+      --with-banner-add=" - BLFS" &&
+
+  make
+
+  make install-strip &&
+  make texlinks      &&
+  mkdir -pv                                $TEXLIVE_PREFIX/tlpkg/TeXLive/ &&
+  install -v -m644 ../texk/tests/TeXLive/* $TEXLIVE_PREFIX/tlpkg/TeXLive/ &&
+  tar -xf ../../texlive-20240312-extra.tar.xz -C $TEXLIVE_PREFIX/tlpkg --strip-components=2
+
+  tar -xf ../../texlive-20240312-extra.tar.xz -C $TEXLIVE_PREFIX/tlpkg --strip-components=2
+
+
+  mktexlsr &&
+  fmtutil-sys --all
+
+  ln -svf $TEXLIVE_PREFIX/lib/libkpathsea.so{,.6} /usr/lib

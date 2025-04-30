@@ -1,0 +1,22 @@
+name: screengrab
+version: 2.9.0
+release: 1
+url: https://github.com/lxqt/screengrab/releases/download/2.9.0/screengrab-2.9.0.tar.xz
+
+summary: "Cross-platform Qt-based screen grabbing utility"
+license: GPL-3.0-or-later
+builddeps: [cmake-legacy, qt6, xdg-utils, libqtxdg, kwindowsystem]
+phase: 5
+
+buildsteps: |
+  export PATH=/opt/cmake-3.31.7/bin:$PATH
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_BUILD_TYPE=Release  \
+        -D CMAKE_INSTALL_PREFIX=/usr \
+        ..                           &&
+  make
+
+  make install
+ 

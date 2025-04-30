@@ -1,0 +1,18 @@
+name: sdl2-net
+version: 2.2.0
+release: 1
+url: https://github.com/libsdl-org/SDL_net/archive/refs/tags/release-2.2.0.tar.gz
+homepage: https://github.com/libsdl-org/SDL_net
+license: Zlib
+summary: Simple networking library for SDL2
+description: |
+  SDL_net is a small cross-platform networking library that provides 
+  a simple API over standard TCP/IP sockets. It is designed to work 
+  with the SDL2 library and offers basic networking features useful 
+  for games and applications requiring simple communication support.
+phase: 5
+builddeps: [make, glibc, sdl2, pkgconfig]
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install

@@ -22,7 +22,7 @@ alias grep='grep --color=auto'
 # addendum.]
 
 PS1='\[[01;36m\]\u\[[01;35m\]@\[[01;33m\]\h\[[01;34m\] \w \$\[[00m\] '
-
+TERM=linux
 # GnuPG wants this or it'll fail with pinentry-curses under some
 # circumstances (for example signing a Git commit)
 tty -s && export GPG_TTY=$(tty)

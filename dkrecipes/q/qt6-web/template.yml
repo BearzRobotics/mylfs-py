@@ -1,0 +1,48 @@
+name: qt6-web
+version: 6.9.0
+release: 1
+url: https://download.qt.io/archive/qt/6.9/6.9.0/single/qt-everywhere-src-6.9.0.tar.xz
+homepage: https://www.qt.io/
+license: GPL-3.0-or-later, LGPL-3.0-or-later, Commercial
+summary: Cross-platform application development framework
+description: |
+  Qt is a complete cross-platform software development framework, widely used
+  for developing application software with graphical user interfaces (GUI) and
+  also used for developing non-GUI programs such as command-line tools and consoles for servers.
+
+phase: 5
+builddeps: [ 
+  glibc, cmake, ninja, perl, python, pkgconfig, fontconfig, freetype2, libpng, 
+  libjpeg-turbo, libinput, xorg-libs, alsa-lib, makeca_certs, cups, dbus, harfbuzz, icu, 
+  libtiff, libwebp, libxkbcommon, mesa, mtdev, pcre2, sqlite, wayland, double-conversion, 
+  gst-plugins-base, jasper, libinput, libmng, protobuf, html5lib, nodejs, nss, pciutils, qt6,
+  opus, libxslt, libevent, ffmpeg, icu, pulseaudio, lcms, libpng
+]
+
+buildsteps: |
+  export QT6PREFIX=/usr
+  cd qtwebengine/
+
+  sed -e '189 s/=/& false/' \
+    -e '190 d'            \
+    -i.orig src/3rdparty/chromium/third_party/webrtc/webrtc.gni
+
+  echo -e '\nrtc_system_openh264 = false' >> src/3rdparty/chromium/third_party/webrtc/webrtc.gni
+
+
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_MESSAGE_LOG_LEVEL=STATUS             \
+        -D QT_FEATURE_webengine_system_ffmpeg=ON      \
+        -D QT_FEATURE_webengine_system_icu=ON         \
+        -D QT_FEATURE_webengine_system_libevent=ON    \
+        -D QT_FEATURE_webengine_proprietary_codecs=ON \
+        -D QT_FEATURE_webengine_webrtc_pipewire=OFF    \
+        -D QT_BUILD_EXAMPLES_BY_DEFAULT=OFF           \
+        -DQT_FEATURE_webengine_system_ffmpeg=OFF      \
+        -G Ninja .. 
+
+  ninja
+
+  ninja install

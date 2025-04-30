@@ -1,0 +1,24 @@
+name: libdaemon
+version: 0.14
+release: 1
+url: https://0pointer.de/lennart/projects/libdaemon/libdaemon-0.14.tar.gz
+homepage: https://0pointer.de/lennart/projects/libdaemon/
+license: LGPL-2.1-or-later
+summary: Lightweight C library for writing UNIX daemons
+description: |
+  libdaemon is a small C library that eases the writing of UNIX daemons. It 
+  consists of wrappers around common system calls that are typically used in 
+  daemon applications, including functionality for process detachment, PID 
+  file handling, and logging.
+
+phase: 5
+builddeps: [glibc, doxygen, lynx]
+
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make -C doc doxygen
+  make docdir=/usr/share/doc/libdaemon-0.14 install
+
+  install -v -m755 -d /usr/share/doc/libdaemon-0.14/reference/html 
+  install -v -m644 doc/reference/html/* /usr/share/doc/libdaemon-0.14/reference/html 
+  install -v -m644 doc/reference/man/man3/* /usr/share/man/man3

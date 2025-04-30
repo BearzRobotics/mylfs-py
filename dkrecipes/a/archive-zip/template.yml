@@ -1,0 +1,21 @@
+name: archive-zip
+version: 1.68
+release: 1
+url: https://www.cpan.org/authors/id/P/PH/PHRED/Archive-Zip-1.68.tar.gz
+homepage: https://metacpan.org/pod/Archive::Zip
+license: Artistic-1.0-Perl
+summary: Perl module for manipulating ZIP archives
+description: |
+  Archive::Zip provides a simple interface for creating, extracting, 
+  and modifying ZIP archives using Perl. It supports reading, writing, 
+  and updating existing ZIP files, and allows files to be compressed 
+  or stored without compression. It is commonly used in backup scripts 
+  and data packaging systems.
+phase: 5
+builddeps: [perl, make, libarchive]
+buildsteps: |
+  perl Makefile.PL 
+  make             
+  #make test
+
+  make install

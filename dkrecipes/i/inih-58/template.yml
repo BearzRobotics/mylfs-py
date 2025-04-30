@@ -1,0 +1,23 @@
+name: inih-58
+version: r58
+release: 1
+url: https://github.com/benhoyt/inih/archive/r58/inih-r58.tar.gz
+homepage: https://github.com/benhoyt/inih
+license: BSD-3-Clause
+summary: Simple C library for parsing INI files
+description: |
+  inih (INI Not Invented Here) is a simple C library for parsing 
+  INI configuration files. It is small, fast, and designed to 
+  be suitable for embedded systems and low-footprint applications. 
+  inih provides a straightforward API for loading INI files and 
+  accessing key-value pairs efficiently.
+phase: 5
+builddeps: [meson, ninja , gcc, glibc]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup --prefix=/usr --buildtype=release .. &&
+  ninja
+
+  ninja install

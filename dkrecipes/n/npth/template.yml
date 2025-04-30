@@ -1,0 +1,20 @@
+name: npth
+version: 1.8
+release: 1
+url: https://www.gnupg.org/ftp/gcrypt/npth/npth-1.8.tar.bz2
+homepage: https://gnupg.org/
+license: LGPL-3.0-or-later
+summary: New POSIX Threading library used by GnuPG
+description: |
+  npth (New Portable Threads) is a lightweight replacement for the 
+  GNU Pth library. It is designed to provide a minimal threading 
+  abstraction layer for GnuPG components that require concurrency 
+  without relying on full POSIX threads.
+
+phase: 5
+builddeps: [glibc, make]
+
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install

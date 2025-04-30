@@ -13,7 +13,8 @@ description: |
 
 phase: 5
 
-builddeps: [glib, pixman, libslirp, dtc, alsa-lib, sdl2, libjpeg-turbo, libpng, lzo, fuse, nettle, mesa, libaio, libusb, gtk3, bridge-utils]
+builddeps: [glib, pixman, libslirp, dtc, alsa-lib, sdl2, libjpeg-turbo, libpng, lzo, 
+  fuse, nettle, mesa, libaio, libusb, gtk3, bridge-utils, virglrenderer]
 
 buildsteps: |
   grep -E '^flags.*(vmx|svm)' /proc/cpuinfo

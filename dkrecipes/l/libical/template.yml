@@ -1,0 +1,32 @@
+name: libical
+version: 3.0.19
+release: 1
+url: https://github.com/libical/libical/releases/download/v3.0.19/libical-3.0.19.tar.gz
+homepage: https://github.com/libical/libical
+license: MPL-2.0
+summary: Reference implementation of the iCalendar data format
+description: |
+  libical is an open source implementation of the iCalendar protocols and 
+  data formats as specified in RFC 5545. It provides both C and C++ APIs 
+  for parsing and generating .ics calendar files, and is used by projects 
+  such as Evolution and Mozilla Calendar.
+
+phase: 5
+builddeps: [glibc, cmake-legacy, ninja, doxygen, glib, vala]
+
+buildsteps: |
+  export PATH=/opt/cmake-3.31.7/bin:$PATH
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr  \
+        -D CMAKE_BUILD_TYPE=Release   \
+        -D SHARED_ONLY=yes            \
+        -D ICAL_BUILD_DOCS=false      \
+        -D ICAL_BUILD_EXAMPLES=false  \
+        -D GOBJECT_INTROSPECTION=true \
+        -D ICAL_GLIB_VAPI=true        \
+        .. &&
+  make
+
+  make install

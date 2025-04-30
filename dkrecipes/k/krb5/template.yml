@@ -1,0 +1,49 @@
+name: krb5
+version: 1.21.3
+release: 1
+phase: 5
+url: https://kerberos.org/dist/krb5/1.21/krb5-1.21.3.tar.gz
+
+summary: "MIT Kerberos – Network authentication protocol"
+license: MIT
+# solus brought in e2fsprogs as a dep when installing
+builddeps: [make, yasm, bind, valgrind, keyutils, e2fsprogs]
+
+buildsteps: |
+  cd src &&
+
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --localstatedir=/var \
+              --enable-shared \
+              --with-system-et \
+              --with-system-ss 
+
+  make 
+  make install
+
+  # I Don't want to do all of this https://www.linuxfromscratch.org/blfs/view/stable/postlfs/mitkrb.html
+  cat > /etc/krb5.conf << "EOF"
+  # Begin /etc/krb5.conf
+
+  [libdefaults]
+      default_realm = <EXAMPLE.ORG>
+      encrypt = true
+
+  [realms]
+      <EXAMPLE.ORG> = {
+          kdc = <belgarath.example.org>
+          admin_server = <belgarath.example.org>
+          dict_file = /usr/share/dict/words
+      }
+
+  [domain_realm]
+      .<example.org> = <EXAMPLE.ORG>
+
+  [logging]
+      kdc = SYSLOG:INFO:AUTH
+      admin_server = SYSLOG:INFO:AUTH
+      default = SYSLOG:DEBUG:DAEMON
+
+  # End /etc/krb5.conf
+  EOF

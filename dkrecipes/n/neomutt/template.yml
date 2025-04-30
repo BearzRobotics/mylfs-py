@@ -1,0 +1,19 @@
+name: neomutt
+version: 20250404
+release: 1
+phase: 5
+url: https://github.com/neomutt/neomutt/archive/refs/tags/20250404.tar.gz
+
+summary: "A powerful text-based mail client based on Mutt, with modern features"
+license: GPL-2.0-or-later
+builddeps: [ncurses, gpgme, openssl, libidn2, gettext, autoconf, automake, make, libassuan, gdbm, vim, libidn2, lua]
+
+buildsteps: |
+  ./configure --prefix=/usr \
+              --enable-gpgme \
+              --with-ssl=openssl \
+              --with-lua=5.4
+
+  make
+
+  make install

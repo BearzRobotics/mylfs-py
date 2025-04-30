@@ -1,0 +1,18 @@
+name: rofi
+version: 1.7.8
+release: 1
+url: https://github.com/davatorium/rofi/releases/download/1.7.8/rofi-1.7.8.tar.xz
+homepage: https://github.com/davatorium/rofi
+license: MIT
+summary: Window switcher, run launcher, and dmenu replacement
+description: |
+  rofi is a fast and lightweight window switcher, application launcher,  
+  ssh-launcher, and dmenu replacement. It is highly configurable, allowing users  
+  to customize keybindings, appearances, and menu behavior to their needs.
+phase: 5
+builddeps: [glibc, cairo, pango, xcb-utilities, pkgconfig, meson, ninja,
+  libxkbcommon, gdk-pixbuf]
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install

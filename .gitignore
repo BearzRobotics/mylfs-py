@@ -24,6 +24,7 @@ recipes/**/*.zip
 
 # EXCEPTION: keep static_files.tar.gz in lfs-setup
 !recipes/bootstrap/phase3/lfs-setup/static/static_files.tar.gz
+!dkrecipes/q/qbasic/pds71.zip
 
 dkrecipes/**/*.tar.gz
 dkrecipes/**/*.tar.xz

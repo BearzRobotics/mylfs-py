@@ -1,0 +1,23 @@
+name: potrace
+version: 1.16
+release: 1
+url: https://downloads.sourceforge.net/potrace/potrace-1.16.tar.gz
+homepage: http://potrace.sourceforge.net/
+license: GPL-2.0-or-later
+summary: Transform bitmaps into smooth vector graphics
+description: |
+  Potrace is a utility for tracing a bitmap image into a smooth, scalable  
+  image. It transforms black-and-white bitmaps into smooth, scalable images  
+  by tracing curves and exporting to formats like EPS, SVG, and PDF.
+phase: 5
+builddeps: [glibc, pkgconfig, make, llvm]
+buildsteps: |
+  ./configure --prefix=/usr                        \
+              --disable-static                     \
+              --docdir=/usr/share/doc/potrace-1.16 \
+              --enable-a4                          \
+              --enable-metric                      \
+              --with-libpotrace                    &&
+  make
+
+  make install

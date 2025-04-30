@@ -41,7 +41,7 @@ buildsteps: |
   export XDG_CURRENT_DESKTOP=Hyprland
   export XDG_SESSION_DESKTOP=Hyprland
   export GDK_BACKEND=wayland,x11
-  export QT_QPA_PLATFORM=wayland;xcb
+  export QT_QPA_PLATFORM=wayland
 
 
   XDG_RUNTIME_DIR="/tmp/xdg-$USER"

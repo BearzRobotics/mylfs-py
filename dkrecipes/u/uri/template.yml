@@ -1,0 +1,20 @@
+name: uri
+version: 5.31
+release: 1
+url: https://www.cpan.org/authors/id/O/OA/OALDERS/URI-5.31.tar.gz
+homepage: https://metacpan.org/dist/URI
+license: Artistic-1.0-Perl
+summary: Uniform Resource Identifier (URI) class for Perl
+description: |
+  The URI module provides a class to represent Uniform Resource Identifiers 
+  (URIs) as defined in RFC 3986. It supports parsing, manipulating, and 
+  constructing URIs and their components for various schemes such as HTTP, 
+  FTP, mailto, and more.
+
+phase: 5
+builddeps: [perl, mime-base32]
+
+buildsteps: |
+  perl Makefile.PL
+  make
+  make install

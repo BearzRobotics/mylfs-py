@@ -1,0 +1,18 @@
+name: chardet
+version: 5.2.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/c/chardet/chardet-5.2.0.tar.gz
+homepage: https://github.com/chardet/chardet
+license: LGPL-2.1-or-later
+summary: Universal character encoding detector for Python
+description: |
+  Chardet is a character encoding auto-detection library for Python. It 
+  supports detection of various encodings such as UTF-8, Shift-JIS, Big5, 
+  ISO-8859, and many more. It is used by popular libraries like requests.
+
+phase: 5
+builddeps: [python, python-wheel, python-setuptools]
+
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user chardet

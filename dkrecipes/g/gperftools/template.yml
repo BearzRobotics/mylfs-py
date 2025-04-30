@@ -1,0 +1,22 @@
+name: gperftools
+version: 2.16.90
+release: 1
+url: https://github.com/gperftools/gperftools/archive/refs/tags/gperftools-2.16.90.tar.gz
+homepage: https://github.com/gperftools/gperftools
+license: BSD-3-Clause
+summary: High-performance memory allocation and performance profiling tools
+description: |
+  gperftools (Google Performance Tools) is a collection of 
+  performance analysis tools and fast memory allocators 
+  including tcmalloc, heap-checker, heap-profiler, and cpu-profiler. 
+  It is designed for high-concurrency, high-performance applications 
+  that need fast memory management and profiling capabilities.
+phase: 5
+
+# I bet libundwind is going to break
+builddeps: [make, gcc, glibc, libunwind-generic, pkgconfig]
+buildsteps: |
+  sh ./autogen.sh
+  ./configure --prefix=/usr 
+  make
+  make install

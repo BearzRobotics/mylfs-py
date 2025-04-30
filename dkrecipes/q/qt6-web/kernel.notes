@@ -1,0 +1,5 @@
+General setup --->
+  -*- Namespaces support --->                                       [NAMESPACES]
+    # Enable or disable *both* of them:
+    [ /*] User namespace                                               [USER_NS]
+    [ /*] PID Namespaces                                                [PID_NS]

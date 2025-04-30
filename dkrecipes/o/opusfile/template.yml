@@ -1,0 +1,19 @@
+name: opusfile
+version: 0.12
+release: 1
+url: https://github.com/xiph/opusfile/releases/download/v0.12/opusfile-0.12.tar.gz
+homepage: https://opus-codec.org/
+license: BSD-2-Clause
+summary: High-level API for reading Opus audio streams
+description: |
+  opusfile is a library providing a high-level API for reading 
+  and decoding Opus audio streams. It supports handling local 
+  .opus files as well as streaming from HTTP and HTTPS sources. 
+  It builds on top of the low-level libopus and libogg libraries 
+  to provide easier access to Opus-encoded audio data.
+phase: 5
+builddeps: [make, glibc, opus, libogg, openssl, pkgconfig]
+buildsteps: |
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

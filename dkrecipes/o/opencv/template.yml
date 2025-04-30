@@ -1,0 +1,41 @@
+name: opencv
+version: 4.11.0
+release: 1
+url: 
+  - https://github.com/opencv/opencv/archive/4.11.0/opencv-4.11.0.tar.gz
+  - https://github.com/opencv/opencv_contrib/archive/4.11.0/opencv_contrib-4.11.0.tar.gz
+homepage: https://opencv.org/
+license: Apache-2.0
+summary: Open source computer vision and machine learning library
+description: |
+  OpenCV is a powerful library of programming functions mainly aimed at real-time 
+  computer vision and machine learning. It includes modules for image processing, 
+  video analysis, object detection, and more.
+
+phase: 5
+builddeps: [glibc, cmake-legacy, ninja, libjpeg-turbo, libpng, zlib, 
+  libtiff, jasper, ffmpeg, gst-plugins-base, gtk3, libwebp, openjpeg, 
+  v4l-utils, apache-ant, libexif, protobuf, numpy, openjdk, xine-lib]
+
+buildsteps: |
+  export PATH=/opt/cmake-3.31.7/bin:$PATH
+  
+  tar -xf ../opencv_contrib-4.11.0.tar.gz
+
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr      \
+        -D CMAKE_BUILD_TYPE=Release       \
+        -D ENABLE_CXX11=ON                \
+        -D BUILD_PERF_TESTS=OFF           \
+        -D WITH_XINE=ON                   \
+        -D BUILD_TESTS=OFF                \
+        -D ENABLE_PRECOMPILED_HEADERS=OFF \
+        -D CMAKE_SKIP_INSTALL_RPATH=ON    \
+        -D BUILD_WITH_DEBUG_INFO=OFF      \
+        -D OPENCV_GENERATE_PKGCONFIG=ON   \
+        -W no-dev  ..                     &&
+  make
+
+  make install

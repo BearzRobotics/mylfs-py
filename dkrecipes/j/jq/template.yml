@@ -1,0 +1,19 @@
+name: jq
+version: 1.7.1
+release: 1
+url: https://github.com/jqlang/jq/archive/refs/tags/jq-1.7.1.tar.gz
+homepage: https://jqlang.github.io/jq/
+license: MIT
+summary: Lightweight and flexible command-line JSON processor
+description: |
+  jq is a command-line tool for processing JSON data. It allows you to slice, 
+  filter, map, and transform structured data with ease. jq is like `sed` for JSON.
+
+phase: 5
+builddeps: [oniguruma,  make, oniguruma]
+
+buildsteps: |
+  autoreconf -fi
+  ./configure --prefix=/usr --disable-static  --disable-maintainer-mode
+  make
+  make install

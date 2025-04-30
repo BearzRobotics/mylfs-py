@@ -15,6 +15,8 @@ phase: 5
 # isl is used for optimized loops
 builddeps: [make, mpc, mpfr, zlib, gmp, isl, gdb, graphviz, valgrind]
 buildsteps: |
+  # you could add go to the list. However, it's only compatible with go 18. 
+  # arduino-cli needs go 1.24 -- I would recommand against building it
   case $(uname -m) in
     x86_64)
       sed -i.orig '/m64=/s/lib64/lib/' gcc/config/i386/t-linux64
@@ -32,7 +34,7 @@ buildsteps: |
       --enable-default-ssp  \
       --enable-host-pie     \
       --disable-fixincludes \
-      --enable-languages=c,c++,fortran,go,objc,obj-c++,m2 
+      --enable-languages=c,c++,fortran,objc,obj-c++,m2 
   make
 
   sed -e '/cpython/d'               -i ../gcc/testsuite/gcc.dg/plugin/plugin.exp

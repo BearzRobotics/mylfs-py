@@ -1,0 +1,12 @@
+name: hdparm
+version: 9.65
+release: 1
+phase: 5
+url: https://sourceforge.net/projects/hdparm/files/hdparm/hdparm-9.65.tar.gz
+
+summary: "A tool to set and view hardware parameters of hard disk drives"
+license: BSD-3-Clause
+builddeps: [make]
+buildsteps: |
+  make 
+  make install

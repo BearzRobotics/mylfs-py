@@ -1,0 +1,40 @@
+name: dosbox
+version: 0.81.2
+release: 1
+url: https://github.com/dosbox-staging/dosbox-staging/archive/refs/tags/v0.81.2.tar.gz
+homepage: https://dosbox-staging.github.io/
+license: GPL-2.0-or-later
+summary: DOS emulator focused on modern systems and accuracy
+description: |
+  dosbox-staging is a modern continuation of the DOSBox project, 
+  improving usability, compatibility, accuracy, and maintainability. 
+  It offers support for modern operating systems, enhanced graphics 
+  options including OpenGL and Vulkan backends, and quality of life 
+  enhancements for playing classic DOS games and running legacy software.
+phase: 5
+builddeps: [meson, ninja, glibc, sdl2, opus, flac, fluidsynth, libslirp, 
+  alsa-lib, libpng, zlib, xorg-libs, xorg-apps, git, glib, pcre2, opusfile, 
+  sdl2-net, mt32emu]
+buildsteps: |
+  source /etc/profile
+
+  # A place for does tools
+  mkdir -p /dos
+
+  mkdir -p build
+  cd build
+
+  meson setup --prefix=/usr --buildtype=release ..
+  ninja
+  ninja install
+
+  # This will create the config dir
+  set +e
+  dosbox
+  set -e
+
+  echo "mount C /dos" >> ~/.config/dosbox/dosbox-staging.conf
+  mkdir -pv /etc/skel/.config
+
+  cp -vpr ~/.config/dosbox/ /etc/skel/.config/
+

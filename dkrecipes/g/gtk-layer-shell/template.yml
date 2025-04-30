@@ -1,0 +1,18 @@
+name: gtk-layer-shell
+version: 0.9.1
+release: 1
+url: https://github.com/wmww/gtk-layer-shell/archive/refs/tags/v0.9.1.tar.gz
+homepage: https://github.com/wmww/gtk-layer-shell
+license: MIT
+summary: Library to create desktop components with GTK and Wayland layer-shell
+description: |
+  gtk-layer-shell is a library that allows GTK applications to use  
+  the Wayland layer-shell protocol, enabling clients to create panels,  
+  notifications, and other desktop components that sit on top of or  
+  below other windows.
+phase: 5
+builddeps: [glibc, gtk3, wayland, wayland-protocols, pkgconfig, meson, ninja]
+buildsteps: |
+  meson setup --prefix=/usr build
+  ninja -C build
+  ninja -C build install

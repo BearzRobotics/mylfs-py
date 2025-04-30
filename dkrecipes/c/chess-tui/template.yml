@@ -1,0 +1,19 @@
+name: chess-tui
+version: 1.6.1
+release: 1
+url: https://github.com/thomas-mauran/chess-tui/archive/refs/tags/1.6.1.tar.gz
+homepage: https://github.com/thomas-mauran/chess-tui
+license: GPL-3.0-or-later
+summary: Terminal-based chess game using a TUI interface
+description: |
+  chess-tui is a terminal user interface (TUI) chess game written in Rust.
+  It allows you to play chess in the terminal, featuring move highlighting,
+  piece promotions, and undo/redo functionality. It is designed to be simple
+  and lightweight while offering a full chess experience in a text-only environment.
+phase: 5
+builddeps: [rust]
+buildsteps: |
+  source /etc/profile
+  cargo build --release
+
+  install -Dm755 target/release/chess-tui /usr/bin/chess-tui

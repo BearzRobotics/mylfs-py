@@ -1,0 +1,15 @@
+name: yazi
+version: 25.4.8
+release: 1
+phase: 5
+url: https://github.com/sxyazi/yazi/archive/refs/tags/v25.4.8.tar.gz
+homepage: https://github.com/sxyazi/yazi
+
+summary: "Blazing fast terminal file manager written in Rust"
+license: MIT
+builddeps: [rust, lua]
+
+buildsteps: |
+  source /etc/profile
+  cargo build --release
+  install -Dm755 target/release/yazi /usr/bin/yazi

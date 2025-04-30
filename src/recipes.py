@@ -16,7 +16,6 @@
 # You should have received a copy of the GNU General Public License
 # along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
-
 from dataclasses import dataclass, field
 import tempfile
 from typing import List, Optional
@@ -58,7 +57,6 @@ class Recipe:
     cleanup: bool = True
     recipe_source: Optional[str] = None
 
-
 # I tried to automate this loop -- come back to later
 # from the import re
 # this can be expanded later - if needed
@@ -70,7 +68,6 @@ def expandBuildStep(old_text: str, data: dict) -> str:
         if key in data:
             result = re.sub(placeholder, str(data[key]), result)
     return result
-
 
 def load_recipe(template_path: Path, config: GlobalConfig) -> Recipe:
     with template_path.open("r") as f:
@@ -95,8 +92,6 @@ def load_recipe(template_path: Path, config: GlobalConfig) -> Recipe:
     
     # set recipe_root path. If there is a url it points to source if not it points to static.
     # source is created with untaring the archive. -- static must be provided by the packager
-
-    
 
     recipe_dir = Path(template_path.parent)
     rSource = recipe_dir / ("source" if urls else "static")
@@ -204,8 +199,11 @@ def initialize_recipes(config):
             
     # Copy the entire recipes tree to the build path
     if target_recipes.exists():
+        ConsoleMSG.info("Removing old recipe dir")
         shutil.rmtree(target_recipes)
+    ConsoleMSG.info(f"Copying {config.recipes_path} as /recipes on the new root fs")
     shutil.copytree(source_recipes, target_recipes)
+    ConsoleMSG.passed("Completed copying recieps over")
     
     # if builddp = True copy are presvered build_state.db over
     if (is_builddb):

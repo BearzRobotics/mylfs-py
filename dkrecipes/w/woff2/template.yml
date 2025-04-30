@@ -1,0 +1,25 @@
+name: woff2
+version: 1.0.2
+release: 1
+url: https://github.com/google/woff2/archive/v1.0.2/woff2-1.0.2.tar.gz
+homepage: https://github.com/google/woff2
+license: Apache-2.0
+summary: Library and tools for WOFF2 font compression and decompression
+description: |
+  woff2 is a library and set of command-line tools for compressing 
+  and decompressing WOFF2 (Web Open Font Format 2) font files. 
+  Developed by Google, it is used widely in modern web development 
+  for efficient font delivery. The package provides both a C++ library 
+  and standalone CLI utilities.
+phase: 5
+builddeps: [make, gcc, glibc, cmake-legacy, make, brotli]
+buildsteps: |
+  PATH=/opt/cmake/bin:$PATH
+  mkdir out                               
+  cd    out                               
+  cmake -D CMAKE_INSTALL_PREFIX=/usr   \
+        -D CMAKE_BUILD_TYPE=Release    \
+        -D CMAKE_SKIP_INSTALL_RPATH=ON .. 
+  make
+
+  make install

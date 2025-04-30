@@ -14,8 +14,9 @@ description: |
 phase: 5
 builddeps: [glibc, make, gpm, libavif, libpng, libjpeg-turbo, libtiff, librsvg, brotli]
 
+## You may want to include more libraries to enable more graphics options
 buildsteps: |
-  ./configure --prefix=/usr --mandir=/usr/share/man &&
+  ./configure --prefix=/usr --mandir=/usr/share/man --enable-graphics &&
   make
 
   make install &&

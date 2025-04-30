@@ -1,0 +1,20 @@
+name: encode-jis2k
+version: 0.05
+release: 1
+url: https://www.cpan.org/authors/id/D/DA/DANKOGAI/Encode-JIS2K-0.05.tar.gz
+homepage: https://metacpan.org/dist/Encode-JIS2K
+license: Artistic-1.0-Perl
+summary: JIS X 0213 encodings support for Perl's Encode module
+description: |
+  Encode::JIS2K provides support for the JIS X 0213 character set, commonly 
+  referred to as JIS2000, within Perl's Encode framework. It allows proper 
+  encoding and decoding of extended Japanese characters not covered by older 
+  standards.
+
+phase: 5
+builddeps: [perl]
+
+buildsteps: |
+  perl Makefile.PL
+  make
+  make install

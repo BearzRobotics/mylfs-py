@@ -37,6 +37,7 @@ buildsteps: |
     mkdir -p $LFS/root
     mkdir -p $LFS/mnt/{usb,lfs,cdrom,dvd}
     mkdir -p $LFS/lib/firmware
+    mkdir -p $LFS/boot
 
 
 

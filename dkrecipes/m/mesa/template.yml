@@ -14,26 +14,30 @@ buildsystem: meson
 builddeps: [
   glibc, meson, ninja, llvm, libdrm, wayland, wayland-protocols,
   libva-bootstrap, mako, python, xorgproto, expat, xorg-libs, pyyaml, ply, cbindgen, rust-bindgen, glslang,
-  libclc, vulkan-loader,  libvdpau
+  libclc, vulkan-loader,  libvdpau, valgrind, libglvnd
 ]
 
 buildsteps: |
   source /etc/profile
   
-  patch -Np1 -i ../patches/mesa-add_xdemos-4.patch
+  # This breaks when adding glvnd support
+  #patch -Np1 -i ../patches/mesa-add_xdemos-4.patch
   
   mkdir build &&
   cd    build &&
 
+  # -D gallium-drivers=auto  \
   meson setup ..                 \
         --prefix=$XORG_PREFIX    \
         --buildtype=release      \
         -D platforms=x11,wayland \
-        -D gallium-drivers=auto  \
-        -D vulkan-drivers=auto   \
+        -D gallium-drivers=r300,r600,radeonsi,virgl,svga,llvmpipe,softpipe,iris,crocus,i915 \
+        -D vulkan-drivers=amd,intel,intel_hasvk,swrast   \
         -D valgrind=disabled     \
         -D video-codecs=all      \
-        -D libunwind=disabled    &&
+        -D libunwind=disabled    \
+        -D glx=dri              \
+        -D glvnd=enabled        
 
   ninja
   ninja install

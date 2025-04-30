@@ -1,0 +1,19 @@
+name: libcanberra
+version: 0.30
+release: 1
+url: https://0pointer.de/lennart/projects/libcanberra/libcanberra-0.30.tar.xz
+homepage: https://0pointer.de/lennart/projects/libcanberra/
+license: LGPL-2.1-or-later
+summary: Event sound library
+description: |
+  libcanberra is an implementation of the XDG Sound Theme and Name Specification,  
+  used for playing event sounds in desktop environments.  
+  It provides simple functions for playing short sound files based on event names.
+phase: 5
+builddeps: [glibc, alsa-lib, gtk3, pkgconfig, make, gstreamer]
+buildsteps: |
+  patch -Np1 -i ../patches/libcanberra-0.30-wayland-1.patch
+
+  ./configure --prefix=/usr --disable-oss 
+  make
+  make docdir=/usr/share/doc/libcanberra-0.30 install

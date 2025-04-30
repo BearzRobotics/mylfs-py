@@ -1,0 +1,23 @@
+name: gc
+version: 8.2.8
+release: 1
+url: https://github.com/ivmai/bdwgc/releases/download/v8.2.8/gc-8.2.8.tar.gz
+homepage: https://www.hboehm.info/gc/
+license: MIT
+summary: Conservative garbage collector for C and C++
+description: |
+  The Boehm-Demers-Weiser garbage collector is a conservative garbage collector  
+  for C and C++ programs. It allows programs to allocate memory like malloc()  
+  but automatically reclaims memory that is no longer in use, helping manage  
+  dynamic memory safely and automatically.
+phase: 5
+builddeps: [glibc, pkgconfig, make, libatomic_ops]
+buildsteps: |
+  ./configure --prefix=/usr      \
+              --enable-cplusplus \
+              --disable-static   \
+              --docdir=/usr/share/doc/gc-8.2.8 &&
+  make
+
+  make install &&
+  install -v -m644 doc/gc.man /usr/share/man/man3/gc_malloc.3

@@ -1,0 +1,22 @@
+name: lmdb
+version: 0.9.31
+release: 1
+url: https://github.com/LMDB/lmdb/archive/LMDB_0.9.31.tar.gz
+homepage: https://symas.com/lmdb/
+license: OpenLDAP-Public-License
+summary: Lightning-fast memory-mapped key-value database library
+description: |
+  LMDB (Lightning Memory-Mapped Database) is a high-performance, 
+  ultra-compact key-value database library developed as part of 
+  the OpenLDAP project. It provides full ACID transactions with 
+  extremely low overhead and supports multiple read-only clients 
+  simultaneously without locking. LMDB is widely used in embedded 
+  and high-performance systems.
+phase: 5
+builddeps: [make, glibc]
+buildsteps: |
+  cd libraries/liblmdb 
+  make                 
+  sed -i 's| liblmdb.a||' Makefile
+
+  make prefix=/usr install

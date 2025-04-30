@@ -1,0 +1,22 @@
+name: grim
+version: 1.4.0
+release: 1
+url: https://github.com/emersion/grim/archive/refs/tags/v1.4.0.tar.gz
+homepage: https://github.com/emersion/grim
+license: MIT
+summary: Screenshot utility for Wayland compositors using wlroots
+description: |
+  Grim is a lightweight screenshot tool for Wayland compositors built on 
+  wlroots. It captures entire outputs or user-defined regions when used 
+  with slurp.
+
+phase: 5
+builddeps: [wayland, wayland-protocols, libpng, meson, ninja, scdoc, pixman, libjpeg-turbo]
+
+buildsteps: |
+  mkdir build
+  cd    build
+
+  meson setup .. --prefix=/usr --buildtype=release
+  ninja
+  ninja install

@@ -1,0 +1,41 @@
+name: ghostscript
+version: 10.04.0
+release: 1
+url: 
+  - https://github.com/ArtifexSoftware/ghostpdl-downloads/releases/download/gs10040/ghostscript-10.04.0.tar.xz
+  - https://downloads.sourceforge.net/gs-fonts/ghostscript-fonts-std-8.11.tar.gz
+  - https://downloads.sourceforge.net/gs-fonts/gnu-gs-fonts-other-6.0.tar.gz
+homepage: https://ghostscript.com/
+license: AGPL-3.0-or-later
+summary: Interpreter for PostScript and PDF
+description: |
+  Ghostscript is an interpreter for the PostScript language and PDF files.  
+  It is commonly used for document processing, conversion, printing,  
+  and viewing tasks across multiple platforms.
+phase: 5
+builddeps: [glibc, libpng, libjpeg-turbo, zlib, freetype2, make, pkgconfig, cups,
+  lcms, libtiff, fontconfig, openjpeg, cairo, gtk3, libidn, libpaper, libwebp]
+buildsteps: |
+  rm -rf freetype lcms2mt jpeg libpng openjpeg
+  rm -rf zlib &&
+
+  ./configure --prefix=/usr           \
+              --disable-compile-inits \
+              --with-system-libtiff   
+  make
+
+  make so
+
+  make install
+
+  make soinstall                                     
+  install -v -m644 base/*.h /usr/include/ghostscript 
+  ln -sfvn ghostscript /usr/include/ps
+
+  mv -v /usr/share/doc/ghostscript/10.04.0 /usr/share/doc/ghostscript-10.04.0 
+  rmdir /usr/share/doc/ghostscript                                            
+  cp -r examples/ -T /usr/share/ghostscript/10.04.0/examples
+
+  tar -xvf ../ghostscript-fonts-std-8.11.tar.gz -C /usr/share/ghostscript --no-same-owner &&
+  tar -xvf ../gnu-gs-fonts-other-6.0.tar.gz     -C /usr/share/ghostscript --no-same-owner &&
+  fc-cache -v /usr/share/ghostscript/fonts/

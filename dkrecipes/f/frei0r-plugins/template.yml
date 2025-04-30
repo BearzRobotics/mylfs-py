@@ -1,0 +1,28 @@
+name: frei0r-plugins
+version: 1.8.0
+release: 1
+url: https://files.dyne.org/frei0r/releases/frei0r-plugins-1.8.0.tar.gz
+homepage: https://frei0r.dyne.org/
+license: GPL-2.0-or-later
+summary: Minimalist video effects plugin API and collection
+description: |
+  Frei0r is a minimalistic plugin API for video effects. It provides a set of 
+  simple C functions to build video effect plugins. This package contains a large 
+  set of plugins implementing filters, generators, mixers, and utilities.
+
+phase: 5
+# opencv is optional 
+builddeps: [glibc, cmake, doxygen, opencv, gavl]
+
+buildsteps: |
+  cmake-legacy
+  export PATH=/opt/cmake-3.31.7/bin:$PATH
+  mkdir -vp build &&
+  cd        build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        -W no-dev ..                 
+
+  make
+  make install

@@ -1,0 +1,23 @@
+name: libndp
+version: 1.9
+release: 1
+url: http://libndp.org/files/libndp-1.9.tar.gz
+homepage: https://libndp.org/
+license: LGPL-2.1-or-later
+summary: Library for managing IPv6 Neighbor Discovery Protocol messages
+description: |
+  libndp is a small library that provides a wrapper for the IPv6 Neighbor 
+  Discovery Protocol. It is used for sending and receiving NDP messages and 
+  configuring neighbor entries on IPv6-enabled systems.
+
+phase: 5
+builddeps: [glibc, make]
+
+buildsteps: |
+  ./configure --prefix=/usr        \
+              --sysconfdir=/etc    \
+              --localstatedir=/var \
+              --disable-static     &&
+  make
+
+  make install

@@ -1,0 +1,13 @@
+name: socat
+version: 1.8.0.3
+release: 1
+phase: 5
+url: http://www.dest-unreach.org/socat/download/socat-1.8.0.3.tar.gz
+
+summary: "Multipurpose relay (SOcket CAT) for bidirectional data transfer"
+license: GPL-2.0-or-later
+builddeps: [openssl, glibc, readline]
+buildsteps: |
+  ./configure --prefix=/usr 
+  make 
+  make install

@@ -1,0 +1,16 @@
+name: pyproject-metadata
+version: 0.9.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/p/pyproject-metadata/pyproject_metadata-0.9.0.tar.gz
+homepage: https://github.com/pypa/pyproject-metadata
+license: MIT
+summary: PEP 621 metadata parsing for Python build tools
+description: |
+  pyproject-metadata is a library that parses project metadata  
+  as defined in PEP 621. It is primarily used by Python build backends  
+  to interpret `pyproject.toml` files in a standard-compliant way.
+phase: 5
+builddeps: [python, hatchling, packaging]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user pyproject-metadata

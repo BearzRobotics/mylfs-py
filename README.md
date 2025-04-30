@@ -197,7 +197,7 @@ brave souls can try genfstab, however, I can't guarantee that it will work. Othe
 
 
 ```console
-genfstab -UP > /etc/fstab
+genfstab -LP > /etc/fstab
 ```
 
 Make sure to set a root password.
@@ -246,6 +246,8 @@ blkid /dev/sdc4
 ```
 
 In it's output you'll see PARTUUID="". What ever is in the string is your part uuid and would go in the grub config. (Best success using this)
+
+Make sure your partition is labled with LFSROOT or update the --label with your root fs label
 ---
 # Begin /boot/grub/grub.cfg
 set default=0
@@ -253,10 +255,16 @@ set timeout=5
 
 insmod ext2
 
-menuentry "GNU/Linux, Linux 6.10.5-lfs-12.2" {
+menuentry "GNU/Linux, Linux 6.13.9-lfs-12.3 nomodeset"{
   search --no-floppy --label LFSROOT --set=root
-  linux   /boot/vmlinuz-6.10.5-lfs-12.2 rootwait root=PARTUUID=46e41690-01 ro net.ifnames=0 biosdevname=0 nomodeset
+  linux   /boot/vmlinuz-6.13.9-lfs-12.3 rootwait root=PARTUUID=ecb913d1-02 ro net.ifnames=0 biosdevname=0 nomodeset
 }
+
+menuentry "GNU/Linux, Linux 6.13.9-lfs-12.3" {
+  search --no-floppy --label LFSROOT --set=root
+  linux   /boot/vmlinuz-6.13.9-lfs-12.3 rootwait root=PARTUUID=ecb913d1-02 ro net.ifnames=0 biosdevname=0
+}
+
 
 ---
 
@@ -307,8 +315,26 @@ When creating the grub config, the system /dev/ is mounted. However, when bootin
 
 
 ```console
-qemu-system-x86_64 -m 2048 -enable-kvm -hda /dev/sdc -boot order=d -vga std
+qemu-system-x86_64 -m 2048 -enable-kvm -cpu host -hda /dev/sdc -boot order=d -vga std
 ```
+
+If you hardware supports it you can add in place of "-vga std"
+```console
+qemu-system-x86_64 -m 2048 -enable-kvm -cpu host -hda /dev/sdc -boot order=d  -device virtio-vga-gl -display gtk,gl=on
+```
+
+# Generic Binaries
+in builder.py you'll find these set 
+    
+    # Commet these lines out if you want to build packages for your system
+    "CFLAGS"  : "-march=x86-64 -mtune=generic -O2",
+    "CXXFLAGS" : "-march=x86-64 -mtune=generic -O2",
+
+
+    # Build generic binaries
+    env["CFLAGS"] = "-march=x86-64 -mtune=generic -O2"
+    env["CXXFLAGS"] = "-march=x86-64 -mtune=generic -O2"
+
 
 # Phases
 Phase 1:

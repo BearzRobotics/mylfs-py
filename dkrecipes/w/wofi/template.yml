@@ -1,0 +1,17 @@
+name: wofi
+version: 1.4.1
+release: 1
+url: https://github.com/SimplyCEO/wofi/archive/refs/tags/v1.4.1.tar.gz
+homepage: https://github.com/SimplyCEO/wofi
+license: GPL-3.0-or-later
+summary: A Wayland-native application launcher similar to rofi
+description: |
+  wofi is a Wayland-native application launcher inspired by rofi,  
+  designed to work with wlroots-based compositors like Sway and Hyprland.  
+  It supports running applications, generating menus, and other simple prompt utilities.
+phase: 5
+builddeps: [glibc, gtk3, wayland, wayland-protocols, pkgconfig, meson, ninja]
+buildsteps: |
+  meson setup --prefix=/usr build
+  ninja -C build
+  ninja -C build install

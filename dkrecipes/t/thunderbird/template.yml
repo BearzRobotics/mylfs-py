@@ -1,0 +1,38 @@
+name: thunderbird
+version: 128.7.1esr
+release: 1
+url: https://archive.mozilla.org/pub/thunderbird/releases/128.7.1esr/source/thunderbird-128.7.1esr.source.tar.xz
+
+summary: "Mozilla Thunderbird email client (ESR release)"
+license: MPL-2.0
+builddeps: [rust, python, nodejs, yasm, cbindgen, nasm, unzip, libzip, gtk3, dbus-glib, pulseaudio, alsa-lib,
+   xdg-utils, startup-notification, libevent, libvpx, libwebp, nspr, nss, pixman, zlib]
+phase: 5
+
+buildsteps: |
+  cp ../static/mozconfig .
+
+  export MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none 
+  export MOZBUILD_STATE_PATH=$(pwd)/mozbuild          
+  ./mach build
+
+  MACH_BUILD_PYTHON_NATIVE_PACKAGE_SOURCE=none ./mach install
+
+  mkdir -pv /usr/share/{applications,pixmaps} &&
+
+  cat > /usr/share/applications/thunderbird.desktop << "EOF" &&
+  [Desktop Entry]
+  Name=Thunderbird Mail
+  Comment=Send and receive mail with Thunderbird
+  GenericName=Mail Client
+  Exec=thunderbird %u
+  Terminal=false
+  Type=Application
+  Icon=thunderbird
+  Categories=Network;Email;
+  MimeType=text/html;text/xml;application/xhtml+xml;application/xml;application/rss+xml;x-scheme-handler/mailto;
+  StartupNotify=true
+  EOF
+
+  ln -sfv /usr/lib/thunderbird/chrome/icons/default/default256.png \
+          /usr/share/pixmaps/thunderbird.png

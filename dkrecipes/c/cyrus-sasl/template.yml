@@ -1,0 +1,42 @@
+name: cyrus-sasl
+version: 2.1.28
+release: 1
+url: 
+  - https://github.com/cyrusimap/cyrus-sasl/releases/download/cyrus-sasl-2.1.28/cyrus-sasl-2.1.28.tar.gz
+  - https://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-20250225.tar.xz
+
+homepage: https://www.cyrusimap.org/sasl/
+license: BSD-4-Clause-UC
+summary: Cyrus SASL authentication library
+description: |
+  Cyrus SASL is a library that provides mechanisms for authentication, 
+  including support for LDAP, PAM, and various challenge-response 
+  protocols. It is used by applications such as OpenLDAP, Sendmail, 
+  and Postfix for flexible authentication backends.
+
+phase: 5
+builddeps: [glibc, openssl, lmdb, linux-pam]
+
+buildsteps: |
+  sed '/saslint/a #include <time.h>'       -i lib/saslutil.c &&
+  sed '/plugin_common/a #include <time.h>' -i plugins/cram.c
+
+  ./configure --prefix=/usr                       \
+              --sysconfdir=/etc                   \
+              --enable-auth-sasldb                \
+              --with-dblib=lmdb                   \
+              --with-dbpath=/var/lib/sasl/sasldb2 \
+              --with-sphinx-build=no              \
+              --with-saslauthd=/var/run/saslauthd &&
+  make -j1
+
+  make install &&
+  install -v -dm755                          /usr/share/doc/cyrus-sasl-2.1.28/html &&
+  install -v -m644  saslauthd/LDAP_SASLAUTHD /usr/share/doc/cyrus-sasl-2.1.28      &&
+  install -v -m644  doc/legacy/*.html        /usr/share/doc/cyrus-sasl-2.1.28/html &&
+  install -v -dm700 /var/lib/sasl
+
+  # boot files
+  #tar -xf ../blfs-bootscripts-20250225.tar.xz
+  #cd blfs-bootscripts-20250225
+  #make install-saslauthd

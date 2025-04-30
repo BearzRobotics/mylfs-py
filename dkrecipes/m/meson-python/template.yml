@@ -1,0 +1,17 @@
+name: meson-python
+version: 0.17.1
+release: 1
+url: https://files.pythonhosted.org/packages/source/m/meson_python/meson_python-0.17.1.tar.gz
+homepage: https://github.com/mesonbuild/meson-python
+license: MIT
+summary: Meson-based PEP 517 Python build backend
+description: |
+  meson-python is a Python build backend that uses Meson and Ninja  
+  to compile Python extension modules. It supports PEP 517 and allows  
+  building C, C++, and Rust extensions in a fast and modern way.
+phase: 5
+builddeps: [python, meson, python-wheel, python-setuptools, pyproject-metadata,
+  patchelf, cython, git]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user meson_python

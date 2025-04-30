@@ -1,5 +1,5 @@
 name: ffmpeg
-version: 7.1.1
+version: 7.1
 release: 1
 url: https://ffmpeg.org/releases/ffmpeg-7.1.1.tar.xz
 homepage: https://ffmpeg.org/
@@ -10,21 +10,38 @@ description: |
   FFmpeg is a powerful multimedia framework that can decode, encode, transcode, mux, demux, stream, filter and play almost anything that humans and machines have created. It supports the most obscure ancient formats up to the cutting edge.
 
 phase: 5
-builddeps: [glibc, nasm, zlib, x264, x265, fdk-aac, libvpx, opus, libvorbis, lame, libaom, xz, make, alsa-lib, freetype2]
+builddeps: [glibc, nasm, zlib, x264, x265, fdk-aac, libvpx, opus, libvorbis, lame, libaom, xz, 
+  make, alsa-lib, freetype2, libass, openssl]
 
 buildsteps: |
-  ./configure --prefix=/usr \
-              --disable-static \
-              --enable-shared \
-              --enable-gpl \
-              --enable-version3 \
-              --enable-nonfree \
-              --enable-libx264 \
-              --enable-libx265 \
-              --enable-libvpx \
-              --enable-libopus \
-              --enable-libvorbis \
+  set +e
+  patch -Np1 -i ../patches/ffmpeg-7.1.1-chromium_method-1.patch
+
+  patch -Np1 -i ../patches/ffmpeg-7.1-texinfo_fix-1.patch
+  set -e
+  ./configure --prefix=/usr       \
+              --disable-static    \
+              --enable-shared     \
+              --enable-gpl        \
+              --enable-version3   \
+              --disable-debug     \
+              --enable-libass     \
+              --enable-nonfree    \
+              --enable-libx264    \
+              --enable-libx265    \
+              --enable-libvpx     \
+              --enable-openssl    \
+              --enable-libopus    \
+              --enable-libvorbis  \
               --enable-libmp3lame \
-              --enable-libaom
+              --enable-libaom     \
+              --disable-doc       \
+              --docdir=/usr/share/doc/ffmpeg-{version}
   make
-  make install
+  gcc tools/qt-faststart.c -o tools/qt-faststart
+
+  make install 
+
+  install -v -m755    tools/qt-faststart /usr/bin 
+  install -v -m755 -d           /usr/share/doc/ffmpeg-7.1 
+  install -v -m644    doc/*.txt /usr/share/doc/ffmpeg-7.1

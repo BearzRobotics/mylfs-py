@@ -1,0 +1,19 @@
+name: libksba
+version: 1.6.7
+release: 1
+url: https://www.gnupg.org/ftp/gcrypt/libksba/libksba-1.6.7.tar.bz2
+homepage: https://gnupg.org/
+license: GPL-3.0-or-later
+summary: X.509 and CMS support library used by GnuPG
+description: |
+  Libksba is a library to make the working with X.509 certificates,
+  CMS data, and related protocols simpler. It is used by GnuPG for
+  handling S/MIME and other certificate-based operations.
+
+phase: 5
+builddeps: [glibc, libgpg-error]
+
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install

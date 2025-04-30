@@ -1,0 +1,19 @@
+name: sysmon3
+version: 3.0.1
+release: 1
+url: https://github.com/lfs-book/sysmon3/releases/download/sysmon3-3.0.1/sysmon3-3.0.1.tar.xz
+homepage: https://github.com/lfs-book/sysmon3
+license: MIT
+summary: Lightweight TTY system monitor client for sysmond
+description: |
+  sysmon3 is a lightweight TTY-based system monitor that connects 
+  to the sysmond daemon to display real-time system statistics 
+  such as CPU usage, memory usage, temperatures, and disk usage. 
+  Designed for simple Linux systems, it is ideal for TTY environments 
+  where graphical monitoring tools are not available or not desired.
+phase: 5
+builddeps: [make, glibc, qt6, sysmond]
+buildsteps: |
+  qmake sysmon3.pro &&
+  make
+  install -vm755 sysmon3 /usr/bin

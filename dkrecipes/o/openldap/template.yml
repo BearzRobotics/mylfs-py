@@ -1,0 +1,29 @@
+name: openldap
+version: 2.6.9
+release: 1
+url: https://www.openldap.org/software/download/OpenLDAP/openldap-release/openldap-2.6.9.tgz
+homepage: https://www.openldap.org/
+license: OLDAP-2.8
+summary: Lightweight Directory Access Protocol (LDAP) implementation
+description: |
+  OpenLDAP is a free, open source implementation of the Lightweight 
+  Directory Access Protocol (LDAP). It includes a stand-alone LDAP 
+  server, utilities, client libraries, and development tools.
+
+phase: 5
+builddeps: [glibc, openssl, libtirpc, make, cyrus-sasl]
+
+buildsteps: |
+  patch -Np1 -i ../patches/openldap-2.6.9-consolidated-1.patch 
+  autoconf &&
+
+  ./configure --prefix=/usr        \
+              --sysconfdir=/etc    \
+              --disable-static     \
+              --enable-dynamic     \
+              --disable-debug      \
+              --disable-slapd 
+
+  make depend &&
+  make
+  make install

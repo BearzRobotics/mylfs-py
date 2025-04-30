@@ -1,0 +1,17 @@
+name: cache-control
+version: 0.14.2
+release: 1
+url: https://github.com/psf/cachecontrol/archive/v0.14.2/cachecontrol-0.14.2.tar.gz
+homepage: https://github.com/psf/cachecontrol
+license: Apache-2.0 OR MIT
+summary: HTTP cache for Python requests
+description: |
+  CacheControl is a Python library that provides a transparent,  
+  RFC 7234-compliant HTTP cache for use with `requests` sessions,  
+  improving efficiency by reusing responses and minimizing network traffic.
+phase: 5
+builddeps: [python, python-wheel, python-setuptools, msgpack, requests]
+buildsteps: |
+  pip3 install cachecontrol
+  #pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  #pip3 install --no-index --find-links dist --no-user cachecontrol

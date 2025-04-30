@@ -1,0 +1,19 @@
+name: eww
+version: 0.6.0
+release: 1
+url: https://github.com/elkowar/eww/archive/refs/tags/v0.6.0.tar.gz
+homepage: https://github.com/elkowar/eww
+license: MIT
+summary: ElKowar's Wacky Widgets - a customizable widget system for Linux
+description: |
+  eww (ElKowar's Wacky Widgets) is a highly customizable widget system for Linux,
+  primarily targeted at window managers like i3, sway, and similar setups.
+  It allows for beautiful, reactive, and flexible desktop widgets using simple declarative configuration.
+phase: 5
+builddeps: [glibc, gtk3, rust, pkgconfig, hyprland, libdbusmenu]
+buildsteps: |
+  source /etc/profile
+  cargo update
+  cargo build --release
+
+  install -Dm755 target/release/eww /usr/bin/eww

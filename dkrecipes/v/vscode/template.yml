@@ -1,0 +1,27 @@
+name: vscode
+version: 1.99.3
+release: 1
+# By changing this to phase 6 from 5, it will stop it from building. It takes quite a bit of time and I don't 
+# yet have a fix for it.
+phase: 6
+url: https://github.com/microsoft/vscode/archive/refs/tags/1.99.3.tar.gz
+
+summary: "Source-code editor developed by Microsoft with support for debugging and Git"
+license: MIT
+builddeps: [nodejs, yarn, python, make, xorg-libs, xorg-apps, gtk3, nss, krb5, alsa-lib, git]
+
+buildsteps: |
+  npm i
+
+  # Build VSCode with system Electron or prepare to package your own
+  npm run compile
+
+  mkdir -vp /usr/lib/vscode
+  cp -av . /usr/lib/vscode
+
+  ln -sf /usr/lib/vscode/scripts/code.sh /usr/bin/code
+
+  #code
+
+
+

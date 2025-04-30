@@ -1,0 +1,22 @@
+name: gspell
+version: 1.14.0
+release: 1
+url: https://download.gnome.org/sources/gspell/1.14/gspell-1.14.0.tar.xz
+homepage: https://wiki.gnome.org/Projects/gspell
+license: LGPL-2.1-or-later
+summary: Spell-checking library for GTK applications
+description: |
+  gspell is a flexible and easy-to-use spell-checking library for GTK applications.  
+  It provides spell-checking facilities using GtkTextView and GtkEntry widgets,  
+  integrating with spell-checker backends such as Hunspell.
+phase: 5
+builddeps: [glibc, gtk3, enchant, hunspell, vala, glib, pkgconfig, 
+  make, meson, ninja, valgrind]
+buildsteps: |
+  mkdir gspell-build 
+  cd    gspell-build 
+
+  meson setup --prefix=/usr --buildtype=release -D gtk_doc=false .. 
+  ninja
+
+  ninja install

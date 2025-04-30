@@ -1,0 +1,16 @@
+name: lxde-icon-theme
+version: 0.5.1
+release: 1
+phase: 5
+url: https://downloads.sourceforge.net/lxde/lxde-icon-theme-0.5.1.tar.xz
+
+summary: "The default icon theme for LXDE (also usable in LXQt)"
+license: GPL-2.0-or-later
+
+builddeps: [gtk3]
+
+buildsteps: |
+  ./configure --prefix=/usr
+  make install
+
+  gtk-update-icon-cache -qf /usr/share/icons/nuoveXT2

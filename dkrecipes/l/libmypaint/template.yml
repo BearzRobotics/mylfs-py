@@ -1,0 +1,22 @@
+name: libmypaint
+version: 1.6.1
+release: 1
+url: https://github.com/mypaint/libmypaint/releases/download/v1.6.1/libmypaint-1.6.1.tar.xz
+homepage: https://github.com/mypaint/libmypaint
+license: ISC
+summary: Brushstroke engine library for graphics applications
+description: |
+  libmypaint is a C library implementing a brushstroke engine 
+  used by graphics applications such as MyPaint and GIMP. 
+  It provides smooth, pressure-sensitive brush simulation 
+  designed for tablets and natural media painting. 
+  The library is independent of any GUI and focuses purely 
+  on brush dynamics and painting logic.
+phase: 5
+# gperftools and gegl is optional
+# it wanted gegl and I'm going to try gegl-45
+builddeps: [make, glibc, json-c, glib, pango, pkgconfig, gegl-45]
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install

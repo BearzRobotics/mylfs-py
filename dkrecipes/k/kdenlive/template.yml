@@ -1,0 +1,25 @@
+name: kdenlive
+version: 24.12.2
+release: 1
+url: https://download.kde.org/stable/release-service/24.12.2/src/kdenlive-24.12.2.tar.xz
+homepage: https://kdenlive.org/
+license: GPL-3.0-or-later
+summary: Non-linear video editor for KDE
+description: |
+  Kdenlive is an advanced multi-track video editor built on KDE Frameworks, Qt, and the MLT video framework.
+  It supports a wide range of video formats, powerful effect and transition editing, and full timeline control.
+
+phase: 5
+builddeps: [mlt, qt6, ffmpeg, opencv, kde-frameworks, glibc, v4l-utils, breeze-icons]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=$KF6_PREFIX \
+        -D CMAKE_BUILD_TYPE=Release         \
+        -D BUILD_TESTING=OFF                \
+        -W no-dev .. &&
+  make
+
+  make install

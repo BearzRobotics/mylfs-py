@@ -1,0 +1,29 @@
+name: babl
+version: 0.1.112
+release: 1
+url: https://download.gimp.org/pub/babl/0.1/babl-0.1.112.tar.xz
+homepage: https://gitlab.gnome.org/GNOME/babl
+license: LGPL-3.0-or-later
+summary: Color-space and pixel format conversion library
+description: |
+  babl is a dynamic, any-to-any pixel format conversion library 
+  used in graphics applications like GEGL and GIMP. It allows 
+  efficient conversions between different color spaces and 
+  pixel formats, supporting high-bit depth images and 
+  non-destructive editing workflows.
+phase: 5
+builddeps: [meson, ninja, glibc, pkgconfig, lcms, glib, librsvg, lcms]
+buildsteps: |
+  mkdir bld 
+  cd    bld 
+
+  meson setup --prefix=/usr --buildtype=release .. 
+  ninja 
+
+  ninja install 
+
+  install -v -m755 -d                         /usr/share/gtk-doc/html/babl/graphics &&
+  install -v -m644 docs/*.{css,html}          /usr/share/gtk-doc/html/babl          &&
+  install -v -m644 docs/graphics/*.{html,svg} /usr/share/gtk-doc/html/babl/graphics
+
+  ln -svf /usr/lib/pkgconfig/babl-0.1.pc /usr/lib/pkgconfig/babl.pc

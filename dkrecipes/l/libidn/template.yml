@@ -1,0 +1,24 @@
+name: libidn
+version: 1.42
+release: 1
+url: https://ftp.gnu.org/gnu/libidn/libidn-1.42.tar.gz
+homepage: https://www.gnu.org/software/libidn/
+license: GPL-3.0-or-later
+summary: Internationalized Domain Name (IDN) library
+description: |
+  GNU Libidn is a library implementation of the Stringprep, Punycode, and IDNA specifications.  
+  It is used for handling internationalized domain names (IDNs) in applications,  
+  ensuring proper handling of non-ASCII domain names.
+phase: 5
+builddeps: [glibc, make, pkgconfig, openjdk]
+buildsteps: |
+  source /etc/profile
+
+  ./configure --prefix=/usr --disable-static --enable-java
+  make
+  make install 
+
+  find doc -name "Makefile*" -delete            
+  rm -rf -v doc/{gdoc,idn.1,stamp-vti,man,texi} 
+  mkdir -v       /usr/share/doc/libidn-1.42     
+  cp -r -v doc/* /usr/share/doc/libidn-1.42

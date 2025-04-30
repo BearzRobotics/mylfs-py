@@ -1,0 +1,21 @@
+name: cmus
+version: 2.12.0
+release: 1
+url: https://github.com/cmus/cmus/archive/refs/tags/v2.12.0.tar.gz
+homepage: https://cmus.github.io/
+license: GPL-2.0-or-later
+summary: Lightweight console music player
+description: |
+  cmus is a small, fast, and powerful console music player for 
+  Unix-like operating systems. It supports a variety of audio 
+  formats and provides a vi-style command interface, making it 
+  ideal for TTY users who want an efficient, non-graphical music 
+  playback experience.
+phase: 5
+
+# This is a music lib and by including ffmpeg, it should ensure any major audio format is present
+builddeps: [make, glibc, ncurses, alsa-lib, pkgconfig, ffmpeg]
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install

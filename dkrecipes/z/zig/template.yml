@@ -27,6 +27,5 @@ buildsteps: |
   install -Dm755 ../static/zvm.sh /etc/profile.d/zvm.sh
   source /etc/profile 
 
-  zvm install master
   zvm install 0.13.0
   zvm install 0.14.0

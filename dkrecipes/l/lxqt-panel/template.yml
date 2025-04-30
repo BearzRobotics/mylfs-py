@@ -19,3 +19,12 @@ buildsteps: |
   cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release
   make
   make install
+
+  cat > /etc/xdg/autostart/lxqt-panel.desktop << "EOF"
+  [Desktop Entry]
+  Name=LXQt Panel
+  Exec=lxqt-panel
+  Type=Application
+  OnlyShowIn=LXQt;
+  X-LXQt-Need-Tray=true
+  EOF

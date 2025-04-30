@@ -1,0 +1,39 @@
+name: gnupg
+version: 2.4.7
+release: 1
+url: https://www.gnupg.org/ftp/gcrypt/gnupg/gnupg-2.4.7.tar.bz2
+homepage: https://gnupg.org/
+license: GPL-3.0-or-later
+summary: GNU Privacy Guard - a complete and free implementation of OpenPGP
+description: |
+  GnuPG is a tool for secure communication and data storage. It can be used
+  to encrypt data and to create digital signatures. It includes key management,
+  access to public key servers, and various helper tools.
+
+phase: 5
+builddeps: [glibc, zlib, bzip2, libgcrypt, libksba, npth, libassuan, openldap,
+  libgpg-error, readline, gettext, curl, fuse, imagemagick, libusb, sqlite]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  ../configure --prefix=/usr           \
+              --localstatedir=/var    \
+              --sysconfdir=/etc       \
+              --docdir=/usr/share/doc/gnupg-2.4.7 &&
+  make &&
+
+  makeinfo --html --no-split -I doc -o doc/gnupg_nochunks.html ../doc/gnupg.texi &&
+  makeinfo --plaintext       -I doc -o doc/gnupg.txt           ../doc/gnupg.texi &&
+  make -C doc html
+
+  make install &&
+
+  install -v -m755 -d /usr/share/doc/gnupg-2.4.7/html            &&
+  install -v -m644    doc/gnupg_nochunks.html \
+                      /usr/share/doc/gnupg-2.4.7/html/gnupg.html &&
+  install -v -m644    ../doc/*.texi doc/gnupg.txt \
+                      /usr/share/doc/gnupg-2.4.7 &&
+  install -v -m644    doc/gnupg.html/* \
+                      /usr/share/doc/gnupg-2.4.7/html

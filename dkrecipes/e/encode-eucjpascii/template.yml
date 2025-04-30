@@ -1,0 +1,19 @@
+name: encode-eucjpascii
+version: 0.03
+release: 1
+url: https://www.cpan.org/authors/id/N/NE/NEZUMI/Encode-EUCJPASCII-0.03.tar.gz
+homepage: https://metacpan.org/dist/Encode-EUCJPASCII
+license: Artistic-1.0-Perl
+summary: EUC-JP encoding with 7bit ASCII for Perl's Encode module
+description: |
+  Encode::EUCJPASCII is a subclass of Perl's Encode module that provides 
+  support for the EUC-JP-ASCII encoding. It allows converting between 
+  EUC-JP with ASCII fallback and Perl's internal string format.
+
+phase: 5
+builddeps: [perl]
+
+buildsteps: |
+  perl Makefile.PL
+  make
+  make install

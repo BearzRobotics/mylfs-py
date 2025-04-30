@@ -1,0 +1,26 @@
+name: sysmond
+version: 1.0.0
+release: 1
+url: 
+  - https://github.com/lfs-book/sysmond/releases/download/sysmond-1.0.0/sysmond-1.0.0.tar.xz
+  - https://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-20250225.tar.xz
+homepage: https://github.com/lfs-book/sysmond
+license: MIT
+summary: Lightweight system monitor daemon for LFS-based systems
+description: |
+  sysmond is a lightweight system monitoring daemon designed 
+  primarily for LFS and BLFS systems. It collects system information 
+  such as CPU load, memory usage, temperature, and disk usage, 
+  providing a backend service for monitoring tools or scripts. 
+  It is designed to be simple, efficient, and easy to integrate 
+  into minimalist environments.
+phase: 5
+builddeps: [make, lm-sensors, glibc]
+buildsteps: |
+  make
+  make install PREFIX=/usr
+
+  # Boot scripts
+  #tar -xf ../blfs-bootscripts-20250225.tar.xz
+  #cd blfs-bootscripts-20250225
+  #make install-sysmond

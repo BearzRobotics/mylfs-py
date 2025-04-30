@@ -1,0 +1,28 @@
+name: mutt
+version: 2.2.14
+release: 1
+url: https://github.com/muttmua/mutt/archive/refs/tags/mutt-2-2-14-rel.tar.gz
+
+summary: "Small but powerful text-based mail client"
+license: GPL-2.0-or-later
+builddeps: [ncurses, gpgme, openssl, libidn2, gettext, autoconf, automake, make, libassuan, gdbm, vim, libidn2]
+phase: 5
+
+buildsteps: |
+  ./prepare \
+        --sysconfdir=/etc/mutt \
+        --enable-compressed \
+        --enable-gpgme \
+        --enable-hcache \
+        --enable-imap \
+        --enable-locales-fix \
+        --enable-pop \
+        --enable-sidebar \
+        --enable-smtp \
+        --with-curses \
+        --with-homespool=/var/spool/ \
+        --with-ssl
+
+  make
+
+  make install

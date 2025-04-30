@@ -1,0 +1,25 @@
+name: slang
+version: 2.3.3
+release: 1
+url: https://www.jedsoft.org/releases/slang/slang-2.3.3.tar.bz2
+homepage: https://www.jedsoft.org/slang/
+license: GPL-2.0-or-later
+summary: S-Lang programming library for terminal handling and embedded scripting
+description: |
+  S-Lang is a multi-platform programmer's library designed to allow 
+  sophisticated screen management and provide embedded scripting capabilities. 
+  It supports color, keymaps, line-drawing characters, and more in terminal UIs.
+
+phase: 5
+# optioanl: oniguruma
+builddeps: [glibc, ncurses, libpng, oniguruma, make]
+
+buildsteps: |
+  ./configure --prefix=/usr \
+              --sysconfdir=/etc \
+              --with-readline=gnu &&
+  make -j1 RPATH=
+
+  make install_doc_dir=/usr/share/doc/slang-2.3.3   \
+      SLSH_DOC_DIR=/usr/share/doc/slang-2.3.3/slsh \
+      RPATH= install

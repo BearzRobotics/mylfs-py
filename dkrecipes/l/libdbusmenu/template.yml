@@ -1,0 +1,27 @@
+name: libdbusmenu
+version: 16.04.0
+release: 1
+url: https://launchpad.net/libdbusmenu/16.04/16.04.0/+download/libdbusmenu-16.04.0.tar.gz
+homepage: https://launchpad.net/libdbusmenu
+license: LGPL-2.1-or-later
+summary: Library for transmitting menus over DBus
+description: |
+  libdbusmenu is a library that provides a protocol for exporting menus  
+  across DBus and allows applications to share and display menus remotely.  
+  It is used by desktop environments like Unity, and applications needing  
+  global menu support.
+phase: 5
+builddeps: [glibc, dbus, glib, gtk2, gtk3, pkgconfig, gdk-pixbuf, make, json-glib, 
+  gtk-layer-shell, vala, atkmm]
+buildsteps: |
+  mkdir build && cd build
+  ../configure CFLAGS="-Wno-deprecated -Wno-error" --prefix=/usr --disable-static --with-gtk=3 --disable-dumper
+  make
+  make install
+
+  cd ..
+  mkdir build2 && cd build2
+  ../configure CFLAGS="-Wno-deprecated -Wno-error" --prefix=/usr --disable-static --with-gtk=2 
+  make
+  make install
+  

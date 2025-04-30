@@ -1,0 +1,19 @@
+name: hunspell
+version: 1.7.2
+release: 1
+url: https://github.com/hunspell/hunspell/releases/download/v1.7.2/hunspell-1.7.2.tar.gz
+homepage: https://github.com/hunspell/hunspell
+license: MPL-1.1 OR GPL-2.0-or-later OR LGPL-2.1-or-later
+summary: Spell checker and morphological analyzer library and program
+description: |
+  Hunspell is a spell checker and morphological analyzer designed  
+  for languages with rich morphology and complex word compounding.  
+  It is widely used in LibreOffice, Firefox, and other open-source projects.
+phase: 5
+builddeps: [glibc, make, pkgconfig]
+buildsteps: |
+  autoreconf -vfi
+  ./configure
+  make
+  make install
+

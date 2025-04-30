@@ -1,0 +1,18 @@
+name: doxypypy
+version: 0.8.8.7
+release: 1
+url: https://files.pythonhosted.org/packages/source/d/doxypypy/doxypypy-0.8.8.7.tar.gz
+homepage: https://github.com/Feneric/doxypypy
+license: BSD-3-Clause
+summary: Python filter for Doxygen
+description: |
+  Doxypypy is a Python preprocessor for Doxygen that converts Python-style 
+  docstrings into a format that Doxygen can understand. It enables integration 
+  of Python code documentation with Doxygen-generated outputs.
+
+phase: 5
+builddeps: [python, python-wheel, python-setuptools, chardet, doxygen]
+
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user doxypypy

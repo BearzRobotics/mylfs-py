@@ -1,0 +1,22 @@
+name: wl-clipboard
+version: 2.2.1
+release: 1
+url: https://github.com/bugaevc/wl-clipboard/archive/refs/tags/v2.2.1.tar.gz
+homepage: https://github.com/bugaevc/wl-clipboard
+license: GPL-3.0-or-later
+summary: Wayland clipboard utilities `wl-copy` and `wl-paste`
+description: |
+  wl-clipboard provides `wl-copy` and `wl-paste`, command-line utilities to copy and paste 
+  data between the Wayland clipboard and the terminal. It works with compositors that support 
+  the Wayland clipboard protocol.
+
+phase: 5
+builddeps: [glibc, meson, ninja, scdoc, wayland, wayland-protocols, pkgconfig]
+
+buildsteps: |
+  mkdir build
+  cd    build
+
+  meson setup .. --prefix=/usr --buildtype=release
+  ninja
+  ninja install

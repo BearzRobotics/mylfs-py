@@ -1,0 +1,23 @@
+name: libatomic_ops
+version: 7.8.2
+release: 1
+url: https://github.com/bdwgc/libatomic_ops/releases/download/v7.8.2/libatomic_ops-7.8.2.tar.gz
+homepage: https://github.com/bdwgc/libatomic_ops/
+license: MIT
+summary: Portable atomic memory operations library for C/C++
+description: |
+  libatomic_ops provides a collection of semi-portable access 
+  primitives for atomic memory operations, intended for use 
+  in multi-threaded programming. It offers a consistent API 
+  for various architectures, abstracting platform-specific 
+  atomic instructions into a portable C library.
+phase: 5
+builddeps: [make, glibc, autoconf, automake, libtool]
+buildsteps: |
+  ./configure --prefix=/usr    \
+              --enable-shared  \
+              --disable-static \
+              --docdir=/usr/share/doc/libatomic_ops-7.8.2 &&
+  make
+
+  make install

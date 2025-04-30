@@ -1,0 +1,22 @@
+name: enchant
+version: 2.8.2
+release: 1
+url: https://github.com/rrthomas/enchant/releases/download/v2.8.2/enchant-2.8.2.tar.gz
+homepage: https://github.com/rrthomas/enchant
+license: LGPL-2.1-or-later
+summary: Generic spell checking library
+description: |
+  Enchant is a library that wraps common spellchecking backends  
+  to provide a consistent API. It supports various providers  
+  such as Hunspell, Nuspell, Aspell, and others, allowing applications  
+  to perform spell-checking using different engines transparently.
+phase: 5
+builddeps: [glibc, glib, dbus-glib, pkgconfig, make, aspell, 
+  doxygen, hunspell, nuspell]
+buildsteps: |
+  ./configure --prefix=/usr    \
+              --disable-static \
+              --docdir=/usr/share/doc/enchant-2.8.2
+  make
+
+  make install

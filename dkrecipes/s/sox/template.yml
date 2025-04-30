@@ -14,8 +14,8 @@ description: |
 # I Don't actually know all the deps.
 # however, this is a music app and it seems natural that
 # relying on ffmpeg is a good short cut to ensure it builds
-builddeps: [glibc, libpng, alsa-li, sed, zlib, ffmpeg ]
-
+builddeps: [glibc, libpng, alsa-lib, sed, zlib, ffmpeg ]
+phase: 5
 buildsteps: |
   ./configure --prefix=/usr
 

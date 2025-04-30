@@ -1,0 +1,24 @@
+name: iir1
+version: 1.9.5
+release: 1
+url: https://github.com/berndporr/iir1/archive/refs/tags/1.9.5.tar.gz
+homepage: https://github.com/berndporr/iir1
+license: BSD-2-Clause
+summary: Lightweight C++ digital filter library (IIR filters)
+description: |
+  iir1 is a lightweight and efficient C++11 library implementing 
+  a variety of Infinite Impulse Response (IIR) filters such as 
+  Butterworth, Chebyshev, and Elliptic filters. Designed for 
+  real-time applications, it is used in embedded systems, audio 
+  processing, and scientific research.
+phase: 5
+builddeps: [cmake, make, glibc]
+buildsteps: |
+  source /etc/profile
+
+  mkdir -p build
+  cd build
+
+  cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release
+  make
+  make install

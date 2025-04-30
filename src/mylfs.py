@@ -87,10 +87,11 @@ def main():
     ConsoleMSG.passed(f"Loaded {len(recipes)} recipes.")
     
     # create lfs user and group
-    if(doesLfsExist() == False):
-        createLfs()
-    if(doesLfsExist() == True):
-        ConsoleMSG.passed("Created lfs user and group")
+    if(get_phase_state(config) < 3):
+        if(doesLfsExist() == False):
+            createLfs()
+        if(doesLfsExist() == True):
+            ConsoleMSG.passed("Created lfs user and group")
         
     chownBuildDir(config)
     

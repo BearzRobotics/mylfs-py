@@ -10,10 +10,11 @@ description: |
   xorg-server is the main X11 server implementation used on most Unix-like systems. It handles graphical rendering, input management, and remote desktop support. It supports both modern and legacy hardware through a modular driver system.
 
 phase: 5
-buildsystem: meson
+# libseatd -- I build this yet I don't build xorg-server aginst it. 
+# Xorg doesn't support this: -D seatd_libseat=true     \
 builddeps: [
-  glibc, meson, ninja, xorgproto, xorgsetup, xorg-fonts, xkeyboard-config, pixman, libxcvt, 
-  libtirpc, dbus, mesa, libepoxy
+  glibc, meson, ninja, xorgproto, xorgsetup, xorg-fonts, xkeyboard-config, pixman, 
+  libxcvt, libtirpc, dbus, mesa, libepoxy, elogind, libseatd, udev-systemd
 ]
 
 buildsteps: |
@@ -27,8 +28,13 @@ buildsteps: |
   meson setup ..               \
         --prefix=$XORG_PREFIX  \
         --localstatedir=/var   \
+        -D dri1=true \
+        -D dri2=true \
+        -D dri3=true \
         -D glamor=true         \
         -D systemd_logind=true \
+        -D suid_wrapper=true    \
+        -D udev=true           \
         -D xkb_output_dir=/var/lib/xkb 
   ninja
 

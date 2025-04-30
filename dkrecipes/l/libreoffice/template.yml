@@ -1,0 +1,152 @@
+# Warned that this will takes hours, 8GB+ of ram
+name: libreoffice
+version: 25.2.1.2
+release: 1
+url: 
+  - https://download.documentfoundation.org/libreoffice/src/25.2.1/libreoffice-25.2.1.2.tar.xz
+  - https://download.documentfoundation.org/libreoffice/src/25.2.1/libreoffice-dictionaries-25.2.1.2.tar.xz
+  - https://download.documentfoundation.org/libreoffice/src/25.2.1/libreoffice-help-25.2.1.2.tar.xz
+  - https://download.documentfoundation.org/libreoffice/src/25.2.1/libreoffice-translations-25.2.1.2.tar.xz
+
+homepage: https://www.libreoffice.org/
+license: MPL-2.0
+summary: Full-featured open-source office productivity suite
+description: |
+  LibreOffice is a free and powerful open-source office suite, 
+  a successor to OpenOffice.org, used by millions of people worldwide. 
+  It includes applications for word processing, spreadsheets, 
+  presentations, vector graphics, and databases, and supports a 
+  wide range of document formats including ODF and Microsoft Office formats.
+phase: 5
+
+# qt6
+builddeps: [glibc, make, gperf, perl, python, boost, poppler, cairo, cups, lcms, libjpeg-turbo, 
+  libpng, freetype2, harfbuzz, nss, icu, libxml2, zlib, dbus, krb5, zip, which, libarchive, 
+  gtk3, pkgconfig, archive-zip, boost, apache-ant, abseil-cpp, clucene, cups, curl, libepoxy,
+  llvm, glm, glu, gpgme, graphite2, gst-plugins-base, libatomic_ops, nasm, librsvg, libwebp,
+  libxslt, mesa, poppler, openjdk, openssl, desktop-file-utils, wget, curl]
+buildsteps: |
+  source /etc/profile
+
+  # Step 1: Check if user 'builder' exists
+  if id builder &>/dev/null; then
+      echo "User 'builder' already exists."
+  else
+      echo "Creating user 'builder'..."
+      useradd -m builder
+  fi
+
+
+  patch -Np1 -i ../patches/libreoffice-25.2.1.2-icu76_fixes-1.patch
+
+  sed -i '/icuuc \\/a zlib\\'           writerperfect/Library_wpftdraw.mk &&
+  sed -i "/distro-install-file-lists/d" Makefile.in                       &&
+  sed -e "/gzip -f/d"   \
+      -e "s|.1.gz|.1|g" \
+      -i bin/distro-install-desktop-integration
+
+  install -dm755 external/tarballs &&
+  cp -rvf ../libreoffice-dictionaries-25.2.1.2.tar.xz external/tarballs/ 
+  cp -rvf  ../libreoffice-help-25.2.1.2.tar.xz         external/tarballs/ 
+  cp -rvf  ../libreoffice-translations-25.2.1.2.tar.xz external/tarballs/
+
+  ln -sv src/libreoffice-help-25.2.1.2/helpcontent2 helpcontent2
+  ln -sv src/libreoffice-dictionaries-25.2.1.2/dictionaries dictionaries
+  ln -sv src/libreoffice-translations-25.2.1.2/translations translations
+
+  # if you want you can change it's install location
+  export LO_PREFIX=/usr
+
+
+  case $(uname -m) in
+    i?86) sed /-Os/d -i solenv/gbuild/platform/LINUX_INTEL_GCC.mk ;;
+  esac
+
+
+  # Step 2: Set ownership of current directory and all subdirectories
+  echo "Granting 'builder' ownership of $(pwd)..."
+  chown -R builder:builder "$(pwd)"
+
+  su -l builder -c "cd /recipes/l/libreoffice/source && ./autogen.sh --prefix=$LO_PREFIX         \
+              --sysconfdir=/etc           \
+              --with-vendor=BLFS          \
+              --with-lang='fr en-GB'      \
+              --with-help                 \
+              --with-myspell-dicts        \
+              --without-junit             \
+              --without-system-dicts      \
+              --disable-dconf             \
+              --disable-odk               \
+              --disable-mariadb-sdbc      \
+              --enable-release-build=yes  \
+              --enable-python=system      \
+              --with-jdk-home=/opt/jdk    \
+              --with-system-boost         \
+              --with-system-clucene       \
+              --with-system-curl          \
+              --with-system-epoxy         \
+              --with-system-expat         \
+              --with-system-glm           \
+              --with-system-gpgmepp       \
+              --with-system-graphite      \
+              --with-system-harfbuzz      \
+              --with-system-jpeg          \
+              --with-system-lcms2         \
+              --with-system-libatomic_ops \
+              --with-system-libpng        \
+              --with-system-libxml        \
+              --with-system-nss           \
+              --with-system-openssl       \
+              --with-system-poppler       \
+              --with-system-libtiff       \
+              --with-system-libwebp       \
+              --with-system-icu           \
+              --with-system-zlib          \
+              --disable-qt6 "
+
+  echo "Got done configuring"
+  su -l builder -c "export CPATH=/usr/include && \
+          export LIBRARY_PATH=/usr/lib && \
+          export LD_LIBRARY_PATH=/usr/lib && \
+          cd /recipes/l/libreoffice/source && make build"
+
+  make distro-pack-install
+
+  if [ "$LO_PREFIX" != "/usr" ]; then
+
+    # This symlink is necessary for the desktop menu entries
+    ln -svf $LO_PREFIX/lib/libreoffice/program/soffice /usr/bin/libreoffice &&
+
+    # Set up a generic location independent of version number
+    ln -sfv $LO_PREFIX /opt/libreoffice
+
+    # Icons
+    mkdir -vp /usr/share/pixmaps
+    for i in $LO_PREFIX/share/icons/hicolor/32x32/apps/*; do
+      ln -svf $i /usr/share/pixmaps
+    done &&
+
+    # Desktop menu entries
+    for i in $LO_PREFIX/lib/libreoffice/share/xdg/*; do
+      ln -svf $i /usr/share/applications/libreoffice-$(basename $i)
+    done &&
+
+    # Man pages
+    for i in $LO_PREFIX/share/man/man1/*; do
+      ln -svf $i /usr/share/man/man1/
+    done
+
+    unset i
+  fi
+
+  update-desktop-database
+
+
+  # Check if 'builder' user exists
+  if id builder &>/dev/null; then
+      echo "Removing user 'builder'..."
+      userdel -r builder
+      echo "User 'builder' and their home directory have been deleted."
+  else
+      echo "User 'builder' does not exist. Nothing to do."
+  fi

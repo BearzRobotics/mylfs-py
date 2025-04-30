@@ -1,0 +1,17 @@
+name: bugstalker
+version: 0.3.0
+release: 1
+phase: 5
+url: https://github.com/godzie44/BugStalker/archive/refs/tags/v0.3.0.tar.gz
+
+summary: "Terminal-based debugger GUI frontend for GDB and LLDB"
+license: MIT
+builddeps: [rust, libunwind-generic]
+
+buildsteps: |
+  source /etc/profile
+  
+  cargo build --release
+  install -m755 target/release/bs /usr/bin/bs
+
+

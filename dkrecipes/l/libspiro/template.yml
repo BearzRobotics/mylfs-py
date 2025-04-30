@@ -1,0 +1,19 @@
+name: libspiro
+version: 20220722
+release: 1
+url: https://github.com/fontforge/libspiro/releases/download/20220722/libspiro-dist-20220722.tar.gz
+homepage: https://github.com/fontforge/libspiro
+license: GPL-3.0-or-later
+summary: Library for smooth Bézier spline generation from point sets
+description: |
+  libspiro is a small C library that provides an algorithm 
+  for smoothly interpolating curves through a sequence of 
+  control points. Originally developed as part of FontForge, 
+  libspiro can be used in any application that needs smooth 
+  curve generation, such as font design or vector graphics tools.
+phase: 5
+builddeps: [make, make, glibc]
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install

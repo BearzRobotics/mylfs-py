@@ -1,0 +1,21 @@
+name: oniguruma
+version: 6.9.10
+release: 1
+url: https://github.com/kkos/oniguruma/archive/refs/tags/v6.9.10.tar.gz
+homepage: https://github.com/kkos/oniguruma
+license: BSD-2-Clause
+summary: Regular expression library used in many projects like Ruby and Atom
+description: |
+  Oniguruma is a modern and flexible regular expression library with rich 
+  syntax features. It supports a variety of character encodings and 
+  provides powerful matching capabilities. Used by projects such as Ruby, 
+  Atom, and TextMate.
+
+phase: 5
+builddeps: [glibc]
+
+buildsteps: |
+  sh autogen.sh
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

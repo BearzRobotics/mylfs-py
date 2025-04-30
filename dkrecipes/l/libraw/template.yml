@@ -1,0 +1,19 @@
+name: libraw
+version: 0.21.3
+release: 1
+url: https://www.libraw.org/data/LibRaw-0.21.3.tar.gz
+homepage: https://www.libraw.org/
+license: LGPL-2.1-or-later
+summary: Library for reading RAW files from digital cameras
+description: |
+  LibRaw is a library for reading RAW image files from digital cameras.  
+  It supports nearly all RAW formats produced by modern digital cameras,  
+  and provides an easy-to-use API for extracting image data and metadata.
+phase: 5
+builddeps: [glibc, pkgconfig, make, libjpeg-turbo, jasper, lcms]
+buildsteps: |
+  source /etc/profile
+
+  ./configure --prefix=/usr --disable-static
+  make
+  make install

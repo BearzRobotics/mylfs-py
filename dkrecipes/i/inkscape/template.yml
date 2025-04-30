@@ -1,0 +1,37 @@
+name: inkscape
+version: 1.4
+release: 1
+url: https://inkscape.org/gallery/item/53679/inkscape-1.4.tar.xz
+homepage: https://inkscape.org/
+license: GPL-2.0-or-later
+summary: Professional vector graphics editor
+description: |
+  Inkscape is a professional quality vector graphics software  
+  that runs on Linux, Windows, and macOS. It is used for creating  
+  illustrations, diagrams, logos, and complex paintings, offering  
+  flexible drawing tools and broad file format compatibility.
+phase: 5
+builddeps: [
+  glibc, cairo, pango, gtk3, boost, glib, gdk-pixbuf, cssselect,
+  libpng, libjpeg-turbo, zlib, freetype2, gsl, gc, potrace,
+  poppler, libxslt, lcms, imagemagick, python, lxml,
+  gtk3mm, cmake-legacy, ninja, pkgconfig, libsoup, popt, poppler, libxslt,
+  meson-python, desktop-file-utils
+]
+
+buildsteps: |
+  export PATH=/opt/cmake-3.31.7/bin:$PATH
+  patch -Np1 -i ../patches/inkscape-1.4-poppler_fixes-2.patch
+
+  mkdir build                       &&
+  cd    build                       &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr  \
+        -D CMAKE_BUILD_TYPE=Release   \
+        ..                          &&
+  make
+
+  make install
+
+  gtk-update-icon-cache -qtf /usr/share/icons/hicolor &&
+  update-desktop-database -q

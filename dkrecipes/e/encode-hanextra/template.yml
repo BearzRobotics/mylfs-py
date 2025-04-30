@@ -1,0 +1,19 @@
+name: encode-hanextra
+version: 0.23
+release: 1
+url: https://www.cpan.org/authors/id/A/AU/AUDREYT/Encode-HanExtra-0.23.tar.gz
+homepage: https://metacpan.org/dist/Encode-HanExtra
+license: Artistic-1.0-Perl
+summary: Extra sets of Chinese encodings for Perl's Encode module
+description: |
+  Encode::HanExtra provides additional Chinese encodings for Perl's Encode 
+  framework, including CNS11643 planes and other less common character sets 
+  used for Traditional Chinese. It supplements Encode::HanCNS and related modules.
+
+phase: 5
+builddeps: [perl]
+
+buildsteps: |
+  PERL_USE_UNSAFE_INC=1 perl Makefile.PL
+  make
+  make install

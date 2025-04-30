@@ -1,0 +1,24 @@
+name: freedos-bonuscd
+version: 1.4
+release: 1
+phase: 5
+url: 
+  - https://www.ibiblio.org/pub/micro/pc-stuff/freedos/files/distributions/1.4/FD14-BonusCD.zip
+  - https://www.ibiblio.org/pub/micro/pc-stuff/freedos/files/distributions/1.4/FD14-FloppyEdition.zip
+  - https://www.ibiblio.org/pub/micro/pc-stuff/freedos/files/distributions/1.4/FD14-FullUSB.zip
+homepage: https://freedos.org/
+license: Public-Domain
+summary: FreeDOS 1.4 Bonus CD collection of extra packages and utilities
+description: |
+  The FreeDOS 1.4 Bonus CD provides a collection of additional 
+  software packages for FreeDOS users, including games, utilities, 
+  development tools, and documentation. It supplements the base 
+
+
+builddeps: [dosbox, libarchive, unzip, mtools, dosfstools, 7zip]
+buildsteps: |
+  unzip ../FD14-FullUSB.zip -d /dos
+
+  7z x /dos/FD14FULL.img -o/dos/
+  #unzip ../FD14-BonusCD.zip -d /dos
+  #bsdtar -xf /dos/FD14BNS.iso -C /dos/

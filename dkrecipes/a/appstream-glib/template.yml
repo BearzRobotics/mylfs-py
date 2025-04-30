@@ -1,0 +1,27 @@
+name: appstream-glib
+version: 0.8.3
+release: 1
+url: http://people.freedesktop.org/~hughsient/appstream-glib/releases/appstream-glib-0.8.3.tar.xz
+homepage: https://github.com/hughsie/appstream-glib
+license: LGPL-2.1-or-later
+summary: Tools and library to work with AppStream metadata
+description: |
+  appstream-glib is a library and set of command-line tools to help 
+  developers and packagers manage AppStream metadata. AppStream is 
+  a cross-distribution effort for enhancing software centers and 
+  making applications easier to find. The library provides functions 
+  to read, write, and validate AppStream XML metadata.
+phase: 5
+builddeps: [make, gcc, glibc, glib, gdk-pixbuf, appstream, pkgconfig, gtk3, 
+  docbook-xml, docbook-xsl, libxslt, libyaml, meson, ninja]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..            \
+        --prefix=/usr       \
+        --buildtype=release \
+        -D rpm=false        &&
+  ninja
+
+  ninja install

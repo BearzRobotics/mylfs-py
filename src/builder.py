@@ -213,6 +213,10 @@ def buildPhase12(config: GlobalConfig, recipes: List[Recipe]):
         "CONFIG_SITE": f"{Path(config.build_path).resolve()}/usr/share/config.site",
         "MAKEFLAGS": str(config.make_flags),
         "RUN_TESTS": "1" if config.run_test else "0",
+        # Build generic binaries
+        "CFLAGS"  : "-march=x86-64 -mtune=generic -O2",
+        "CXXFLAGS" : "-march=x86-64 -mtune=generic -O2",
+        "RUSTFLAGS":"-C target-cpu=x86-64",
     }
 
     if (config.debug):
@@ -307,6 +311,11 @@ def buildPhase34(config: GlobalConfig, recipes: List[Recipe]):
     if (config.run_test):
         env["RUN_TESTS"] = "1"
 
+    # Build generic binaries
+    env["CFLAGS"] = "-march=x86-64 -mtune=generic -O2"
+    env["CXXFLAGS"] = "-march=x86-64 -mtune=generic -O2"
+    env["RUSTFLAGS"]= "-C target-cpu=x86-64"
+    
     if (config.debug):
         print("=== Environment Variables ===")
         for key, value in env.items():
@@ -405,6 +414,11 @@ def chroot_builder(config: GlobalConfig, recipe: Recipe, pkg_count: int):
     env["LFS"] = str(Path(config.build_path).resolve())
     if (config.run_test):
         env["RUN_TESTS"] = "1"
+
+    # Build generic binaries
+    env["CFLAGS"] = "-march=x86-64 -mtune=generic -O2"
+    env["CXXFLAGS"] = "-march=x86-64 -mtune=generic -O2"
+    env["RUSTFLAGS"]= "-C target-cpu=x86-64"
 
     if (config.debug):
         print("=== Environment Variables ===")

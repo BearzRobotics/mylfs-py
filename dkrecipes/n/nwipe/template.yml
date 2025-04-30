@@ -11,7 +11,7 @@ description: |
   algorithms, including DoD 5220.22-M, Gutmann method, and random 
   overwrites, making it suitable for securely erasing entire disks.
 phase: 5
-builddeps: [glibc, ncurses, pkgconfig, make, libconfig, parted, libeconf, libpcap, libgudev, libblockdev]
+builddeps: [glibc, ncurses, pkgconfig, make, libconfig, parted, libeconf, libpcap, libgudev, libblockdev, hdparm]
 buildsteps: |
   source /etc/profile
 

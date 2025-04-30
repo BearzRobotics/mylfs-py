@@ -10,9 +10,14 @@ description: |
   libglvnd (the GL Vendor-Neutral Dispatch library) provides a vendor-neutral mechanism for client applications to access OpenGL implementations on a system. It allows multiple OpenGL drivers to coexist on the same machine.
 
 phase: 5
-builddeps: [glibc, meson, ninja, xorg-libs, xorg-apps]
+builddeps: [glibc, meson, ninja, xorg-libs, make]
 
 buildsteps: |
-  meson setup build --prefix=/usr --buildtype=release
-  ninja -C build
-  ninja -C build install
+  sh autogen.sh
+  ./configure --prefix=/usr
+  make
+  make install
+  
+  #meson setup build --prefix=/usr --buildtype=release
+  #ninja -C build
+  #ninja -C build install

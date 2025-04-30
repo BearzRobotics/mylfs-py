@@ -1,0 +1,42 @@
+name: aalib
+version: 1.4rc5
+release: 1
+url: https://downloads.sourceforge.net/aa-project/aalib-1.4rc5.tar.gz
+homepage: https://aa-project.sourceforge.net/
+license: LGPL-2.0-or-later
+summary: ASCII Art graphics library for terminal-based rendering
+description: |
+  AAlib is a low-level graphics library that allows programs to output
+  graphics in ASCII art. It includes demo programs such as aafire and
+  aatest to demonstrate terminal-based rendering.
+
+phase: 5
+builddeps: [glibc, ncurses, xorg-libs, xorg-fonts, gpm, slang]
+
+buildsteps: |
+  sed -i -e '/AM_PATH_AALIB,/s/AM_PATH_AALIB/[&]/' aalib.m4
+
+  sed -e 's/8x13bold/-*-luxi mono-bold-r-normal--13-120-*-*-m-*-*-*/' \
+      -i src/aax.c
+
+  sed 's/stdscr->_max\([xy]\) + 1/getmax\1(stdscr)/' \
+      -i src/aacurses.c
+
+  sed -i '1i#include <stdlib.h>'                            \
+      src/aa{fire,info,lib,linuxkbd,savefont,test,regist}.c &&
+  sed -i '1i#include <string.h>'                            \
+      src/aa{kbdreg,moureg,test,regist}.c                   &&
+  sed -i '/X11_KBDDRIVER/a#include <X11/Xutil.h>'           \
+      src/aaxkbd.c                                          &&
+  sed -i '/rawmode_init/,/^}/s/return;/return 0;/'          \
+      src/aalinuxkbd.c                                      &&
+  autoconf
+
+  ./configure --prefix=/usr             \
+              --infodir=/usr/share/info \
+              --mandir=/usr/share/man   \
+              --with-ncurses=/usr       \
+              --disable-static          &&
+  make
+
+  make install

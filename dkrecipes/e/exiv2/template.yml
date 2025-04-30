@@ -1,0 +1,30 @@
+name: exiv2
+version: 0.28.5
+release: 1
+url: https://github.com/Exiv2/exiv2/archive/v0.28.5/exiv2-0.28.5.tar.gz
+homepage: https://exiv2.org/
+license: BSD-2-Clause
+summary: Image metadata manipulation library and tools
+description: |
+  Exiv2 is a fast and lightweight C++ library and command-line 
+  utility to manage image metadata. It supports reading and writing 
+  EXIF, IPTC, and XMP metadata in various image formats including 
+  JPEG, PNG, WebP, TIFF, and raw camera formats. Exiv2 is widely used 
+  in photography and image processing software for metadata handling.
+phase: 5
+builddeps: [zlib, cmake, curl, inih-58, brotli, libssh, graphviz, libxslt, ninja, nghttp2]
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr   \
+        -D CMAKE_BUILD_TYPE=Release    \
+        -D EXIV2_ENABLE_VIDEO=yes      \
+        -D EXIV2_ENABLE_WEBREADY=yes   \
+        -D EXIV2_ENABLE_CURL=yes       \
+        -D EXIV2_BUILD_SAMPLES=no      \
+        -D CMAKE_SKIP_INSTALL_RPATH=ON \
+        -G Ninja ..                    &&
+  ninja
+
+  ninja install

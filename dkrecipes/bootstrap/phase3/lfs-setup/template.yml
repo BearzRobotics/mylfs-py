@@ -11,7 +11,7 @@ buildsteps: |
   # tar -czvf static_files.tar.gz etc/ root/
   tar -xf static_files.tar.gz -C /
   # need to give root ownership
-  chown -R root:root $LFS/{usr,lib,var,etc,bin,sbin,tools}
+  chown -vR root:root $LFS/{mnt,media,boot,usr,lib,var,etc,bin,sbin,tools,root}
   case $(uname -m) in
     x86_64) chown -R root:root $LFS/lib64 ;;
   esac

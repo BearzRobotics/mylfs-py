@@ -1,0 +1,92 @@
+name: networkmanager
+version: 1.50.0
+release: 1
+url: 
+  - https://download.gnome.org/sources/NetworkManager/1.50/NetworkManager-1.50.0.tar.xz
+  - https://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-20250225.tar.xz
+homepage: https://wiki.gnome.org/Projects/NetworkManager
+license: GPL-2.0-or-later
+summary: Network management daemon and toolset
+description: |
+  NetworkManager is a system service that manages network interfaces and connections, 
+  providing automatic configuration and simplified network management for desktops 
+  and servers. It supports Ethernet, Wi-Fi, mobile broadband, and VPN interfaces.
+
+phase: 5
+builddeps: [glibc, libndp, newt, libnl, libpsl, dbus, meson, ninja, 
+  iptables, curl, libgudev, util-linux, gtk3, python, polkit, modemmanager, nss,
+  pygobject, dbus-python, wpa-supplicant, vala, upower, dhcpcd
+  
+  ]
+
+buildsteps: |
+  grep -rl '^#!.*python$' | xargs sed -i '1s/python/&3/'
+
+  mkdir build &&
+  cd    build &&
+
+  meson setup ..                    \
+        --prefix=/usr               \
+        --buildtype=release         \
+        -D libaudit=no              \
+        -D nmtui=true               \
+        -D ovs=false                \
+        -D ppp=false                \
+        -D selinux=false            \
+        -D session_tracking=elogind \
+        -D modem_manager=false      \
+        -D systemdsystemunitdir=no  \
+        -D systemd_journal=false    \
+        -D qt=false                 &&
+  ninja
+
+  ninja install &&
+  mv -v /usr/share/doc/NetworkManager{,-1.50.0}
+
+  for file in $(echo ../man/*.[1578]); do
+      section=${file##*.} &&
+      install -vdm 755 /usr/share/man/man$section
+      install -vm 644 $file /usr/share/man/man$section/
+  done
+
+  cp -Rv ../docs/{api,libnm} /usr/share/doc/NetworkManager-1.50.0
+
+  cat >> /etc/NetworkManager/NetworkManager.conf << "EOF"
+  [main]
+  plugins=keyfile
+  EOF
+
+  cat > /etc/NetworkManager/conf.d/polkit.conf << "EOF"
+  [main]
+  auth-polkit=true
+  EOF
+
+  cat > /etc/NetworkManager/conf.d/dhcp.conf << "EOF"
+  [main]
+  dhcp=dhcpcd
+  EOF
+
+  cat > /etc/NetworkManager/conf.d/no-dns-update.conf << "EOF"
+  [main]
+  dns=none
+  EOF
+
+  # Create group 'netdev' if it doesn't exist
+  if ! getent group netdev > /dev/null; then
+      groupadd -fg 86 netdev
+  fi
+
+  echo "NetworkManager /usr/sbin/usermod -a -G netdev <username>" >> /root/dknotes
+
+  cat > /usr/share/polkit-1/rules.d/org.freedesktop.NetworkManager.rules << "EOF"
+  polkit.addRule(function(action, subject) {
+      if (action.id.indexOf("org.freedesktop.NetworkManager.") == 0 && subject.isInGroup("netdev")) {
+          return polkit.Result.YES;
+      }
+  });
+  EOF
+
+  # Bootscripts
+  #tar -xf ../../blfs-bootscripts-20250225.tar.xz
+  #cd blfs-bootscripts-20250225
+  #make install-networkmanager

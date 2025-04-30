@@ -1,0 +1,18 @@
+name: dbus-python
+version: 1.3.2
+release: 1
+url: https://dbus.freedesktop.org/releases/dbus-python/dbus-python-1.3.2.tar.gz
+homepage: https://www.freedesktop.org/wiki/Software/DBusBindings/
+license: MIT
+summary: Python bindings for D-Bus
+description: |
+  dbus-python provides Python language bindings for the D-Bus message bus system. 
+  It allows Python applications to communicate over D-Bus, enabling inter-process 
+  communication and integration with desktop services.
+
+phase: 5
+builddeps: [python, python-wheel, python-setuptools, dbus, patchelf, meson-python]
+
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user dbus-python

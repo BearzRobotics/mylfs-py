@@ -15,8 +15,8 @@ phase: 5
 builddeps: [glibc, make, alsa-lib, libxkbcommon, mesa, libdrm,  wayland-protocols, wayland, xorg-libs, nasm, libunwind-generic, libsamplerate]
 
 buildsteps: |
-  ./configure --prefix=/usr 
+  ./configure --prefix=/usr --disable-pipewire
   make
 
   make install              
-  rm -v /usr/lib/libSDL2*.a
+  #rm -v /usr/lib/libSDL2*.a

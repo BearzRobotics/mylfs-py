@@ -1,0 +1,28 @@
+name: clucene
+version: 2.3.3.4
+release: 1
+url: https://downloads.sourceforge.net/clucene/clucene-core-2.3.3.4.tar.gz
+homepage: https://sourceforge.net/projects/clucene/
+license: LGPL-2.1-or-later
+summary: C++ port of Lucene, a high-performance full-text search engine library
+description: |
+  CLucene is a C++ port of the popular Java-based Lucene search engine 
+  library. It provides fast indexing and searching capabilities for 
+  text-based information and is used in applications such as desktop 
+  search tools and content management systems.
+phase: 5
+builddeps: [cmake-legacy, make, boost, glibc, patch, sed]
+buildsteps: |
+  export PATH=/opt/cmake-3.31.7/bin:$PATH
+  patch -Np1 -i ../patches/clucene-2.3.3.4-contribs_lib-1.patch &&
+
+  sed -i '/Misc.h/a #include <ctime>' src/core/CLucene/document/DateTools.cpp &&
+
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D BUILD_CONTRIBS_LIB=ON .. &&
+  make
+
+  make install

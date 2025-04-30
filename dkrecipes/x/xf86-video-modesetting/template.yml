@@ -1,0 +1,18 @@
+name: xf86-video-modesetting
+version: 0.9.0
+release: 1
+phase: 5
+url: https://gitlab.freedesktop.org/xorg/driver/xf86-video-modesetting/-/archive/xf86-video-modesetting-0.9.0/xf86-video-modesetting-xf86-video-modesetting-0.9.0.tar.gz
+
+summary: "X.Org X server -- modesetting display driver"
+license: MIT
+builddeps: [
+  glibc, make, pkgconfig, xorg-server, xorgsetup,
+  libtool, util-macros, xorgproto, mesa]
+
+buildsteps: |
+  source /etc/profile
+  sh autogen.sh
+  ./configure $XORG_CONFIG
+  make
+  make install

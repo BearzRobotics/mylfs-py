@@ -1,0 +1,15 @@
+name: termusic
+version: 0.10.0
+release: 1
+phase: 5
+url: https://github.com/tramhao/termusic/archive/refs/tags/v0.10.0.tar.gz
+
+summary: "Terminal music player written in Rust"
+license: MIT
+builddeps: [rust, alsa-lib, protobuf, sqlite]
+
+
+buildsteps: |
+  source /etc/profile
+  cargo build --release 
+  install -Dm755 target/release/termusic-server /usr/bin/termusic-server

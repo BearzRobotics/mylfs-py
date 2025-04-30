@@ -1,0 +1,12 @@
+name: yarn
+version: 4.9.1
+release: 1
+phase: 5
+url: https://registry.npmjs.org/yarn/-/yarn-1.22.22.tgz
+
+summary: "Fast, reliable, and secure JavaScript package manager"
+license: BSD-2-Clause
+builddeps: [nodejs]
+
+buildsteps: |
+   npm install -g --prefix "/usr" ../yarn-1.22.22.tgz

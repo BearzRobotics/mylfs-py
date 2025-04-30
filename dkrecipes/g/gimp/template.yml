@@ -1,0 +1,55 @@
+name: gimp
+version: 3.0.0
+release: 1
+url: 
+  - https://download.gimp.org/gimp/v3.0/gimp-3.0.0.tar.xz
+  - https://anduin.linuxfromscratch.org/BLFS/gimp/gimp3-help-20240711.tar.xz
+homepage: https://www.gimp.org/
+license: GPL-3.0-or-later
+summary: GNU Image Manipulation Program
+description: |
+  GIMP is a cross-platform image editor available for GNU/Linux, 
+  macOS, Windows, and more operating systems. It is free software, 
+  suitable for tasks such as photo retouching, image composition, 
+  and image authoring. GIMP provides sophisticated tools and 
+  extensibility via plug-ins and scripting.
+phase: 5
+builddeps: [appstream-glib, glibc, meson, ninja, babl, libmypaint, 
+  mypaint-brushes, gexiv2, exiv2, cairo, pango, gtk3, glib, gdk-pixbuf, lcms, libpng, 
+  libjpeg-turbo, libtiff, zlib, librsvg, atkmm, harfbuzz, fribidi, pkgconfig, libxml2, 
+  poppler, graphviz, iso-codes, libgudev, xdg-utils, alsa-lib, libmng, lua,  openjpeg,
+  desktop-file-utils, gegl-45, aalib]
+buildsteps: |
+  rm -rf /usr/{lib,share}/gimp/3.0 &&
+  rm -f  /usr/share/gir-1.0/Gimp-3.0.gir &&
+  rm -f  /usr/lib/girepository-1.0/Gimp-3.0.typelib &&
+  rm -f  /usr/lib/libgimp*-3.0.so*
+
+  mkdir gimp-build &&
+  cd    gimp-build &&
+
+  meson setup --prefix=/usr              \
+              --buildtype=release        \
+              -Dlibunwind=false          \
+              -D headless-tests=disabled ..  
+  ninja
+
+  ninja install
+
+  gtk-update-icon-cache -qtf /usr/share/icons/hicolor 
+  update-desktop-database -q
+
+  #tar -xf ../../gimp3-help-20240711.tar.xz 
+  #cd gimp3-help-20240711  
+
+  #set +e
+  #autoreconf -fi
+  #automake --add-missing
+  #ALL_LINGUAS="en en_GB" \
+  #./configure --prefix=/usr
+  #set -e
+
+  #make
+
+  #make install 
+  #chown -R root:root /usr/share/gimp/3.0/help

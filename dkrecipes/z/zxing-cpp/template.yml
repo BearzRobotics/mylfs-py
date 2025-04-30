@@ -1,0 +1,27 @@
+name: zxing-cpp
+version: 2.3.0
+release: 1
+url: https://github.com/zxing-cpp/zxing-cpp/archive/v2.3.0/zxing-cpp-2.3.0.tar.gz
+homepage: https://github.com/zxing-cpp/zxing-cpp
+license: Apache-2.0
+summary: C++ port of the ZXing ("Zebra Crossing") barcode scanning library
+description: |
+  zxing-cpp is a C++ library for decoding and generating 1D/2D barcodes 
+  such as QR Codes, Data Matrix, and PDF417. It is a modern, maintained 
+  port of the original Java ZXing library.
+
+phase: 5
+builddeps: [glibc, cmake-legacy, ninja]
+
+buildsteps: |
+  export PATH=/opt/cmake-3.31.7/bin:$PATH
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_INSTALL_PREFIX=/usr \
+        -D CMAKE_BUILD_TYPE=Release  \
+        -D ZXING_EXAMPLES=OFF        \
+        -W no-dev ..                 &&
+  make
+
+  make install

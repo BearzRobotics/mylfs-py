@@ -1,0 +1,66 @@
+name: avahi
+version: 0.8
+release: 1
+url: 
+  - https://github.com/lathiat/avahi/releases/download/v0.8/avahi-0.8.tar.gz
+  - https://anduin.linuxfromscratch.org/BLFS/blfs-bootscripts/blfs-bootscripts-20250225.tar.xz
+homepage: https://github.com/lathiat/avahi
+license: LGPL-2.1-or-later
+summary: Zeroconf implementation of DNS Service Discovery and Multicast DNS
+description: |
+  Avahi is a system that facilitates service discovery on a local network via 
+  the mDNS/DNS-SD protocol suite. It allows programs to publish and discover 
+  services and hosts running on the local network with no special configuration.
+
+phase: 5
+builddeps: [glibc, libdaemon, expat, intltool, gdbm, gtk3, dbus, 
+  python, libcap, libevent, dbus-python]
+
+buildsteps: |
+  # Create group 'avahi' if it doesn't exist
+  if ! getent group avahi > /dev/null; then
+      groupadd -fg 84 avahi
+  fi
+
+  # Create user 'avahi' if it doesn't exist
+  if ! id -u avahi > /dev/null 2>&1; then
+      useradd -c "Avahi Daemon Owner" -d /run/avahi-daemon -u 84 \
+              -g avahi -s /bin/false avahi
+  fi
+
+  # Create group 'netdev' if it doesn't exist
+  if ! getent group netdev > /dev/null; then
+      groupadd -fg 86 netdev
+  fi
+
+  patch -Np1 -i ../patches/avahi-0.8-ipv6_race_condition_fix-1.patch
+
+  sed -i '426a if (events & AVAHI_WATCH_HUP) { \
+  client_free(c); \
+  return; \
+  }' avahi-daemon/simple-protocol.c
+
+  ./configure \
+      --prefix=/usr                  \
+      --sysconfdir=/etc              \
+      --localstatedir=/var           \
+      --disable-static               \
+      --disable-libevent             \
+      --disable-mono                 \
+      --disable-monodoc              \
+      --disable-python               \
+      --disable-qt3                  \
+      --disable-qt4                  \
+      --disable-qt5                  \
+      --enable-core-docs             \
+      --with-distro=none             \
+      --with-systemdsystemunitdir=no \
+      --with-dbus-system-address='unix:path=/run/dbus/system_bus_socket' &&
+  make
+
+  make install
+
+  # Bootscripts
+  #tar -xf ../blfs-bootscripts-20250225.tar.xz
+  #cd blfs-bootscripts-20250225
+  #make install-avahi

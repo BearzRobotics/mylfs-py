@@ -1,0 +1,22 @@
+name: slurp
+version: 1.5.0
+release: 1
+url: https://github.com/emersion/slurp/archive/refs/tags/v1.5.0.tar.gz
+homepage: https://github.com/emersion/slurp
+license: MIT
+summary: Region selector for Wayland compositors using wlroots
+description: |
+  Slurp is a simple tool for selecting a screen region using the mouse 
+  under Wayland compositors based on wlroots. It is commonly used 
+  alongside grim to capture screenshots of specific areas.
+
+phase: 5
+builddeps: [wayland, wayland-protocols, cairo, pango, meson, ninja, scdoc]
+
+buildsteps: |
+  mkdir build
+  cd    build
+
+  meson setup .. --prefix=/usr --buildtype=release
+  ninja
+  ninja install

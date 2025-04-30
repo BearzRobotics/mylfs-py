@@ -1,0 +1,23 @@
+name: mesa-demos
+version: 9.0.0
+release: 1
+phase: 5
+url: https://archive.mesa3d.org/demos/mesa-demos-9.0.0.tar.xz
+
+summary: "OpenGL test and demo programs (e.g. glxinfo, glxgears)"
+license: MIT
+builddeps: [mesa, xorg-libs, libglvnd, meson, ninja, gtk3]
+
+buildsteps: |
+  source /etc/profile
+  
+  mkdir build &&
+  cd    build &&
+
+  # -D gallium-drivers=auto  \
+  meson setup ..                 \
+        --prefix=$XORG_PREFIX    
+
+  ninja
+
+  ninja install

@@ -1,0 +1,18 @@
+name: glm
+version: 1.0.1
+release: 1
+url: https://github.com/g-truc/glm/archive/1.0.1/glm-1.0.1.tar.gz
+homepage: https://github.com/g-truc/glm
+license: MIT
+summary: Header-only C++ mathematics library for graphics software
+description: |
+  GLM (OpenGL Mathematics) is a header-only C++ library that mirrors 
+  the syntax and functionality of the GLSL specification for vector 
+  and matrix mathematics. It is widely used in graphics engines, 
+  3D applications, and OpenGL/Vulkan-based programs for performing 
+  high-performance math operations.
+phase: 5
+
+buildsteps: |
+  cp -r glm /usr/include/ &&
+  cp -r doc /usr/share/doc/glm-1.0.1

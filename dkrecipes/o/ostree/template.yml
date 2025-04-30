@@ -1,0 +1,19 @@
+name: ostree
+version: 2023.6
+release: 1
+url: https://github.com/ostreedev/ostree/releases/download/v2023.6/libostree-2023.6.tar.xz
+homepage: https://github.com/ostreedev/ostree
+license: LGPL-2.1-or-later
+summary: Git-like versioning for filesystem trees
+description: |
+  OSTree is a tool that combines a "git-like" model for versioning  
+  complete filesystem trees with a mechanism to deploy bootable,  
+  immutable filesystems. It is used as the storage and deployment layer  
+  for Flatpak and some Linux operating systems.
+phase: 5
+builddeps: [glibc, glib, libsoup, libarchive, gpgme, e2fsprogs, pkgconfig, make,
+  fuse, openssl, libassuan]
+buildsteps: |
+  ./configure --prefix=/usr
+  make
+  make install

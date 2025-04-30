@@ -1,0 +1,20 @@
+name: business-isbn-data
+version: 20250205.001
+release: 1
+url: https://cpan.metacpan.org/authors/id/B/BR/BRIANDFOY/Business-ISBN-Data-20250205.001.tar.gz
+homepage: https://metacpan.org/dist/Business-ISBN-Data
+license: Artistic-1.0-Perl
+summary: Data pack for Business::ISBN containing ISBN ranges
+description: |
+  Business::ISBN::Data provides the data used by the Business::ISBN module 
+  to parse and validate ISBNs. It is released separately so the data can be 
+  updated more frequently than the code. It includes publisher ranges and 
+  group identifiers.
+
+phase: 5
+builddeps: [perl]
+
+buildsteps: |
+  perl Makefile.PL
+  make
+  make install

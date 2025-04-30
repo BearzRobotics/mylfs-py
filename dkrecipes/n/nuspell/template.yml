@@ -1,0 +1,20 @@
+name: nuspell
+version: 5.1.6
+release: 1
+url: https://github.com/nuspell/nuspell/archive/refs/tags/v5.1.6.tar.gz
+homepage: https://nuspell.github.io/
+license: LGPL-3.0-or-later
+summary: Free and open source spell checker
+description: |
+  Nuspell is a free and open source spell checker designed for speed and accuracy.  
+  It supports Hunspell dictionaries and is designed to be compatible with  
+  modern languages, with better Unicode and multi-platform support.
+phase: 5
+builddeps: [glibc, icu, cmake, ninja, pkgconfig]
+buildsteps: |
+  cmake -B build -S . \
+    -DCMAKE_INSTALL_PREFIX=/usr \
+    -DCMAKE_BUILD_TYPE=Release \
+    -DBUILD_DOCS=OFF
+  cmake --build build
+  cmake --install build

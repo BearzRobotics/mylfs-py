@@ -10,7 +10,7 @@ description: |
 phase: 1
 order: 2
 critical: true
-buildsteps: |-
+buildsteps: |
   mkdir build
   cd build
   ../configure --prefix=$LFS/tools \
@@ -23,4 +23,4 @@ buildsteps: |-
       --enable-default-hash-style=gnu
   make
   make install
-builddeps: []
+

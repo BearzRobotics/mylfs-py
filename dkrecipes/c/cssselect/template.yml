@@ -1,0 +1,15 @@
+name: cssselect
+version: 1.2.0
+release: 1
+url: https://files.pythonhosted.org/packages/source/c/cssselect/cssselect-1.2.0.tar.gz
+homepage: https://cssselect.readthedocs.io/
+license: BSD-3-Clause
+summary: CSS3 selectors for Python
+description: |
+  cssselect parses CSS3 selectors and translates them to XPath 1.0 expressions.  
+  It is commonly used with lxml to allow CSS selectors to be used for selecting XML/HTML nodes.
+phase: 5
+builddeps: [python, python-wheel, python-setuptools, lxml, setuptools-scm]
+buildsteps: |
+  pip3 wheel -w dist --no-build-isolation --no-deps --no-cache-dir $PWD
+  pip3 install --no-index --find-links dist --no-user cssselect

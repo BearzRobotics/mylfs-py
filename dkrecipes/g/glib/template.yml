@@ -11,6 +11,7 @@ phase: 5
 builddeps: [make, glibc, docutils, libxslt, pcre2, meson, ninja, git, libffi, cmake, gobject-introspection]
 buildsteps: |
   patch -Np1 -i ../patches/glib-skip_warnings-1.patch
+  patch -Np1 -i ../patches/0001-Add-additional-terminals-to-gio.patch
 
   mkdir build &&
   cd    build &&

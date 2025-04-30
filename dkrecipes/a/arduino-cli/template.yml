@@ -1,0 +1,12 @@
+name: arduino-cli
+version: 1.2.2
+release: 1
+phase: 5
+url: https://github.com/arduino/arduino-cli/archive/refs/tags/v1.2.2.tar.gz
+
+summary: "Arduino command line interface for compiling, uploading, and managing Arduino sketches"
+license: GPL-3.0-or-later
+builddeps: [go, makeca_certs]
+buildsteps: |
+  go build -o arduino-cli
+  install -Dm755 arduino-cli /usr/bin/arduino-cli

@@ -1,0 +1,19 @@
+name: lximage-qt
+version: 2.1.1
+release: 1
+url: https://github.com/lxqt/lximage-qt/releases/download/2.1.1/lximage-qt-2.1.1.tar.xz
+
+summary: "The LXQt image viewer and screenshot tool"
+license: GPL-2.0-or-later
+builddeps: [cmake, qt6, libfm-qt, libpng, libjpeg, xdg-utils]
+
+buildsteps: |
+  mkdir build &&
+  cd    build &&
+
+  cmake -D CMAKE_BUILD_TYPE=Release  \
+        -D CMAKE_INSTALL_PREFIX=/usr \
+        ..                           &&
+  make
+
+  make install
